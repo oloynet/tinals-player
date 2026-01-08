@@ -1,0 +1,118 @@
+{
+    "site":
+    {
+        "manifest_version": 3,
+        "version": "v1.0",
+        "version_name": "player TINALS v1.0",
+        "title": "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
+        "name": "Playlist | TINALS 2026",
+        "short_name": "TINALS",
+        "description": "This Is Not A Love Song Festival BEAU WEEKEND from June 5 to 6, 2026 in Nîmes. TINALS is an independent music festival known as ‘indie’ at Paloma",
+        "theme_color": "#2d91d0",
+        "background_color": "#000000",
+        "scope": "/player/",
+        "id": "/player/",
+        "start_url": "/player/",
+        "display": "standalone",
+        "orientation": "portrait-primary",
+        "default_locale": "fr",
+        "author": "Olivier LOYNET - +33.668055252",
+        "url": "https://thisisnotalovesong.fr",
+        "homepage_url": "https://thisisnotalovesong.fr"
+    },
+    "images":
+    {
+        "menu_id": "logo-menu",
+        "presentation_id": "logo-intro",
+        "loader_id": "logo-loader",
+        "flag_fr_id": "flag-fr",
+        "flag_en_id": "flag-en",
+
+        "sprite_path": "assets/images/sprite.svg?v=1.0",
+
+        "favicon": "assets/favicon/favicon.ico",
+        "icon_16": "assets/favicon/favicon-16x16.png",
+        "icon_32": "assets/favicon/favicon-32x32.png",
+        "icon_192": "assets/favicon/android-chrome-192x192.png",
+        "icon_512": "assets/favicon/android-chrome-512x512.png",
+        "icon_svg": "assets/favicon/favicon.svg",
+        "apple_touch_icon": "assets/favicon/apple-touch-icon.png"
+    },
+    "features":
+    {
+        "is_debug_js": false,
+        "is_display_version": false,
+        "is_menu_auto_hide": false,
+        "is_display_control_bar": true,
+        "is_button_sound_enable": true,
+        "is_button_top_bottom_enable": false,
+        "is_button_prev_next_enable": true,
+        "is_fullscreen_enable": false,
+        "is_display_day": true,
+        "is_display_date": true,
+        "is_display_time": true,
+        "is_display_year": false,
+        "is_display_tag": true,
+        "is_display_place": true,
+        "is_display_record_name": false,
+        "is_display_group_description": true,
+        "is_description_auto_hide": true,
+        "is_display_image_video_pause": true,
+        "is_display_image_video_end": true,
+        "is_auto_load_video": true,
+        "is_auto_play_next": true,
+        "is_auto_play_loop": true
+    },
+    "texts":
+    {
+        "nav_programming": "Program",
+        "nav_ticketing": "Ticket",
+        "nav_language_toggle": "Switch to english",
+
+        "bar_sound_on": "Sound on",
+        "bar_sound_off": "Sound off",
+        "bar_top_page": "Page top",
+        "bar_bottom_page": "Page footer",
+        "bar_fav_added": "Added to favorites",
+        "bar_fav_removed": "Removed from favorites",
+        "bar_share": "Share",
+
+        "intro_title": "TINALS 2026 Festival",
+        "intro_subtitle": "Beau weekend, the return of the sequel",
+        "intro_date": "JUNE<br />5 & 6<br />2026",
+        "intro_btn_program": "Listen again to the 2025 edition",
+        "intro_btn_ticket": "Ticket sales for 2026",
+        "intro_footer": "The festival is organized by Come On People and Paloma with the support of Nîmes Métropole.",
+
+        "fav_title": "My Favorites",
+        "fav_empty": "No favorites",
+        "fav_btn_play": "Listen my favorites",
+        "fav_btn_share": "Share my favorites",
+
+        "timeline_title": "Timeline",
+        "timeline_empty": "No concerts for this filter",
+
+        "filter_cancel_fav": "Cancel displaying favorites",
+        "filter_cancel_tags": "Cancel display by tags",
+
+        "share_title": "Share",
+        "share_facebook": "Facebook",
+        "share_tiktok": "Copy link for TikTok",
+        "share_email": "Email",
+        "share_link": "Copy the link",
+        "share_qrcode": "QR Code",
+        "share_btn_close": "Close",
+        "share_message_copy": "Lien est copié",
+
+        "ticket_all_days_title": "2-day Pass",
+        "ticket_all_days_subtitle": "June 5 & 6, 2026",
+        "ticket_all_days_button": "2-day ticket",
+
+        "ticket_day_1_title": "Friday Pass",
+        "ticket_day_1_subtitle": "June 5, 2026",
+        "ticket_day_1_button": "Friday ticket",
+
+        "ticket_day_2_title": "Saturday Pass",  "ticket_day_2_subtitle": "June 6, 2026",
+        "ticket_day_2_button": "Saturday ticket"
+    }
+}

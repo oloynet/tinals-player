@@ -1,0 +1,12 @@
+.env
+.vscode/
+__pycache__/
+assets/images-src/
+dist/
+node_modules/
+venv/
+
+*.log
+.DS_Store
+
+notes.txt
