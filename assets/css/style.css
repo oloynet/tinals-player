@@ -379,7 +379,7 @@ body.tag-filtering .ticketing-card {
 }
 
 #share-link-display {
-    color: #fd3d00;
+    color: var(--primary-blue);
     text-decoration: underline;
     cursor: pointer;
     word-break: break-all;
