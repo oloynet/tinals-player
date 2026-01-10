@@ -369,7 +369,7 @@ function updateStaticTexts() {
     document.getElementById( 'txt-share-fb' ).innerText      = t.share_facebook;
     document.getElementById( 'txt-share-tiktok' ).innerText  = t.share_tiktok;
     document.getElementById( 'txt-share-email' ).innerText   = t.share_email;
-    document.getElementById( 'txt-share-copy' ).innerText    = t.share_link;
+    document.getElementById( 'share-link-label' ).innerText  = t.share_link;
     document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
     document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
@@ -1061,6 +1061,7 @@ async function shareFavoritesList() {
 }
 
 function openShareModal() {
+    document.getElementById( 'share-link-display' ).innerText = AppState.state.shareUrl;
     document.getElementById( 'share-modal' ).classList.add( 'active' );
 }
 
