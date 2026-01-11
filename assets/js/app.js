@@ -61,13 +61,25 @@ const translations = {
 };
 
 function deepMerge(target, source) {
-    for (const key in source) {
-        if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
-            deepMerge(target[key], source[key]);
-        } else {
-            target[key] = source[key];
-        }
+    const isObject = (obj) => obj && typeof obj === 'object';
+
+    if (!isObject(target) || !isObject(source)) {
+        return source;
     }
+
+    Object.keys(source).forEach(key => {
+        const targetValue = target[key];
+        const sourceValue = source[key];
+
+        if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+            target[key] = targetValue.concat(sourceValue);
+        } else if (isObject(targetValue) && isObject(sourceValue)) {
+            target[key] = deepMerge(Object.assign({}, targetValue), sourceValue);
+        } else {
+            target[key] = sourceValue;
+        }
+    });
+
     return target;
 }
 
@@ -77,19 +89,29 @@ async function init() {
         AppState.currentLang = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        // 1. Charger config.json
-        const mainConfigResponse = await fetch( 'config.json' );
-        if ( !mainConfigResponse.ok ) throw new Error( "Erreur config.json" );
-        const mainConfig = await mainConfigResponse.json();
-
-        // 2. Charger la config langue (config_fr.json ou config_en.json)
         const langConfigFile = AppState.currentLang === 'en' ? 'config_en.json' : 'config_fr.json';
-        const langConfigResponse = await fetch( langConfigFile );
+
+        // 1. & 2. Charger les configs en parallèle
+        const [mainConfigResponse, langConfigResponse] = await Promise.all([
+            fetch('config.json'),
+            fetch(langConfigFile)
+        ]);
+
+        if ( !mainConfigResponse.ok ) throw new Error( "Erreur config.json" );
         if ( !langConfigResponse.ok ) throw new Error( "Erreur config langue " + langConfigFile );
+
+        const mainConfig = await mainConfigResponse.json();
         const langConfig = await langConfigResponse.json();
 
         // 3. Fusionner les configs (langue écrase main pour les clés existantes)
-        AppState.config = deepMerge(mainConfig, langConfig);
+        // On clone mainConfig pour ne pas le muter directement si on devait le réutiliser
+        AppState.config = deepMerge(JSON.parse(JSON.stringify(mainConfig)), langConfig);
+
+        // Validation explicite pour éviter le crash "is_fullscreen_enable"
+        if (!AppState.config.features) {
+            console.error("Features manquantes dans la configuration fusionnée, utilisation d'un objet vide.");
+            AppState.config.features = {};
+        }
 
         applyConfigs();
 
