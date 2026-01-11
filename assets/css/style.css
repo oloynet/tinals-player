@@ -811,6 +811,24 @@ iframe {
     background: rgba(255, 255, 255, 0.4);
 }
 
+.social-pill {
+    background: #2d91d0;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.7rem;
+    font-weight: bold;
+    backdrop-filter: blur(4px);
+    text-transform: uppercase;
+    cursor: pointer;
+    transition: background 0.2s;
+    color: white;
+    text-decoration: none;
+}
+
+.social-pill:hover {
+    filter: brightness(1.2);
+}
+
 .event-details {
     font-size: 0.8rem;
     font-weight: bold;
@@ -1474,5 +1492,19 @@ iframe {
     .lang-icon {
         width: 24px;
         height: 16px;
+    }
+
+    .group-title-center h2 {
+        font-size: 1.5rem;
+    }
+
+    .splash-meta-place {
+        font-size: 1.0rem;
+        margin-bottom: 0px;
+    }
+
+    .splash-meta-date {
+        font-size: 1rem;
+        opacity: 0.9;
     }
 }
