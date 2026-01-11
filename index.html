@@ -60,11 +60,12 @@
     <div id="share-modal">
         <div class="share-box">
             <h3 id="share-title-text">&nbsp;</h3>
+            <p id="share-link-display" onclick="shareTo('copy')"></p>
+            <p id="share-link-label"></p>
             <div class="share-options">
                 <button class="share-btn-modal facebook" onclick="shareTo('facebook')"><span class="material-icons">facebook</span> <span id="txt-share-fb">Facebook</span></button>
                 <button class="share-btn-modal tiktok" onclick="shareTo('tiktok')"><span class="material-icons">music_note</span> <span id="txt-share-tiktok">TikTok</span></button>
                 <button class="share-btn-modal email" onclick="shareTo('email')"><span class="material-icons">email</span> <span id="txt-share-email">Email</span></button>
-                <button class="share-btn-modal copy" onclick="shareTo('copy')"><span class="material-icons">content_copy</span> <span id="txt-share-copy">Lien</span></button>
                 <button class="share-btn-modal qr" onclick="shareTo('qrcode')"><span class="material-icons">qr_code_2</span> <span id="txt-share-qr">QR Code</span></button>
             </div>
             <div id="qr-result"></div>

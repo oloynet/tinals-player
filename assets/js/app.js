@@ -95,22 +95,34 @@ async function init() {
         renderFavorites();
         renderTimeline();
 
-        if ( filterParam ) {
-            setTimeout( () => filterByTag( filterParam ), 100 );
-        } else if ( favsParam ) {
+        if ( favsParam ) {
             const urlFavs = favsParam.split( ',' ).map( Number ).filter( id => validIds.includes( id ) );
-            AppState.favorites = [ ...new Set( [ ...AppState.favorites, ...urlFavs ] ) ];
-            localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
-            if ( AppState.favorites.length > 0 ) setTimeout( () => playFavorites(), 100 );
+            if ( urlFavs.length > 0 ) {
+                AppState.favorites = [ ...new Set( [ ...AppState.favorites, ...urlFavs ] ) ];
+                localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
+                setTimeout( () => {
+                    playFavorites();
+                    updateURLState();
+                }, 100 );
+            } else {
+                updateURLState();
+            }
+        } else if ( filterParam ) {
+            setTimeout( () => {
+                filterByTag( filterParam );
+                updateURLState();
+            }, 100 );
         } else if ( currentParam && validIds.includes( Number( currentParam ) ) ) {
             AppState.state.activeId = Number( currentParam );
-            updateURLState();
             setTimeout( () => {
                 const target = document.getElementById( `video-${AppState.state.activeId}` );
                 if ( target ) target.scrollIntoView( {
                     behavior: 'auto'
                 } );
             }, 100 );
+            updateURLState();
+        } else {
+            updateURLState();
         }
 
         setTimeout( () => {
@@ -357,7 +369,7 @@ function updateStaticTexts() {
     document.getElementById( 'txt-share-fb' ).innerText      = t.share_facebook;
     document.getElementById( 'txt-share-tiktok' ).innerText  = t.share_tiktok;
     document.getElementById( 'txt-share-email' ).innerText   = t.share_email;
-    document.getElementById( 'txt-share-copy' ).innerText    = t.share_link;
+    document.getElementById( 'share-link-label' ).innerText  = t.share_link;
     document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
     document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
@@ -968,23 +980,30 @@ function toggleFavCurrent() {
 function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
 }
-async function shareCurrent() {
-    let url = "";
-    if ( AppState.state.activeId === null || isNaN( AppState.state.activeId ) ) {
-        url = window.location.origin + window.location.pathname;
-    } else {
-        const tempUrl = new URL( window.location.origin + window.location.pathname );
-        tempUrl.searchParams.set( 'current', AppState.state.activeId );
-        if ( AppState.state.currentTagFilter ) {
-            tempUrl.searchParams.set( 'filter', AppState.state.currentTagFilter );
-        } else if ( AppState.state.isPlayingFavorites && AppState.favorites.length > 0 ) {
-            tempUrl.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
-            tempUrl.searchParams.delete( 'current' );
-        }
-        if ( AppState.currentLang ) tempUrl.searchParams.set( 'lang', AppState.currentLang );
-        url = tempUrl.href;
+
+function getBaseShareUrl() {
+    const url = new URL( window.location.origin + window.location.pathname );
+    url.searchParams.set( 'share', 'web' );
+    if ( AppState.currentLang ) {
+        url.searchParams.set( 'lang', AppState.currentLang );
     }
+    return url;
+}
+
+async function shareCurrent() {
+    let urlObj = getBaseShareUrl();
+
+    if ( AppState.state.isPlayingFavorites && AppState.favorites.length > 0 ) {
+        urlObj.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
+    } else if ( AppState.state.currentTagFilter ) {
+        urlObj.searchParams.set( 'filter', AppState.state.currentTagFilter );
+    } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
+        urlObj.searchParams.set( 'current', AppState.state.activeId );
+    }
+
+    const url = urlObj.href;
     AppState.state.shareUrl = url;
+
     if ( isMobileDevice() && navigator.share ) {
         try {
             await navigator.share( {
@@ -997,38 +1016,43 @@ async function shareCurrent() {
         openShareModal();
     }
 }
+
 async function shareSong( id ) {
-    const tempUrl = new URL( window.location.origin + window.location.pathname );
-    tempUrl.searchParams.set( 'current', id );
-    if ( AppState.currentLang ) tempUrl.searchParams.set( 'lang', AppState.currentLang );
-    AppState.state.shareUrl = tempUrl.href;
+    let urlObj = getBaseShareUrl();
+    urlObj.searchParams.set( 'current', id );
+
+    const url = urlObj.href;
+    AppState.state.shareUrl = url;
+
     if ( isMobileDevice() && navigator.share ) {
         try {
             await navigator.share( {
                 title: AppState.config.texts.share_title,
                 text: 'Écoute ce morceau !',
-                url: tempUrl.href
+                url: url
             } );
         } catch ( err ) {}
     } else {
         openShareModal();
     }
 }
+
 async function shareFavoritesList() {
     if ( AppState.favorites.length === 0 ) return;
     toggleDrawer( 'favorites-drawer' );
-    const tempUrl = new URL( window.location.origin + window.location.pathname );
-    tempUrl.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
-    tempUrl.searchParams.delete( 'current' );
-    tempUrl.searchParams.delete( 'filter' );
-    if ( AppState.currentLang ) tempUrl.searchParams.set( 'lang', AppState.currentLang );
-    AppState.state.shareUrl = tempUrl.href;
+
+    let urlObj = getBaseShareUrl();
+    urlObj.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
+
+    const url = urlObj.href;
+    AppState.state.shareUrl = url;
+
     if ( isMobileDevice() && navigator.share ) {
         try {
             await navigator.share( {
                 title: AppState.config.texts.share_title,
                 text: AppState.config.texts.fav_title,
-                url: tempUrl.href
+                url: url
             } );
         } catch ( err ) {}
     } else {
@@ -1037,6 +1061,7 @@ async function shareFavoritesList() {
 }
 
 function openShareModal() {
+    document.getElementById( 'share-link-display' ).innerText = AppState.state.shareUrl;
     document.getElementById( 'share-modal' ).classList.add( 'active' );
 }
 
@@ -1350,13 +1375,27 @@ function clearTagFilter() {
 
 function updateURLState() {
     const url = new URL( window.location );
-    if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) url.searchParams.set( 'current', AppState.state.activeId );
-    else url.searchParams.delete( 'current' );
-    if ( AppState.state.currentTagFilter ) url.searchParams.set( 'filter', AppState.state.currentTagFilter );
-    else url.searchParams.delete( 'filter' );
-    if ( AppState.currentLang && AppState.currentLang !== 'fr' ) url.searchParams.set( 'lang', AppState.currentLang );
-    url.searchParams.delete( 'favs' );
+
+    url.searchParams.delete( 'current' );
+    url.searchParams.delete( 'filter' );
     url.searchParams.delete( 'favorites' );
+    url.searchParams.delete( 'share' );
+    url.searchParams.delete( 'favs' );
+
+    if ( AppState.currentLang && AppState.currentLang !== 'fr' ) {
+        url.searchParams.set( 'lang', AppState.currentLang );
+    } else {
+        url.searchParams.delete( 'lang' );
+    }
+
+    if ( AppState.state.isPlayingFavorites && AppState.favorites.length > 0 ) {
+        url.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
+    } else if ( AppState.state.currentTagFilter ) {
+        url.searchParams.set( 'filter', AppState.state.currentTagFilter );
+    } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
+        url.searchParams.set( 'current', AppState.state.activeId );
+    }
+
     window.history.replaceState( null, '', url );
 }
 

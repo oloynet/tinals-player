@@ -378,6 +378,26 @@ body.tag-filtering .ticketing-card {
     height: 200px;
 }
 
+#share-link-display {
+    color: var(--primary-blue);
+    text-decoration: underline;
+    cursor: pointer;
+    word-break: break-all;
+    margin-bottom: 5px;
+    font-weight: normal;
+    font-size: 0.9rem;
+    line-height: 1.4;
+    padding: 0 10px;
+}
+
+#share-link-label {
+    color: white;
+    text-align: center;
+    font-size: 0.8rem;
+    margin-bottom: 20px;
+    opacity: 0.8;
+}
+
 /* --- MAIN FEED (Utilisation DVH) --- */
 #main-feed {
     height: 100vh;
