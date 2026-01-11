@@ -190,7 +190,7 @@ function applyConfigs() {
         document.documentElement.style.setProperty( '--festival-color', c.site.theme_color );
         document.querySelector( 'meta[name="theme-color"]' ).setAttribute( 'content', c.site.theme_color );
     }
-    const f = c.features;
+    const f = c.features || {};
     const s = AppState.settings;
     s.fullscreen         = f.is_fullscreen_enable         ?? false;
     s.soundEnabled       = f.is_button_sound_enable       ?? true;
