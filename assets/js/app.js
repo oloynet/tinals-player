@@ -121,8 +121,9 @@ async function init() {
             attachDebugWrappers( ControlBar,   "ControlBar" );
         }
 
-        const response = await fetch( 'data.json' );
-        if ( !response.ok ) throw new Error( "Erreur data.json" );
+        const dataSource = (AppState.config.site && AppState.config.site.data_source) ? AppState.config.site.data_source : 'data.json';
+        const response = await fetch( dataSource );
+        if ( !response.ok ) throw new Error( "Erreur " + dataSource );
         AppState.data = await response.json();
 
         let storedFavs     = JSON.parse( localStorage.getItem( 'selected' ) ) || [];
