@@ -60,16 +60,36 @@ const translations = {
     tags: {}
 };
 
+function deepMerge(target, source) {
+    for (const key in source) {
+        if (source[key] instanceof Object && key in target && target[key] instanceof Object) {
+            deepMerge(target[key], source[key]);
+        } else {
+            target[key] = source[key];
+        }
+    }
+    return target;
+}
+
 async function init() {
     try {
         const urlParams = new URLSearchParams( window.location.search );
         AppState.currentLang = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = AppState.currentLang === 'en' ? 'config_en.json' : 'config_fr.json';
-        const configResponse = await fetch( configFile );
-        if ( !configResponse.ok ) throw new Error( "Erreur config " + configFile );
-        AppState.config = await configResponse.json();
+        // 1. Charger config.json
+        const mainConfigResponse = await fetch( 'config.json' );
+        if ( !mainConfigResponse.ok ) throw new Error( "Erreur config.json" );
+        const mainConfig = await mainConfigResponse.json();
+
+        // 2. Charger la config langue (config_fr.json ou config_en.json)
+        const langConfigFile = AppState.currentLang === 'en' ? 'config_en.json' : 'config_fr.json';
+        const langConfigResponse = await fetch( langConfigFile );
+        if ( !langConfigResponse.ok ) throw new Error( "Erreur config langue " + langConfigFile );
+        const langConfig = await langConfigResponse.json();
+
+        // 3. Fusionner les configs (langue écrase main pour les clés existantes)
+        AppState.config = deepMerge(mainConfig, langConfig);
 
         applyConfigs();
 
