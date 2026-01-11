@@ -384,7 +384,7 @@ body.tag-filtering .ticketing-card {
     cursor: pointer;
     word-break: break-all;
     margin-bottom: 5px;
-    font-weight: bold;
+    font-weight: normal;
     font-size: 0.9rem;
     line-height: 1.4;
     padding: 0 10px;
