@@ -124,7 +124,21 @@ async function init() {
         const dataSource = (AppState.config.site && AppState.config.site.data_source) ? AppState.config.site.data_source : 'data.json';
         const response = await fetch( dataSource );
         if ( !response.ok ) throw new Error( "Erreur " + dataSource );
-        AppState.data = await response.json();
+
+        const rawData = await response.json();
+
+        // VALIDATION
+        AppState.data = rawData.filter( item => {
+            const hasName = item.group_name && item.group_name.trim() !== "";
+            const hasImage = item.image && item.image.trim() !== "";
+            const hasDesc = item.description && item.description.trim() !== "";
+
+            if ( !hasName || !hasImage || !hasDesc ) {
+                console.error( "Skipping invalid item (missing required fields):", item );
+                return false;
+            }
+            return true;
+        });
 
         let storedFavs     = JSON.parse( localStorage.getItem( 'selected' ) ) || [];
         const validIds     = AppState.data.map( g => g.id );
@@ -447,6 +461,23 @@ function getIntroHtml() {
         </section>`;
 }
 
+function getSocialsHtml(g) {
+    const networks = [
+        { key: 'performer_facebook', label: 'Facebook' },
+        { key: 'performer_instagram', label: 'Instagram' },
+        { key: 'performer_tiktok', label: 'TikTok' },
+        { key: 'performer_pinterest', label: 'Pinterest' },
+        { key: 'performer_youtube_channel', label: 'YouTube' }
+    ];
+
+    const links = networks.filter(n => g[n.key]).map(n => {
+        return `<a href="${g[n.key]}" target="_blank" class="social-link">${n.label}</a>`;
+    });
+
+    if (links.length === 0) return '';
+    return `<div class="social-links" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">${links.join('')}</div>`;
+}
+
 function getVideoCardHtml( g ) {
     const s = AppState.settings;
     const tagsHtml = ( s.displayTag && g.tags ) ? `<div class="tags-container">${g.tags.map(t => `<span class="tag-pill" onclick="filterByTag('${t}', event)">${translateText(t, 'tags')}</span>`).join('')}</div>` : '';
@@ -471,12 +502,19 @@ function getVideoCardHtml( g ) {
     else if ( !dateTimeStr && timeString ) dateTimeStr = timeString;
     if ( dateTimeStr ) splashHtml += `<span class="splash-meta-date">${dateTimeStr}</span>`;
     const splashMetaHtml = splashHtml ? `<div class="splash-meta">${splashHtml}</div>` : '';
-    const descHtml = ( s.displayDescription && g.description ) ? `<div class="description" onclick="toggleDescription(this, event)">${g.description}</div>` : '';
+
+    const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
+    const descHtml = ( s.displayDescription && descriptionText ) ? `<div class="description" onclick="toggleDescription(this, event)">${descriptionText}</div>` : '';
+
+    const socialsHtml = getSocialsHtml(g);
 
     const avatarHtml = `
         <div class="group-avatar-container" onclick="toggleDescription(this.parentNode.querySelector('.description'), event)">
-            <img src="${g.group_image}" class="group-avatar" alt="${g.group_name}">
+            <img src="${g.image}" class="group-avatar" alt="${g.group_name}">
         </div>`;
+
+    const isMobile = isMobileDevice();
+    const bgImage = ( isMobile && g.image_mobile ) ? g.image_mobile : g.image;
 
     return `
     <section class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
@@ -486,7 +524,7 @@ function getVideoCardHtml( g ) {
                 ${songTitleCenter}
                 ${splashMetaHtml}
             </div>
-            <div class="video-background" style="background-image: url('${g.group_image}');"></div>
+            <div class="video-background" style="background-image: url('${bgImage}');"></div>
             <div id="player-${g.id}" class="yt-placeholder"></div>
         </div>
         <div class="video-overlay">
@@ -496,6 +534,7 @@ function getVideoCardHtml( g ) {
                 ${songTitleOverlay}
                 ${tagsHtml}
                 ${descHtml}
+                ${socialsHtml}
                 <div class="event-details">${overlayDetails}</div>
             </div>
         </div>
@@ -532,15 +571,17 @@ function renderFavorites() {
     if ( AppState.state.currentTagFilter ) {
         favs = favs.filter( g => g.tags && g.tags.includes( AppState.state.currentTagFilter ) );
     }
-    list.innerHTML = favs.length ? favs.map( g => `
+    list.innerHTML = favs.length ? favs.map( g => {
+        const thumb = g.image_thumbnail || g.image;
+        return `
         <div class="favorite-item">
-            <img src="${g.group_image}">
+            <img src="${thumb}">
             <div class="fav-title">${g.group_name}</div>
             <button onclick="shareSong(${g.id})" class="material-icons" style="background:none; border:none; cursor:pointer; margin-right:5px; opacity:0.7;">share</button>
             <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons" style="background:none; border:none; cursor:pointer;">play_arrow</button>
             <button onclick="toggleFav(${g.id})" class="material-icons" style="opacity:0.3; background:none; border:none; cursor:pointer;">close</button>
         </div>
-    ` ).join( '' ) : `<p style="padding:40px; text-align:center; opacity:0.5;">${AppState.config.texts.fav_empty}</p>`;
+    ` }).join( '' ) : `<p style="padding:40px; text-align:center; opacity:0.5;">${AppState.config.texts.fav_empty}</p>`;
     const footer = document.getElementById( 'favorites-footer' );
     if ( favs.length > 0 ) footer.classList.add( 'visible' );
     else footer.classList.remove( 'visible' );
@@ -574,9 +615,10 @@ function renderTimeline() {
         const metaLine = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
         const tagsHtml = ( s.displayTag && g.tags ) ? g.tags.map( t => `<span class="time-tag" onclick="filterByTag('${t}', event)">${translateText(t, 'tags')}</span>` ).join( '' ) : '';
         const isFav = AppState.favorites.includes( g.id );
+        const thumb = g.image_thumbnail || g.image;
         return `
         <div class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
-            <img src="${g.group_image}" class="time-thumb" loading="lazy">
+            <img src="${thumb}" class="time-thumb" loading="lazy">
             <div class="time-info">
                 <div class="time-row-1">
                     <h3>${g.group_name}</h3>

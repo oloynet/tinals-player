@@ -58,7 +58,34 @@ These files handle general settings, feature flags, and internationalization (i1
 
 ### Content Data (`data.json`)
 
-This file contains the playlist and artist information. It is an array of objects, where each object represents a track/artist:
+This file contains the playlist and artist information. It is an array of objects, where each object represents a track/artist.
+
+**Field Specification:**
+
+| json key | required | type | description |
+| ----- | :---: | :---: | ----- |
+| group\_name | yes | text | Event name or artist name |
+| image | yes | url | Image of the event |
+| image\_mobile | no | url | Image of the event for the mobile version (if not available, uses “image”) |
+| image\_thumbnail | no | url | Thumbnail image (if not available, uses “image”) |
+| description | yes | text | Description of the event in French |
+| descriptionEN | no | text | Description of the event in English (if not available, uses “description”) |
+| youtube | no | url | YouTube video of the artist at the event (if unavailable, displays image only) |
+| title | no | text | YouTube video title of the artist at the event |
+| event\_day | no | text | Day of the week of the event |
+| event\_date | no | date | Date of the event, format 'yyyy-mm-dd' |
+| event\_time | no | time | Time of the event, format 'hh:mm' |
+| event\_endtime | no | time | Event end time, format 'hh:mm' |
+| event\_duration | no | time | Duration of the event in minutes, format 'hh:mm' |
+| event\_place | no | text | Event location |
+| event\_tags | no | list | Event tags |
+| performer\_youtube\_channel | no | url | The artist's YouTube channel |
+| performer\_facebook | no | url | The artist's Facebook page |
+| performer\_tiktok | no | url | The artist's TikTok page |
+| performer\_instagram | no | url | The artist's Instagram page |
+| performer\_pinterest | no | url | The artist's Pinterest page |
+
+**Example:**
 
 ```json
 {
@@ -67,15 +94,17 @@ This file contains the playlist and artist information. It is an array of object
     "title": "Chemical",
     "youtube": "https://www.youtube.com/watch?v=...",
     "description": "Artist biography...",
-    "descriptionEN": "English version (optional)...",
-    "group_image": "URL to artist image",
+    "descriptionEN": "English version...",
+    "image": "URL to artist image",
+    "image_mobile": "URL to mobile image",
+    "image_thumbnail": "URL to thumbnail",
     "event_day": "vendredi",
     "event_date": "2025-06-27",
     "event_time": "19:15",
     "event_endtime": "20:00",
     "event_place": "Scène Extérieure Mosquito",
     "tags": ["vendredi", "tag-slug"],
-    "events_tags": ["Post-Punk", "UK"]
+    "performer_instagram": "https://instagram.com/..."
 }
 ```
 
