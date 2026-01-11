@@ -1561,7 +1561,7 @@ function toggleDescription( element, event ) {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v=1.0' )
+    navigator.serviceWorker.register( 'service-worker.js?v=1.01' )
         .then( ( reg ) => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker', err ) );
 }
