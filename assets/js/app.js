@@ -504,9 +504,8 @@ function getVideoCardHtml( g ) {
     const splashMetaHtml = splashHtml ? `<div class="splash-meta">${splashHtml}</div>` : '';
 
     const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
-    const descHtml = ( s.displayDescription && descriptionText ) ? `<div class="description" onclick="toggleDescription(this, event)">${descriptionText}</div>` : '';
-
     const socialsHtml = getSocialsHtml(g);
+    const descHtml = ( s.displayDescription && descriptionText ) ? `<div class="description" onclick="toggleDescription(this, event)">${descriptionText}${socialsHtml}</div>` : '';
 
     const avatarHtml = `
         <div class="group-avatar-container" onclick="toggleDescription(this.parentNode.querySelector('.description'), event)">
@@ -534,7 +533,6 @@ function getVideoCardHtml( g ) {
                 ${songTitleOverlay}
                 ${tagsHtml}
                 ${descHtml}
-                ${socialsHtml}
                 <div class="event-details">${overlayDetails}</div>
             </div>
         </div>
