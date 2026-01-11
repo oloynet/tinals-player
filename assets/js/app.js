@@ -507,9 +507,10 @@ function getVideoCardHtml( g ) {
     const socialsHtml = getSocialsHtml(g);
     const descHtml = ( s.displayDescription && descriptionText ) ? `<div class="description" onclick="toggleDescription(this, event)">${descriptionText}${socialsHtml}</div>` : '';
 
+    const avatarImg = g.image_thumbnail || g.image;
     const avatarHtml = `
         <div class="group-avatar-container" onclick="toggleDescription(this.parentNode.querySelector('.description'), event)">
-            <img src="${g.image}" class="group-avatar" alt="${g.group_name}">
+            <img src="${avatarImg}" class="group-avatar" alt="${g.group_name}">
         </div>`;
 
     const isMobile = isMobileDevice();
