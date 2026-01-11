@@ -60,16 +60,58 @@ const translations = {
     tags: {}
 };
 
+function deepMerge(target, source) {
+    const isObject = (obj) => obj && typeof obj === 'object';
+
+    if (!isObject(target) || !isObject(source)) {
+        return source;
+    }
+
+    Object.keys(source).forEach(key => {
+        const targetValue = target[key];
+        const sourceValue = source[key];
+
+        if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+            target[key] = targetValue.concat(sourceValue);
+        } else if (isObject(targetValue) && isObject(sourceValue)) {
+            target[key] = deepMerge(Object.assign({}, targetValue), sourceValue);
+        } else {
+            target[key] = sourceValue;
+        }
+    });
+
+    return target;
+}
+
 async function init() {
     try {
         const urlParams = new URLSearchParams( window.location.search );
         AppState.currentLang = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = AppState.currentLang === 'en' ? 'config_en.json' : 'config_fr.json';
-        const configResponse = await fetch( configFile );
-        if ( !configResponse.ok ) throw new Error( "Erreur config " + configFile );
-        AppState.config = await configResponse.json();
+        const langConfigFile = AppState.currentLang === 'en' ? 'config_en.json' : 'config_fr.json';
+
+        // 1. & 2. Charger les configs en parallèle
+        const [mainConfigResponse, langConfigResponse] = await Promise.all([
+            fetch('config.json'),
+            fetch(langConfigFile)
+        ]);
+
+        if ( !mainConfigResponse.ok ) throw new Error( "Erreur config.json" );
+        if ( !langConfigResponse.ok ) throw new Error( "Erreur config langue " + langConfigFile );
+
+        const mainConfig = await mainConfigResponse.json();
+        const langConfig = await langConfigResponse.json();
+
+        // 3. Fusionner les configs (langue écrase main pour les clés existantes)
+        // On clone mainConfig pour ne pas le muter directement si on devait le réutiliser
+        AppState.config = deepMerge(JSON.parse(JSON.stringify(mainConfig)), langConfig);
+
+        // Validation explicite pour éviter le crash "is_fullscreen_enable"
+        if (!AppState.config.features) {
+            console.error("Features manquantes dans la configuration fusionnée, utilisation d'un objet vide.");
+            AppState.config.features = {};
+        }
 
         applyConfigs();
 
@@ -79,8 +121,9 @@ async function init() {
             attachDebugWrappers( ControlBar,   "ControlBar" );
         }
 
-        const response = await fetch( 'data.json' );
-        if ( !response.ok ) throw new Error( "Erreur data.json" );
+        const dataSource = (AppState.config.site && AppState.config.site.data_source) ? AppState.config.site.data_source : 'data.json';
+        const response = await fetch( dataSource );
+        if ( !response.ok ) throw new Error( "Erreur " + dataSource );
         AppState.data = await response.json();
 
         let storedFavs     = JSON.parse( localStorage.getItem( 'selected' ) ) || [];
@@ -170,7 +213,7 @@ function applyConfigs() {
         document.documentElement.style.setProperty( '--festival-color', c.site.theme_color );
         document.querySelector( 'meta[name="theme-color"]' ).setAttribute( 'content', c.site.theme_color );
     }
-    const f = c.features;
+    const f = c.features || {};
     const s = AppState.settings;
     s.fullscreen         = f.is_fullscreen_enable         ?? false;
     s.soundEnabled       = f.is_button_sound_enable       ?? true;

@@ -1,0 +1,67 @@
+{
+    "site":
+    {
+        "manifest_version": 3,
+        "version": "v1.0",
+        "version_name": "player TINALS v1.0",
+        "title": "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
+        "name": "Playlist | TINALS 2026",
+        "short_name": "TINALS",
+        "description": "Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma.",
+        "theme_color": "#2d91d0",
+        "background_color": "#000000",
+        "orientation": "portrait-primary",
+        "scope": "/player/",
+        "id": "/player/",
+        "start_url": "/player/",
+        "display": "standalone",
+        "default_locale": "fr",
+        "author": "Olivier LOYNET - +33.668055252",
+        "url": "https://thisisnotalovesong.fr",
+        "homepage_url": "https://thisisnotalovesong.fr",
+        "data_source": "./data.json"
+    },
+    "images":
+    {
+        "menu_id": "logo-menu",
+        "presentation_id": "logo-intro",
+        "loader_id": "logo-loader",
+        "flag_fr_id": "flag-fr",
+        "flag_en_id": "flag-en",
+
+        "sprite_path": "assets/images/sprite.svg?v=1.0",
+
+        "favicon": "assets/favicon/favicon.ico",
+        "icon_16": "assets/favicon/favicon-16x16.png",
+        "icon_32": "assets/favicon/favicon-32x32.png",
+        "icon_192": "assets/favicon/android-chrome-192x192.png",
+        "icon_512": "assets/favicon/android-chrome-512x512.png",
+        "icon_svg": "assets/favicon/favicon.svg",
+        "apple_touch_icon": "assets/favicon/apple-touch-icon.png"
+    },
+    "features":
+    {
+        "is_debug_js": false,
+        "is_display_version": false,
+        "is_menu_auto_hide": false,
+        "is_display_control_bar": true,
+        "is_button_sound_enable": true,
+        "is_button_top_bottom_enable": false,
+        "is_button_prev_next_enable": true,
+        "is_fullscreen_enable": false,
+        "is_display_day": true,
+        "is_display_date": true,
+        "is_display_time": true,
+        "is_display_year": false,
+        "is_display_tag": true,
+        "is_display_place": true,
+        "is_display_record_name": false,
+        "is_display_group_description": true,
+        "is_description_auto_hide": true,
+        "is_display_image_video_pause": true,
+        "is_display_image_video_end": true,
+        "is_auto_load_video": true,
+        "is_auto_play_next": true,
+        "is_auto_play_loop": true
+    }
+}
