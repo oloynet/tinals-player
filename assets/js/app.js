@@ -471,7 +471,7 @@ function getSocialsHtml(g) {
     ];
 
     const links = networks.filter(n => g[n.key]).map(n => {
-        return `<a href="${g[n.key]}" target="_blank" class="social-link">${n.label}</a>`;
+        return `<a href="${g[n.key]}" target="_blank" class="social-pill">${n.label}</a>`;
     });
 
     if (links.length === 0) return '';
