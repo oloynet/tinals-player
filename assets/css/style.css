@@ -859,7 +859,7 @@ iframe {
 .right-action-bar {
     position: fixed;
     right: 20px;
-    bottom: 120px;
+    bottom: 50px;
     top: auto;
     display: flex;
     flex-direction: column;
@@ -1421,7 +1421,7 @@ iframe {
     }
 
     .right-action-bar {
-        bottom: 5vh;
+        bottom: 50px;
         gap: 15px;
         right: 5px;
         padding-bottom: env(safe-area-inset-bottom);
