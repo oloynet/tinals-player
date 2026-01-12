@@ -83,6 +83,16 @@ function deepMerge(target, source) {
     return target;
 }
 
+// Slugify helper: converts text to slug (only a-z, 0-9, dash)
+function slugify(text) {
+    if (!text) return '';
+    return text.toString().toLowerCase()
+        .normalize('NFD')                   // separate accents
+        .replace(/[\u0300-\u036f]/g, '')   // remove accents
+        .replace(/[^a-z0-9]+/g, '-')       // replace non-alphanumeric chars with dash
+        .replace(/^-+|-+$/g, '');          // remove leading/trailing dashes
+}
+
 async function init() {
     try {
         const urlParams = new URLSearchParams( window.location.search );
@@ -430,6 +440,9 @@ function updateStaticTexts() {
     document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
     document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
+
+    // Tag mode bar: we need to handle the text inside dynamically based on the slug -> name mapping or just display the current filter
+    // For now we just put the template
     document.getElementById( 'tag-mode-bar' ).innerHTML      = `${t.filter_cancel_tags} <span id="active-tag-name" style="margin-left: 5px; color: white;"></span> <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
 }
 
@@ -485,7 +498,11 @@ function getSocialsHtml(g) {
 
 function getVideoCardHtml( g ) {
     const s = AppState.settings;
-    const tagsHtml = ( s.displayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => `<span class="tag-pill" onclick="filterByTag('${t}', event)">${translateText(t, 'tags')}</span>`).join('')}</div>` : '';
+    const tagsHtml = ( s.displayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => {
+        const slug = slugify(t);
+        return `<span class="tag-pill" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+    }).join('')}</div>` : '';
+
     const songTitleOverlay = ( s.displayRecordName && g.video_title ) ? `<h3 class="song-title-overlay">"${g.video_title}"</h3>` : '';
     const songTitleCenter = ( s.displayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
     const dayName = ( s.displayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
@@ -586,7 +603,8 @@ function renderFavorites() {
     const list = document.getElementById( 'favorites-list' );
     let favs = AppState.data.filter( g => AppState.favorites.includes( g.id ) );
     if ( AppState.state.currentTagFilter ) {
-        favs = favs.filter( g => g.event_tags && g.event_tags.includes( AppState.state.currentTagFilter ) );
+        // Filter using slug comparison
+        favs = favs.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
     }
     list.innerHTML = favs.length ? favs.map( g => {
         const thumb = g.image_thumbnail || g.image;
@@ -609,7 +627,8 @@ function renderTimeline() {
     const s = AppState.settings;
     let dataToRender = AppState.data;
     if ( AppState.state.currentTagFilter ) {
-        dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.includes( AppState.state.currentTagFilter ) );
+        // Filter using slug comparison
+        dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
     }
     const sortedData = [ ...dataToRender ].sort( ( a, b ) => {
         const tA = ( a.event_start_date || '9999-99-99' ) + 'T' + ( a.event_start_time || '00:00' );
@@ -630,7 +649,10 @@ function renderTimeline() {
         }
         const placeName = ( s.displayPlace && g.event_place ) ? g.event_place : '';
         const metaLine = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
-        const tagsHtml = ( s.displayTag && g.event_tags ) ? g.event_tags.map( t => `<span class="time-tag" onclick="filterByTag('${t}', event)">${translateText(t, 'tags')}</span>` ).join( '' ) : '';
+        const tagsHtml = ( s.displayTag && g.event_tags ) ? g.event_tags.map( t => {
+            const slug = slugify(t);
+            return `<span class="time-tag" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+        } ).join( '' ) : '';
         const isFav = AppState.favorites.includes( g.id );
         const thumb = g.image_thumbnail || g.image;
         return `
@@ -1477,21 +1499,34 @@ function updateActionButtons( id ) {
     }
 }
 
-function filterByTag( tag, event ) {
+function filterByTag( tagSlug, event ) {
     if ( event ) event.stopPropagation();
     exitFavoritesMode();
-    AppState.state.currentTagFilter = tag;
+    AppState.state.currentTagFilter = tagSlug;
     document.body.classList.add( 'tag-filtering' );
     document.getElementById( 'tag-mode-bar' ).classList.add( 'active' );
-    document.getElementById( 'active-tag-name' ).innerText = tag;
+
+    // Find the original name for this slug to display
+    let tagName = tagSlug;
+    for (const group of AppState.data) {
+        if (group.event_tags) {
+            const found = group.event_tags.find(t => slugify(t) === tagSlug);
+            if (found) {
+                tagName = found;
+                break;
+            }
+        }
+    }
+    document.getElementById( 'active-tag-name' ).innerText = tagName;
+
     document.querySelectorAll( '.video-card' ).forEach( card => {
         const id = Number( card.dataset.id );
         const group = AppState.data.find( g => g.id === id );
-        if ( group && group.event_tags && group.event_tags.includes( tag ) ) card.classList.add( 'has-matching-tag' );
+        if ( group && group.event_tags && group.event_tags.some(t => slugify(t) === tagSlug) ) card.classList.add( 'has-matching-tag' );
         else card.classList.remove( 'has-matching-tag' );
     } );
-    document.getElementById( 'fav-filter-info' ).innerText = `(${tag})`;
-    document.getElementById( 'time-filter-info' ).innerText = `(${tag})`;
+    document.getElementById( 'fav-filter-info' ).innerText = `(${tagName})`;
+    document.getElementById( 'time-filter-info' ).innerText = `(${tagName})`;
     renderTimeline();
     renderFavorites();
     updateURLState();
