@@ -62,48 +62,57 @@ This file contains the playlist and artist information. It is an array of object
 
 **Field Specification:**
 
-| json key | required | type | description |
+| json key | mandatory | type | description |
 | ----- | :---: | :---: | ----- |
-| group\_name | yes | text | Event name or artist name |
+| event\_name | yes | text | Event name or artist name |
 | image | yes | url | Image of the event |
-| image\_mobile | no | url | Image of the event for the mobile version (if not available, uses “image”) |
-| image\_thumbnail | no | url | Thumbnail image (if not available, uses “image”) |
+| image\_mobile |  | url | Image of the event for the mobile version (if not available, use “image”) |
+| image\_thumbnail |  | url | Thumbnail image (if not available, use “image”) |
 | description | yes | text | Description of the event in French |
-| descriptionEN | no | text | Description of the event in English (if not available, uses “description”) |
-| youtube | no | url | YouTube video of the artist at the event (if unavailable, displays image only) |
-| title | no | text | YouTube video title of the artist at the event |
-| event\_day | no | text | Day of the week of the event |
-| event\_date | no | date | Date of the event, format 'yyyy-mm-dd' |
-| event\_time | no | time | Time of the event, format 'hh:mm' |
-| event\_endtime | no | time | Event end time, format 'hh:mm' |
-| event\_duration | no | time | Duration of the event in minutes, format 'hh:mm' |
-| event\_place | no | text | Event location |
-| event\_tags | no | list | Event tags |
-| performer\_youtube\_channel | no | url | The artist's YouTube channel |
-| performer\_facebook | no | url | The artist's Facebook page |
-| performer\_tiktok | no | url | The artist's TikTok page |
-| performer\_instagram | no | url | The artist's Instagram page |
-| performer\_pinterest | no | url | The artist's Pinterest page |
+| descriptionEN |  | text | Description of the event in English (if not available, use “description” in French) |
+| video\_url |  | url | YouTube video of the artist at the event (if unavailable, displays image only) |
+| audio |  | url | The audio file of the artist at the event (MP3). Used if video_url is missing. |
+| video\_title |  | text | YouTube video title of the artist at the event |
+| event\_day |  | text | Day of the week of the event |
+| event\_start\_date |  | date | The event start date, format 'yyyy-mm-dd' |
+| event\_end\_date |  | date | The event end date, format 'yyyy-mm-dd' |
+| event\_start\_time |  | time | The event start time, format 'hh:mm' |
+| event\_end\_time |  | time | The event end time, format 'hh:mm' |
+| event\_duration |  | time | The event duration in minutes, format 'hh:mm' |
+| event\_place |  | text | Event location |
+| event\_tags |  | list | Event tags (used for filtering) |
+| other\_tags |  | list | Other tags (metadata) |
+| event\_link |  | url | Link to the official event |
+| event\_ticket |  | url | The event ticket link |
+| event\_status |  | value | The values are: scheduled, rescheduled, postponed, moved\_online, and canceled. Default: "scheduled". |
+| performer\_deezer |  | url | The artist's Deezer channel |
+| performer\_facebook |  | url | The artist's Facebook page |
+| performer\_instagram |  | url | The artist's Instagram page |
+| performer\_pinterest |  | url | The artist's Pinterest page |
+| performer\_spotify |  | url | The artist's Spotify channel |
+| performer\_tiktok |  | url | The artist's TikTok page |
+| performer\_website |  | url | The artist's website page |
+| performer\_youtube |  | url | The artist's YouTube channel |
 
 **Example:**
 
 ```json
 {
     "id": 2,
-    "group_name": "PROJECTOR",
-    "title": "Chemical",
-    "youtube": "https://www.youtube.com/watch?v=...",
+    "event_name": "PROJECTOR",
+    "video_title": "Chemical",
+    "video_url": "https://www.youtube.com/watch?v=...",
     "description": "Artist biography...",
     "descriptionEN": "English version...",
     "image": "URL to artist image",
     "image_mobile": "URL to mobile image",
     "image_thumbnail": "URL to thumbnail",
     "event_day": "vendredi",
-    "event_date": "2025-06-27",
-    "event_time": "19:15",
-    "event_endtime": "20:00",
+    "event_start_date": "2025-06-27",
+    "event_start_time": "19:15",
+    "event_end_time": "20:00",
     "event_place": "Scène Extérieure Mosquito",
-    "tags": ["vendredi", "tag-slug"],
+    "event_tags": ["vendredi", "tag-slug"],
     "performer_instagram": "https://instagram.com/..."
 }
 ```

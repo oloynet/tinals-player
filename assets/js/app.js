@@ -83,6 +83,16 @@ function deepMerge(target, source) {
     return target;
 }
 
+// Slugify helper: converts text to slug (only a-z, 0-9, dash)
+function slugify(text) {
+    if (!text) return '';
+    return text.toString().toLowerCase()
+        .normalize('NFD')                   // separate accents
+        .replace(/[\u0300-\u036f]/g, '')   // remove accents
+        .replace(/[^a-z0-9]+/g, '-')       // replace non-alphanumeric chars with dash
+        .replace(/^-+|-+$/g, '');          // remove leading/trailing dashes
+}
+
 async function init() {
     try {
         const urlParams = new URLSearchParams( window.location.search );
@@ -129,7 +139,7 @@ async function init() {
 
         // VALIDATION
         AppState.data = rawData.filter( item => {
-            const hasName = item.group_name && item.group_name.trim() !== "";
+            const hasName = item.event_name && item.event_name.trim() !== "";
             const hasImage = item.image && item.image.trim() !== "";
             const hasDesc = item.description && item.description.trim() !== "";
 
@@ -430,6 +440,9 @@ function updateStaticTexts() {
     document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
     document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
+
+    // Tag mode bar: we need to handle the text inside dynamically based on the slug -> name mapping or just display the current filter
+    // For now we just put the template
     document.getElementById( 'tag-mode-bar' ).innerHTML      = `${t.filter_cancel_tags} <span id="active-tag-name" style="margin-left: 5px; color: white;"></span> <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
 }
 
@@ -467,7 +480,12 @@ function getSocialsHtml(g) {
         { key: 'performer_instagram', label: 'Instagram' },
         { key: 'performer_tiktok', label: 'TikTok' },
         { key: 'performer_pinterest', label: 'Pinterest' },
-        { key: 'performer_youtube_channel', label: 'YouTube' }
+        { key: 'performer_youtube', label: 'YouTube' },
+        { key: 'performer_spotify', label: 'Spotify' },
+        { key: 'performer_deezer', label: 'Deezer' },
+        { key: 'performer_website', label: 'Website' },
+        { key: 'event_link', label: 'Event' },
+        { key: 'event_ticket', label: 'Tickets' }
     ];
 
     const links = networks.filter(n => g[n.key]).map(n => {
@@ -480,15 +498,19 @@ function getSocialsHtml(g) {
 
 function getVideoCardHtml( g ) {
     const s = AppState.settings;
-    const tagsHtml = ( s.displayTag && g.tags ) ? `<div class="tags-container">${g.tags.map(t => `<span class="tag-pill" onclick="filterByTag('${t}', event)">${translateText(t, 'tags')}</span>`).join('')}</div>` : '';
-    const songTitleOverlay = ( s.displayRecordName && g.title ) ? `<h3 class="song-title-overlay">"${g.title}"</h3>` : '';
-    const songTitleCenter = ( s.displayRecordName && g.title ) ? `<h3>"${g.title}"</h3>` : '';
+    const tagsHtml = ( s.displayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => {
+        const slug = slugify(t);
+        return `<span class="tag-pill" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+    }).join('')}</div>` : '';
+
+    const songTitleOverlay = ( s.displayRecordName && g.video_title ) ? `<h3 class="song-title-overlay">"${g.video_title}"</h3>` : '';
+    const songTitleCenter = ( s.displayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
     const dayName = ( s.displayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-    const dateRaw = ( s.displayDate && g.event_date ) ? formatDate( g.event_date ) : '';
+    const dateRaw = ( s.displayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
     let timeString = '';
     if ( s.displayTime ) {
-        timeString = g.event_time || '';
-        if ( timeString && g.event_endtime ) timeString += ` - ${g.event_endtime}`;
+        timeString = g.event_start_time || '';
+        if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
     }
     const placeName = ( s.displayPlace && g.event_place ) ? g.event_place : '';
     const overlayDetails = [ placeName, dayName, dateRaw, timeString ].filter( Boolean ).join( ' • ' );
@@ -510,17 +532,30 @@ function getVideoCardHtml( g ) {
     const avatarImg = g.image_thumbnail || g.image;
     const avatarHtml = `
         <div class="group-avatar-container" onclick="toggleDescription(this.parentNode.querySelector('.description'), event)">
-            <img src="${avatarImg}" class="group-avatar" alt="${g.group_name}">
+            <img src="${avatarImg}" class="group-avatar" alt="${g.event_name}">
         </div>`;
 
     const isMobile = isMobileDevice();
     const bgImage = ( isMobile && g.image_mobile ) ? g.image_mobile : g.image;
 
+    // Status Badge
+    let statusBadge = '';
+    if (g.event_status && g.event_status !== 'scheduled') {
+        let statusColor = 'red';
+        if(g.event_status === 'rescheduled') statusColor = 'orange';
+        else if(g.event_status === 'postponed') statusColor = 'orange';
+        else if(g.event_status === 'moved_online') statusColor = 'blue';
+
+        const statusLabel = translateText(g.event_status, 'status') || g.event_status.replace('_', ' ').toUpperCase();
+        statusBadge = `<div class="status-badge" style="background-color: ${statusColor}; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold; margin-bottom: 5px; display: inline-block;">${statusLabel}</div>`;
+    }
+
     return `
     <section class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
         <div class="video-container">
             <div class="group-title-center">
-                <h2>${g.group_name}</h2>
+                ${statusBadge}
+                <h2>${g.event_name}</h2>
                 ${songTitleCenter}
                 ${splashMetaHtml}
             </div>
@@ -530,7 +565,7 @@ function getVideoCardHtml( g ) {
         <div class="video-overlay">
             <div class="group-info">
                 ${avatarHtml}
-                <h2>${g.group_name}</h2>
+                <h2>${g.event_name}</h2>
                 ${songTitleOverlay}
                 ${tagsHtml}
                 ${descHtml}
@@ -568,14 +603,15 @@ function renderFavorites() {
     const list = document.getElementById( 'favorites-list' );
     let favs = AppState.data.filter( g => AppState.favorites.includes( g.id ) );
     if ( AppState.state.currentTagFilter ) {
-        favs = favs.filter( g => g.tags && g.tags.includes( AppState.state.currentTagFilter ) );
+        // Filter using slug comparison
+        favs = favs.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
     }
     list.innerHTML = favs.length ? favs.map( g => {
         const thumb = g.image_thumbnail || g.image;
         return `
         <div class="favorite-item">
             <img src="${thumb}">
-            <div class="fav-title">${g.group_name}</div>
+            <div class="fav-title">${g.event_name}</div>
             <button onclick="shareSong(${g.id})" class="material-icons" style="background:none; border:none; cursor:pointer; margin-right:5px; opacity:0.7;">share</button>
             <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons" style="background:none; border:none; cursor:pointer;">play_arrow</button>
             <button onclick="toggleFav(${g.id})" class="material-icons" style="opacity:0.3; background:none; border:none; cursor:pointer;">close</button>
@@ -591,11 +627,12 @@ function renderTimeline() {
     const s = AppState.settings;
     let dataToRender = AppState.data;
     if ( AppState.state.currentTagFilter ) {
-        dataToRender = AppState.data.filter( g => g.tags && g.tags.includes( AppState.state.currentTagFilter ) );
+        // Filter using slug comparison
+        dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
     }
     const sortedData = [ ...dataToRender ].sort( ( a, b ) => {
-        const tA = ( a.event_date || '9999-99-99' ) + 'T' + ( a.event_time || '00:00' );
-        const tB = ( b.event_date || '9999-99-99' ) + 'T' + ( b.event_time || '00:00' );
+        const tA = ( a.event_start_date || '9999-99-99' ) + 'T' + ( a.event_start_time || '00:00' );
+        const tB = ( b.event_start_date || '9999-99-99' ) + 'T' + ( b.event_start_time || '00:00' );
         return tA.localeCompare( tB );
     } );
     if ( sortedData.length === 0 ) {
@@ -604,15 +641,18 @@ function renderTimeline() {
     }
     list.innerHTML = sortedData.map( g => {
         const dayName = ( s.displayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-        const dateRaw = ( s.displayDate && g.event_date ) ? formatDate( g.event_date ) : '';
+        const dateRaw = ( s.displayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
         let timeString = '';
         if ( s.displayTime ) {
-            timeString = g.event_time || '';
-            if ( timeString && g.event_endtime ) timeString += ` - ${g.event_endtime}`;
+            timeString = g.event_start_time || '';
+            if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
         }
         const placeName = ( s.displayPlace && g.event_place ) ? g.event_place : '';
         const metaLine = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
-        const tagsHtml = ( s.displayTag && g.tags ) ? g.tags.map( t => `<span class="time-tag" onclick="filterByTag('${t}', event)">${translateText(t, 'tags')}</span>` ).join( '' ) : '';
+        const tagsHtml = ( s.displayTag && g.event_tags ) ? g.event_tags.map( t => {
+            const slug = slugify(t);
+            return `<span class="time-tag" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+        } ).join( '' ) : '';
         const isFav = AppState.favorites.includes( g.id );
         const thumb = g.image_thumbnail || g.image;
         return `
@@ -620,7 +660,7 @@ function renderTimeline() {
             <img src="${thumb}" class="time-thumb" loading="lazy">
             <div class="time-info">
                 <div class="time-row-1">
-                    <h3>${g.group_name}</h3>
+                    <h3>${g.event_name}</h3>
                     <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav(${g.id});">${isFav ? 'favorite' : 'favorite_border'}</button>
                 </div>
                 <div class="time-row-2">${metaLine}</div>
@@ -767,6 +807,35 @@ function parseYoutubeData(url) {
     return { id: videoId, start: startSeconds };
 }
 
+class SimpleAudioPlayer {
+    constructor(audioUrl, elementId, onStateChange) {
+        this.audio = new Audio(audioUrl);
+        this.elementId = elementId;
+        this.onStateChange = onStateChange; // callback expecting {data: state}
+        this.container = document.getElementById(elementId);
+
+        // We do not append the audio element to the DOM to avoid UI clutter
+        // The background image will remain visible.
+
+        this.audio.addEventListener('play', () => { if(this.onStateChange) this.onStateChange({ data: 1 }); });
+        this.audio.addEventListener('pause', () => { if(this.onStateChange) this.onStateChange({ data: 2 }); });
+        this.audio.addEventListener('ended', () => { if(this.onStateChange) this.onStateChange({ data: 0 }); });
+        this.audio.addEventListener('error', (e) => console.error("Audio error", e));
+    }
+
+    playVideo() { this.audio.play().catch(e => console.error(e)); }
+    pauseVideo() { this.audio.pause(); }
+    mute() { this.audio.muted = true; }
+    unMute() { this.audio.muted = false; }
+    getPlayerState() {
+        if (this.audio.ended) return 0;
+        if (this.audio.paused) return 2;
+        return 1;
+    }
+    getCurrentTime() { return this.audio.currentTime; }
+    getDuration() { return this.audio.duration || 0; }
+    seekTo(seconds, allowSeekAhead) { this.audio.currentTime = seconds; }
+}
 
 const VideoManager = {
     instances: {},
@@ -783,49 +852,60 @@ const VideoManager = {
         const group = AppState.data.find( g => g.id == id );
         if ( !group ) return;
 
-        const ytData = parseYoutubeData(group.youtube);
-        let videoId      = ytData.id
-        let startSeconds = ytData.start
+        // Determine content type: YouTube vs Audio vs None
+        if (group.video_url) {
+            const ytData = parseYoutubeData(group.video_url);
+            let videoId      = ytData.id
+            let startSeconds = ytData.start
 
-        if (startSeconds === undefined) {
-            startSeconds = 0;
-        }
-
-        //console.log( 'group.youtube = ' + group.youtube );
-        //console.log( 'videoId       = ' + videoId );
-        //console.log( 'startSeconds  = ' + startSeconds );
-
-        if ( !videoId ) return;
-        const ampersandPosition = videoId.indexOf( '&' );
-        if ( ampersandPosition != -1 ) videoId = videoId.substring( 0, ampersandPosition );
-        if ( isAutoPlay ) this.pauseAll( id );
-        this.instances[ id ] = new YT.Player( `player-${id}`, {
-            videoId: videoId,
-            host: 'https://www.youtube-nocookie.com',
-            playerVars: {
-                'start': startSeconds,
-                'autoplay': isAutoPlay ? 1 : 0,
-                'controls': 0,
-                'modestbranding': 1,
-                'rel': 0,
-                'origin': window.location.origin,
-                'playsinline': 1
-            },
-            events: {
-                'onReady': ( e ) => {
-                    if ( AppState.state.isGlobalMuted ) e.target.mute();
-                    else e.target.unMute();
-
-                    if ( AppState.settings.displayControlBar && id === AppState.state.activeId ) {
-                        ControlBar.syncUI( id );
-                    }
-                },
-                'onStateChange': ( e ) => this.onStateChange( e, id, card ),
-                'onError': ( e ) => {
-                    console.log( "Erreur Youtube", e.data );
-                }
+            if (startSeconds === undefined) {
+                startSeconds = 0;
             }
-        } );
+
+            if ( !videoId ) return;
+            const ampersandPosition = videoId.indexOf( '&' );
+            if ( ampersandPosition != -1 ) videoId = videoId.substring( 0, ampersandPosition );
+            if ( isAutoPlay ) this.pauseAll( id );
+
+            this.instances[ id ] = new YT.Player( `player-${id}`, {
+                videoId: videoId,
+                host: 'https://www.youtube-nocookie.com',
+                playerVars: {
+                    'start': startSeconds,
+                    'autoplay': isAutoPlay ? 1 : 0,
+                    'controls': 0,
+                    'modestbranding': 1,
+                    'rel': 0,
+                    'origin': window.location.origin,
+                    'playsinline': 1
+                },
+                events: {
+                    'onReady': ( e ) => {
+                        if ( AppState.state.isGlobalMuted ) e.target.mute();
+                        else e.target.unMute();
+
+                        if ( AppState.settings.displayControlBar && id === AppState.state.activeId ) {
+                            ControlBar.syncUI( id );
+                        }
+                    },
+                    'onStateChange': ( e ) => this.onStateChange( e, id, card ),
+                    'onError': ( e ) => {
+                        console.log( "Erreur Youtube", e.data );
+                    }
+                }
+            } );
+        } else if (group.audio) {
+            // Audio Fallback
+            if ( isAutoPlay ) this.pauseAll( id );
+            this.instances[id] = new SimpleAudioPlayer(group.audio, `player-${id}`, (e) => this.onStateChange(e, id, card));
+            if (AppState.state.isGlobalMuted) this.instances[id].mute();
+            if (isAutoPlay) this.instances[id].playVideo();
+        } else {
+            // No video, no audio -> Just Image
+            // We can perhaps simulate a "player" that immediately ends or does nothing?
+            // Or just do nothing and let the user look at the image.
+            console.log("No video or audio for event", group.event_name);
+        }
     },
     onStateChange: function ( e, id, card ) {
         const s = AppState.settings;
@@ -1419,21 +1499,34 @@ function updateActionButtons( id ) {
     }
 }
 
-function filterByTag( tag, event ) {
+function filterByTag( tagSlug, event ) {
     if ( event ) event.stopPropagation();
     exitFavoritesMode();
-    AppState.state.currentTagFilter = tag;
+    AppState.state.currentTagFilter = tagSlug;
     document.body.classList.add( 'tag-filtering' );
     document.getElementById( 'tag-mode-bar' ).classList.add( 'active' );
-    document.getElementById( 'active-tag-name' ).innerText = tag;
+
+    // Find the original name for this slug to display
+    let tagName = tagSlug;
+    for (const group of AppState.data) {
+        if (group.event_tags) {
+            const found = group.event_tags.find(t => slugify(t) === tagSlug);
+            if (found) {
+                tagName = found;
+                break;
+            }
+        }
+    }
+    document.getElementById( 'active-tag-name' ).innerText = tagName;
+
     document.querySelectorAll( '.video-card' ).forEach( card => {
         const id = Number( card.dataset.id );
         const group = AppState.data.find( g => g.id === id );
-        if ( group && group.tags && group.tags.includes( tag ) ) card.classList.add( 'has-matching-tag' );
+        if ( group && group.event_tags && group.event_tags.some(t => slugify(t) === tagSlug) ) card.classList.add( 'has-matching-tag' );
         else card.classList.remove( 'has-matching-tag' );
     } );
-    document.getElementById( 'fav-filter-info' ).innerText = `(${tag})`;
-    document.getElementById( 'time-filter-info' ).innerText = `(${tag})`;
+    document.getElementById( 'fav-filter-info' ).innerText = `(${tagName})`;
+    document.getElementById( 'time-filter-info' ).innerText = `(${tagName})`;
     renderTimeline();
     renderFavorites();
     updateURLState();
