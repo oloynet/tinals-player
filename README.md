@@ -101,19 +101,34 @@ This file contains the playlist and artist information. It is an array of object
     "id": 2,
     "event_name": "PROJECTOR",
     "video_title": "Chemical",
-    "video_url": "https://www.youtube.com/watch?v=...",
-    "description": "Artist biography...",
-    "descriptionEN": "English version...",
-    "image": "URL to artist image",
-    "image_mobile": "URL to mobile image",
-    "image_thumbnail": "URL to thumbnail",
+    "video_url": "https://www.youtube.com/watch?v=ZzwPfuLIw1o&t=30",
+    "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/projector--59792--zzwpfuliw1o--projector--chemical-official-video.mp3",
+    "description": "Depuis sa formation en 2018, le groupe de Brighton creuse le sillon d’un post-punk frénétique et n’hésite pas à donner la priorité à l’ampleur sonore et à une attitude expérimentale à l’égard de la pop. Le premier album de Projector, « Now When We Talk It’s Violence”, fait le pont entre des expérimentations arty, l’agressivité du punk. Tantôt versé dans le brutalisme sombre et industriel de Joy Division ou dans une pop libre et brillamment composée, non sans rappeler Interpol ou The Organ, l’album empile des climax qui chancellent, véritable écrin pour les voix entrelacées de Lucy Sheehan et Edward Ensbury.",
+    "descriptionEN": "Since forming in 2018, the Brighton-based band has been ploughing the furrow of frenetic post-punk, not hesitating to prioritize sonic breadth and an experimental attitude to pop. Projector’s debut album, “Now When We Talk It’s Violence”, bridges the gap between arty experimentation and punk aggression. At times versed in the dark, industrial brutalism of Joy Division, and at other times in brilliantly composed free pop reminiscent of Interpol and The Organ, the album piles up staggering climaxes, a veritable showcase for the intertwined voices of Lucy Sheehan and Edward Ensbury.",
+    "image": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/unknown-2.jpeg",
+    "image_mobile": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/unknown-2x400x400.jpeg",
+    "image_thumbnail": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/unknown-2-150x150.jpeg",
     "event_day": "vendredi",
     "event_start_date": "2025-06-27",
+    "event_end_date": "2025-06-27",
     "event_start_time": "19:15",
     "event_end_time": "20:00",
+    "event_duration": "00:45",
     "event_place": "Scène Extérieure Mosquito",
-    "event_tags": ["vendredi", "tag-slug"],
-    "performer_instagram": "https://instagram.com/..."
+    "event_tags": [
+        "Day #1",
+        "Envie d'en découdre"
+    ],
+    "other_tags": [
+        "Post-Punk",
+        "UK"
+    ],
+    "performer_youtube": "https://www.youtube.com/channel/UCrCCSSvWCIssWuGNzf2tW7w",
+    "performer_facebook": "https://www.facebook.com/projectormusic/",
+    "performer_instagram": "https://www.instagram.com/projectorprojector/",
+    "performer_website": "https://www.projectorprojector.co.uk/",
+    "performer_deezer": "https://www.deezer.com/fr/artist/4158077",
+    "performer_spotify": "https://open.spotify.com/intl-fr/artist/25loVbwSp0xXNu4Ds1lTa9"
 }
 ```
 
