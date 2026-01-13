@@ -21,29 +21,29 @@ const AppState = {
         toast: null
     },
     settings: {
-        debugJS: false,
-        displayVersion: false,
+        isDebugJS: false,
+        isDisplayVersion: false,
         versionNumber: "",
-        menuAutoHide: false,
-        displayControlBar: true,
-        soundEnabled: true,
-        navTopBottom: false,
-        navPrevNext: true,
-        fullscreen: false,
-        displayDay: true,
-        displayDate: true,
-        displayTime: true,
-        displayYear: false,
-        displayTag: true,
-        displayPlace: true,
-        displayRecordName: false,
-        displayDescription: true,
-        descAutoHide: true,
-        imgVideoPause: true,
-        imgVideoEnd: true,
-        autoLoad: false,
-        autoPlayNext: true,
-        autoPlayLoop: true
+        isMenuAutoHide: false,
+        isDisplayControlBar: true,
+        isButtonSoundEnable: true,
+        isButtonTopBottomEnable: false,
+        isButtonPrevNextEnable: true,
+        isFullscreenEnable: true,
+        isDisplayDay: true,
+        isDisplayDate: true,
+        isDisplayTime: true,
+        isDisplayYear: false,
+        isDisplayTag: true,
+        isDisplayPlace: true,
+        isDisplayRecordName: false,
+        isDisplayGroupDescription: true,
+        isDescriptionAutoHide: true,
+        isDisplayImageVideoPause: true,
+        isDisplayImageVideoEnd: true,
+        isAutoLoadVideo: false,
+        isAutoPlayNext: true,
+        isAutoPlayLoop: true
     }
 };
 
@@ -129,7 +129,7 @@ async function init() {
 
         applyConfigs();
 
-        if ( AppState.settings.debugJS ) {
+        if ( AppState.settings.isDebugJS ) {
             console.log( "--- DEBUG MODE ACTIVATED ---" );
             attachDebugWrappers( VideoManager, "VideoManager" );
             attachDebugWrappers( ControlBar,   "ControlBar" );
@@ -245,39 +245,39 @@ function applyConfigs() {
     }
     const f = c.features || {};
     const s = AppState.settings;
-    s.fullscreen         = f.is_fullscreen_enable         ?? false;
-    s.soundEnabled       = f.is_button_sound_enable       ?? true;
-    s.navTopBottom       = f.is_button_top_bottom_enable  ?? false;
-    s.navPrevNext        = f.is_button_prev_next_enable   ?? true;
-    s.menuAutoHide       = f.is_menu_auto_hide            ?? false;
-    s.displayDay         = f.is_display_day               ?? true;
-    s.displayDate        = f.is_display_date              ?? false;
-    s.displayTime        = f.is_display_time              ?? false;
-    s.displayTag         = f.is_display_tag               ?? false;
-    s.displayPlace       = f.is_display_place             ?? false;
-    s.displayRecordName  = f.is_display_record_name       ?? false;
-    s.displayDescription = f.is_display_group_description ?? true;
-    s.descAutoHide       = f.is_description_auto_hide     ?? true;
-    s.imgVideoEnd        = f.is_display_image_video_end   ?? true;
-    s.imgVideoPause      = f.is_display_image_video_pause ?? true;
-    s.displayYear        = f.is_display_year              ?? false;
-    s.displayControlBar  = f.is_display_control_bar       ?? false;
-    s.debugJS            = f.is_debug_js                  ?? false;
+    s.isFullscreenEnable         = f.is_fullscreen_enable         ?? true;
+    s.isButtonSoundEnable       = f.is_button_sound_enable       ?? true;
+    s.isButtonTopBottomEnable       = f.is_button_top_bottom_enable  ?? false;
+    s.isButtonPrevNextEnable        = f.is_button_prev_next_enable   ?? true;
+    s.isMenuAutoHide       = f.is_menu_auto_hide            ?? false;
+    s.isDisplayDay         = f.is_display_day               ?? true;
+    s.isDisplayDate        = f.is_display_date              ?? true;
+    s.isDisplayTime        = f.is_display_time              ?? true;
+    s.isDisplayTag         = f.is_display_tag               ?? true;
+    s.isDisplayPlace       = f.is_display_place             ?? true;
+    s.isDisplayRecordName  = f.is_display_record_name       ?? false;
+    s.isDisplayGroupDescription = f.is_display_group_description ?? true;
+    s.isDescriptionAutoHide       = f.is_description_auto_hide     ?? true;
+    s.isDisplayImageVideoEnd        = f.is_display_image_video_end   ?? true;
+    s.isDisplayImageVideoPause      = f.is_display_image_video_pause ?? true;
+    s.isDisplayYear        = f.is_display_year              ?? false;
+    s.isDisplayControlBar  = f.is_display_control_bar       ?? true;
+    s.isDebugJS            = f.is_debug_js                  ?? false;
     s.isDisplayVersion   = f.is_display_version           ?? false;
     s.versionNumber      = c.site.version || "";
-    s.autoLoad           = f.is_auto_load_video           ?? false;
-    s.autoPlayNext       = f.is_auto_play_next            ?? true;
-    s.autoPlayLoop       = f.is_auto_play_loop            ?? true;
+    s.isAutoLoadVideo           = f.is_auto_load_video           ?? false;
+    s.isAutoPlayNext       = f.is_auto_play_next            ?? true;
+    s.isAutoPlayLoop       = f.is_auto_play_loop            ?? true;
 
-    if ( s.descAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
+    if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
     else document.body.classList.remove( 'hide-desc-mobile' );
 
-    if ( !s.soundEnabled ) document.getElementById( 'btn-mute' ).style.display = 'none';
-    if ( !s.navTopBottom ) {
+    if ( !s.isButtonSoundEnable ) document.getElementById( 'btn-mute' ).style.display = 'none';
+    if ( !s.isButtonTopBottomEnable ) {
         document.getElementById( 'btn-nav-top' ).style.display    = 'none';
         document.getElementById( 'btn-nav-bottom' ).style.display = 'none';
     }
-    if ( !s.navPrevNext ) {
+    if ( !s.isButtonPrevNextEnable ) {
         document.getElementById( 'btn-nav-up' ).style.display   = 'none';
         document.getElementById( 'btn-nav-down' ).style.display = 'none';
     }
@@ -419,10 +419,10 @@ function formatDate( dateStr ) {
     const day = parseInt( parts[ 2 ] );
     const yearShort = parts[ 0 ].slice( 2 );
     const monthIndex = parseInt( parts[ 1 ] ) - 1;
-    const yearDisplay = AppState.settings.displayYear ? ` ${yearShort}` : '';
+    const yearDisplay = AppState.settings.isDisplayYear ? ` ${yearShort}` : '';
     if ( AppState.currentLang === 'en' ) {
         const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-        const suffix = AppState.settings.displayYear ? `, ${yearShort}` : '';
+        const suffix = AppState.settings.isDisplayYear ? `, ${yearShort}` : '';
         return `${months[monthIndex]} ${day}${suffix}`;
     } else {
         const months = [ "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre" ];
@@ -504,24 +504,24 @@ function getSocialsHtml(g) {
 
 function getVideoCardHtml( g ) {
     const s = AppState.settings;
-    const tagsHtml = ( s.displayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => {
+    const tagsHtml = ( s.isDisplayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => {
         const slug = slugify(t);
         return `<span class="tag-pill" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
     }).join('')}</div>` : '';
 
-    const songTitleOverlay = ( s.displayRecordName && g.video_title ) ? `<h3 class="song-title-overlay">"${g.video_title}"</h3>` : '';
-    const songTitleCenter = ( s.displayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
-    const dayName = ( s.displayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-    const dateRaw = ( s.displayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
+    const songTitleOverlay = ( s.isDisplayRecordName && g.video_title ) ? `<h3 class="song-title-overlay">"${g.video_title}"</h3>` : '';
+    const songTitleCenter = ( s.isDisplayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
+    const dayName = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
+    const dateRaw = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
     let timeString = '';
-    if ( s.displayTime ) {
+    if ( s.isDisplayTime ) {
         timeString = g.event_start_time || '';
         if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
     }
-    const placeName = ( s.displayPlace && g.event_place ) ? g.event_place : '';
+    const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
     const overlayDetails = [ placeName, dayName, dateRaw, timeString ].filter( Boolean ).join( ' • ' );
     let splashHtml = '';
-    if ( s.displayPlace && g.event_place ) splashHtml += `<span class="splash-meta-place">${g.event_place}</span>`;
+    if ( s.isDisplayPlace && g.event_place ) splashHtml += `<span class="splash-meta-place">${g.event_place}</span>`;
     let dateTimeParts = [];
     if ( dayName ) dateTimeParts.push( dayName );
     if ( dateRaw ) dateTimeParts.push( dateRaw );
@@ -533,7 +533,7 @@ function getVideoCardHtml( g ) {
 
     const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
     const socialsHtml = getSocialsHtml(g);
-    const descHtml = ( s.displayDescription && descriptionText ) ? `<div class="description" onclick="toggleDescription(this, event)">${descriptionText}${socialsHtml}</div>` : '';
+    const descHtml = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="description" onclick="toggleDescription(this, event)">${descriptionText}${socialsHtml}</div>` : '';
 
     const avatarImg = g.image_thumbnail || g.image;
     const avatarHtml = `
@@ -646,16 +646,16 @@ function renderTimeline() {
         return;
     }
     list.innerHTML = sortedData.map( g => {
-        const dayName = ( s.displayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-        const dateRaw = ( s.displayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
+        const dayName = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
+        const dateRaw = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
         let timeString = '';
-        if ( s.displayTime ) {
+        if ( s.isDisplayTime ) {
             timeString = g.event_start_time || '';
             if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
         }
-        const placeName = ( s.displayPlace && g.event_place ) ? g.event_place : '';
+        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
         const metaLine = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
-        const tagsHtml = ( s.displayTag && g.event_tags ) ? g.event_tags.map( t => {
+        const tagsHtml = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
             const slug = slugify(t);
             return `<span class="time-tag" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
         } ).join( '' ) : '';
@@ -685,7 +685,7 @@ const ControlBar = {
     startTracking: function ( id ) {
         this.stopTracking();
 
-        if ( AppState.settings.displayControlBar ) {
+        if ( AppState.settings.isDisplayControlBar ) {
             document.getElementById( 'control-bar' ).classList.add( 'visible' );
             this.syncUI( id );
         }
@@ -890,7 +890,7 @@ const VideoManager = {
                         if ( AppState.state.isGlobalMuted ) e.target.mute();
                         else e.target.unMute();
 
-                        if ( AppState.settings.displayControlBar && id === AppState.state.activeId ) {
+                        if ( AppState.settings.isDisplayControlBar && id === AppState.state.activeId ) {
                             ControlBar.syncUI( id );
                         }
                     },
@@ -921,18 +921,18 @@ const VideoManager = {
             card.classList.add( 'playing' );
             card.classList.remove( 'paused-manual' );
 
-            if ( s.displayControlBar ) ControlBar.startTracking( id );
+            if ( s.isDisplayControlBar ) ControlBar.startTracking( id );
 
             clearTimeout( tm.menu );
             const topDrawer = document.getElementById( 'top-drawer' );
             topDrawer.classList.remove( 'auto-hidden' );
             topDrawer.style.transform = '';
-            if ( s.menuAutoHide || isLandscape() ) {
+            if ( s.isMenuAutoHide || isLandscape() ) {
                 tm.menu = setTimeout( () => {
                     topDrawer.classList.add( 'auto-hidden' );
                 }, 3000 );
             }
-            if ( s.autoLoad ) this.preloadNext( id );
+            if ( s.isAutoLoadVideo ) this.preloadNext( id );
         } else if ( e.data === 2 || e.data === 0 ) {
             clearTimeout( tm.menu );
             document.getElementById( 'top-drawer' ).classList.remove( 'auto-hidden' );
@@ -940,7 +940,7 @@ const VideoManager = {
             ControlBar.updatePlayPauseIcon( false );
 
             if ( e.data === 2 ) {
-                if ( s.imgVideoPause ) card.classList.remove( 'playing' );
+                if ( s.isDisplayImageVideoPause ) card.classList.remove( 'playing' );
                 else card.classList.add( 'playing' );
             } else {
                 ControlBar.stopTracking();
@@ -950,7 +950,7 @@ const VideoManager = {
             card.classList.add( 'paused-manual' );
 
             if ( e.data === 0 ) {
-                if ( s.imgVideoEnd ) card.classList.add( 'ended' );
+                if ( s.isDisplayImageVideoEnd ) card.classList.add( 'ended' );
                 this.goToNext( id );
             }
         }
@@ -990,20 +990,20 @@ const VideoManager = {
         }
     },
     preloadNext: function ( currentId ) {
-        if ( !AppState.settings.autoPlayNext ) return;
+        if ( !AppState.settings.isAutoPlayNext ) return;
         const currentIndex = AppState.data.findIndex( g => g.id === currentId );
         if ( currentIndex === -1 || currentIndex >= AppState.data.length - 1 ) return;
     },
     goToNext: function ( currentId ) {
         const s = AppState.settings;
-        if ( !s.autoPlayNext ) return;
+        if ( !s.isAutoPlayNext ) return;
         const favs = AppState.favorites;
         if ( AppState.state.isPlayingFavorites && favs.length > 0 ) {
             const currentFavIndex = favs.indexOf( currentId );
             let nextId;
             if ( currentFavIndex === -1 ) nextId = favs[ 0 ];
             else {
-                if ( currentFavIndex >= favs.length - 1 && !s.autoPlayLoop ) return;
+                if ( currentFavIndex >= favs.length - 1 && !s.isAutoPlayLoop ) return;
                 const nextFavIndex = ( currentFavIndex + 1 ) % favs.length;
                 nextId = favs[ nextFavIndex ];
             }
@@ -1012,7 +1012,7 @@ const VideoManager = {
             return;
         }
         const currentIndex = AppState.data.findIndex( g => g.id === currentId );
-        if ( currentIndex >= AppState.data.length - 1 && !s.autoPlayLoop ) return;
+        if ( currentIndex >= AppState.data.length - 1 && !s.isAutoPlayLoop ) return;
         const nextIndex = ( currentIndex + 1 ) % AppState.data.length;
         const nextId = AppState.data[ nextIndex ].id;
         AppState.state.isAutoNext = true;
@@ -1028,7 +1028,7 @@ const VideoManager = {
         } else {
             this.pauseAll( null );
             if ( !this.instances[ id ] ) this.create( id, false );
-            if ( AppState.settings.displayControlBar ) {
+            if ( AppState.settings.isDisplayControlBar ) {
                 setTimeout( () => {
                     document.getElementById( 'control-bar' ).classList.add( 'visible' );
                     ControlBar.syncUI( id );
@@ -1305,7 +1305,7 @@ function setupObserver() {
                     updateActionButtons( id );
                     updateURLState();
 
-                    if ( AppState.settings.displayControlBar ) {
+                    if ( AppState.settings.isDisplayControlBar ) {
                         document.getElementById( 'control-bar' ).classList.add( 'visible' );
                         ControlBar.syncUI( id );
                     }
@@ -1320,7 +1320,7 @@ function setupObserver() {
                     document.querySelectorAll( '.section-snap' ).forEach( s => s.classList.remove( 'active' ) );
                     entry.target.classList.add( 'active' );
 
-                    if ( AppState.settings.displayControlBar ) {
+                    if ( AppState.settings.isDisplayControlBar ) {
                         document.getElementById( 'control-bar' ).classList.remove( 'visible' );
                     }
                 }
@@ -1390,7 +1390,7 @@ function setupKeyboardControls() {
         }
         if ( key === 'f' ) {
             e.preventDefault();
-            if ( AppState.settings.fullscreen && activeId ) VideoManager.toggleFullscreen( activeId );
+            if ( AppState.settings.isFullscreenEnable && activeId ) VideoManager.toggleFullscreen( activeId );
         }
         if ( key === 's' ) shareCurrent();
         if ( key === 'm' ) VideoManager.toggleMute();
@@ -1717,7 +1717,7 @@ function handleOrientationChange() {
     if(!isPlaying) return;
 
     // We are playing. Check logic.
-    if ( s.menuAutoHide || isLandscape() ) {
+    if ( s.isMenuAutoHide || isLandscape() ) {
         // Should be auto-hidden.
         // If it's not already scheduled to hide and not hidden, schedule it.
         if ( !topDrawer.classList.contains('auto-hidden') && !tm.menu ) {
