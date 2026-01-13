@@ -1,27 +1,29 @@
 :root {
-    --primary-color: #2d91d0;
-    --secondary-color: #ea562a;
-    --third-color: #feacb5;
-    --fourth-color: #feffe0;
-    --fifth-color: #959f01;
-    --content-color: #fff;
-    --content-bg: #000000;
+    --primary-color: #2d91d0;   /* blue */
+    --secondary-color: #ea562a; /* orange */
+    --third-color: #feacb5;     /* pink */
+    --fourth-color: #feffe0;    /* light yellow */
+    --fifth-color: #959f01;     /* green */
+    --light-color:  white;
+    --dark-color:  black;
+    --transparent-color:  rgba(255, 255, 255, 0.0);
 
-    --toast-color: var(--content-color);
-    --toast-bg: var(--primary-color);
-    --tag-pill-color: var(--content-color);
-    --tag-pill-bg: rgba(255, 255, 255, 0.2);
-    --social-pill-color: var(--content-color);
-    --social-pill-bg: var(--primary-color);
-    --tag-mode-bar-color: var(--content-color);
-    --tag-mode-bar-bg: var(--secondary-color);
-    --fav-mode-bar-color: var(--content-color);
-    --fav-mode-bar-bg: var(--secondary-color);
-    --control-bar-color: var(--content-color);
+    --content-color: var(--light-color);
+    --content-bg: var(--dark-color);
     --control-bar-bg: rgba(20, 20, 20, 0.95);
-
-    --drawer-bg: #f0f0f0;
-    --drawer-text: #000000;
+    --control-bar-color: var(--content-color);
+    --drawer-bg: var(--fourth-color);
+    --drawer-text: var(--dark-color);
+    --fav-mode-bar-bg: var(--secondary-color);
+    --fav-mode-bar-color: var(--content-color);
+    --social-pill-bg: var(--primary-color);
+    --social-pill-color: var(--content-color);
+    --tag-mode-bar-bg: var(--secondary-color);
+    --tag-mode-bar-color: var(--content-color);
+    --tag-pill-bg: rgba(255, 255, 255, 0.2);
+    --tag-pill-color: var(--content-color);
+    --toast-bg: var(--primary-color);
+    --toast-color: var(--content-color);
 }
 
 * {
