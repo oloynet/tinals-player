@@ -1,10 +1,27 @@
 :root {
-    --primary-blue: #2d91d0;
-    --festival-color: #2d91d0;
-    --dark-bg: #000000;
+    --primary-color: #2d91d0;
+    --secondary-color: #ea562a;
+    --third-color: #feacb5;
+    --fourth-color: #feffe0;
+    --fifth-color: #959f01;
+    --content-color: #fff;
+    --content-bg: #000000;
+
+    --toast-color: var(--content-color);
+    --toast-bg: var(--primary-color);
+    --tag-pill-color: var(--content-color);
+    --tag-pill-bg: rgba(255, 255, 255, 0.2);
+    --social-pill-color: var(--content-color);
+    --social-pill-bg: var(--primary-color);
+    --tag-mode-bar-color: var(--content-color);
+    --tag-mode-bar-bg: var(--secondary-color);
+    --fav-mode-bar-color: var(--content-color);
+    --fav-mode-bar-bg: var(--secondary-color);
+    --control-bar-color: var(--content-color);
+    --control-bar-bg: rgba(20, 20, 20, 0.95);
+
     --drawer-bg: #f0f0f0;
     --drawer-text: #000000;
-    --text-white: #ffffff;
 }
 
 * {
@@ -15,8 +32,8 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    background: var(--dark-bg);
-    color: var(--text-white);
+    background: var(--content-bg);
+    color: var(--content-color);
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
 }
@@ -101,8 +118,6 @@ body {
     height: auto;
     min-height: 40px;
     padding-bottom: env(safe-area-inset-bottom);
-    background-color: orange;
-    color: white;
     z-index: 500;
     display: flex;
     justify-content: center;
@@ -115,6 +130,16 @@ body {
     transition: transform 0.3s ease-in-out;
     box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+}
+
+#fav-mode-bar {
+    background-color: var(--fav-mode-bar-bg);
+    color: var(--fav-mode-bar-color);
+}
+
+#tag-mode-bar {
+    background-color: var(--tag-mode-bar-bg);
+    color: var(--tag-mode-bar-color);
 }
 
 #fav-mode-bar.active,
@@ -155,7 +180,8 @@ body.tag-filtering .ticketing-card {
     min-height: 40px;
     padding-top: 5px;
     padding-bottom: env(safe-area-inset-bottom);
-    background-color: rgba(20, 20, 20, 0.95);
+    background-color: var(--control-bar-bg);
+    color: var(--control-bar-color);
     z-index: 350;
     display: flex;
     align-items: center;
@@ -194,7 +220,7 @@ body.tag-filtering .ticketing-card {
 #cb-slider {
     flex: 1;
     cursor: pointer;
-    accent-color: var(--primary-blue);
+    accent-color: var(--primary-color);
     height: 4px;
 }
 
@@ -205,7 +231,7 @@ body.tag-filtering .ticketing-card {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--dark-bg);
+    background-color: var(--content-bg);
     z-index: 9999;
     display: flex;
     justify-content: center;
@@ -242,8 +268,8 @@ body.tag-filtering .ticketing-card {
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
-    background-color: var(--primary-blue);
-    color: white;
+    background-color: var(--toast-bg);
+    color: var(--toast-color);
     padding: 5px 15px;
     border-radius: 20px;
     font-weight: bold;
@@ -349,7 +375,7 @@ body.tag-filtering .ticketing-card {
 }
 
 .share-btn-modal.copy {
-    background: var(--primary-blue);
+    background: var(--primary-color);
 }
 
 .share-btn-modal.qr {
@@ -379,7 +405,7 @@ body.tag-filtering .ticketing-card {
 }
 
 #share-link-display {
-    color: var(--primary-blue);
+    color: var(--primary-color);
     text-decoration: underline;
     cursor: pointer;
     word-break: break-all;
@@ -498,7 +524,7 @@ body.tag-filtering .ticketing-card {
 }
 
 .intro-btn {
-    background-color: var(--primary-blue);
+    background-color: var(--primary-color);
     color: white;
     padding: 15px 20px;
     border-radius: 50px;
@@ -614,7 +640,7 @@ iframe {
     text-transform: uppercase;
     margin-top: 15px;
     letter-spacing: 1px;
-    color: var(--festival-color);
+    color: var(--primary-color);
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
     display: flex;
     flex-direction: column;
@@ -640,7 +666,7 @@ iframe {
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 85px;
-    color: var(--festival-color);
+    color: var(--primary-color);
     opacity: 0.9;
     z-index: 5;
     transition: opacity 0.3s, transform 0.3s;
@@ -768,7 +794,7 @@ iframe {
 .description:not(.expanded)::after {
     content: ' +';
     font-weight: bold;
-    color: var(--primary-blue);
+    color: var(--primary-color);
     position: absolute;
     bottom: 0;
     right: 0;
@@ -796,7 +822,8 @@ iframe {
 }
 
 .tag-pill {
-    background: rgba(255, 255, 255, 0.2);
+    background: var(--tag-pill-bg);
+    color: var(--tag-pill-color);
     padding: 4px 10px;
     border-radius: 12px;
     font-size: 0.7rem;
@@ -812,7 +839,7 @@ iframe {
 }
 
 .social-pill {
-    background: #2d91d0;
+    background: var(--social-pill-bg);
     padding: 4px 10px;
     border-radius: 12px;
     font-size: 0.7rem;
@@ -821,7 +848,7 @@ iframe {
     text-transform: uppercase;
     cursor: pointer;
     transition: background 0.2s;
-    color: white;
+    color: var(--social-pill-color);
     text-decoration: none;
 }
 
@@ -832,7 +859,7 @@ iframe {
 .event-details {
     font-size: 0.8rem;
     font-weight: bold;
-    color: var(--primary-blue);
+    color: var(--primary-color);
     text-transform: uppercase;
     letter-spacing: 1px;
 }
@@ -927,7 +954,7 @@ iframe {
 }
 
 .visual-haptic {
-    color: var(--primary-blue) !important;
+    color: var(--primary-color) !important;
     transform: scale(1.1);
     box-shadow: 0 0 15px rgba(255, 255, 255, 0.6) !important;
     transition: none !important;
@@ -1003,7 +1030,7 @@ iframe {
 }
 
 .drawer-tab.active {
-    color: var(--primary-blue);
+    color: var(--primary-color);
 }
 
 .drawer-tab.active::after {
@@ -1013,7 +1040,7 @@ iframe {
     left: 0;
     width: 100%;
     height: 2px;
-    background-color: var(--primary-blue);
+    background-color: var(--primary-color);
 }
 
 #drawer-time-title,
@@ -1076,7 +1103,7 @@ iframe {
 }
 
 .btn-drawer-play {
-    background-color: var(--primary-blue);
+    background-color: var(--primary-color);
     color: white;
 }
 
@@ -1150,7 +1177,7 @@ iframe {
 }
 
 .time-btn-fav.active {
-    color: var(--primary-blue);
+    color: var(--primary-color);
 }
 
 .time-btn-fav:active {
@@ -1211,7 +1238,7 @@ iframe {
     top: 0;
     width: 100%;
     height: 65px;
-    background: var(--primary-blue);
+    background: var(--primary-color);
     z-index: 100;
     display: flex;
     justify-content: space-between;
@@ -1232,7 +1259,7 @@ iframe {
 
 .btn-ticket {
     background: white;
-    color: var(--primary-blue);
+    color: var(--primary-color);
     padding: 10px 18px;
     border-radius: 25px;
     text-decoration: none;

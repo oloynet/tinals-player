@@ -83,11 +83,10 @@ function deepMerge(target, source) {
     return target;
 }
 
-// Slugify helper: converts text to slug (only a-z, 0-9, dash)
 function slugify(text) {
     if (!text) return '';
     return text.toString().toLowerCase()
-        .normalize('NFD')                   // separate accents
+        .normalize('NFD')                  // separate accents
         .replace(/[\u0300-\u036f]/g, '')   // remove accents
         .replace(/[^a-z0-9]+/g, '-')       // replace non-alphanumeric chars with dash
         .replace(/^-+|-+$/g, '');          // remove leading/trailing dashes
@@ -99,8 +98,8 @@ function isLandscape() {
 
 async function init() {
     try {
-        const urlParams = new URLSearchParams( window.location.search );
-        AppState.currentLang = urlParams.get( 'lang' ) || 'fr';
+        const urlParams               = new URLSearchParams( window.location.search );
+        AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
         const langConfigFile = AppState.currentLang === 'en' ? 'config_en.json' : 'config_fr.json';
@@ -136,16 +135,16 @@ async function init() {
         }
 
         const dataSource = (AppState.config.site && AppState.config.site.data_source) ? AppState.config.site.data_source : 'data.json';
-        const response = await fetch( dataSource );
+        const response   = await fetch( dataSource );
         if ( !response.ok ) throw new Error( "Erreur " + dataSource );
 
         const rawData = await response.json();
 
         // VALIDATION
         AppState.data = rawData.filter( item => {
-            const hasName = item.event_name && item.event_name.trim() !== "";
+            const hasName  = item.event_name && item.event_name.trim() !== "";
             const hasImage = item.image && item.image.trim() !== "";
-            const hasDesc = item.description && item.description.trim() !== "";
+            const hasDesc  = item.description && item.description.trim() !== "";
 
             if ( !hasName || !hasImage || !hasDesc ) {
                 console.error( "Skipping invalid item (missing required fields):", item );
@@ -239,8 +238,7 @@ function applyConfigs() {
     const c = AppState.config;
     document.title = c.site.title;
     if ( c.site.theme_color ) {
-        document.documentElement.style.setProperty( '--primary-blue', c.site.theme_color );
-        document.documentElement.style.setProperty( '--festival-color', c.site.theme_color );
+        document.documentElement.style.setProperty( '--primary-color', c.site.theme_color );
         document.querySelector( 'meta[name="theme-color"]' ).setAttribute( 'content', c.site.theme_color );
     }
     const f = c.features || {};
@@ -1509,7 +1507,7 @@ function updateActionButtons( id ) {
         if ( AppState.favorites.includes( id ) ) {
             icon.innerHTML = 'favorite';
             bg.classList.add( 'bright' );
-            icon.style.color = 'var(--festival-color)';
+            icon.style.color = 'var(--primary-color)';
         } else {
             icon.innerHTML = 'favorite_border';
             bg.classList.remove( 'bright' );
@@ -1744,7 +1742,7 @@ function updateFavoritesIcon() {
     const bg = btn.querySelector( '.btn-bg' );
     if ( AppState.favorites.length > 0 ) {
         bg.classList.add( 'bright' );
-        icon.style.color = 'var(--festival-color)';
+        icon.style.color = 'var(--primary-color)';
     } else {
         bg.classList.remove( 'bright' );
         icon.style.color = 'white';
