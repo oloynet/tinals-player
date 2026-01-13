@@ -2,8 +2,8 @@
     "site":
     {
         "manifest_version": 3,
-        "version": "v1.02",
-        "version_name": "player TINALS v1.02",
+        "version": "v1.03",
+        "version_name": "player TINALS v1.03",
         "title": "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name": "Playlist | TINALS 2026",
         "short_name": "TINALS",
@@ -29,7 +29,7 @@
         "flag_fr_id": "flag-fr",
         "flag_en_id": "flag-en",
 
-        "sprite_path": "assets/images/sprite.svg?v=1.02",
+        "sprite_path": "assets/images/sprite.svg?v=1.03",
 
         "favicon": "assets/favicon/favicon.ico",
         "icon_16": "assets/favicon/favicon-16x16.png",
