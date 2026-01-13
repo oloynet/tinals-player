@@ -239,8 +239,7 @@ function applyConfigs() {
     const c = AppState.config;
     document.title = c.site.title;
     if ( c.site.theme_color ) {
-        document.documentElement.style.setProperty( '--primary-blue', c.site.theme_color );
-        document.documentElement.style.setProperty( '--festival-color', c.site.theme_color );
+        document.documentElement.style.setProperty( '--primary-color', c.site.theme_color );
         document.querySelector( 'meta[name="theme-color"]' ).setAttribute( 'content', c.site.theme_color );
     }
     const f = c.features || {};
@@ -1509,7 +1508,7 @@ function updateActionButtons( id ) {
         if ( AppState.favorites.includes( id ) ) {
             icon.innerHTML = 'favorite';
             bg.classList.add( 'bright' );
-            icon.style.color = 'var(--festival-color)';
+            icon.style.color = 'var(--primary-color)';
         } else {
             icon.innerHTML = 'favorite_border';
             bg.classList.remove( 'bright' );
@@ -1744,7 +1743,7 @@ function updateFavoritesIcon() {
     const bg = btn.querySelector( '.btn-bg' );
     if ( AppState.favorites.length > 0 ) {
         bg.classList.add( 'bright' );
-        icon.style.color = 'var(--festival-color)';
+        icon.style.color = 'var(--primary-color)';
     } else {
         bg.classList.remove( 'bright' );
         icon.style.color = 'white';
