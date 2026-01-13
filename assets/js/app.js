@@ -1506,11 +1506,12 @@ function updateActionButtons( id ) {
         bg.classList.remove( 'bright' );
     } else {
         heartBtn.classList.remove( 'disabled' );
-        icon.innerHTML = 'favorite_border';
         if ( AppState.favorites.includes( id ) ) {
+            icon.innerHTML = 'favorite';
             bg.classList.add( 'bright' );
             icon.style.color = 'var(--festival-color)';
         } else {
+            icon.innerHTML = 'favorite_border';
             bg.classList.remove( 'bright' );
             icon.style.color = 'white';
         }
