@@ -586,20 +586,20 @@ function getTicketingHtml() {
     return `
         <section class="ticketing-card section-snap" id="ticketing-section">
             <div class="ticket-container">
-                <div class="ticket-block" style="background-color: #fd3d00;">
+                <div class="ticket-block" style="background-color: var(--ticket-day-all);">
                     <h2>${t.ticket_all_days_title}</h2>
                     <h3>${t.ticket_all_days_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747" target="_blank" class="ticket-btn" style="color: #fd3d00;" title="${t.ticket_all_days_button}">${t.ticket_all_days_button}</a>
+                    <a href="https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747" target="_blank" class="ticket-btn" style="color: var(--ticket-day-all);" title="${t.ticket_all_days_button}">${t.ticket_all_days_button}</a>
                 </div>
-                <div class="ticket-block" style="background-color: #35bb05;">
+                <div class="ticket-block" style="background-color: var(--ticket-day-1);">
                     <h2>${t.ticket_day_1_title}</h2>
                     <h3>${t.ticket_day_1_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748" target="_blank" class="ticket-btn" style="color: #35bb05;" title="${t.ticket_day_1_button}">${t.ticket_day_1_button}</a>
+                    <a href="https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748" target="_blank" class="ticket-btn" style="color: var(--ticket-day-1);" title="${t.ticket_day_1_button}">${t.ticket_day_1_button}</a>
                 </div>
-                <div class="ticket-block" style="background-color: #0500ff;">
+                <div class="ticket-block" style="background-color: var(--ticket-day-2);">
                     <h2>${t.ticket_day_2_title}</h2>
                     <h3>${t.ticket_day_2_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749" target="_blank" class="ticket-btn" style="color: #0500ff;" title="${t.ticket_day_2_button}">${t.ticket_day_2_button}</a>
+                    <a href="https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749" target="_blank" class="ticket-btn" style="color: var(--ticket-day-2);" title="${t.ticket_day_2_button}">${t.ticket_day_2_button}</a>
                 </div>
             </div>
         </section>`;

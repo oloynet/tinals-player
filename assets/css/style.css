@@ -24,6 +24,9 @@
     --tag-pill-color: var(--content-color);
     --toast-bg: var(--primary-color);
     --toast-color: var(--content-color);
+    --ticket-day-all: var(--secondary-color);
+    --ticket-day-1: var(--fifth-color);
+    --ticket-day-2: var(--third-color);
 }
 
 * {
