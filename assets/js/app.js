@@ -93,6 +93,10 @@ function slugify(text) {
         .replace(/^-+|-+$/g, '');          // remove leading/trailing dashes
 }
 
+function isLandscape() {
+    return window.innerWidth > window.innerHeight;
+}
+
 async function init() {
     try {
         const urlParams = new URLSearchParams( window.location.search );
@@ -204,6 +208,8 @@ async function init() {
         setupHapticFeedback();
         updateFavoritesIcon();
         updateStaticTexts();
+
+        window.addEventListener('resize', handleOrientationChange);
 
         const loader = document.getElementById( 'loader' );
         if ( loader ) loader.classList.add( 'hidden' );
@@ -921,7 +927,7 @@ const VideoManager = {
             const topDrawer = document.getElementById( 'top-drawer' );
             topDrawer.classList.remove( 'auto-hidden' );
             topDrawer.style.transform = '';
-            if ( s.menuAutoHide ) {
+            if ( s.menuAutoHide || isLandscape() ) {
                 tm.menu = setTimeout( () => {
                     topDrawer.classList.add( 'auto-hidden' );
                 }, 3000 );
@@ -1691,6 +1697,40 @@ function toggleDescription( element, event ) {
     setTimeout( () => {
         element.classList.remove( 'manual-toggle' );
     }, 50 );
+}
+
+function handleOrientationChange() {
+    const s = AppState.settings;
+    const topDrawer = document.getElementById( 'top-drawer' );
+    const tm = AppState.timers;
+
+    // Only relevant if a video is playing
+    if ( AppState.state.activeId === null ) return;
+    const player = VideoManager.instances[AppState.state.activeId];
+
+    // Check player state safely
+    let isPlaying = false;
+    if (player && typeof player.getPlayerState === 'function') {
+        isPlaying = (player.getPlayerState() === 1);
+    }
+
+    if(!isPlaying) return;
+
+    // We are playing. Check logic.
+    if ( s.menuAutoHide || isLandscape() ) {
+        // Should be auto-hidden.
+        // If it's not already scheduled to hide and not hidden, schedule it.
+        if ( !topDrawer.classList.contains('auto-hidden') && !tm.menu ) {
+             tm.menu = setTimeout( () => {
+                topDrawer.classList.add( 'auto-hidden' );
+            }, 3000 );
+        }
+    } else {
+        // Should stay visible (Portrait + config=false)
+        clearTimeout( tm.menu );
+        tm.menu = null;
+        topDrawer.classList.remove( 'auto-hidden' );
+    }
 }
 
 window.onload = init;
