@@ -20,10 +20,8 @@
     --control-bar-color: var(--content-color);
     --control-bar-bg: rgba(20, 20, 20, 0.95);
 
-    --dark-bg: #000000;
     --drawer-bg: #f0f0f0;
     --drawer-text: #000000;
-    --text-white: #ffffff;
 }
 
 * {
@@ -34,8 +32,8 @@
 
 body {
     font-family: 'Roboto', sans-serif;
-    background: var(--dark-bg);
-    color: var(--text-white);
+    background: var(--content-bg);
+    color: var(--content-color);
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
 }
@@ -233,7 +231,7 @@ body.tag-filtering .ticketing-card {
     left: 0;
     width: 100%;
     height: 100%;
-    background-color: var(--dark-bg);
+    background-color: var(--content-bg);
     z-index: 9999;
     display: flex;
     justify-content: center;
