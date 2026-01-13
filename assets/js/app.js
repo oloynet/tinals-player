@@ -1131,14 +1131,12 @@ function toggleFav( id ) {
         AppState.favorites.push( id );
         showToast( AppState.config.texts.bar_fav_added );
 
-        const favDrawer = document.getElementById( 'favorites-drawer' );
-        const timelineDrawer = document.getElementById( 'timeline-drawer' );
+        const drawer = document.getElementById( 'combined-drawer' );
 
-        if ( !favDrawer.classList.contains( 'active' ) &&
-            !timelineDrawer.classList.contains( 'active' ) &&
+        if ( !drawer.classList.contains( 'active' ) &&
             !AppState.state.isPlayingFavorites ) {
 
-            toggleDrawer( 'favorites-drawer' );
+            toggleCombinedDrawer( 'favorites' );
             startAutoCloseTimer();
         }
     }
@@ -1215,7 +1213,7 @@ async function shareSong( id ) {
 
 async function shareFavoritesList() {
     if ( AppState.favorites.length === 0 ) return;
-    toggleDrawer( 'favorites-drawer' );
+    toggleCombinedDrawer( 'favorites' );
 
     let urlObj = getBaseShareUrl();
     urlObj.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
@@ -1363,11 +1361,17 @@ function handleGesture( startX, startY, endX, endY ) {
     let yDiff = startY - endY;
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
         if ( Math.abs( xDiff ) > 50 ) {
-            const favDrawer = document.getElementById( 'favorites-drawer' );
-            const timeDrawer = document.getElementById( 'timeline-drawer' );
-            if ( favDrawer.classList.contains( 'active' ) ) toggleDrawer( 'favorites-drawer' );
-            else if ( timeDrawer.classList.contains( 'active' ) ) toggleDrawer( 'timeline-drawer' );
-            else toggleDrawer( 'favorites-drawer' );
+            const drawer = document.getElementById( 'combined-drawer' );
+            if ( drawer.classList.contains( 'active' ) ) {
+                 // If dragging right (startX < endX), we might want to close?
+                 // Current logic: any swipe > 50 horizontal triggers toggle.
+                 // We will maintain toggle behavior: if open, close.
+                 closeAllDrawers();
+            } else {
+                 // If closed, maybe open?
+                 // Original logic opened favorites drawer if nothing was open.
+                 toggleCombinedDrawer('favorites');
+            }
         }
     }
 }
@@ -1592,43 +1596,88 @@ function updateURLState() {
 function startAutoCloseTimer() {
     clearTimeout( AppState.timers.close );
     AppState.timers.close = setTimeout( () => {
-        const drawer = document.getElementById( 'favorites-drawer' );
-        if ( drawer.classList.contains( 'active' ) ) toggleDrawer( 'favorites-drawer' );
+        const drawer = document.getElementById( 'combined-drawer' );
+        if ( drawer.classList.contains( 'active' ) ) closeAllDrawers();
     }, 1000 );
 }
 
 function setupDrawerListeners() {
-    [ 'favorites-drawer', 'timeline-drawer' ].forEach( id => {
-        const drawer = document.getElementById( id );
-        const stop = () => clearTimeout( AppState.timers.close );
-        drawer.addEventListener( 'touchstart', stop );
-        drawer.addEventListener( 'mouseenter', stop );
-        drawer.addEventListener( 'click', stop );
-    } );
+    const drawer = document.getElementById( 'combined-drawer' );
+    if(!drawer) return;
+    const stop = () => clearTimeout( AppState.timers.close );
+    drawer.addEventListener( 'touchstart', stop );
+    drawer.addEventListener( 'mouseenter', stop );
+    drawer.addEventListener( 'click', stop );
 }
 
-function toggleDrawer( id, forceCloseOthers = false ) {
-    const target  = document.getElementById( id );
-    const overlay = document.getElementById( 'drawer-overlay' );
+function toggleCombinedDrawer(tabName) {
+    const drawer = document.getElementById('combined-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    const isActive = drawer.classList.contains('active');
 
-    if ( forceCloseOthers ) document.querySelectorAll( '.drawer-right' ).forEach( el => {
-        if ( el.id !== id ) el.classList.remove( 'active' );
-    } );
-    target.classList.toggle( 'active' );
-
-    const anyActive = document.querySelectorAll( '.drawer-right.active' ).length > 0;
-    if ( anyActive ) overlay.classList.add( 'active' );
-    else overlay.classList.remove( 'active' );
-    if ( id === 'favorites-drawer' ) {
-        const btnFloat = document.getElementById( 'btn-float' );
-        const icon     = btnFloat.querySelector( '.material-icons:not(.btn-bg)' );
-        if ( target.classList.contains( 'active' ) ) icon.textContent = 'chevron_right';
-        else {
-            icon.textContent = 'bookmarks';
-            updateFavoritesIcon();
+    // If already open
+    if (isActive) {
+        // If same tab, close it (toggle)
+        if (AppState.state.activeTab === tabName) {
+            closeAllDrawers();
+        } else {
+            // Switch tab
+            switchTab(tabName);
         }
+    } else {
+        // Open drawer and select tab
+        switchTab(tabName);
+        drawer.classList.add('active');
+        overlay.classList.add('active');
+    }
+
+    // Update button icon state
+    const btnFloat = document.getElementById('btn-float');
+    const icon = btnFloat.querySelector('.material-icons:not(.btn-bg)');
+
+    if (drawer.classList.contains('active') && AppState.state.activeTab === 'favorites') {
+        icon.textContent = 'chevron_right';
+    } else {
+        icon.textContent = 'bookmarks';
+        updateFavoritesIcon();
     }
 }
+
+function switchTab(tabName) {
+    AppState.state.activeTab = tabName;
+
+    // Update Tab Buttons
+    document.querySelectorAll('.drawer-tab').forEach(btn => {
+        btn.classList.remove('active');
+    });
+    const activeBtn = document.getElementById(`tab-${tabName}`);
+    if (activeBtn) activeBtn.classList.add('active');
+
+    // Update Content
+    document.querySelectorAll('.tab-content').forEach(content => {
+        content.style.display = 'none';
+        content.classList.remove('active');
+    });
+    const activeContent = document.getElementById(`${tabName}-content`);
+    if (activeContent) {
+        activeContent.style.display = 'flex';
+        activeContent.classList.add('active');
+    }
+
+    // Update floating button icon if switching tabs while open
+    const drawer = document.getElementById('combined-drawer');
+    if (drawer.classList.contains('active')) {
+         const btnFloat = document.getElementById('btn-float');
+         const icon = btnFloat.querySelector('.material-icons:not(.btn-bg)');
+         if (tabName === 'favorites') {
+             icon.textContent = 'chevron_right';
+         } else {
+             icon.textContent = 'bookmarks';
+             updateFavoritesIcon();
+         }
+    }
+}
+
 
 function closeAllDrawers() {
     document.querySelectorAll( '.drawer-right' ).forEach( el => el.classList.remove( 'active' ) );
@@ -1637,12 +1686,13 @@ function closeAllDrawers() {
     const btnFloat   = document.getElementById( 'btn-float' );
     const icon       = btnFloat.querySelector( '.material-icons:not(.btn-bg)' );
     icon.textContent = 'bookmarks';
+    updateFavoritesIcon();
 }
 
 function closeDrawerIfOpen() {
-    const drawer = document.getElementById( 'favorites-drawer' );
+    const drawer = document.getElementById( 'combined-drawer' );
     if ( drawer.classList.contains( 'active' ) ) {
-        toggleDrawer( 'favorites-drawer' );
+        closeAllDrawers();
         return true;
     }
     return false;
