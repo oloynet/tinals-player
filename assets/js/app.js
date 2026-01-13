@@ -160,7 +160,7 @@ async function init() {
 
         const filterParam  = urlParams.get( 'filter' );
         const favsParam    = urlParams.get( 'favorites' );
-        const currentParam = urlParams.get( 'current' );
+        const idParam      = urlParams.get( 'id' );
 
         renderFeed();
         renderFavorites();
@@ -183,8 +183,8 @@ async function init() {
                 filterByTag( filterParam );
                 updateURLState();
             }, 100 );
-        } else if ( currentParam && validIds.includes( Number( currentParam ) ) ) {
-            AppState.state.activeId = Number( currentParam );
+        } else if ( idParam && validIds.includes( Number( idParam ) ) ) {
+            AppState.state.activeId = Number( idParam );
             setTimeout( () => {
                 const target = document.getElementById( `video-${AppState.state.activeId}` );
                 if ( target ) target.scrollIntoView( {
@@ -1174,7 +1174,7 @@ async function shareCurrent() {
     } else if ( AppState.state.currentTagFilter ) {
         urlObj.searchParams.set( 'filter', AppState.state.currentTagFilter );
     } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
-        urlObj.searchParams.set( 'current', AppState.state.activeId );
+        urlObj.searchParams.set( 'id', AppState.state.activeId );
     }
 
     const url = urlObj.href;
@@ -1195,7 +1195,7 @@ async function shareCurrent() {
 
 async function shareSong( id ) {
     let urlObj = getBaseShareUrl();
-    urlObj.searchParams.set( 'current', id );
+    urlObj.searchParams.set( 'id', id );
 
     const url = urlObj.href;
     AppState.state.shareUrl = url;
@@ -1567,7 +1567,7 @@ function clearTagFilter() {
 function updateURLState() {
     const url = new URL( window.location );
 
-    url.searchParams.delete( 'current' );
+    url.searchParams.delete( 'id' );
     url.searchParams.delete( 'filter' );
     url.searchParams.delete( 'favorites' );
     url.searchParams.delete( 'share' );
@@ -1583,7 +1583,7 @@ function updateURLState() {
     } else if ( AppState.state.currentTagFilter ) {
         url.searchParams.set( 'filter', AppState.state.currentTagFilter );
     } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
-        url.searchParams.set( 'current', AppState.state.activeId );
+        url.searchParams.set( 'id', AppState.state.activeId );
     }
 
     window.history.replaceState( null, '', url );
