@@ -973,13 +973,47 @@ iframe {
     transform: translateX(0);
 }
 
+/* --- DRAWER TABS & HEADER --- */
 .drawer-header {
-    padding: 25px;
+    padding: 15px 20px;
     display: flex;
     justify-content: space-between;
     align-items: center;
     border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    background: var(--drawer-bg);
+}
+
+.drawer-tabs {
+    display: flex;
+    gap: 15px;
+    align-items: center;
+}
+
+.drawer-tab {
+    background: none;
+    border: none;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: #888;
     cursor: pointer;
+    padding-bottom: 5px;
+    position: relative;
+    transition: color 0.3s;
+}
+
+.drawer-tab.active {
+    color: var(--primary-blue);
+}
+
+.drawer-tab.active::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    width: 100%;
+    height: 2px;
+    background-color: var(--primary-blue);
 }
 
 #drawer-time-title,

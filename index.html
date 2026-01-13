@@ -90,32 +90,35 @@
     </nav>
     <main id="main-feed"></main>
     <div id="app-version-indicator">version</div>
-    <aside id="favorites-drawer" class="drawer-right">
-        <div class="drawer-header" onclick="toggleDrawer('favorites-drawer')">
-            <span style="font-weight: bold; letter-spacing: 1px;"><span id="drawer-fav-title">MES FAVORIS</span> <span id="fav-filter-info"></span></span>
-            <button class="material-icons" style="background:none; border:none; cursor:pointer; font-size: 28px;">close</button>
+    <aside id="combined-drawer" class="drawer-right">
+        <div class="drawer-header">
+            <div class="drawer-tabs">
+                <button id="tab-favorites" class="drawer-tab active" onclick="switchTab('favorites')"><span id="drawer-fav-title">MES FAVORIS</span> <span id="fav-filter-info"></span></button>
+                <button id="tab-timeline" class="drawer-tab" onclick="switchTab('timeline')"><span id="drawer-time-title">TIMELINE</span> <span id="time-filter-info"></span></button>
+            </div>
+            <button class="material-icons" onclick="closeAllDrawers()" style="background:none; border:none; cursor:pointer; font-size: 28px;">close</button>
         </div>
-        <div id="favorites-list" style="overflow-y: auto; flex: 1;"></div>
-        <div id="favorites-footer" class="drawer-footer">
-            <button onclick="playFavorites()" class="btn-drawer-action btn-drawer-play"><span class="material-icons">play_arrow</span> <span id="btn-txt-play-fav">Écouter</span></button>
-            <button onclick="shareFavoritesList()" class="btn-drawer-action btn-drawer-share"><span class="material-icons">share</span> <span id="btn-txt-share-fav">Partager</span></button>
+
+        <div id="favorites-content" class="tab-content active" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
+             <div id="favorites-list" style="overflow-y: auto; flex: 1;"></div>
+             <div id="favorites-footer" class="drawer-footer">
+                <button onclick="playFavorites()" class="btn-drawer-action btn-drawer-play"><span class="material-icons">play_arrow</span> <span id="btn-txt-play-fav">Écouter</span></button>
+                <button onclick="shareFavoritesList()" class="btn-drawer-action btn-drawer-share"><span class="material-icons">share</span> <span id="btn-txt-share-fav">Partager</span></button>
+            </div>
         </div>
-    </aside>
-    <aside id="timeline-drawer" class="drawer-right">
-        <div class="drawer-header" onclick="toggleDrawer('timeline-drawer')">
-            <span style="font-weight: bold; letter-spacing: 1px;"><span id="drawer-time-title">TIMELINE</span> <span id="time-filter-info"></span></span>
-            <button class="material-icons" style="background:none; border:none; cursor:pointer; font-size: 28px;">close</button>
+
+        <div id="timeline-content" class="tab-content" style="display: none; flex-direction: column; height: 100%; overflow: hidden;">
+            <div id="timeline-list" style="overflow-y: auto; flex: 1;"></div>
         </div>
-        <div id="timeline-list" style="overflow-y: auto; flex: 1;"></div>
     </aside>
     <div class="right-action-bar">
         <button onclick="toggleMute()" class="btn-fav-float material-icons" id="btn-mute"><span class="btn-bg"></span><span class="material-icons">volume_up</span></button>
         <button onclick="scrollToTop()" class="btn-fav-float material-icons" id="btn-nav-top"><span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_up</span></button>
         <button onclick="navigateScroll('up')" class="btn-fav-float material-icons" id="btn-nav-up"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_up</span></button>
         <button id="dynamic-heart" onclick="toggleFavCurrent()" class="btn-fav-float material-icons"><span class="btn-bg"></span><span class="material-icons">favorite_border</span></button>
-        <button onclick="toggleDrawer('favorites-drawer')" class="btn-fav-float material-icons" id="btn-float"><span class="btn-bg"></span><span class="material-icons">bookmarks</span></button>
+        <button onclick="toggleCombinedDrawer('favorites')" class="btn-fav-float material-icons" id="btn-float"><span class="btn-bg"></span><span class="material-icons">bookmarks</span></button>
         <button onclick="shareCurrent()" class="btn-fav-float material-icons"><span class="btn-bg"></span><span class="material-icons">share</span></button>
-        <button onclick="toggleDrawer('timeline-drawer')" class="btn-fav-float material-icons"><span class="btn-bg"></span><span class="material-icons">event_note</span></button>
+        <button onclick="toggleCombinedDrawer('timeline')" class="btn-fav-float material-icons"><span class="btn-bg"></span><span class="material-icons">event_note</span></button>
         <button onclick="navigateScroll('down')" class="btn-fav-float material-icons" id="btn-nav-down"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_down</span></button>
         <button onclick="scrollToTicketing()" class="btn-fav-float material-icons" id="btn-nav-bottom"><span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_down</span></button>
     </div>
