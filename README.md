@@ -49,11 +49,28 @@ These files handle general settings, feature flags, and internationalization (i1
 *   **`site`**: Metadata for the application (Version, Title, Description, PWA Start URL, Author).
 *   **`images`**: Paths to static assets like logos, favicons, and sprites.
 *   **`features`**: Boolean flags to toggle functionality.
-    *   `is_debug_js`: Enable console debugging.
-    *   `is_menu_auto_hide`: Toggle menu behavior.
-    *   `is_auto_play_next`: Enable continuous playback.
-    *   `is_display_day`, `is_display_time`, `is_display_place`: Toggle schedule visibility.
-    *   ...and more.
+    *   `is_debug_js`: If debug in console is displayed.
+    *   `is_display_version`: If version in console is displayed.
+    *   `is_menu_auto_hide`: If menu is autohide after a delay of 3 seconds.
+    *   `is_display_control_bar`: If control bar above is displayed the video.
+    *   `is_button_sound_enable`: If sound button is enabled.
+    *   `is_button_top_bottom_enable`: If top and bottom buttons are enabled.
+    *   `is_button_prev_next_enable`: If next and previous buttons are enabled.
+    *   `is_fullscreen_enable`: If fullscreen mode is enabled. Letter “F” shortcut on navigator.
+    *   `is_display_day`: If the day of the week is displayed.
+    *   `is_display_date`: If the date (day number and month) is displayed.
+    *   `is_display_time`: If the time is displayed.
+    *   `is_display_year`: If the year is displayed.
+    *   `is_display_tag`: If the tags are displayed.
+    *   `is_display_place`: If the place is displayed.
+    *   `is_display_record_name`: If the performer’s record name is displayed.
+    *   `is_display_group_description`: If the performer’s description is displayed.
+    *   `is_description_auto_hide`: If the performer’s description is autohided after starting a video.
+    *   `is_display_image_video_pause`: If the event image is displayed when the video is paused.
+    *   `is_display_image_video_end`: If the event image is displayed when the video is ended.
+    *   `is_auto_load_video`: If the following video is preloaded (uses more memory).
+    *   `is_auto_play_next`: If the following video is played automatically at the end of the current video.
+    *   `is_auto_play_loop`: If the first video plays automatically at the end of the last one.
 *   **`texts`**: All UI text strings for localization (Buttons, Headers, Error messages).
 
 ### Content Data (`data.json`)
