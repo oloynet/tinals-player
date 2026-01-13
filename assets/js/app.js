@@ -489,7 +489,7 @@ function getSocialsHtml(g) {
     ];
 
     const links = networks.filter(n => g[n.key]).map(n => {
-        return `<a href="${g[n.key]}" target="_blank" class="social-pill">${n.label}</a>`;
+        return `<a href="${g[n.key]}" target="_blank" class="social-pill" title="${n.label}">${n.label}</a>`;
     });
 
     if (links.length === 0) return '';
@@ -583,17 +583,17 @@ function getTicketingHtml() {
                 <div class="ticket-block" style="background-color: #fd3d00;">
                     <h2>${t.ticket_all_days_title}</h2>
                     <h3>${t.ticket_all_days_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747" target="_blank" class="ticket-btn" style="color: #fd3d00;">${t.ticket_all_days_button}</a>
+                    <a href="https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747" target="_blank" class="ticket-btn" style="color: #fd3d00;" title="${t.ticket_all_days_button}">${t.ticket_all_days_button}</a>
                 </div>
                 <div class="ticket-block" style="background-color: #35bb05;">
                     <h2>${t.ticket_day_1_title}</h2>
                     <h3>${t.ticket_day_1_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748" target="_blank" class="ticket-btn" style="color: #35bb05;">${t.ticket_day_1_button}</a>
+                    <a href="https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748" target="_blank" class="ticket-btn" style="color: #35bb05;" title="${t.ticket_day_1_button}">${t.ticket_day_1_button}</a>
                 </div>
                 <div class="ticket-block" style="background-color: #0500ff;">
                     <h2>${t.ticket_day_2_title}</h2>
                     <h3>${t.ticket_day_2_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749" target="_blank" class="ticket-btn" style="color: #0500ff;">${t.ticket_day_2_button}</a>
+                    <a href="https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749" target="_blank" class="ticket-btn" style="color: #0500ff;" title="${t.ticket_day_2_button}">${t.ticket_day_2_button}</a>
                 </div>
             </div>
         </section>`;
@@ -610,7 +610,7 @@ function renderFavorites() {
         const thumb = g.image_thumbnail || g.image;
         return `
         <div class="favorite-item">
-            <img src="${thumb}">
+            <img src="${thumb}" alt="${g.event_name}">
             <div class="fav-title">${g.event_name}</div>
             <button onclick="shareSong(${g.id})" class="material-icons" style="background:none; border:none; cursor:pointer; margin-right:5px; opacity:0.7;">share</button>
             <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons" style="background:none; border:none; cursor:pointer;">play_arrow</button>
@@ -657,7 +657,7 @@ function renderTimeline() {
         const thumb = g.image_thumbnail || g.image;
         return `
         <div class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
-            <img src="${thumb}" class="time-thumb" loading="lazy">
+            <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
             <div class="time-info">
                 <div class="time-row-1">
                     <h3>${g.event_name}</h3>
