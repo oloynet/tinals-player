@@ -17,13 +17,13 @@ const STATIC_ASSETS = [
     './assets/images/tinals-2018-trame-342x342-noir.svg',
     './assets/images/dscf9099dorianmeyrieux-light.jpg',
 
-    './assets/favicon/favicon.ico',
-    './assets/favicon/favicon-16x16.png',
-    './assets/favicon/favicon-32x32.png',
-    './assets/favicon/android-chrome-192x192.png',
-    './assets/favicon/android-chrome-512x512.png',
-    './assets/favicon/favicon.svg',
-    './assets/favicon/apple-touch-icon.png'
+    // './assets/favicon/favicon.ico',
+    // './assets/favicon/favicon-16x16.png',
+    // './assets/favicon/favicon-32x32.png',
+    // './assets/favicon/apple-touch-icon.png'
+    // './assets/favicon/android-chrome-192x192.png',
+    // './assets/favicon/android-chrome-512x512.png',
+    // './assets/favicon/favicon.svg',
 
 ];
 
