@@ -200,6 +200,7 @@ async function init() {
         }, 800 );
 
         setupInteraction();
+        PWAManager.init();
         setupDrawerListeners();
         setupSwipeGestures();
         setupScrollToasts();
@@ -1791,6 +1792,83 @@ function handleOrientationChange() {
         topDrawer.classList.remove( 'auto-hidden' );
     }
 }
+
+const PWAManager = {
+    deferredPrompt: null,
+
+    init: function() {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            // Prevent the mini-infobar from appearing on mobile
+            e.preventDefault();
+            // Stash the event so it can be triggered later.
+            this.deferredPrompt = e;
+            // Update UI notify the user they can install the PWA
+            this.checkAndShowInstallModal();
+        });
+
+        window.addEventListener('appinstalled', () => {
+            // Hide the app-provided install promotion
+            this.hideInstallModal();
+            // Clear the deferredPrompt so it can't be used again.
+            this.deferredPrompt = null;
+            // Optionally, send analytics event to indicate successful install
+            console.log('PWA was installed');
+            localStorage.setItem('app_install_seen', 'true');
+        });
+
+        // Setup button listeners
+        const btnYes = document.getElementById('btn-install-yes');
+        const btnNo = document.getElementById('btn-install-no');
+
+        if (btnYes) btnYes.addEventListener('click', () => this.handleInstallYes());
+        if (btnNo) btnNo.addEventListener('click', () => this.handleInstallNo());
+    },
+
+    checkAndShowInstallModal: function() {
+        // Check if user has already declined or installed
+        if (localStorage.getItem('app_install_seen') === 'true') {
+            return;
+        }
+
+        // Wait a bit before showing to not be intrusive immediately
+        setTimeout(() => {
+             this.showInstallModal();
+        }, 2000);
+    },
+
+    showInstallModal: function() {
+        const t = AppState.config.texts;
+        if (!t) return;
+
+        document.getElementById('install-title').innerText = t.install_modal_title || "Installer l'application";
+        document.getElementById('install-text').innerText = t.install_modal_text || "Installez l'application pour une meilleure expérience.";
+        document.getElementById('btn-install-yes').innerText = t.install_modal_btn_yes || "Installer";
+        document.getElementById('btn-install-no').innerText = t.install_modal_btn_no || "Plus tard";
+
+        document.getElementById('install-modal').classList.add('active');
+    },
+
+    hideInstallModal: function() {
+        document.getElementById('install-modal').classList.remove('active');
+    },
+
+    handleInstallYes: async function() {
+        this.hideInstallModal();
+        localStorage.setItem('app_install_seen', 'true');
+
+        if (this.deferredPrompt) {
+            this.deferredPrompt.prompt();
+            const { outcome } = await this.deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            this.deferredPrompt = null;
+        }
+    },
+
+    handleInstallNo: function() {
+        this.hideInstallModal();
+        localStorage.setItem('app_install_seen', 'true');
+    }
+};
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {

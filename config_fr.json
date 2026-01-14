@@ -56,6 +56,11 @@
 
         "ticket_day_2_title": "Pass samedi",
         "ticket_day_2_subtitle": "6 juin 2026",
-        "ticket_day_2_button": "billet du samedi"
+        "ticket_day_2_button": "billet du samedi",
+
+        "install_modal_title": "Installer l'application",
+        "install_modal_text": "Installez l'application TINALS 2026 pour une meilleure expérience : accès hors ligne, plein écran et plus rapide !",
+        "install_modal_btn_yes": "Installer",
+        "install_modal_btn_no": "Plus tard"
     }
 }

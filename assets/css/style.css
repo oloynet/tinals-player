@@ -1574,3 +1574,80 @@ iframe {
         opacity: 0.9;
     }
 }
+
+/* --- INSTALL MODAL --- */
+#install-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 7000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+#install-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.install-box {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 400px;
+    text-align: center;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.install-box h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+#install-text {
+    font-size: 1rem;
+    margin-bottom: 30px;
+    line-height: 1.5;
+}
+
+.install-buttons {
+    display: flex;
+    gap: 15px;
+    justify-content: center;
+}
+
+.install-btn {
+    padding: 12px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    color: white;
+    transition: transform 0.2s;
+    text-transform: uppercase;
+}
+
+.install-btn:hover {
+    transform: scale(1.05);
+}
+
+.install-btn.yes {
+    background: var(--primary-color);
+}
+
+.install-btn.no {
+    background: #555;
+}
