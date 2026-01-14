@@ -296,8 +296,11 @@ function applyConfigs() {
         }
     }
 
-    //onsole.log( 's.isDisplayVersion = ' + s.isDisplayVersion );
-    console.log( 's.versionNumber = ' + s.versionNumber );
+    if ( AppState.settings.isDebugJS ) {
+        //console.log( 's.isDisplayVersion = ' + s.isDisplayVersion );
+        console.log( 's.versionNumber = ' + s.versionNumber );
+    }
+
 
     if ( c.images ) {
         const menuUse = document.getElementById( 'menu-logo-use' );
@@ -405,7 +408,9 @@ function applyConfigs() {
             type: 'application/json'
         } );
 
-        console.log( window.location.origin + window.location.pathname );
+        if ( AppState.settings.isDebugJS ) {
+            console.log( window.location.origin + window.location.pathname );
+        }
 
         // DESACTIVATE document.querySelector( 'link[rel="manifest"]' ).href = URL.createObjectURL( blob );
     }
