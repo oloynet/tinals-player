@@ -1,132 +1,88 @@
 {
-    "manifest_version": 3,
-    "version": "v1.04",
-    "version_name": "player v1.04",
     "name": "TINALS 2026",
     "short_name": "TINALS",
     "description": "Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma.",
-
-
     "id": "tinals-player-2026",
-    "scope": "/player/",
     "start_url": "/player/",
-
-    "display_override": ["fullscreen", "minimal-ui"],
+    "scope": "/player/",
     "display": "standalone",
+    "display_override": ["fullscreen", "minimal-ui"],
     "orientation": "portrait-primary",
-
     "background_color": "#000000",
     "theme_color": "#2d91d0",
-
-    "default_locale": "fr",
-    "author": "Olivier LOYNET - +33.668055252",
-    "url": "https://thisisnotalovesong.fr",
-    "homepage_url": "https://thisisnotalovesong.fr",
-    "screenshots": [
-    {
-        "src": "/player/assets/images/screenshots/screenshot-TINALS-player-FR-android.png",
-        "sizes": "500x983",
-        "type": "image/png",
-        "form_factor": "narrow",
-        "label": "Page accueil en français - mobile"
-    },
-    {
-        "src": "/player/assets/images/screenshots/screenshot-TINALS-player-EN-android.png",
-        "sizes": "500x983",
-        "type": "image/png",
-        "form_factor": "narrow",
-        "label": "Home page in english - mobile"
-    },
-    {
-        "src": "/player/assets/images/screenshots/screenshot-TINALS-player-FR-full.png",
-        "sizes": "2560x1600",
-        "type": "image/png",
-        "form_factor": "wide",
-        "label": "Page accueil en français - desktop"
-    },
-    {
-        "src": "/player/assets/images/screenshots/screenshot-TINALS-player-EN-full.png",
-        "sizes": "2560x1600",
-        "type": "image/png",
-        "form_factor": "wide",
-        "label": "Home page in english - desktop"
-    }],
-    "shortcuts": [
-    {
-        "name": "TINALS en français",
-        "url": "/player/?lang=fr",
-        "icons": [{ "src": "/player/assets/images/shortcuts/flag-FR.png", "sizes": "96x96" }]
-    },
-    {
-        "name": "TINALS in english",
-        "url": "/player/?lang=en",
-        "icons": [{ "src": "/player/assets/images/shortcuts/flag-EN.png", "sizes": "96x96" }]
-    }],
+    "lang": "fr",
     "icons": [
-    {
-        "purpose": "maskable",
-        "sizes": "1024x1024",
-        "src": "/player/assets/favicon/maskable_icon.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "48x48",
-        "src": "/player/assets/favicon/maskable_icon_x48.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "72x72",
-        "src": "/player/assets/favicon/maskable_icon_x72.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "96x96",
-        "src": "/player/assets/favicon/maskable_icon_x96.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "128x128",
-        "src": "/player/assets/favicon/maskable_icon_x128.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "192x192",
-        "src": "/player/assets/favicon/maskable_icon_x192.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "384x384",
-        "src": "/player/assets/favicon/maskable_icon_x384.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "512x512",
-        "src": "/player/assets/favicon/maskable_icon_x512.png",
-        "type": "image/png"
-    },
-    {
-        "src": "/player/assets/favicon/android-chrome-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "any maskable"
-    },
-    {
-        "src": "/player/assets/favicon/android-chrome-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "any maskable"
-    },
-    {
-        "src": "/player/assets/favicon/favicon.svg",
-        "sizes": "512x512",
-        "type": "image/svg+xml",
-        "purpose": "any maskable"
-    }]
+        {
+            "src": "/player/assets/favicon/maskable_icon_x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/player/assets/favicon/maskable_icon_x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "maskable"
+        },
+        {
+            "src": "/player/assets/favicon/android-chrome-192x192.png",
+            "sizes": "192x192",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/player/assets/favicon/android-chrome-512x512.png",
+            "sizes": "512x512",
+            "type": "image/png",
+            "purpose": "any"
+        },
+        {
+            "src": "/player/assets/favicon/favicon.svg",
+            "sizes": "512x512",
+            "type": "image/svg+xml",
+            "purpose": "any"
+        }
+    ],
+    "screenshots": [
+        {
+            "src": "/player/assets/images/screenshots/screenshot-TINALS-player-FR-android.png",
+            "sizes": "500x983",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Page accueil en français - mobile"
+        },
+        {
+            "src": "/player/assets/images/screenshots/screenshot-TINALS-player-EN-android.png",
+            "sizes": "500x983",
+            "type": "image/png",
+            "form_factor": "narrow",
+            "label": "Home page in english - mobile"
+        },
+        {
+            "src": "/player/assets/images/screenshots/screenshot-TINALS-player-FR-full.png",
+            "sizes": "2560x1600",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Page accueil en français - desktop"
+        },
+        {
+            "src": "/player/assets/images/screenshots/screenshot-TINALS-player-EN-full.png",
+            "sizes": "2560x1600",
+            "type": "image/png",
+            "form_factor": "wide",
+            "label": "Home page in english - desktop"
+        }
+    ],
+    "shortcuts": [
+        {
+            "name": "TINALS en français",
+            "url": "/player/?lang=fr",
+            "icons": [{ "src": "/player/assets/images/shortcuts/flag-FR.png", "sizes": "96x96", "type": "image/png" }]
+        },
+        {
+            "name": "TINALS in english",
+            "url": "/player/?lang=en",
+            "icons": [{ "src": "/player/assets/images/shortcuts/flag-EN.png", "sizes": "96x96", "type": "image/png" }]
+        }
+    ]
 }
