@@ -22,17 +22,6 @@
     "author": "Olivier LOYNET - +33.668055252",
     "url": "https://thisisnotalovesong.fr",
     "homepage_url": "https://thisisnotalovesong.fr",
-    "background":
-    {
-        "scripts": [
-            "/player/service-worker.js",
-            "/player/assets/js/app.js",
-            "/player/assets/js/simple-audio-player.js",
-            "/player/assets/js/control-bar.js",
-            "/player/assets/js/video-manager.js"
-        ],
-        "service_worker": "/player/service-worker.js"
-    },
     "screenshots": [
     {
         "src": "/player/assets/images/screenshots/screenshot-TINALS-player-FR-android.png",
