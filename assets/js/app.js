@@ -43,7 +43,8 @@ const AppState = {
         isDisplayImageVideoEnd: true,
         isAutoLoadVideo: false,
         isAutoPlayNext: true,
-        isAutoPlayLoop: true
+        isAutoPlayLoop: true,
+        isAppInstall: false
     }
 };
 
@@ -208,7 +209,9 @@ async function init() {
         updateFavoritesIcon();
         updateStaticTexts();
 
-        PWAManager.init();
+        if ( AppState.settings.isAppInstall ) {
+            PWAManager.init();
+        }
 
         window.addEventListener('resize', handleOrientationChange);
 
@@ -268,6 +271,7 @@ function applyConfigs() {
     s.isAutoLoadVideo           = f.is_auto_load_video           ?? false;
     s.isAutoPlayNext            = f.is_auto_play_next            ?? true;
     s.isAutoPlayLoop            = f.is_auto_play_loop            ?? true;
+    s.isAppInstall              = f.is_app_install               ?? false;
 
     if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
     else document.body.classList.remove( 'hide-desc-mobile' );
@@ -1439,12 +1443,12 @@ const PWAManager = {
                 if(t.install_modal_btn_yes) document.getElementById('btn-pwa-install').innerText = t.install_modal_btn_yes;
                 if(t.install_modal_btn_no) document.getElementById('btn-pwa-later').innerText = t.install_modal_btn_no;
             }
-            modal.classList.add('visible');
+            modal.classList.add('active');
         }
     },
     dismiss: function() {
         const modal = document.getElementById('install-modal');
-        if (modal) modal.classList.remove('visible');
+        if (modal) modal.classList.remove('active');
         localStorage.setItem('app_install_seen', 'true');
     },
     install: async function() {
