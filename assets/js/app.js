@@ -200,7 +200,6 @@ async function init() {
         }, 800 );
 
         setupInteraction();
-        PWAManager.init();
         setupDrawerListeners();
         setupSwipeGestures();
         setupScrollToasts();
@@ -208,6 +207,8 @@ async function init() {
         setupHapticFeedback();
         updateFavoritesIcon();
         updateStaticTexts();
+
+        PWAManager.init();
 
         window.addEventListener('resize', handleOrientationChange);
 
@@ -330,7 +331,13 @@ function applyConfigs() {
             homepage_url: c.site.url,
             background:
             {
-                scripts: ["service-worker.js", "assets/js/app.js"],
+                scripts: [
+                    "service-worker.js",
+                    "assets/js/app.js",
+                    "assets/js/simple-audio-player.js",
+                    "assets/js/control-bar.js",
+                    "assets/js/video-manager.js"
+                ],
                 service_worker: "service-worker.js"
             },
 
@@ -679,407 +686,6 @@ function renderTimeline() {
 }
 
 
-// --- GESTION CONTROL BAR ---
-const ControlBar = {
-    interval: null,
-    isDragging: false,
-
-    startTracking: function ( id ) {
-        this.stopTracking();
-
-        if ( AppState.settings.isDisplayControlBar ) {
-            document.getElementById( 'control-bar' ).classList.add( 'visible' );
-            this.syncUI( id );
-        }
-
-        this.updatePlayPauseIcon( true );
-
-        this.interval = setInterval( () => {
-            if ( this.isDragging ) return;
-            const player = VideoManager.instances[ id ];
-
-            if ( player && typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function' ) {
-                if ( typeof player.getPlayerState === 'function' && player.getPlayerState() !== 1 ) {
-                    return;
-                }
-                const current  = player.getCurrentTime();
-                const duration = player.getDuration();
-                this.updateUI( current, duration );
-            }
-        }, 200 );
-    },
-
-    syncUI: function ( id ) {
-        this.resetUI();
-        let player = VideoManager.instances[ id ];
-
-        if ( !player ) {
-            VideoManager.create( id, false );
-            return;
-        }
-
-        if ( typeof player.getCurrentTime === 'function' && typeof player.getDuration === 'function' ) {
-            const current  = player.getCurrentTime();
-            const duration = player.getDuration();
-
-            if ( duration > 0 ) {
-                this.updateUI( current, duration );
-            }
-
-            if ( typeof player.getPlayerState === 'function' ) {
-                const state = player.getPlayerState();
-                this.updatePlayPauseIcon( state === 1 );
-            }
-        }
-    },
-
-    updateUI: function ( current, duration ) {
-        if ( duration > 0 ) {
-            const pct = ( current / duration ) * 100;
-            document.getElementById( 'cb-slider' ).value = pct;
-            document.getElementById( 'cb-current-time' ).innerText = this.formatTime( current );
-            document.getElementById( 'cb-duration' ).innerText = this.formatTime( duration );
-        }
-    },
-
-    resetUI: function () {
-        document.getElementById( 'cb-slider' ).value = 0;
-        document.getElementById( 'cb-current-time' ).innerText = "0:00";
-        document.getElementById( 'cb-duration' ).innerText = "0:00";
-    },
-
-    stopTracking: function () {
-        if ( this.interval ) clearInterval( this.interval );
-        this.updatePlayPauseIcon( false );
-    },
-
-    togglePlay: function () {
-        if ( AppState.state.activeId !== null ) {
-            VideoManager.togglePlayPause( AppState.state.activeId );
-        }
-    },
-
-    updatePlayPauseIcon: function ( isPlaying ) {
-        const icon = document.querySelector( '#cb-play-pause .material-icons' );
-        if ( icon ) icon.innerText = isPlaying ? 'pause' : 'play_arrow';
-    },
-
-    onSeekInput: function () {
-        this.isDragging = true;
-    },
-
-    onSeekChange: function () {
-        const val    = document.getElementById( 'cb-slider' ).value;
-        const id     = AppState.state.activeId;
-
-        const player = VideoManager.instances[ id ];
-        if ( player && typeof player.getDuration === 'function' && typeof player.seekTo === 'function' ) {
-            const duration = player.getDuration();
-            const time = ( val / 100 ) * duration;
-            player.seekTo( time, true );
-        }
-        this.isDragging = false;
-    },
-
-    formatTime: function ( seconds ) {
-        const m = Math.floor( seconds / 60 );
-        const s = Math.floor( seconds % 60 );
-        return `${m}:${s < 10 ? '0' : ''}${s}`;
-    }
-};
-
-
-function parseYoutubeData(url) {
-    let videoId = '';
-    let startSeconds = 0;
-
-    try {
-        const urlObj = new URL(url);
-
-        // Récupération ID
-        if (urlObj.hostname.includes('youtu.be')) {
-            videoId = urlObj.pathname.slice(1);
-        } else {
-            videoId = urlObj.searchParams.get('v');
-        }
-
-        // Récupération Temps (t)
-        const t = urlObj.searchParams.get('t');
-        if (t) {
-            // Convertit "30s" ou "30" en entier
-            startSeconds = parseInt(t.replace('s', ''), 10);
-        }
-    } catch (e) {
-        console.warn("URL YouTube invalide ou format non géré", url);
-    }
-
-    return { id: videoId, start: startSeconds };
-}
-
-class SimpleAudioPlayer {
-    constructor(audioUrl, elementId, onStateChange) {
-        this.audio         = new Audio(audioUrl);
-        this.elementId     = elementId;
-        this.onStateChange = onStateChange; // callback expecting {data: state}
-        this.container     = document.getElementById(elementId);
-
-        // We do not append the audio element to the DOM to avoid UI clutter
-        // The background image will remain visible.
-
-        this.audio.addEventListener('play',  ()  => { if(this.onStateChange) this.onStateChange({ data: 1 }); });
-        this.audio.addEventListener('pause', ()  => { if(this.onStateChange) this.onStateChange({ data: 2 }); });
-        this.audio.addEventListener('ended', ()  => { if(this.onStateChange) this.onStateChange({ data: 0 }); });
-        this.audio.addEventListener('error', (e) => console.error("Audio error", e));
-    }
-
-    playVideo()      { this.audio.play().catch(e => console.error(e)); }
-    pauseVideo()     { this.audio.pause(); }
-    mute()           { this.audio.muted = true; }
-    unMute()         { this.audio.muted = false; }
-    getPlayerState() {
-        if (this.audio.ended) return 0;
-        if (this.audio.paused) return 2;
-        return 1;
-    }
-    getCurrentTime() { return this.audio.currentTime; }
-    getDuration()    { return this.audio.duration || 0; }
-    seekTo(seconds, allowSeekAhead) { this.audio.currentTime = seconds; }
-}
-
-const VideoManager = {
-    instances: {},
-    create: function ( id, isAutoPlay = true ) {
-        if ( this.instances[ id ] ) {
-            if ( isAutoPlay && typeof this.instances[ id ].playVideo === 'function' ) {
-                if ( AppState.state.isGlobalMuted ) this.instances[ id ].mute();
-                else this.instances[ id ].unMute();
-                this.instances[ id ].playVideo();
-            }
-            return;
-        }
-        const card = document.getElementById( `video-${id}` );
-        const group = AppState.data.find( g => g.id == id );
-        if ( !group ) return;
-
-        // Determine content type: YouTube vs Audio vs None
-        if (group.video_url) {
-            const ytData     = parseYoutubeData(group.video_url);
-            let videoId      = ytData.id
-            let startSeconds = ytData.start
-
-            if (startSeconds === undefined) {
-                startSeconds = 0;
-            }
-
-            if ( !videoId ) return;
-            const ampersandPosition = videoId.indexOf( '&' );
-            if ( ampersandPosition != -1 ) videoId = videoId.substring( 0, ampersandPosition );
-            if ( isAutoPlay ) this.pauseAll( id );
-
-            this.instances[ id ] = new YT.Player( `player-${id}`, {
-                videoId: videoId,
-                host: 'https://www.youtube-nocookie.com',
-                playerVars: {
-                    'start': startSeconds,
-                    'autoplay': isAutoPlay ? 1 : 0,
-                    'controls': 0,
-                    'modestbranding': 1,
-                    'rel': 0,
-                    'origin': window.location.origin,
-                    'playsinline': 1
-                },
-                events: {
-                    'onReady': ( e ) => {
-                        if ( AppState.state.isGlobalMuted ) e.target.mute();
-                        else e.target.unMute();
-
-                        if ( AppState.settings.isDisplayControlBar && id === AppState.state.activeId ) {
-                            ControlBar.syncUI( id );
-                        }
-                    },
-                    'onStateChange': ( e ) => this.onStateChange( e, id, card ),
-                    'onError': ( e ) => {
-                        console.log( "Erreur Youtube", e.data );
-                    }
-                }
-            } );
-        } else if (group.audio) {
-            // Audio Fallback
-            if ( isAutoPlay ) this.pauseAll( id );
-            this.instances[id] = new SimpleAudioPlayer(group.audio, `player-${id}`, (e) => this.onStateChange(e, id, card));
-            if (AppState.state.isGlobalMuted) this.instances[id].mute();
-            if (isAutoPlay) this.instances[id].playVideo();
-        } else {
-            // No video, no audio -> Just Image
-            // We can perhaps simulate a "player" that immediately ends or does nothing?
-            // Or just do nothing and let the user look at the image.
-            console.log("No video or audio for event", group.event_name);
-        }
-    },
-    onStateChange: function ( e, id, card ) {
-        const s = AppState.settings;
-        const tm = AppState.timers;
-        if ( e.data === 1 ) {
-            card.classList.remove( 'ended' );
-            card.classList.add( 'playing' );
-            card.classList.remove( 'paused-manual' );
-
-            if ( s.isDisplayControlBar ) ControlBar.startTracking( id );
-
-            clearTimeout( tm.menu );
-            const topDrawer = document.getElementById( 'top-drawer' );
-            topDrawer.classList.remove( 'auto-hidden' );
-            topDrawer.style.transform = '';
-            if ( s.isMenuAutoHide || isLandscape() ) {
-                tm.menu = setTimeout( () => {
-                    topDrawer.classList.add( 'auto-hidden' );
-                }, 3000 );
-            }
-            if ( s.isAutoLoadVideo ) this.preloadNext( id );
-        } else if ( e.data === 2 || e.data === 0 ) {
-            clearTimeout( tm.menu );
-            document.getElementById( 'top-drawer' ).classList.remove( 'auto-hidden' );
-
-            ControlBar.updatePlayPauseIcon( false );
-
-            if ( e.data === 2 ) {
-                if ( s.isDisplayImageVideoPause ) card.classList.remove( 'playing' );
-                else card.classList.add( 'playing' );
-            } else {
-                ControlBar.stopTracking();
-                card.classList.remove( 'playing' );
-            }
-
-            card.classList.add( 'paused-manual' );
-
-            if ( e.data === 0 ) {
-                if ( s.isDisplayImageVideoEnd ) card.classList.add( 'ended' );
-                this.goToNext( id );
-            }
-        }
-    },
-    play: function ( id ) {
-        this.pauseAll( id );
-        if ( !this.instances[ id ] ) this.create( id );
-        else {
-            if ( typeof this.instances[ id ].playVideo === 'function' ) {
-                if ( AppState.state.isGlobalMuted ) this.instances[ id ].mute();
-                else this.instances[ id ].unMute();
-                this.instances[ id ].playVideo();
-            }
-        }
-    },
-    pauseAll: function ( exceptId ) {
-        Object.keys( this.instances ).forEach( key => {
-            const p = this.instances[ key ];
-            if ( p && typeof p.pauseVideo === 'function' && parseInt( key ) !== exceptId ) {
-                p.pauseVideo();
-            }
-        } );
-        ControlBar.stopTracking();
-    },
-    togglePlayPause: function ( id ) {
-        if ( !this.instances[ id ] ) {
-            this.play( id );
-        } else {
-            if ( typeof this.instances[ id ].getPlayerState === 'function' ) {
-                const state = this.instances[ id ].getPlayerState();
-                if ( state === 1 ) this.instances[ id ].pauseVideo();
-                else {
-                    this.pauseAll( id );
-                    this.instances[ id ].playVideo();
-                }
-            }
-        }
-    },
-    preloadNext: function ( currentId ) {
-        if ( !AppState.settings.isAutoPlayNext ) return;
-        const currentIndex = AppState.data.findIndex( g => g.id === currentId );
-        if ( currentIndex === -1 || currentIndex >= AppState.data.length - 1 ) return;
-    },
-    goToNext: function ( currentId ) {
-        const s = AppState.settings;
-        if ( !s.isAutoPlayNext ) return;
-        const favs = AppState.favorites;
-        if ( AppState.state.isPlayingFavorites && favs.length > 0 ) {
-            const currentFavIndex = favs.indexOf( currentId );
-            let nextId;
-            if ( currentFavIndex === -1 ) nextId = favs[ 0 ];
-            else {
-                if ( currentFavIndex >= favs.length - 1 && !s.isAutoPlayLoop ) return;
-                const nextFavIndex = ( currentFavIndex + 1 ) % favs.length;
-                nextId = favs[ nextFavIndex ];
-            }
-            AppState.state.isAutoNext = true;
-            this.scrollTo( nextId );
-            return;
-        }
-        const currentIndex = AppState.data.findIndex( g => g.id === currentId );
-        if ( currentIndex >= AppState.data.length - 1 && !s.isAutoPlayLoop ) return;
-
-        const nextIndex    = ( currentIndex + 1 ) % AppState.data.length;
-        const nextId       = AppState.data[ nextIndex ].id;
-
-        AppState.state.isAutoNext = true;
-        const nextCard     = document.getElementById( `video-${nextId}` );
-        nextCard.scrollIntoView( {
-            behavior: 'smooth'
-        } );
-    },
-    scrollTo: function ( id, autoPlay = true ) {
-        if ( autoPlay ) {
-            this.pauseAll( id );
-            this.play( id );
-        } else {
-            this.pauseAll( null );
-            if ( !this.instances[ id ] ) this.create( id, false );
-            if ( AppState.settings.isDisplayControlBar ) {
-                setTimeout( () => {
-                    document.getElementById( 'control-bar' ).classList.add( 'visible' );
-                    ControlBar.syncUI( id );
-                }, 100 );
-            }
-        }
-        closeAllDrawers();
-        AppState.state.isMenuNavigation = true;
-        setTimeout( () => {
-            const el = document.getElementById( `video-${id}` );
-            if ( el ) el.scrollIntoView( {
-                behavior: 'auto',
-                block: 'start'
-            } );
-        }, 100 );
-        const lockTime = autoPlay ? 1200 : 500;
-        setTimeout( () => {
-            AppState.state.isMenuNavigation = false;
-        }, lockTime );
-    },
-    toggleMute: function () {
-        AppState.state.isGlobalMuted = !AppState.state.isGlobalMuted;
-        const btn = document.getElementById( 'btn-mute' );
-        const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
-        if ( AppState.state.isGlobalMuted ) icon.textContent = 'volume_off';
-        else icon.textContent = 'volume_up';
-        Object.values( this.instances ).forEach( player => {
-            if ( player && typeof player.mute === 'function' ) {
-                if ( AppState.state.isGlobalMuted ) player.mute();
-                else player.unMute();
-            }
-        } );
-    },
-    toggleFullscreen: function ( id ) {
-        AppState.state.isMenuNavigation = true;
-        const card = document.getElementById( `video-${id}` );
-        if ( !document.fullscreenElement ) {
-            card.requestFullscreen().catch( err => console.log( `Error fullscreen: ${err.message}` ) );
-        } else {
-            document.exitFullscreen();
-        }
-        setTimeout( () => {
-            AppState.state.isMenuNavigation = false;
-        }, 1000 );
-    }
-};
 
 function toggleMute() {
     VideoManager.toggleMute();
@@ -1795,78 +1401,60 @@ function handleOrientationChange() {
 
 const PWAManager = {
     deferredPrompt: null,
-
     init: function() {
         window.addEventListener('beforeinstallprompt', (e) => {
-            // Prevent the mini-infobar from appearing on mobile
             e.preventDefault();
-            // Stash the event so it can be triggered later.
             this.deferredPrompt = e;
-            // Update UI notify the user they can install the PWA
-            this.checkAndShowInstallModal();
+            this.checkAndShow();
         });
 
         window.addEventListener('appinstalled', () => {
-            // Hide the app-provided install promotion
-            this.hideInstallModal();
-            // Clear the deferredPrompt so it can't be used again.
             this.deferredPrompt = null;
-            // Optionally, send analytics event to indicate successful install
-            console.log('PWA was installed');
             localStorage.setItem('app_install_seen', 'true');
+            console.log('PWA was installed');
         });
 
-        // Setup button listeners
-        const btnYes = document.getElementById('btn-install-yes');
-        const btnNo = document.getElementById('btn-install-no');
-
-        if (btnYes) btnYes.addEventListener('click', () => this.handleInstallYes());
-        if (btnNo) btnNo.addEventListener('click', () => this.handleInstallNo());
+        // Setup buttons
+        const btnInstall = document.getElementById('btn-pwa-install');
+        const btnLater = document.getElementById('btn-pwa-later');
+        if(btnInstall) btnInstall.addEventListener('click', () => this.install());
+        if(btnLater) btnLater.addEventListener('click', () => this.dismiss());
     },
-
-    checkAndShowInstallModal: function() {
-        // Check if user has already declined or installed
-        if (localStorage.getItem('app_install_seen') === 'true') {
-            return;
+    checkAndShow: function() {
+        const seen = localStorage.getItem('app_install_seen');
+        if (!seen) {
+            setTimeout(() => {
+                this.showModal();
+            }, 2000);
         }
-
-        // Wait a bit before showing to not be intrusive immediately
-        setTimeout(() => {
-             this.showInstallModal();
-        }, 2000);
     },
-
-    showInstallModal: function() {
-        const t = AppState.config.texts;
-        if (!t) return;
-
-        document.getElementById('install-title').innerText = t.install_modal_title || "Installer l'application";
-        document.getElementById('install-text').innerText = t.install_modal_text || "Installez l'application pour une meilleure expérience.";
-        document.getElementById('btn-install-yes').innerText = t.install_modal_btn_yes || "Installer";
-        document.getElementById('btn-install-no').innerText = t.install_modal_btn_no || "Plus tard";
-
-        document.getElementById('install-modal').classList.add('active');
+    showModal: function() {
+        const modal = document.getElementById('install-modal');
+        if (modal) {
+            // Update texts
+            const t = AppState.config.texts;
+            if(t) {
+                if(t.install_modal_title) document.getElementById('pwa-title').innerText = t.install_modal_title;
+                if(t.install_modal_text) document.getElementById('pwa-text').innerText = t.install_modal_text;
+                if(t.install_modal_btn_yes) document.getElementById('btn-pwa-install').innerText = t.install_modal_btn_yes;
+                if(t.install_modal_btn_no) document.getElementById('btn-pwa-later').innerText = t.install_modal_btn_no;
+            }
+            modal.classList.add('visible');
+        }
     },
-
-    hideInstallModal: function() {
-        document.getElementById('install-modal').classList.remove('active');
-    },
-
-    handleInstallYes: async function() {
-        this.hideInstallModal();
+    dismiss: function() {
+        const modal = document.getElementById('install-modal');
+        if (modal) modal.classList.remove('visible');
         localStorage.setItem('app_install_seen', 'true');
-
+    },
+    install: async function() {
         if (this.deferredPrompt) {
             this.deferredPrompt.prompt();
             const { outcome } = await this.deferredPrompt.userChoice;
             console.log(`User response to the install prompt: ${outcome}`);
             this.deferredPrompt = null;
         }
-    },
-
-    handleInstallNo: function() {
-        this.hideInstallModal();
-        localStorage.setItem('app_install_seen', 'true');
+        this.dismiss();
     }
 };
 
