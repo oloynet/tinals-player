@@ -1464,7 +1464,7 @@ const PWAManager = {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v=1.03' )
+    navigator.serviceWorker.register( 'service-worker.js?v=1.04' )
         .then( ( reg ) => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker', err ) );
 }

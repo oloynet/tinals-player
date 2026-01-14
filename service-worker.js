@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v=1.03';
+const CACHE_NAME = 'v=1.04';
 
 const STATIC_ASSETS = [
     './',
@@ -10,6 +10,9 @@ const STATIC_ASSETS = [
 
     './assets/css/style.css',
     './assets/js/app.js',
+    './assets/js/simple-audio-player.js',
+    './assets/js/control-bar.js',
+    './assets/js/video-manager.js',
     './assets/images/sprite.svg',
     './assets/images/tinals-2018-trame-342x342-noir.svg',
     './assets/images/dscf9099dorianmeyrieux-light.jpg',

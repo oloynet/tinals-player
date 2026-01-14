@@ -1,9 +1,9 @@
 {
     "site": {
         "manifest_version": 3,
-        "version": "v1.03",
-        "version_name": "player TINALS v1.03",
-        "title": "Playlist du festival TINALS - Beau Weekend 2026 \u00e0 N\u00eemes",
+        "version": "v1.04",
+        "version_name": "player TINALS v1.04",
+        "title": "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name": "Playlist | TINALS 2026",
         "short_name": "TINALS",
         "description": "Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 \u00e0 N\u00eemes. TINALS est un festival de musiques ind\u00e9pendantes dites 'indie' \u00e0 Paloma.",
@@ -26,7 +26,9 @@
         "loader_id": "logo-loader",
         "flag_fr_id": "flag-fr",
         "flag_en_id": "flag-en",
-        "sprite_path": "assets/images/sprite.svg?v=1.03",
+
+        "sprite_path": "assets/images/sprite.svg?v=1.04",
+
         "favicon": "assets/favicon/favicon.ico",
         "icon_16": "assets/favicon/favicon-16x16.png",
         "icon_32": "assets/favicon/favicon-32x32.png",
