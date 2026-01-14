@@ -43,7 +43,8 @@ const AppState = {
         isDisplayImageVideoEnd: true,
         isAutoLoadVideo: false,
         isAutoPlayNext: true,
-        isAutoPlayLoop: true
+        isAutoPlayLoop: true,
+        isAppInstall: false
     }
 };
 
@@ -208,6 +209,10 @@ async function init() {
         updateFavoritesIcon();
         updateStaticTexts();
 
+        if ( AppState.settings.isAppInstall ) {
+            PWAManager.init();
+        }
+
         window.addEventListener('resize', handleOrientationChange);
 
         const loader = document.getElementById( 'loader' );
@@ -266,6 +271,7 @@ function applyConfigs() {
     s.isAutoLoadVideo           = f.is_auto_load_video           ?? false;
     s.isAutoPlayNext            = f.is_auto_play_next            ?? true;
     s.isAutoPlayLoop            = f.is_auto_play_loop            ?? true;
+    s.isAppInstall              = f.is_app_install               ?? false;
 
     if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
     else document.body.classList.remove( 'hide-desc-mobile' );
@@ -1396,6 +1402,65 @@ function handleOrientationChange() {
         topDrawer.classList.remove( 'auto-hidden' );
     }
 }
+
+const PWAManager = {
+    deferredPrompt: null,
+    init: function() {
+        window.addEventListener('beforeinstallprompt', (e) => {
+            e.preventDefault();
+            this.deferredPrompt = e;
+            this.checkAndShow();
+        });
+
+        window.addEventListener('appinstalled', () => {
+            this.deferredPrompt = null;
+            localStorage.setItem('app_install_seen', 'true');
+            console.log('PWA was installed');
+        });
+
+        // Setup buttons
+        const btnInstall = document.getElementById('btn-pwa-install');
+        const btnLater = document.getElementById('btn-pwa-later');
+        if(btnInstall) btnInstall.addEventListener('click', () => this.install());
+        if(btnLater) btnLater.addEventListener('click', () => this.dismiss());
+    },
+    checkAndShow: function() {
+        const seen = localStorage.getItem('app_install_seen');
+        if (!seen) {
+            setTimeout(() => {
+                this.showModal();
+            }, 2000);
+        }
+    },
+    showModal: function() {
+        const modal = document.getElementById('install-modal');
+        if (modal) {
+            // Update texts
+            const t = AppState.config.texts;
+            if(t) {
+                if(t.install_modal_title) document.getElementById('pwa-title').innerText = t.install_modal_title;
+                if(t.install_modal_text) document.getElementById('pwa-text').innerText = t.install_modal_text;
+                if(t.install_modal_btn_yes) document.getElementById('btn-pwa-install').innerText = t.install_modal_btn_yes;
+                if(t.install_modal_btn_no) document.getElementById('btn-pwa-later').innerText = t.install_modal_btn_no;
+            }
+            modal.classList.add('active');
+        }
+    },
+    dismiss: function() {
+        const modal = document.getElementById('install-modal');
+        if (modal) modal.classList.remove('active');
+        localStorage.setItem('app_install_seen', 'true');
+    },
+    install: async function() {
+        if (this.deferredPrompt) {
+            this.deferredPrompt.prompt();
+            const { outcome } = await this.deferredPrompt.userChoice;
+            console.log(`User response to the install prompt: ${outcome}`);
+            this.deferredPrompt = null;
+        }
+        this.dismiss();
+    }
+};
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
