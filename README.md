@@ -4,7 +4,7 @@ A Single Page Application (SPA) and Progressive Web App (PWA) designed to play t
 
 <img src="assets/images/screenshot-TINALS-player-TINALS-fr.png" width="300" alt="TINALS Player Screenshot">
 
-## Tech Stack
+## Tech stack
 
 This project is built with a focus on simplicity, performance, and longevity. It does not require any build tools or compilation steps.
 
@@ -50,7 +50,7 @@ These files handle general settings, feature flags, and internationalization (i1
 *   **`images`**: Paths to static assets like logos, favicons, and sprites.
 *   **`features`**: Boolean flags to toggle functionality.
     *   `is_debug_js`: If debug in console is displayed.
-    *   `is_display_version`: If version in console is displayed.
+    *   `is_display_version`: If the version is displayed on the main screen with a fixed position (only for debugging).
     *   `is_menu_auto_hide`: If menu is autohide after a delay of 3 seconds.
     *   `is_display_control_bar`: If control bar above is displayed the video.
     *   `is_button_sound_enable`: If sound button is enabled.
