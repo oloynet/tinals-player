@@ -45,28 +45,28 @@
         "purpose": "maskable"
     },
     {
-        "src": "/player/assets/favicon/favicon-maskable-192x192.png",
+        "src": "/player/assets/favicon/android-chrome-192x192.png",
         "sizes": "192x192",
         "type": "image/png",
-        "purpose": "maskable"
+        "purpose": "any"
     },
     {
         "src": "/player/assets/favicon/favicon-maskable-192x192.svg",
         "sizes": "192x192",
         "type": "image/svg+xml",
-        "purpose": "any maskable"
-    },
-    {
-        "src": "/player/assets/favicon/favicon-maskable-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png",
         "purpose": "maskable"
     },
     {
-        "src": "/player/assets/favicon/favicon-maskable-512x512.svg",
+        "src": "/player/assets/favicon/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "any"
+    },
+    {
+        "src": "/player/assets/favicon/favicon.svg",
         "sizes": "512x512",
         "type": "image/svg+xml",
-        "purpose": "any maskable"
+        "purpose": "any"
     },
     ]
 }
