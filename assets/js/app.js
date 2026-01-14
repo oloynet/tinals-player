@@ -329,7 +329,13 @@ function applyConfigs() {
             homepage_url: c.site.url,
             background:
             {
-                scripts: ["service-worker.js", "assets/js/app.js"],
+                scripts: [
+                    "service-worker.js",
+                    "assets/js/app.js",
+                    "assets/js/simple-audio-player.js",
+                    "assets/js/control-bar.js",
+                    "assets/js/video-manager.js"
+                ],
                 service_worker: "service-worker.js"
             },
 
