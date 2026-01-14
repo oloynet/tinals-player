@@ -344,25 +344,23 @@ function applyConfigs() {
                 ],
                 service_worker: "service-worker.js"
             },
-
-
             icons: [
-                // {
-                //     src: c.images.icon_svg,
-                //     sizes: "512x512",
-                //     type: "image/svg+xml",
-                //     purpose: "any"
-                // },
                 {
-                    src: c.images.icon_512,
-                    sizes: "512x512",
+                    src: c.images.icon_32_maskable,
+                    sizes: "32x32",
                     type: "image/png",
-                    purpose: "any"
+                    purpose: "maskable"
                 },
                 {
-                    src: c.images.icon_192,
-                    sizes: "192x192",
+                    src: c.images.icon_48_maskable,
+                    sizes: "48x48",
                     type: "image/png",
+                    purpose: "maskable"
+                },
+                {
+                    src: c.images.favicon,
+                    sizes: "48x48",
+                    type: "image/vnd.microsoft.icon",
                     purpose: "any"
                 },
                 {
@@ -372,21 +370,33 @@ function applyConfigs() {
                     purpose: "any"
                 },
                 {
-                    src: c.images.icon,
-                    sizes: "48x48",
-                    type: "image/vnd.microsoft.icon",
-                    purpose: "any"
+                    src: c.images.icon_maskable_192,
+                    sizes: "192x192",
+                    type: "image/png",
+                    purpose: "maskable"
                 },
                 {
-                    src: c.images.icon_32,
-                    sizes: "32x32",
+                    src: c.images.icon_192,
+                    sizes: "192x192",
                     type: "image/png",
                     purpose: "any"
                 },
                 {
-                    src: c.images.icon_16,
-                    sizes: "16x16",
+                    src: c.images.icon_512_maskable,
+                    sizes: "512x512",
                     type: "image/png",
+                    purpose: "maskable"
+                },
+                {
+                    src: c.images.icon_512,
+                    sizes: "512x512",
+                    type: "image/png",
+                    purpose: "any"
+                },
+                {
+                    src: c.images.icon_svg,
+                    sizes: "512x512",
+                    type: "image/svg+xml",
                     purpose: "any"
                 }
             ]

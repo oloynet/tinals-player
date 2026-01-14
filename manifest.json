@@ -57,16 +57,28 @@
         "purpose": "any"
     },
     {
-        "src": "assets/favicon/apple-touch-icon.png",
+        "src": "/playerassets/favicon/apple-touch-icon.png",
         "sizes": "180x180",
         "type": "image/png",
         "purpose": "any"
+    },
+    {
+        "src": "/player/assets/favicon/favicon-maskable-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
+        "purpose": "maskable"
     },
     {
         "src": "/player/assets/favicon/android-chrome-192x192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any"
+    },
+    {
+        "src": "/player/assets/favicon/favicon-maskable-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
+        "purpose": "maskable"
     },
     {
         "src": "/player/assets/favicon/android-chrome-512x512.png",
