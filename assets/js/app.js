@@ -221,7 +221,7 @@ async function init() {
     } catch ( e ) {
         console.error( "Erreur d'initialisation :", e );
         const loader = document.getElementById( 'loader' );
-        if ( loader ) loader.innerHTML = "<p style='color:white; text-align:center;'>Erreur de chargement.<br>Vérifiez la console.</p>";
+        if ( loader ) loader.innerHTML = "<p class='loader-error-msg'>Erreur de chargement.<br>Vérifiez la console.</p>";
     }
 }
 
@@ -471,7 +471,7 @@ function updateStaticTexts() {
 
     // Tag mode bar: we need to handle the text inside dynamically based on the slug -> name mapping or just display the current filter
     // For now we just put the template
-    document.getElementById( 'tag-mode-bar' ).innerHTML      = `${t.filter_cancel_tags} <span id="active-tag-name" style="margin-left: 5px; color: white;"></span> <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
+    document.getElementById( 'tag-mode-bar' ).innerHTML      = `${t.filter_cancel_tags} <span id="active-tag-name" class="tag-name-label"></span> <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
 }
 
 function renderFeed() {
@@ -521,7 +521,7 @@ function getSocialsHtml(g) {
     });
 
     if (links.length === 0) return '';
-    return `<div class="social-links" style="margin-top: 10px; display: flex; gap: 10px; flex-wrap: wrap;">${links.join('')}</div>`;
+    return `<div class="social-links-container">${links.join('')}</div>`;
 }
 
 function getVideoCardHtml( g ) {
@@ -574,13 +574,13 @@ function getVideoCardHtml( g ) {
 
     let statusBadge = '';
     if (g.event_status && g.event_status !== 'scheduled') {
-        let statusColor = 'red';
-        if(g.event_status === 'rescheduled') statusColor = 'orange';
-        else if(g.event_status === 'postponed') statusColor = 'orange';
-        else if(g.event_status === 'moved_online') statusColor = 'blue';
+        let statusClass = 'bg-red';
+        if(g.event_status === 'rescheduled') statusClass = 'bg-orange';
+        else if(g.event_status === 'postponed') statusClass = 'bg-orange';
+        else if(g.event_status === 'moved_online') statusClass = 'bg-blue';
 
         const statusLabel = translateText(g.event_status, 'status') || g.event_status.replace('_', ' ').toUpperCase();
-        statusBadge = `<div class="status-badge" style="background-color: ${statusColor}; color: white; padding: 5px 10px; border-radius: 4px; font-weight: bold; margin-bottom: 5px; display: inline-block;">${statusLabel}</div>`;
+        statusBadge = `<div class="status-badge ${statusClass}">${statusLabel}</div>`;
     }
 
     return `
@@ -613,20 +613,20 @@ function getTicketingHtml() {
     return `
         <section class="ticketing-card section-snap" id="ticketing-section">
             <div class="ticket-container">
-                <div class="ticket-block" style="background-color: var(--ticket-day-all);">
+                <div class="ticket-block ticket-all">
                     <h2>${t.ticket_all_days_title}</h2>
                     <h3>${t.ticket_all_days_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747" target="_blank" class="ticket-btn" style="color: var(--ticket-day-all);" title="${t.ticket_all_days_button}">${t.ticket_all_days_button}</a>
+                    <a href="https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747" target="_blank" class="ticket-btn ticket-all" title="${t.ticket_all_days_button}">${t.ticket_all_days_button}</a>
                 </div>
-                <div class="ticket-block" style="background-color: var(--ticket-day-1);">
+                <div class="ticket-block ticket-day-1">
                     <h2>${t.ticket_day_1_title}</h2>
                     <h3>${t.ticket_day_1_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748" target="_blank" class="ticket-btn" style="color: var(--ticket-day-1);" title="${t.ticket_day_1_button}">${t.ticket_day_1_button}</a>
+                    <a href="https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748" target="_blank" class="ticket-btn ticket-day-1" title="${t.ticket_day_1_button}">${t.ticket_day_1_button}</a>
                 </div>
-                <div class="ticket-block" style="background-color: var(--ticket-day-2);">
+                <div class="ticket-block ticket-day-2">
                     <h2>${t.ticket_day_2_title}</h2>
                     <h3>${t.ticket_day_2_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749" target="_blank" class="ticket-btn" style="color: var(--ticket-day-2);" title="${t.ticket_day_2_button}">${t.ticket_day_2_button}</a>
+                    <a href="https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749" target="_blank" class="ticket-btn ticket-day-2" title="${t.ticket_day_2_button}">${t.ticket_day_2_button}</a>
                 </div>
             </div>
         </section>`;
@@ -645,11 +645,11 @@ function renderFavorites() {
         <div class="favorite-item">
             <img src="${thumb}" alt="${g.event_name}">
             <div class="fav-title">${g.event_name}</div>
-            <button onclick="shareSong(${g.id})" class="material-icons" style="background:none; border:none; cursor:pointer; margin-right:5px; opacity:0.7;">share</button>
-            <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons" style="background:none; border:none; cursor:pointer;">play_arrow</button>
-            <button onclick="toggleFav(${g.id})" class="material-icons" style="opacity:0.3; background:none; border:none; cursor:pointer;">close</button>
+            <button onclick="shareSong(${g.id})" class="material-icons btn-fav-share">share</button>
+            <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons btn-fav-play">play_arrow</button>
+            <button onclick="toggleFav(${g.id})" class="material-icons btn-fav-remove">close</button>
         </div>
-    ` }).join( '' ) : `<p style="padding:40px; text-align:center; opacity:0.5;">${AppState.config.texts.fav_empty}</p>`;
+    ` }).join( '' ) : `<p class="fav-empty-msg">${AppState.config.texts.fav_empty}</p>`;
     const footer = document.getElementById( 'favorites-footer' );
     if ( favs.length > 0 ) footer.classList.add( 'visible' );
     else footer.classList.remove( 'visible' );
@@ -670,7 +670,7 @@ function renderTimeline() {
         return tA.localeCompare( tB );
     } );
     if ( sortedData.length === 0 ) {
-        list.innerHTML = `<p style="padding:20px; text-align:center; opacity:0.6;">${AppState.config.texts.timeline_empty}</p>`;
+        list.innerHTML = `<p class="list-empty-msg">${AppState.config.texts.timeline_empty}</p>`;
         return;
     }
     list.innerHTML = sortedData.map( g => {
@@ -1280,12 +1280,10 @@ function switchTab(tabName) {
 
     // Update Content
     document.querySelectorAll('.tab-content').forEach(content => {
-        content.style.display = 'none';
         content.classList.remove('active');
     });
     const activeContent = document.getElementById(`${tabName}-content`);
     if (activeContent) {
-        activeContent.style.display = 'flex';
         activeContent.classList.add('active');
     }
 
