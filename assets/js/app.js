@@ -488,7 +488,7 @@ function getIntroHtml() {
     return `
         <section class="presentation-card section-snap">
             <div class="intro-content-top">
-                ${logoHtml}
+                <h1>${logoHtml}</h1>
                 <h2 class="intro-subtitle">${c.texts.intro_subtitle}</h2>
             </div>
             <div class="intro-date"><span>${c.texts.intro_date}</span></div>
@@ -612,6 +612,7 @@ function getTicketingHtml() {
     const t = AppState.config.texts;
     return `
         <section class="ticketing-card section-snap" id="ticketing-section">
+            <div class="ticket-title"><h2>${t.ticket_section_title}</h2></div>
             <div class="ticket-container">
                 <div class="ticket-block ticket-all">
                     <h2>${t.ticket_all_days_title}</h2>
