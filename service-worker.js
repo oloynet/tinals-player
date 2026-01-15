@@ -15,7 +15,7 @@ const STATIC_ASSETS = [
     './assets/js/video-manager.js',
     './assets/images/sprite.svg',
     './assets/images/tinals-2018-trame-342x342-noir.svg',
-    './assets/images/dscf9099dorianmeyrieux-light.jpg',
+    './assets/images/photo-tinals-2025-par-dorian-meyrieux.webp',
 
     // './assets/favicon/favicon.ico',
     // './assets/favicon/favicon-16x16.png',
