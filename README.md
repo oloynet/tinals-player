@@ -1,9 +1,11 @@
 # TINALS 2026 Playlist Player
 
 A Single Page Application (SPA) and Progressive Web App (PWA) designed to play the curated playlist for the **This Is Not A Love Song (TINALS) Festival 2026**. This player provides an immersive experience to discover the festival's lineup through music videos, complete with scheduling information and ticketing links.
+| français | english |
+|:--------:|:--------:|
+| <img src="assets/images/screenshots/screenshot-TINALS-player-FR-android.png" width="300" alt="TINALS Player Screenshot FR"> | <img src="assets/images/screenshots/screenshot-TINALS-player-EN-android.png" width="300" alt="TINALS Player Screenshot EN"> |
 
-<img src="assets/images/screenshots/screenshot-TINALS-player-FR-android.png" width="300" alt="TINALS Player Screenshot FR">
-<img src="assets/images/screenshots/screenshot-TINALS-player-EN-android.png" width="300" alt="TINALS Player Screenshot EN">
+
 
 ## Tech stack
 
