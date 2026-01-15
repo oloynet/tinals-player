@@ -46,7 +46,7 @@
         <button class="close-fav-mode"><span class="material-icons">close</span></button>
     </div>
     <div id="tag-mode-bar" onclick="clearTagFilter()">
-        <span id="active-tag-name" style="margin-left: 5px; color: white;"></span>
+        <span id="active-tag-name" class="tag-name-label"></span>
         <button class="close-fav-mode"><span class="material-icons">close</span></button>
     </div>
     <div id="scroll-toast"></div>
@@ -108,19 +108,19 @@
                 <button id="tab-favorites" class="drawer-tab active" onclick="switchTab('favorites')"><span id="drawer-fav-title">MES FAVORIS</span> <span id="fav-filter-info"></span></button>
                 <button id="tab-timeline" class="drawer-tab" onclick="switchTab('timeline')"><span id="drawer-time-title">TIMELINE</span> <span id="time-filter-info"></span></button>
             </div>
-            <button class="material-icons" onclick="closeAllDrawers()" style="background:none; border:none; cursor:pointer; font-size: 28px;">close</button>
+            <button class="material-icons btn-close-drawer" onclick="closeAllDrawers()">close</button>
         </div>
 
-        <div id="favorites-content" class="tab-content active" style="display: flex; flex-direction: column; height: 100%; overflow: hidden;">
-             <div id="favorites-list" style="overflow-y: auto; flex: 1;"></div>
+        <div id="favorites-content" class="tab-content active">
+             <div id="favorites-list" class="scrollable-list"></div>
              <div id="favorites-footer" class="drawer-footer">
                 <button onclick="playFavorites()" class="btn-drawer-action btn-drawer-play"><span class="material-icons">play_arrow</span> <span id="btn-txt-play-fav">Écouter</span></button>
                 <button onclick="shareFavoritesList()" class="btn-drawer-action btn-drawer-share"><span class="material-icons">share</span> <span id="btn-txt-share-fav">Partager</span></button>
             </div>
         </div>
 
-        <div id="timeline-content" class="tab-content" style="display: none; flex-direction: column; height: 100%; overflow: hidden;">
-            <div id="timeline-list" style="overflow-y: auto; flex: 1;"></div>
+        <div id="timeline-content" class="tab-content">
+            <div id="timeline-list" class="scrollable-list"></div>
         </div>
     </aside>
     <div class="right-action-bar">
@@ -131,7 +131,7 @@
         <button onclick="toggleCombinedDrawer('favorites')" class="btn-fav-float material-icons" id="btn-float"><span class="btn-bg"></span><span class="material-icons">bookmarks</span></button>
         <button onclick="shareCurrent()" class="btn-fav-float material-icons"><span class="btn-bg"></span><span class="material-icons">share</span></button>
         <button onclick="toggleCombinedDrawer('timeline')" class="btn-fav-float material-icons"><span class="btn-bg"></span><span class="material-icons">event_note</span></button>
-        <but+ton onclick="navigateScroll('down')" class="btn-fav-float material-icons" id="btn-nav-down"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_down</span></button>
+        <button onclick="navigateScroll('down')" class="btn-fav-float material-icons" id="btn-nav-down"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_down</span></button>
         <button onclick="scrollToTicketing()" class="btn-fav-float material-icons" id="btn-nav-bottom"><span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_down</span></button>
     </div>
     <script src="https://www.youtube.com/iframe_api"></script>
