@@ -271,7 +271,7 @@ function applyConfigs() {
     s.isAutoLoadVideo           = f.is_auto_load_video           ?? false;
     s.isAutoPlayNext            = f.is_auto_play_next            ?? true;
     s.isAutoPlayLoop            = f.is_auto_play_loop            ?? true;
-    s.isAppInstall              = f.is_app_install               ?? false;
+    s.isAppInstall              = f.is_app_install               ?? true;
 
     if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
     else document.body.classList.remove( 'hide-desc-mobile' );
