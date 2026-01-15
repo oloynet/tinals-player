@@ -47,28 +47,28 @@
         {
             "src": "/player/assets/images/screenshots/TINALS-player-FR-android.webp",
             "sizes": "500x983",
-            "type": "image/png",
+            "type": "image/webp",
             "form_factor": "narrow",
             "label": "Page accueil en français - mobile"
         },
         {
             "src": "/player/assets/images/screenshots/TINALS-player-EN-android.webp",
             "sizes": "500x983",
-            "type": "image/png",
+            "type": "image/webp",
             "form_factor": "narrow",
             "label": "Home page in english - mobile"
         },
         {
             "src": "/player/assets/images/screenshots/TINALS-player-FR-full.webp",
             "sizes": "2560x1600",
-            "type": "image/png",
+            "type": "image/webp",
             "form_factor": "wide",
             "label": "Page accueil en français - desktop"
         },
         {
             "src": "/player/assets/images/screenshots/TINALS-player-EN-full.webp",
             "sizes": "2560x1600",
-            "type": "image/png",
+            "type": "image/webp",
             "form_factor": "wide",
             "label": "Home page in english - desktop"
         }
@@ -77,12 +77,12 @@
         {
             "name": "TINALS en français",
             "url": "/player/?lang=fr",
-            "icons": [{ "src": "/player/assets/images/shortcuts/flag-FR.png", "sizes": "96x96", "type": "image/png" }]
+            "icons": [{ "src": "/player/assets/images/shortcuts/flag-FR.svg", "sizes": "96x96", "type": "image/svg+xml" }]
         },
         {
             "name": "TINALS in english",
             "url": "/player/?lang=en",
-            "icons": [{ "src": "/player/assets/images/shortcuts/flag-EN.png", "sizes": "96x96", "type": "image/png" }]
+            "icons": [{ "src": "/player/assets/images/shortcuts/flag-EN.svg", "sizes": "96x96", "type": "image/svg+xml" }]
         }
     ]
 }
