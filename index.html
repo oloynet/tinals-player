@@ -55,7 +55,7 @@
         <button id="cb-play-pause" onclick="ControlBar.togglePlay()"><span class="material-icons">play_arrow</span></button>
         <div class="cb-time-container">
             <span id="cb-current-time">0:00</span>
-            <input type="range" id="cb-slider" min="0" max="100" value="0" step="0.1" oninput="ControlBar.onSeekInput()" onchange="ControlBar.onSeekChange()">
+            <input type="range" id="cb-slider" min="0" max="100" value="0" step="0.1" oninput="ControlBar.onSeekInput()" onchange="ControlBar.onSeekChange()" aria-label="Seek video">
             <span id="cb-duration">0:00</span>
         </div>
     </div>
