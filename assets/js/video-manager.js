@@ -98,7 +98,11 @@ const VideoManager = {
     onStateChange: function ( e, id, card ) {
         const s = AppState.settings;
         const tm = AppState.timers;
+        const icon = card.querySelector( '.video-state-icon' );
+
         if ( e.data === 1 ) {
+            if ( AppState.timers.iconSwap ) clearTimeout( AppState.timers.iconSwap );
+
             card.classList.remove( 'ended' );
             card.classList.add( 'playing' );
             card.classList.remove( 'paused-manual' );
@@ -124,9 +128,22 @@ const VideoManager = {
             if ( e.data === 2 ) {
                 if ( s.isDisplayImageVideoPause ) card.classList.remove( 'playing' );
                 else card.classList.add( 'playing' );
+
+                if ( icon ) {
+                    icon.textContent = 'pause';
+                    if ( AppState.timers.iconSwap ) clearTimeout( AppState.timers.iconSwap );
+                    AppState.timers.iconSwap = setTimeout( () => {
+                        icon.textContent = 'play_arrow';
+                    }, 500 );
+                }
             } else {
                 ControlBar.stopTracking();
                 card.classList.remove( 'playing' );
+
+                if ( icon ) {
+                    if ( AppState.timers.iconSwap ) clearTimeout( AppState.timers.iconSwap );
+                    icon.textContent = 'play_arrow';
+                }
             }
 
             card.classList.add( 'paused-manual' );
