@@ -584,7 +584,7 @@ function getVideoCardHtml( g ) {
     }
 
     return `
-    <section class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
+    <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
         <div class="video-container">
             <div class="group-title-center">
                 ${statusBadge}
@@ -605,7 +605,7 @@ function getVideoCardHtml( g ) {
                 <div class="event-details">${overlayDetails}</div>
             </div>
         </div>
-    </section>`;
+    </article>`;
 }
 
 function getTicketingHtml() {
@@ -640,17 +640,25 @@ function renderFavorites() {
         // Filter using slug comparison
         favs = favs.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
     }
-    list.innerHTML = favs.length ? favs.map( g => {
-        const thumb = g.image_thumbnail || g.image;
-        return `
-        <div class="favorite-item">
-            <img src="${thumb}" alt="${g.event_name}">
-            <div class="fav-title">${g.event_name}</div>
-            <button onclick="shareSong(${g.id})" class="material-icons btn-fav-share">share</button>
-            <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons btn-fav-play">play_arrow</button>
-            <button onclick="toggleFav(${g.id})" class="material-icons btn-fav-remove">close</button>
-        </div>
-    ` }).join( '' ) : `<p class="fav-empty-msg">${AppState.config.texts.fav_empty}</p>`;
+
+    // Use UL/LI for list semantics
+    if (favs.length) {
+        const itemsHtml = favs.map( g => {
+            const thumb = g.image_thumbnail || g.image;
+            return `
+            <li class="favorite-item">
+                <img src="${thumb}" alt="${g.event_name}">
+                <div class="fav-title">${g.event_name}</div>
+                <button onclick="shareSong(${g.id})" class="material-icons btn-fav-share">share</button>
+                <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons btn-fav-play">play_arrow</button>
+                <button onclick="toggleFav(${g.id})" class="material-icons btn-fav-remove">close</button>
+            </li>`;
+        }).join('');
+        list.innerHTML = `<ul>${itemsHtml}</ul>`;
+    } else {
+        list.innerHTML = `<p class="fav-empty-msg">${AppState.config.texts.fav_empty}</p>`;
+    }
+
     const footer = document.getElementById( 'favorites-footer' );
     if ( favs.length > 0 ) footer.classList.add( 'visible' );
     else footer.classList.remove( 'visible' );
@@ -674,7 +682,9 @@ function renderTimeline() {
         list.innerHTML = `<p class="list-empty-msg">${AppState.config.texts.timeline_empty}</p>`;
         return;
     }
-    list.innerHTML = sortedData.map( g => {
+
+    // Use UL/LI for list semantics
+    const itemsHtml = sortedData.map( g => {
         const dayName  = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
         const dateRaw  = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
         let timeString = '';
@@ -691,7 +701,7 @@ function renderTimeline() {
         const isFav = AppState.favorites.includes( g.id );
         const thumb = g.image_thumbnail || g.image;
         return `
-        <div class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
+        <li class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
             <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
             <div class="time-info">
                 <div class="time-row-1">
@@ -701,8 +711,10 @@ function renderTimeline() {
                 <div class="time-row-2">${metaLine}</div>
                 <div class="time-row-3">${tagsHtml}</div>
             </div>
-        </div>`;
+        </li>`;
     } ).join( '' );
+
+    list.innerHTML = `<ul>${itemsHtml}</ul>`;
 }
 
 
