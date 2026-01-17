@@ -24,9 +24,9 @@
     --tag-pill-color: var(--content-color);
     --toast-bg: var(--primary-color);
     --toast-color: var(--content-color);
-    --ticket-day-all: var(--secondary-color); /* #fd3d00; */
-    --ticket-day-1: #35bb05; /* var(--fifth-color);*/
-    --ticket-day-2: #0500ff; /* var(--third-color); */
+    --full-pass-ticket-color: var(--secondary-color); /* #fd3d00; */
+    --day-pass-ticket-1-color: #35bb05; /* var(--fifth-color);*/
+    --day-pass-ticket-2-color: #0500ff; /* var(--third-color); */
 }
 
 * {
@@ -1767,25 +1767,25 @@ iframe {
     flex-wrap: wrap;
 }
 
-.ticket-block.ticket-all {
-    background-color: var(--ticket-day-all);
+.ticket-block.full-pass-ticket {
+    background-color: var(--full-pass-ticket-color);
 }
-.ticket-btn.ticket-all {
-    color: var(--ticket-day-all);
-}
-
-.ticket-block.ticket-day-1 {
-    background-color: var(--ticket-day-1);
-}
-.ticket-btn.ticket-day-1 {
-    color: var(--ticket-day-1);
+.ticket-btn.full-pass-ticket {
+    color: var(--full-pass-ticket-color);
 }
 
-.ticket-block.ticket-day-2 {
-    background-color: var(--ticket-day-2);
+.ticket-block.day-pass-ticket-1 {
+    background-color: var(--day-pass-ticket-1-color);
 }
-.ticket-btn.ticket-day-2 {
-    color: var(--ticket-day-2);
+.ticket-btn.day-pass-ticket-1 {
+    color: var(--day-pass-ticket-1-color);
+}
+
+.ticket-block.day-pass-ticket-2 {
+    background-color: var(--day-pass-ticket-2-color);
+}
+.ticket-btn.day-pass-ticket-2 {
+    color: var(--day-pass-ticket-2-color);
 }
 
 .loader-error-msg {

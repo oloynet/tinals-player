@@ -107,18 +107,18 @@
     }],
 
     "ticketing": {
-        "pass_2_days": {
-            "button_color": "ticket-all",
+        "full_pass_ticket": {
+            "button_color": "full-pass-ticket",
             "button_url": "https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747",
             "is_available": true
         },
-        "friday": {
-            "button_color": "ticket-day-1",
+        "day_pass_ticket_1": {
+            "button_color": "day-pass-ticket-1",
             "button_url": "https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748",
             "is_available": true
         },
-        "saturday": {
-            "button_color": "ticket-day-2",
+        "day_pass_ticket_2": {
+            "button_color": "day-pass-ticket-2",
             "button_url": "https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749",
             "is_available": true
         }
