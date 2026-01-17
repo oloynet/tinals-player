@@ -663,9 +663,7 @@ iframe {
     opacity: 0.9;
 }
 
-.video-container::after {
-    content: 'play_arrow';
-    font-family: 'Material Icons';
+.video-state-icon {
     position: absolute;
     top: 55%;
     left: 50%;
@@ -674,14 +672,15 @@ iframe {
     color: var(--primary-color);
     opacity: 0.9;
     z-index: 5;
-    transition: opacity 0.3s, transform 0.3s;
+    transition: opacity 0.2s, transform 0.2s;
     pointer-events: none;
     text-shadow: 0 0 15px rgba(0, 0, 0, 0.6);
 }
 
-.video-card.playing .video-container::after {
+.video-card.playing .video-state-icon {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.1);
+    transition: opacity 0.8s ease 4s, transform 0.8s ease 4s;
 }
 
 .video-card.playing .group-title-center {
@@ -690,8 +689,7 @@ iframe {
     transition: opacity 0.8s ease 4s, transform 0.8s ease 4s;
 }
 
-.video-card.paused-manual .video-container::after {
-    content: 'pause';
+.video-card.paused-manual .video-state-icon {
     opacity: 0.9;
 }
 
