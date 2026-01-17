@@ -75,6 +75,7 @@ const VideoManager = {
                         if ( AppState.settings.isDisplayControlBar && id === AppState.state.activeId ) {
                             ControlBar.syncUI( id );
                         }
+                        this.applyMobileZoom( id );
                     },
                     'onStateChange': ( e ) => this.onStateChange( e, id, card ),
                     'onError': ( e ) => {
@@ -162,6 +163,7 @@ const VideoManager = {
                 if ( AppState.state.isGlobalMuted ) this.instances[ id ].mute();
                 else this.instances[ id ].unMute();
                 this.instances[ id ].playVideo();
+                this.applyMobileZoom( id );
             }
         }
     },
@@ -274,5 +276,34 @@ const VideoManager = {
         setTimeout( () => {
             AppState.state.isMenuNavigation = false;
         }, 1000 );
+    },
+    applyMobileZoom: function ( id ) {
+        const isForce = AppState.settings.isForceZoom;
+        const shouldZoom = isForce || ( isMobileDevice() && !isLandscape() );
+
+        if ( !shouldZoom ) {
+            // Reset styles if not mobile portrait or forced
+            const iframe = document.getElementById( `player-${id}` );
+            if ( iframe ) {
+                iframe.style.width = '';
+                iframe.style.left = '';
+                iframe.style.transform = '';
+            }
+            return;
+        }
+
+        const group = AppState.data.find( g => g.id === id );
+        if ( !group ) return;
+
+        // Default or "100%" means no zoom
+        const zoomValue = group.video_zoom || "100%";
+        if ( zoomValue === "100%" ) return;
+
+        const iframe = document.getElementById( `player-${id}` );
+        if ( iframe ) {
+            iframe.style.width = zoomValue;
+            iframe.style.left = '50%';
+            iframe.style.transform = 'translateX(-50%)';
+        }
     }
 };

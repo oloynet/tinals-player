@@ -148,6 +148,7 @@
         "is_auto_load_video": false,
         "is_auto_play_next": true,
         "is_auto_play_loop": true,
-        "is_app_install": true
+        "is_app_install": true,
+        "is_force_zoom": false
     }
 }
