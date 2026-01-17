@@ -1416,6 +1416,10 @@ function handleOrientationChange() {
     const topDrawer = document.getElementById( 'top-drawer' );
     const tm        = AppState.timers;
 
+    if ( AppState.state.activeId !== null ) {
+        VideoManager.applyMobileZoom( AppState.state.activeId );
+    }
+
     // Only relevant if a video is playing
     if ( AppState.state.activeId === null ) return;
     const player = VideoManager.instances[AppState.state.activeId];
