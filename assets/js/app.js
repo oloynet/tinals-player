@@ -44,7 +44,8 @@ const AppState = {
         isAutoLoadVideo: false,
         isAutoPlayNext: true,
         isAutoPlayLoop: true,
-        isAppInstall: false
+        isAppInstall: false,
+        isForceZoom: false
     }
 };
 
@@ -272,6 +273,7 @@ function applyConfigs() {
     s.isAutoPlayNext            = f.is_auto_play_next            ?? true;
     s.isAutoPlayLoop            = f.is_auto_play_loop            ?? true;
     s.isAppInstall              = f.is_app_install               ?? true;
+    s.isForceZoom               = f.is_force_zoom                ?? false;
 
     if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
     else document.body.classList.remove( 'hide-desc-mobile' );

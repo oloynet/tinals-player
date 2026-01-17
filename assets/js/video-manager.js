@@ -278,8 +278,11 @@ const VideoManager = {
         }, 1000 );
     },
     applyMobileZoom: function ( id ) {
-        if ( !isMobileDevice() || isLandscape() ) {
-            // Reset styles if not mobile portrait
+        const isForce = AppState.settings.isForceZoom;
+        const shouldZoom = isForce || ( isMobileDevice() && !isLandscape() );
+
+        if ( !shouldZoom ) {
+            // Reset styles if not mobile portrait or forced
             const iframe = document.getElementById( `player-${id}` );
             if ( iframe ) {
                 iframe.style.width = '';
