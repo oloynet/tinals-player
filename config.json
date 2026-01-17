@@ -2,8 +2,8 @@
     "site":
     {
         "manifest_version": 3,
-        "version": "v1.05",
-        "version_name": "player TINALS v1.05",
+        "version": "v1.06",
+        "version_name": "player TINALS v1.06",
         "title": "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name": "Playlist | TINALS 2026",
         "short_name": "TINALS",
@@ -30,7 +30,7 @@
         "flag_fr_id": "flag-fr",
         "flag_en_id": "flag-en",
 
-        "sprite_path": "assets/images/sprite.svg?v=1.05",
+        "sprite_path": "assets/images/sprite.svg?v=1.06",
 
         "icon_16": "assets/favicon/favicon-16x16.png",
         "icon_32_maskable": "assets/favicon/favicon-maskable-32x32.png",
@@ -105,6 +105,24 @@
         "type": "image/png",
         "purpose": "any"
     }],
+
+    "ticketing": {
+        "pass_2_days": {
+            "button_color": "ticket-all",
+            "button_url": "https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747",
+            "is_available": true
+        },
+        "friday": {
+            "button_color": "ticket-day-1",
+            "button_url": "https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748",
+            "is_available": true
+        },
+        "saturday": {
+            "button_color": "ticket-day-2",
+            "button_url": "https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749",
+            "is_available": true
+        }
+    },
 
     "features":
     {

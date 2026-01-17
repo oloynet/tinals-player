@@ -610,25 +610,40 @@ function getVideoCardHtml( g ) {
 
 function getTicketingHtml() {
     const t = AppState.config.texts;
+    const ticketing = AppState.config.ticketing || {};
+    let blocksHtml = '';
+
+    for (const key in ticketing) {
+        if (ticketing.hasOwnProperty(key)) {
+            const ticket = ticketing[key];
+            const isAvailable = ticket.is_available !== false;
+            const colorClass = ticket.button_color || '';
+            const title = ticket.ticket_title || '';
+            const subtitle = ticket.ticket_subtitle || '';
+            const btnText = ticket.button_text || '';
+            const url = ticket.button_url || '#';
+
+            let btnHtml = '';
+            if (isAvailable) {
+                btnHtml = `<a href="${url}" target="_blank" class="ticket-btn ${colorClass}" title="${btnText}">${btnText}</a>`;
+            } else {
+                btnHtml = `<span class="ticket-btn ${colorClass} disabled" title="${btnText}">${btnText}</span>`;
+            }
+
+            blocksHtml += `
+                <div class="ticket-block ${colorClass}">
+                    <h2>${title}</h2>
+                    <h3>${subtitle}</h3>
+                    ${btnHtml}
+                </div>`;
+        }
+    }
+
     return `
         <section class="ticketing-card section-snap" id="ticketing-section">
             <div class="ticket-title"><h2>${t.ticket_section_title}</h2></div>
             <div class="ticket-container">
-                <div class="ticket-block ticket-all">
-                    <h2>${t.ticket_all_days_title}</h2>
-                    <h3>${t.ticket_all_days_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747" target="_blank" class="ticket-btn ticket-all" title="${t.ticket_all_days_button}">${t.ticket_all_days_button}</a>
-                </div>
-                <div class="ticket-block ticket-day-1">
-                    <h2>${t.ticket_day_1_title}</h2>
-                    <h3>${t.ticket_day_1_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748" target="_blank" class="ticket-btn ticket-day-1" title="${t.ticket_day_1_button}">${t.ticket_day_1_button}</a>
-                </div>
-                <div class="ticket-block ticket-day-2">
-                    <h2>${t.ticket_day_2_title}</h2>
-                    <h3>${t.ticket_day_2_subtitle}</h3>
-                    <a href="https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749" target="_blank" class="ticket-btn ticket-day-2" title="${t.ticket_day_2_button}">${t.ticket_day_2_button}</a>
-                </div>
+                ${blocksHtml}
             </div>
         </section>`;
 }
@@ -1490,7 +1505,7 @@ const PWAManager = {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v=1.05' )
+    navigator.serviceWorker.register( 'service-worker.js?v=1.06' )
         .then( ( reg ) => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker', err ) );
 }
