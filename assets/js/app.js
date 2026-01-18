@@ -574,22 +574,23 @@ function getVideoCardHtml( g ) {
     const isMobile = isMobileDevice();
     const bgImage = ( isMobile && g.image_mobile ) ? g.image_mobile : g.image;
 
+    // Status logic
+    const status = g.event_status || 'scheduled';
+    const displayedStatuses = AppState.config.features.displayed_statuses || [];
     let statusBadge = '';
-    if (g.event_status && g.event_status !== 'scheduled') {
-        let statusClass = 'bg-red';
-        if(g.event_status === 'rescheduled') statusClass = 'bg-orange';
-        else if(g.event_status === 'postponed') statusClass = 'bg-orange';
-        else if(g.event_status === 'moved_online') statusClass = 'bg-blue';
 
-        const statusLabel = translateText(g.event_status, 'status') || g.event_status.replace('_', ' ').toUpperCase();
+    if (displayedStatuses.includes(status)) {
+        const statusKey = 'status_' + status;
+        const statusLabel = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
+        const statusClass = 'status-' + status.replace('_', '-');
         statusBadge = `<div class="status-badge ${statusClass}">${statusLabel}</div>`;
     }
 
     return `
     <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
         <div class="video-container">
+            ${statusBadge}
             <div class="group-title-center">
-                ${statusBadge}
                 <h2>${g.event_name}</h2>
                 ${songTitleCenter}
                 ${splashMetaHtml}
@@ -712,6 +713,19 @@ function renderTimeline() {
         }
         const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
         const metaLine  = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
+
+        // Status for timeline
+        const status = g.event_status || 'scheduled';
+        const displayedStatuses = AppState.config.features.displayed_statuses || [];
+        let statusBadge = '';
+
+        if (displayedStatuses.includes(status)) {
+            const statusKey = 'status_' + status;
+            const statusLabel = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
+            const statusClass = 'status-' + status.replace('_', '-');
+            statusBadge = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
+        }
+
         const tagsHtml  = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
             const slug = slugify(t);
             return `<span class="time-tag" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
@@ -727,7 +741,7 @@ function renderTimeline() {
                     <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav(${g.id});">${isFav ? 'favorite' : 'favorite_border'}</button>
                 </div>
                 <div class="time-row-2">${metaLine}</div>
-                <div class="time-row-3">${tagsHtml}</div>
+                <div class="time-row-3">${statusBadge}${tagsHtml}</div>
             </div>
         </li>`;
     } ).join( '' );

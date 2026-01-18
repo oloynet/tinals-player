@@ -68,6 +68,12 @@
         "install_modal_title": "Installer l'application",
         "install_modal_text": "Installez l'application TINALS 2026 pour une meilleure expérience : accès hors ligne, plein écran et plus rapide !",
         "install_modal_btn_yes": "Installer",
-        "install_modal_btn_no": "Plus tard"
+        "install_modal_btn_no": "Plus tard",
+
+        "status_canceled": "Annulé",
+        "status_moved_online": "En ligne",
+        "status_postponed": "Reporté",
+        "status_rescheduled": "Reprogrammé",
+        "status_scheduled": "Planifié"
     }
 }

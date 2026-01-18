@@ -48,7 +48,16 @@
         "is_auto_play_next": true,
         "is_auto_play_loop": true,
         "is_app_install": true,
-        "is_force_zoom": true
+        "is_force_zoom": true,
+        "displayed_statuses": ["canceled", "moved_online", "postponed", "rescheduled"]
+    },
+
+    "texts": {
+        "status_canceled": "Canceled",
+        "status_moved_online": "Moved Online",
+        "status_postponed": "Postponed",
+        "status_rescheduled": "Rescheduled",
+        "status_scheduled": "Scheduled"
     },
 
     "images":

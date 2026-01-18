@@ -1,7 +1,7 @@
 [
     {
         "id": 2,
-        "event_name": "PROJECTOR",
+        "event_name": "Projector",
         "video_title": "Chemical",
         "video_url": "https://www.youtube.com/watch?v=ZzwPfuLIw1o&t=30",
         "video_timestart": "30",
@@ -36,7 +36,7 @@
     },
     {
         "id": 3,
-        "event_name": "DEKI ALEM",
+        "event_name": "Deki Alem",
         "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/deki-alem--59775--pvq-1ax3phi--deki-alem--wet-paint.mp3",
         "description": "Avec une énergie et un dynamisme incomparable, Deki Alem est un groupe sans frontières, impossible à mettre dans une seule case. Créant sans cesse de nouveaux ponts dans la musique moderne, le duo de frères jumeaux est pour ainsi dire multi-visages. Avec une pureté et une masculinité sensible, Deki Alem mélangent les sous-genres tels que la drum & bass, la dance le grunge et le rap de manière harmonieuse. Après avoir sorti deux clips pour “Razor” et “Wet Paint”, le duo a sorti le single “Act Nice” suivi de son premier EP “Among Heads” le 1er avril et produit par LIOHN et Klahr (Lady Gaga, Bree Runway, Swedish House Mafia).",
         "descriptionEN": "With incomparable energy and dynamism, Deki Alem is a band without borders, impossible to fit into a single box. Constantly building new bridges in modern music, the duo of twin brothers is, so to speak, multi-faceted. With purity and sensitive masculinity, Deki Alem seamlessly blend sub-genres such as drum & bass, dance, grunge and rap. After releasing two videos for “Razor” and “Wet Paint”, the duo released the single “Act Nice”, followed by their debut EP “Among Heads” on April 1, produced by LIOHN and Klahr (Lady Gaga, Bree Runway, Swedish House Mafia).",
