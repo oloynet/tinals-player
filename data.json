@@ -4,6 +4,8 @@
         "event_name": "PROJECTOR",
         "video_title": "Chemical",
         "video_url": "https://www.youtube.com/watch?v=ZzwPfuLIw1o&t=30",
+        "video_timestart": "30",
+        "video_zoom": "315%",
         "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/projector--59792--zzwpfuliw1o--projector--chemical-official-video.mp3",
         "description": "Depuis sa formation en 2018, le groupe de Brighton creuse le sillon d’un post-punk frénétique et n’hésite pas à donner la priorité à l’ampleur sonore et à une attitude expérimentale à l’égard de la pop. Le premier album de Projector, « Now When We Talk It’s Violence”, fait le pont entre des expérimentations arty, l’agressivité du punk. Tantôt versé dans le brutalisme sombre et industriel de Joy Division ou dans une pop libre et brillamment composée, non sans rappeler Interpol ou The Organ, l’album empile des climax qui chancellent, véritable écrin pour les voix entrelacées de Lucy Sheehan et Edward Ensbury.",
         "descriptionEN": "Since forming in 2018, the Brighton-based band has been ploughing the furrow of frenetic post-punk, not hesitating to prioritize sonic breadth and an experimental attitude to pop. Projector’s debut album, “Now When We Talk It’s Violence”, bridges the gap between arty experimentation and punk aggression. At times versed in the dark, industrial brutalism of Joy Division, and at other times in brilliantly composed free pop reminiscent of Interpol and The Organ, the album piles up staggering climaxes, a veritable showcase for the intertwined voices of Lucy Sheehan and Edward Ensbury.",
@@ -17,7 +19,6 @@
         "event_end_time": "20:00",
         "event_duration": "00:45",
         "event_place": "Scène Extérieure Mosquito",
-        "video_zoom": "315%",
         "event_tags": [
             "Day #1",
             "Envie d'en découdre"
@@ -36,27 +37,10 @@
     {
         "id": 3,
         "event_name": "DEKI ALEM",
-        "video_title": "Wet paint",
-        "video_url": "https://www.youtube.com/watch?v=PVQ-1Ax3PHI&t=20",
+        "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/deki-alem--59775--pvq-1ax3phi--deki-alem--wet-paint.mp3",
         "description": "Avec une énergie et un dynamisme incomparable, Deki Alem est un groupe sans frontières, impossible à mettre dans une seule case. Créant sans cesse de nouveaux ponts dans la musique moderne, le duo de frères jumeaux est pour ainsi dire multi-visages. Avec une pureté et une masculinité sensible, Deki Alem mélangent les sous-genres tels que la drum & bass, la dance le grunge et le rap de manière harmonieuse. Après avoir sorti deux clips pour “Razor” et “Wet Paint”, le duo a sorti le single “Act Nice” suivi de son premier EP “Among Heads” le 1er avril et produit par LIOHN et Klahr (Lady Gaga, Bree Runway, Swedish House Mafia).",
         "descriptionEN": "With incomparable energy and dynamism, Deki Alem is a band without borders, impossible to fit into a single box. Constantly building new bridges in modern music, the duo of twin brothers is, so to speak, multi-faceted. With purity and sensitive masculinity, Deki Alem seamlessly blend sub-genres such as drum & bass, dance, grunge and rap. After releasing two videos for “Razor” and “Wet Paint”, the duo released the single “Act Nice”, followed by their debut EP “Among Heads” on April 1, produced by LIOHN and Klahr (Lady Gaga, Bree Runway, Swedish House Mafia).",
-        "image": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/dekialem-pressbilder-bilder-horisontell.jpg",
-        "event_day": "vendredi",
-        "event_start_date": "2025-06-27",
-        "event_start_time": "19:20",
-        "event_end_time": "20:10",
-        "event_duration": "00:50",
-        "event_place": "Grande Salle Paloma",
-        "event_tags": [
-            "Day #1",
-            "Move your feet",
-            "Romance is sexy"
-        ],
-        "other_tags": [
-            "Pop",
-            "Rap",
-            "SE"
-        ]
+        "image": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/dekialem-pressbilder-bilder-horisontell.jpg"
     },
     {
         "id": 4,

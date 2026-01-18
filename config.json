@@ -22,6 +22,35 @@
         "data_source": "data.json",
         "path": "/player/"
     },
+
+    "features":
+    {
+        "is_debug_js": false,
+        "is_display_version": false,
+        "is_menu_auto_hide": false,
+        "is_display_control_bar": true,
+        "is_button_sound_enable": true,
+        "is_button_top_bottom_enable": false,
+        "is_button_prev_next_enable": true,
+        "is_fullscreen_enable": true,
+        "is_display_day": true,
+        "is_display_date": true,
+        "is_display_time": true,
+        "is_display_year": false,
+        "is_display_tag": true,
+        "is_display_place": true,
+        "is_display_record_name": false,
+        "is_display_group_description": true,
+        "is_description_auto_hide": true,
+        "is_display_image_video_pause": true,
+        "is_display_image_video_end": true,
+        "is_auto_load_video": false,
+        "is_auto_play_next": true,
+        "is_auto_play_loop": true,
+        "is_app_install": true,
+        "is_force_zoom": true
+    },
+
     "images":
     {
         "menu_id": "logo-menu",
@@ -122,33 +151,5 @@
             "button_url": "https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749",
             "is_available": true
         }
-    },
-
-    "features":
-    {
-        "is_debug_js": false,
-        "is_display_version": false,
-        "is_menu_auto_hide": false,
-        "is_display_control_bar": true,
-        "is_button_sound_enable": true,
-        "is_button_top_bottom_enable": false,
-        "is_button_prev_next_enable": true,
-        "is_fullscreen_enable": true,
-        "is_display_day": true,
-        "is_display_date": true,
-        "is_display_time": true,
-        "is_display_year": false,
-        "is_display_tag": true,
-        "is_display_place": true,
-        "is_display_record_name": false,
-        "is_display_group_description": true,
-        "is_description_auto_hide": true,
-        "is_display_image_video_pause": true,
-        "is_display_image_video_end": true,
-        "is_auto_load_video": false,
-        "is_auto_play_next": true,
-        "is_auto_play_loop": true,
-        "is_app_install": true,
-        "is_force_zoom": false
     }
 }
