@@ -174,9 +174,14 @@ const VideoManager = {
         const group = AppState.data.find( g => g.id === id );
         const isAudio = group && !group.video_url && group.audio;
 
-        if ( !isAudio && icon && card ) {
-            icon.textContent = 'cached';
-            card.classList.add( 'loading' );
+        if ( icon && card ) {
+            if ( !isAudio ) {
+                icon.textContent = 'cached';
+                card.classList.add( 'loading' );
+            } else {
+                icon.textContent = 'brand_awareness';
+                card.classList.add( 'audio-playing' );
+            }
         }
 
         if ( !this.instances[ id ] ) this.create( id );
@@ -210,9 +215,14 @@ const VideoManager = {
 
                     const card = document.getElementById( `video-${id}` );
                     const icon = card ? card.querySelector( '.video-state-icon' ) : null;
-                    if ( card && !card.classList.contains( 'audio-mode' ) && icon ) {
-                        icon.textContent = 'cached';
-                        card.classList.add( 'loading' );
+                    if ( card && icon ) {
+                        if ( !card.classList.contains( 'audio-mode' ) ) {
+                            icon.textContent = 'cached';
+                            card.classList.add( 'loading' );
+                        } else {
+                            icon.textContent = 'brand_awareness';
+                            card.classList.add( 'audio-playing' );
+                        }
                     }
 
                     this.instances[ id ].playVideo();
