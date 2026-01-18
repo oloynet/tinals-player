@@ -104,15 +104,15 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const langConfigFile = AppState.currentLang === 'en' ? 'config_en.json' : 'config_fr.json';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json' : 'config/config_fr.json';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
-            fetch('config.json'),
+            fetch('config/config.json'),
             fetch(langConfigFile)
         ]);
 
-        if ( !mainConfigResponse.ok ) throw new Error( "Erreur config.json" );
+        if ( !mainConfigResponse.ok ) throw new Error( "Erreur config/config.json" );
         if ( !langConfigResponse.ok ) throw new Error( "Erreur config langue " + langConfigFile );
 
         const mainConfig = await mainConfigResponse.json();
@@ -1512,7 +1512,7 @@ const PWAManager = {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v=1.07' )
+    navigator.serviceWorker.register( 'service-worker.js?v=1.06' )
         .then( ( reg ) => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker', err ) );
 }

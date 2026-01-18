@@ -19,13 +19,13 @@ This is a **static Single Page Application (SPA)** and **Progressive Web App (PW
 ## 3. Configuration & Data
 The application is **data-driven**. Before writing new code, check if the requirement can be met by changing a configuration file.
 
-*   **`config_fr.json` / `config_en.json`**:
+*   **`config/config_fr.json` / `config/config_en.json`**:
     *   Contains **Feature Flags** (e.g., `is_auto_play_next`, `is_display_time`).
     *   Contains **UI Strings** (i18n).
     *   Contains **Asset Paths**.
     *   *Agent Tip:* If asked to "hide the time" or "change the title," check these files first.
 
-*   **`data.json`**:
+*   **`data/data.json`**:
     *   Contains the actual playlist content (artists, video IDs, schedule).
     *   Do not hardcode artist data in `app.js`.
 

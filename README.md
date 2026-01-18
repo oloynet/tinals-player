@@ -45,7 +45,7 @@ Access the player at `http://localhost:8000` (or whatever port your server uses)
 
 The application is highly configurable through JSON files located in the root directory.
 
-### App Configuration (`config_en.json`, `config_fr.json`)
+### App Configuration (`config/config_en.json`, `config/config_fr.json`)
 
 These files handle general settings, feature flags, and internationalization (i18n).
 

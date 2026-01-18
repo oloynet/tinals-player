@@ -4,8 +4,8 @@ const STATIC_ASSETS = [
     './',
     './index.html',
     './manifest.json',
-    './config_en.json',
-    './config_fr.json',
+    './config/config_en.json',
+    './config/config_fr.json',
 
     './data/data.json',
     // './data/images/2025/bdrmm-by-stew-baxter.jpg',
