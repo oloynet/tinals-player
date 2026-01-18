@@ -113,7 +113,7 @@ const VideoManager = {
 
             if ( card.classList.contains( 'audio-mode' ) ) {
                 card.classList.add( 'audio-playing' );
-                if ( icon ) icon.textContent = 'audiotrack';
+                if ( icon ) icon.textContent = 'brand_awareness';
             }
 
             if ( s.isDisplayControlBar ) ControlBar.startTracking( id );
