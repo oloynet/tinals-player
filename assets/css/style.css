@@ -1799,12 +1799,6 @@ iframe {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-@keyframes pulse-scale {
-    0% { transform: translate(-50%, -50%) scale(1); }
-    50% { transform: translate(-50%, -50%) scale(1.4); }
-    100% { transform: translate(-50%, -50%) scale(1); }
-}
-
 /* Loading State (Video) */
 .video-card.loading .video-state-icon {
     opacity: 1 !important;
@@ -1824,6 +1818,5 @@ iframe {
 }
 
 .video-card.playing.audio-mode.audio-playing .video-state-icon {
-    animation: pulse-scale 3s ease-in-out infinite;
     transition: none;
 }
