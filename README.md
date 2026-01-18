@@ -95,7 +95,7 @@ This file contains the playlist and artist information. It is an array of object
 | video\_title |  | text | YouTube video title of the artist at the event |
 | event\_day |  | text | Day of the week of the event |
 | event\_start\_date |  | date | The event start date, format 'yyyy-mm-dd' |
-| event\_end\_date |  | date | The event end date, format 'yyyy-mm-dd' |
+| event\_end\_date |  | date | The event end date, format 'yyyy-mm-dd' | 
 | event\_start\_time |  | time | The event start time, format 'hh:mm' |
 | event\_end\_time |  | time | The event end time, format 'hh:mm' |
 | event\_duration |  | time | The event duration in minutes, format 'hh:mm' |
@@ -119,15 +119,8 @@ This file contains the playlist and artist information. It is an array of object
 ```json
 {
     "id": 2,
-    "event_name": "PROJECTOR",
-    "video_title": "Chemical",
-    "video_url": "https://www.youtube.com/watch?v=ZzwPfuLIw1o&t=30",
-    "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/projector--59792--zzwpfuliw1o--projector--chemical-official-video.mp3",
-    "description": "Depuis sa formation en 2018, le groupe de Brighton creuse le sillon d’un post-punk frénétique et n’hésite pas à donner la priorité à l’ampleur sonore et à une attitude expérimentale à l’égard de la pop. Le premier album de Projector, « Now When We Talk It’s Violence”, fait le pont entre des expérimentations arty, l’agressivité du punk. Tantôt versé dans le brutalisme sombre et industriel de Joy Division ou dans une pop libre et brillamment composée, non sans rappeler Interpol ou The Organ, l’album empile des climax qui chancellent, véritable écrin pour les voix entrelacées de Lucy Sheehan et Edward Ensbury.",
-    "descriptionEN": "Since forming in 2018, the Brighton-based band has been ploughing the furrow of frenetic post-punk, not hesitating to prioritize sonic breadth and an experimental attitude to pop. Projector’s debut album, “Now When We Talk It’s Violence”, bridges the gap between arty experimentation and punk aggression. At times versed in the dark, industrial brutalism of Joy Division, and at other times in brilliantly composed free pop reminiscent of Interpol and The Organ, the album piles up staggering climaxes, a veritable showcase for the intertwined voices of Lucy Sheehan and Edward Ensbury.",
-    "image": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/unknown-2.jpeg",
-    "image_mobile": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/unknown-2x400x400.jpeg",
-    "image_thumbnail": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/unknown-2-150x150.jpeg",
+    "event_name": "Projector",
+    "event_status": "scheduled",
     "event_day": "vendredi",
     "event_start_date": "2025-06-27",
     "event_end_date": "2025-06-27",
@@ -139,6 +132,16 @@ This file contains the playlist and artist information. It is an array of object
         "Day #1",
         "Envie d'en découdre"
     ],
+    "image": "data/images/2025/projector.webp",
+    "image_mobile": "data/images/2025/projector-mobile.webp",
+    "image_thumbnail": "data/images/2025/projector-thumbnail.webp",
+    "description": "Depuis sa formation en 2018, le groupe de Brighton creuse le sillon d’un post-punk frénétique et n’hésite pas à donner la priorité à l’ampleur sonore et à une attitude expérimentale à l’égard de la pop. Le premier album de Projector, « Now When We Talk It’s Violence”, fait le pont entre des expérimentations arty, l’agressivité du punk. Tantôt versé dans le brutalisme sombre et industriel de Joy Division ou dans une pop libre et brillamment composée, non sans rappeler Interpol ou The Organ, l’album empile des climax qui chancellent, véritable écrin pour les voix entrelacées de Lucy Sheehan et Edward Ensbury.",
+    "descriptionEN": "Since forming in 2018, the Brighton-based band has been ploughing the furrow of frenetic post-punk, not hesitating to prioritize sonic breadth and an experimental attitude to pop. Projector’s debut album, “Now When We Talk It’s Violence”, bridges the gap between arty experimentation and punk aggression. At times versed in the dark, industrial brutalism of Joy Division, and at other times in brilliantly composed free pop reminiscent of Interpol and The Organ, the album piles up staggering climaxes, a veritable showcase for the intertwined voices of Lucy Sheehan and Edward Ensbury.",
+    "video_title": "Chemical",
+    "video_url": "https://www.youtube.com/watch?v=ZzwPfuLIw1o&t=30",
+    "video_timestart": "30",
+    "video_zoom": "315%",
+    "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/projector--59792--zzwpfuliw1o--projector--chemical-official-video.mp3",
     "other_tags": [
         "Post-Punk",
         "UK"
@@ -149,7 +152,7 @@ This file contains the playlist and artist information. It is an array of object
     "performer_website": "https://www.projectorprojector.co.uk/",
     "performer_deezer": "https://www.deezer.com/fr/artist/4158077",
     "performer_spotify": "https://open.spotify.com/intl-fr/artist/25loVbwSp0xXNu4Ds1lTa9"
-}
+},
 ```
 
 ## Deployment
