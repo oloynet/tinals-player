@@ -1817,6 +1817,22 @@ iframe {
     transform: translate(-50%, -50%) scale(1.1);
 }
 
+@keyframes pulse-audio {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(1.2);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
 .video-card.playing.audio-mode.audio-playing .video-state-icon {
+    animation: pulse-audio 2s ease-in-out infinite;
     transition: none;
 }
