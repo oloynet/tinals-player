@@ -1821,9 +1821,8 @@ iframe {
 .video-card.playing.audio-mode .video-state-icon {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1.1);
-    transition: opacity 0.5s, transform 0.5s;
 }
 
-.video-card.audio-playing .video-state-icon {
+.video-card.playing.audio-mode.audio-playing .video-state-icon {
     animation: pulse-opacity 3s ease-in-out infinite;
 }
