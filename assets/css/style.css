@@ -27,6 +27,17 @@
     --full-pass-ticket-color: var(--secondary-color); /* #fd3d00; */
     --day-pass-ticket-1-color: #35bb05; /* var(--fifth-color);*/
     --day-pass-ticket-2-color: #0500ff; /* var(--third-color); */
+
+    --status-canceled-color: var(--light-color);
+    --status-canceled-bg: var(--primary-color);
+    --status-moved-online-color: var(--light-color);
+    --status-moved-online-bg: var(--primary-color);
+    --status-postponed-color: var(--light-color);
+    --status-postponed-bg: var(--primary-color);
+    --status-rescheduled-color: var(--light-color);
+    --status-rescheduled-bg: var(--primary-color);
+    --status-scheduled-color: var(--light-color);
+    --status-scheduled-bg: var(--primary-color);
 }
 
 * {
@@ -1747,17 +1758,51 @@ iframe {
 }
 
 .status-badge {
-    color: white;
     padding: 5px 10px;
     border-radius: 4px;
     font-weight: bold;
-    margin-bottom: 5px;
     display: inline-block;
+    text-transform: uppercase;
+    font-size: 0.8rem;
+    letter-spacing: 0.5px;
 }
 
-.status-badge.bg-red { background-color: red; }
-.status-badge.bg-orange { background-color: orange; }
-.status-badge.bg-blue { background-color: blue; }
+.status-badge.status-canceled {
+    background-color: var(--status-canceled-bg);
+    color: var(--status-canceled-color);
+}
+.status-badge.status-moved-online {
+    background-color: var(--status-moved-online-bg);
+    color: var(--status-moved-online-color);
+}
+.status-badge.status-postponed {
+    background-color: var(--status-postponed-bg);
+    color: var(--status-postponed-color);
+}
+.status-badge.status-rescheduled {
+    background-color: var(--status-rescheduled-bg);
+    color: var(--status-rescheduled-color);
+}
+.status-badge.status-scheduled {
+    background-color: var(--status-scheduled-bg);
+    color: var(--status-scheduled-color);
+}
+
+/* Position in video card */
+.video-container .status-badge {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    z-index: 8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+}
+
+/* Position in timeline */
+.timeline-item .status-badge {
+    font-size: 0.65rem;
+    padding: 2px 6px;
+    margin-right: 5px;
+}
 
 .social-links-container {
     margin-top: 10px;
