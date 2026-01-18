@@ -1792,3 +1792,39 @@ iframe {
     color: white;
     text-align: center;
 }
+
+/* --- CUSTOM ANIMATIONS & STATES --- */
+
+@keyframes rotate-icon {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@keyframes pulse-opacity {
+    0% { opacity: 1; }
+    50% { opacity: 0.4; }
+    100% { opacity: 1; }
+}
+
+/* Loading State (Video) */
+.video-card.loading .video-state-icon {
+    opacity: 1 !important;
+    animation: rotate-icon 2s linear infinite;
+    transition: none;
+}
+
+/* Audio Mode Overrides */
+.video-card.playing.audio-mode .video-background {
+    opacity: 1 !important;
+    pointer-events: none; /* Keep background non-interactive so clicks go through if needed, though overlay handles it */
+}
+
+.video-card.playing.audio-mode .video-state-icon {
+    opacity: 1 !important;
+    transform: translate(-50%, -50%) scale(1.1);
+    transition: opacity 0.5s, transform 0.5s;
+}
+
+.video-card.audio-playing .video-state-icon {
+    animation: pulse-opacity 3s ease-in-out infinite;
+}
