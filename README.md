@@ -141,7 +141,7 @@ This file contains the playlist and artist information. It is an array of object
     "video_url": "https://www.youtube.com/watch?v=ZzwPfuLIw1o&t=30",
     "video_timestart": "30",
     "video_zoom": "315%",
-    "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/projector--59792--zzwpfuliw1o--projector--chemical-official-video.mp3",
+    "audio": "data/mp3/projector--chemical-official-video.mp3",
     "other_tags": [
         "Post-Punk",
         "UK"
