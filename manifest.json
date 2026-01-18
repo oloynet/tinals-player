@@ -45,28 +45,28 @@
     ],
     "screenshots": [
         {
-            "src": "/player/assets/images/screenshots/TINALS-player-FR-android.webp",
+            "src": "/player/assets/images/screenshots/tinals-player-FR-android.webp",
             "sizes": "500x983",
             "type": "image/webp",
             "form_factor": "narrow",
             "label": "Page accueil en français - mobile"
         },
         {
-            "src": "/player/assets/images/screenshots/TINALS-player-EN-android.webp",
+            "src": "/player/assets/images/screenshots/tinals-player-EN-android.webp",
             "sizes": "500x983",
             "type": "image/webp",
             "form_factor": "narrow",
             "label": "Home page in english - mobile"
         },
         {
-            "src": "/player/assets/images/screenshots/TINALS-player-FR-full.webp",
+            "src": "/player/assets/images/screenshots/tinals-player-FR-full.webp",
             "sizes": "2560x1600",
             "type": "image/webp",
             "form_factor": "wide",
             "label": "Page accueil en français - desktop"
         },
         {
-            "src": "/player/assets/images/screenshots/TINALS-player-EN-full.webp",
+            "src": "/player/assets/images/screenshots/tinals-player-EN-full.webp",
             "sizes": "2560x1600",
             "type": "image/webp",
             "form_factor": "wide",
