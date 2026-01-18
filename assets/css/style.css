@@ -1820,7 +1820,7 @@ iframe {
 }
 
 .video-card.playing.audio-mode .video-state-icon {
-    opacity: 1 !important;
+    opacity: 1;
     transform: translate(-50%, -50%) scale(1.1);
     transition: opacity 0.5s, transform 0.5s;
 }
