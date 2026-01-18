@@ -80,11 +80,13 @@ const VideoManager = {
                     'onStateChange': ( e ) => this.onStateChange( e, id, card ),
                     'onError': ( e ) => {
                         console.log( "Erreur Youtube", e.data );
+                        card.classList.remove( 'loading' );
                     }
                 }
             } );
         } else if (group.audio) {
             // Audio Fallback
+            card.classList.add( 'audio-mode' );
             if ( isAutoPlay ) this.pauseAll( id );
             this.instances[id] = new SimpleAudioPlayer(group.audio, `player-${id}`, (e) => this.onStateChange(e, id, card));
             if (AppState.state.isGlobalMuted) this.instances[id].mute();
@@ -104,9 +106,15 @@ const VideoManager = {
         if ( e.data === 1 ) {
             if ( AppState.timers.iconSwap ) clearTimeout( AppState.timers.iconSwap );
 
+            card.classList.remove( 'loading' );
             card.classList.remove( 'ended' );
             card.classList.add( 'playing' );
             card.classList.remove( 'paused-manual' );
+
+            if ( card.classList.contains( 'audio-mode' ) ) {
+                card.classList.add( 'audio-playing' );
+                if ( icon ) icon.textContent = 'volume_up';
+            }
 
             if ( s.isDisplayControlBar ) ControlBar.startTracking( id );
 
@@ -121,6 +129,9 @@ const VideoManager = {
             }
             if ( s.isAutoLoadVideo ) this.preloadNext( id );
         } else if ( e.data === 2 || e.data === 0 ) {
+            card.classList.remove( 'loading' );
+            card.classList.remove( 'audio-playing' );
+
             clearTimeout( tm.menu );
             document.getElementById( 'top-drawer' ).classList.remove( 'auto-hidden' );
 
@@ -157,6 +168,22 @@ const VideoManager = {
     },
     play: function ( id ) {
         this.pauseAll( id );
+
+        const card = document.getElementById( `video-${id}` );
+        const icon = card ? card.querySelector( '.video-state-icon' ) : null;
+        const group = AppState.data.find( g => g.id === id );
+        const isAudio = group && !group.video_url && group.audio;
+
+        if ( icon && card ) {
+            if ( !isAudio ) {
+                icon.textContent = 'cached';
+                card.classList.add( 'loading' );
+            } else {
+                icon.textContent = 'volume_up';
+                card.classList.add( 'audio-playing' );
+            }
+        }
+
         if ( !this.instances[ id ] ) this.create( id );
         else {
             if ( typeof this.instances[ id ].playVideo === 'function' ) {
@@ -185,6 +212,19 @@ const VideoManager = {
                 if ( state === 1 ) this.instances[ id ].pauseVideo();
                 else {
                     this.pauseAll( id );
+
+                    const card = document.getElementById( `video-${id}` );
+                    const icon = card ? card.querySelector( '.video-state-icon' ) : null;
+                    if ( card && icon ) {
+                        if ( !card.classList.contains( 'audio-mode' ) ) {
+                            icon.textContent = 'cached';
+                            card.classList.add( 'loading' );
+                        } else {
+                            icon.textContent = 'volume_up';
+                            card.classList.add( 'audio-playing' );
+                        }
+                    }
+
                     this.instances[ id ].playVideo();
                 }
             }

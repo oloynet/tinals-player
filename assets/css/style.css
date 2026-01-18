@@ -680,7 +680,6 @@ iframe {
 .video-card.playing .video-state-icon {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.1);
-    transition: opacity 0.5s ease 2s, transform 0.5s ease 2s;
 }
 
 .video-card.playing .group-title-center {
@@ -1791,4 +1790,49 @@ iframe {
 .loader-error-msg {
     color: white;
     text-align: center;
+}
+
+/* --- CUSTOM ANIMATIONS & STATES --- */
+
+@keyframes rotate-icon {
+    0% { transform: translate(-50%, -50%) rotate(0deg); }
+    100% { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+/* Loading State (Video) */
+.video-card.loading .video-state-icon {
+    opacity: 1 !important;
+    animation: rotate-icon 2s linear infinite;
+    transition: none;
+}
+
+/* Audio Mode Overrides */
+.video-card.playing.audio-mode .video-background {
+    opacity: 1 !important;
+    pointer-events: none; /* Keep background non-interactive so clicks go through if needed, though overlay handles it */
+}
+
+.video-card.playing.audio-mode .video-state-icon {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+@keyframes pulse-audio {
+    0% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.6;
+        transform: translate(-50%, -50%) scale(2.0);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.video-card.playing.audio-mode.audio-playing .video-state-icon {
+    animation: pulse-audio 2s ease-in-out infinite;
+    transition: none;
 }
