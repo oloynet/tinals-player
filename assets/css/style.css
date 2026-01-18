@@ -680,7 +680,6 @@ iframe {
 .video-card.playing .video-state-icon {
     opacity: 0;
     transform: translate(-50%, -50%) scale(1.1);
-    transition: opacity 0.5s ease 2s, transform 0.5s ease 2s;
 }
 
 .video-card.playing .group-title-center {
