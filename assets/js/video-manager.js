@@ -113,7 +113,7 @@ const VideoManager = {
 
             if ( card.classList.contains( 'audio-mode' ) ) {
                 card.classList.add( 'audio-playing' );
-                if ( icon ) icon.textContent = 'brand_awareness';
+                if ( icon ) icon.textContent = 'volume_up';
             }
 
             if ( s.isDisplayControlBar ) ControlBar.startTracking( id );
@@ -179,7 +179,7 @@ const VideoManager = {
                 icon.textContent = 'cached';
                 card.classList.add( 'loading' );
             } else {
-                icon.textContent = 'brand_awareness';
+                icon.textContent = 'volume_up';
                 card.classList.add( 'audio-playing' );
             }
         }
@@ -220,7 +220,7 @@ const VideoManager = {
                             icon.textContent = 'cached';
                             card.classList.add( 'loading' );
                         } else {
-                            icon.textContent = 'brand_awareness';
+                            icon.textContent = 'volume_up';
                             card.classList.add( 'audio-playing' );
                         }
                     }
