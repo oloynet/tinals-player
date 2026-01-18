@@ -6,7 +6,17 @@ const STATIC_ASSETS = [
     './manifest.json',
     './config_en.json',
     './config_fr.json',
-    './data.json',
+
+    './data/data.json',
+    // './data/images/2025/bdrmm-by-stew-baxter.jpg',
+    // './data/images/2025/deki-alem-pressbilder-bilder-horisontell.jpg',
+    // './data/images/2025/ghostwoman-by-andrin-fretz.jpg',
+    // './data/images/2025/john-maus-by-shawn-brackbill.jpg',
+    // './data/images/2025/knives.png',
+    // './data/images/2025/projector.jpg',
+    // './data/images/2025/tea-easter.png',
+    // './data/images/2025/the-murder-capital.jpg',
+
 
     './assets/css/style.css',
     './assets/js/app.js',

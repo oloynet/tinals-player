@@ -1,0 +1,180 @@
+[
+    {
+        "id": 2,
+        "event_name": "PROJECTOR",
+        "video_title": "Chemical",
+        "video_url": "https://www.youtube.com/watch?v=ZzwPfuLIw1o&t=30",
+        "video_timestart": "30",
+        "video_zoom": "315%",
+        "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/projector--59792--zzwpfuliw1o--projector--chemical-official-video.mp3",
+        "description": "Depuis sa formation en 2018, le groupe de Brighton creuse le sillon d’un post-punk frénétique et n’hésite pas à donner la priorité à l’ampleur sonore et à une attitude expérimentale à l’égard de la pop. Le premier album de Projector, « Now When We Talk It’s Violence”, fait le pont entre des expérimentations arty, l’agressivité du punk. Tantôt versé dans le brutalisme sombre et industriel de Joy Division ou dans une pop libre et brillamment composée, non sans rappeler Interpol ou The Organ, l’album empile des climax qui chancellent, véritable écrin pour les voix entrelacées de Lucy Sheehan et Edward Ensbury.",
+        "descriptionEN": "Since forming in 2018, the Brighton-based band has been ploughing the furrow of frenetic post-punk, not hesitating to prioritize sonic breadth and an experimental attitude to pop. Projector’s debut album, “Now When We Talk It’s Violence”, bridges the gap between arty experimentation and punk aggression. At times versed in the dark, industrial brutalism of Joy Division, and at other times in brilliantly composed free pop reminiscent of Interpol and The Organ, the album piles up staggering climaxes, a veritable showcase for the intertwined voices of Lucy Sheehan and Edward Ensbury.",
+        "image": "data/images/2025/projector.jpg",
+        "image_mobile": "data/images/2025/projector.jpg",
+        "image_thumbnail": "data/images/2025/projector.jpg",
+        "event_day": "vendredi",
+        "event_start_date": "2025-06-27",
+        "event_end_date": "2025-06-27",
+        "event_start_time": "19:15",
+        "event_end_time": "20:00",
+        "event_duration": "00:45",
+        "event_place": "Scène Extérieure Mosquito",
+        "event_tags": [
+            "Day #1",
+            "Envie d'en découdre"
+        ],
+        "other_tags": [
+            "Post-Punk",
+            "UK"
+        ],
+        "performer_youtube": "https://www.youtube.com/channel/UCrCCSSvWCIssWuGNzf2tW7w",
+        "performer_facebook": "https://www.facebook.com/projectormusic/",
+        "performer_instagram": "https://www.instagram.com/projectorprojector/",
+        "performer_website": "https://www.projectorprojector.co.uk/",
+        "performer_deezer": "https://www.deezer.com/fr/artist/4158077",
+        "performer_spotify": "https://open.spotify.com/intl-fr/artist/25loVbwSp0xXNu4Ds1lTa9"
+    },
+    {
+        "id": 3,
+        "event_name": "DEKI ALEM",
+        "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/deki-alem--59775--pvq-1ax3phi--deki-alem--wet-paint.mp3",
+        "description": "Avec une énergie et un dynamisme incomparable, Deki Alem est un groupe sans frontières, impossible à mettre dans une seule case. Créant sans cesse de nouveaux ponts dans la musique moderne, le duo de frères jumeaux est pour ainsi dire multi-visages. Avec une pureté et une masculinité sensible, Deki Alem mélangent les sous-genres tels que la drum & bass, la dance le grunge et le rap de manière harmonieuse. Après avoir sorti deux clips pour “Razor” et “Wet Paint”, le duo a sorti le single “Act Nice” suivi de son premier EP “Among Heads” le 1er avril et produit par LIOHN et Klahr (Lady Gaga, Bree Runway, Swedish House Mafia).",
+        "descriptionEN": "With incomparable energy and dynamism, Deki Alem is a band without borders, impossible to fit into a single box. Constantly building new bridges in modern music, the duo of twin brothers is, so to speak, multi-faceted. With purity and sensitive masculinity, Deki Alem seamlessly blend sub-genres such as drum & bass, dance, grunge and rap. After releasing two videos for “Razor” and “Wet Paint”, the duo released the single “Act Nice”, followed by their debut EP “Among Heads” on April 1, produced by LIOHN and Klahr (Lady Gaga, Bree Runway, Swedish House Mafia).",
+        "image": "data/images/2025/deki-alem-pressbilder-bilder-horisontell.jpg"
+    },
+    {
+        "id": 4,
+        "event_name": "bdrmm",
+        "video_title": "Infinity peaking",
+        "video_url": "https://www.youtube.com/watch?v=kieWDh2NAiE&t=35",
+        "description": "Avec Microtonic, bdrmm franchit un cap décisif. Le groupe de Hull, mené par Ryan Smith, explore de nouveaux territoires sonores, mêlant shoegaze, post-rock et electronica dans une approche plus libre et collaborative que jamais. Les guitares rêveuses qui ont fait leur réputation sont toujours là, mais s’entrelacent désormais avec des textures électroniques, des pulsations ambient ou dance, comme sur l’hypnotique Infinity Peaking. Cette évolution s’est construite dans un esprit d’ouverture, tant dans le processus de création — fait de contributions à distance et de production collective — que dans les collaborations, avec notamment Syd de Working Men’s Club et Olivesque. L’album s’ancre aussi dans une ambiance dystopique, marquée par l’après-pandémie, les souvenirs flous et une certaine mélancolie contemporaine.",
+        "image": "data/images/2025/bdrmm-by-stew-baxter.jpg",
+        "event_day": "vendredi",
+        "event_start_date": "2025-06-27",
+        "event_start_time": "20:05",
+        "event_end_time": "20:55",
+        "event_duration": "00:50",
+        "event_place": "Scène Extérieure Flamingo",
+        "event_tags": [
+            "Day #1"
+        ],
+        "other_tags": [
+            "Post-rock",
+            "UK"
+        ]
+    },
+    {
+        "id": 5,
+        "event_name": "Tea Eater",
+        "video_title": "Obsession",
+        "video_url": "https://www.youtube.com/watch?v=TaXQ01pg3i4",
+        "description": "Tea Eater est un groupe d’art/noise punk basé à New York et mené par Tarra Thiessen de Gustaf et Sharkmuffin. Leur son combine des accroches accrocheuses avec des paroles amères sur le beurre, le meurtre de votre double, et le fait que le DMV est le pire. Formé en 2022, Tea Eater s’est rapidement imposé grâce à ses concerts énergiques et à son éthique DIY. Depuis la sortie de leur premier single «I’m Starting a Podcast», Tea Eater a partagé la scène avec Thee Oh Sees, a effectué une résidence réussie au Broadway de Bushwick et a fait une tournée sur la côte Est des États-Unis. Un LP sortira cet été et leur premier album, Obsession, produit et mixé par Drew Vandenburg (Bambara/Faye Webster/Of Montreal) est sorti à  l’automne 2023.",
+        "image": "data/images/2025/tea-easter.png",
+        "event_day": "vendredi",
+        "event_start_date": "2025-06-27",
+        "event_start_time": "20:20",
+        "event_end_time": "21:05",
+        "event_duration": "00:45",
+        "event_place": "Patio",
+        "event_tags": [
+            "Day #1",
+            "Envie d'en découdre"
+        ],
+        "other_tags": [
+            "Punk",
+            "New York",
+            "US"
+        ]
+    },
+    {
+        "id": 6,
+        "event_name": "John Maus",
+        "video_title": "Keep pushing on",
+        "video_url": "https://www.youtube.com/watch?v=qGtIqrz2nRM",
+        "description": "John Maus est un musicien et compositeur américain né le 23 février 1980 à Austin dans le Minnesota. Passionné de musique depuis son plus jeune âge, Maus s’est fait connaître pour son style unique et un son innovant.Bien que fortement ancré dans la synth-pop, il a réussi à transformer le minimalisme froid qui la caractérise en créant un langage musical chargé de sens infini (il est Docteur en Philosophie Politique !), de grâce authentique et d’humour absurde au fil de plusieurs albums majeurs depuis 2006. Sa musique est éminemment changeante, souvent qualifiée de rétro-futuriste en raison de l’utilisation de boîtes à rythmes des années 80 et de sons de synthé, mais l’œuvre de John est bien plus personnelle que ce que pourrait laisser penser cette évocation nostalgique. Les chansons de John Maus ont une qualité cinématographique, parvenant à évoquer du pathos à travers des lignes de basse propulsives, des arpèges qui se prolongent, et bien sûr, sa voix profondément résonnante. Alors que Moroder a contribué à définir le territoire, Maus s’intéresse davantage à trouver une cadence à travers son amour de la polyphonie de la Renaissance et des expérimentations du post-punk. Artiste aussi énigmatique que talentueux, il continue de repousser les limites et de créer un son distinct auquel des auditeurs du monde entier sont profondément sensibles. En plus de son travail solo, John Maus a collaboré avec d’autres musiciens et artistes notables. Ses collaborations lui ont permis d’explorer de nouvelles avenues créatives et d’élargir ses horizons musicaux. Qu’il se produise en live ou qu’il enregistre en studio, la passion de Maus pour la musique transparaît dans chaque note que cet « homme hors du temps » joue en tentant de donner un sens à l’inhumanité de notre monde, et avec la force puissante qui anime à la fois ses chansons et sa personne.",
+        "image": "data/images/2025/john-maus-by-shawn-brackbill.jpg",
+        "event_day": "vendredi",
+        "event_start_date": "2025-06-27",
+        "event_start_time": "21:45",
+        "event_end_time": "22:25",
+        "event_duration": "00:40",
+        "event_place": "Grande Salle Paloma",
+        "event_tags": [
+            "Day #1",
+            "Comme dans un film de Nolan"
+        ],
+        "other_tags": [
+            "Synth-Pop",
+            "US"
+        ]
+    },
+    {
+        "id": 7,
+        "event_name": "GHOSTWOMAN",
+        "video_title": "Juan",
+        "video_url": "https://www.youtube.com/watch?v=67NuIE-krQ8",
+        "description": "GHOSTWOMAN est le projet musical d’Evan Uschenko et d’Ille van Dessel, un duo basé au Canada et en Belgique. Ils jouent un mélange de rock psychédélique, de blues, de punk, de post punk, de rock and roll, de shoegaze, de classique et de pop. Vous vous souvenez peut-être d’eux lors de l’attentat à la bombe d’Oklahoma City au printemps 1995 ou dans la superproduction hollywoodienne Die Hard avec Hans Buhringer et Al Leong.",
+        "descriptionEN": "GHOSTWOMAN is the musical project of Evan Uschenko and Ille van Dessel: a duo group based in Canada/Belgium. They play a blend of psychedelic rock, blues, punk, post punk, rock and roll, shoegaze, classical, and pop. You may remember them from the Oklahoma City bombing in the spring of ’95 or the Hollywood blockbuster “Die Hard” starring Hans Buhringer and Al Leong.",
+        "image": "data/images/2025/ghostwoman-by-andrin-fretz.jpg",
+        "event_day": "vendredi",
+        "event_start_date": "2025-06-27",
+        "event_start_time": "21:00",
+        "event_end_time": "21:45",
+        "event_duration": "00:45",
+        "event_place": "Scène Extérieure Mosquito",
+        "event_tags": [
+            "Day #1",
+            "À l'arrière d'un pick-up"
+        ],
+        "other_tags": [
+            "Blues",
+            "Punk",
+            "Rock",
+            "CA - BE"
+        ]
+    },
+    {
+        "id": 8,
+        "event_name": "The Murder Capital",
+        "video_title": "Words lost meaning",
+        "video_url": "https://www.youtube.com/watch?v=bJWT1WAepWk",
+        "description": "The Murder Capital dévoile Blindness, un troisième album brûlant d’urgence et de clarté, né d’un besoin vital d’aller droit au but. Enregistré en trois semaines à Los Angeles sous la houlette du producteur John Congleton, l’album privilégie l’instant, le brut, le non-prémédité. Pas de démos, juste des captures sur dictaphone pour conserver l’énergie initiale. Onze titres qui foncent tête baissée, à l’image de « Can’t Pretend to Know », premier single à la tension électrique. Le groupe y explore l’intime, le politique, les fêlures de l’enfance, les liens brûlés entre foi, amour et identité. McGovern, frontman habité, chante la confusion patriotique, la dilution des mots, la perte et l’espoir, notamment sur des morceaux comme « Love of Country », « Death of a Giant » ou « Trailing A Wing », né en dernière minute d’un sursaut d’inspiration et d’un éclat de tension en studio. Après un deuxième album né dans l’isolement et un contexte tendu, Blindness signe une réconciliation : entre les membres, dispersés entre l’Irlande, Berlin et Londres, mais soudés par la création ; entre le groupe et son essence, retrouvée sur scène fin 2023, puis dans l’écriture collective de 12 morceaux en 10 jours. C’est une œuvre qui résonne comme un cri libérateur, porté par la sincérité, la rage et la poésie brute. Avec une tournée aux côtés de Pearl Jam et Nick Cave en perspective, The Murder Capital s’affirme comme l’un des groupes les plus intenses et pertinents de sa génération.",
+        "image": "data/images/2025/the-murder-capital.jpg",
+        "event_day": "samedi",
+        "event_start_date": "2025-06-28",
+        "event_start_time": "21:50",
+        "event_end_time": "22:50",
+        "event_duration": "01:00",
+        "event_place": "Scène Extérieure Flamingo",
+        "event_tags": [
+            "Day #2",
+            "À l'arrière d'un pick-up"
+        ],
+        "other_tags": [
+            "Punk",
+            "IE"
+        ]
+    },
+    {
+        "id": 9,
+        "event_name": "Knives",
+        "video_title": "The dagger",
+        "video_url": "https://www.youtube.com/watch?v=Z4ZihBvTocU",
+        "description": "Knives, collectif noise de Bristol, sortira son premier album Glitter le 2 mai 2025 sur Marshall Records. Le groupe annonce en parallèle un nouveau single, The Dagger, brûlot rageur et engagé qui donne le ton d’un disque à la croisée du hardcore, du post-punk, de l’alt-rock et du jazz expérimental. Enregistré dans les vallées galloises avec Dominic Bailey-Clay, Glitter est imprégné de tension mais porté par une énergie positive. À travers sa musique, Knives entend raviver l’esprit originel de la scène alternative : celui de la diversité, de l’inclusivité et du refus des normes établies. Knives est plus qu’un groupe : c’est un manifeste vivant pour une scène où les personnes queer et racisées trouvent leur place. Le single The Dagger aborde de front les divisions culturelles et le climat politique hostile envers les personnes migrantes au Royaume-Uni. Knives n’a pas peur de mordre, ni de rêver d’un autre monde. En live comme en studio, ils bâtissent une communauté rebelle, bruyante, bienveillante — et indispensable.",
+        "image": "data/images/2025/knives.png",
+        "event_day": "samedi",
+        "event_start_date": "2025-06-28",
+        "event_start_time": "22:00",
+        "event_end_time": "22:45",
+        "event_duration": "00:45",
+        "event_place": "Patio",
+        "event_tags": [
+            "Day #2",
+            "Envie d'en découdre"
+        ],
+        "other_tags": [
+            "Post-punk",
+            "UK"
+        ]
+    }
+]
