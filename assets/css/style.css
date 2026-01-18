@@ -1799,10 +1799,10 @@ iframe {
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-@keyframes pulse-opacity {
-    0% { opacity: 1; }
-    50% { opacity: 0.4; }
-    100% { opacity: 1; }
+@keyframes pulse-scale {
+    0% { transform: translate(-50%, -50%) scale(1); }
+    50% { transform: translate(-50%, -50%) scale(1.4); }
+    100% { transform: translate(-50%, -50%) scale(1); }
 }
 
 /* Loading State (Video) */
@@ -1824,6 +1824,6 @@ iframe {
 }
 
 .video-card.playing.audio-mode.audio-playing .video-state-icon {
-    animation: pulse-opacity 3s ease-in-out infinite;
+    animation: pulse-scale 3s ease-in-out infinite;
     transition: none;
 }
