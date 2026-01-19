@@ -17,7 +17,6 @@ const STATIC_ASSETS = [
     './data/2025/images/projector.webp',
     './data/2025/images/projector-mobile.webp',
     './data/2025/images/projector-thumbnail.webp',
-    './data/2025/images/projector.webp',
     './data/2025/images/tea-easter.webp',
     './data/2025/images/the-murder-capital.webp',
 
