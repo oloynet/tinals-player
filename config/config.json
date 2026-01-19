@@ -1,8 +1,8 @@
 {
     "site":
     {
-        "version": "v1.09",
-        "version_name": "player TINALS v1.09",
+        "version": "v1.10",
+        "version_name": "player TINALS v1.10",
         "title": "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name": "Playlist | TINALS 2026",
         "short_name": "TINALS",
@@ -10,16 +10,16 @@
         "theme_color": "#2d91d0",
         "background_color": "#000000",
         "orientation": "portrait-primary",
-        "scope": "/player/",
-        "id": "/player/",
-        "start_url": "/player/",
+        "scope": "./",
+        "id": "./",
+        "start_url": "./",
         "display": "standalone",
         "default_locale": "fr",
         "author": "Olivier LOYNET - +33.668055252",
         "url": "https://thisisnotalovesong.fr",
         "homepage_url": "https://thisisnotalovesong.fr",
         "data_source": "data/data.json",
-        "path": "/player/"
+        "path": "./"
     },
 
     "features":
@@ -67,7 +67,7 @@
         "flag_fr_id": "flag-fr",
         "flag_en_id": "flag-en",
 
-        "sprite_path": "assets/images/sprite.svg?v=1.08",
+        "sprite_path": "assets/images/sprite.svg?v=1.10",
 
         "icon_16": "assets/favicon/favicon-16x16.png",
         "icon_32_maskable": "assets/favicon/favicon-maskable-32x32.png",
@@ -85,59 +85,59 @@
     {
         "purpose": "maskable",
         "sizes": "1024x1024",
-        "src": "/player/assets/favicon/maskable_icon.png",
+        "src": "assets/favicon/maskable_icon.png",
         "type": "image/png"
     },
     {
         "purpose": "maskable",
         "sizes": "48x48",
-        "src": "/player/assets/favicon/maskable_icon_x48.png",
+        "src": "assets/favicon/maskable_icon_x48.png",
         "type": "image/png"
     },
     {
         "purpose": "maskable",
         "sizes": "72x72",
-        "src": "/player/assets/favicon/maskable_icon_x72.png",
+        "src": "assets/favicon/maskable_icon_x72.png",
         "type": "image/png"
     },
     {
         "purpose": "maskable",
         "sizes": "96x96",
-        "src": "/player/assets/favicon/maskable_icon_x96.png",
+        "src": "assets/favicon/maskable_icon_x96.png",
         "type": "image/png"
     },
     {
         "purpose": "maskable",
         "sizes": "128x128",
-        "src": "/player/assets/favicon/maskable_icon_x128.png",
+        "src": "assets/favicon/maskable_icon_x128.png",
         "type": "image/png"
     },
     {
         "purpose": "maskable",
         "sizes": "192x192",
-        "src": "/player/assets/favicon/maskable_icon_x192.png",
+        "src": "assets/favicon/maskable_icon_x192.png",
         "type": "image/png"
     },
     {
         "purpose": "maskable",
         "sizes": "384x384",
-        "src": "/player/assets/favicon/maskable_icon_x384.png",
+        "src": "assets/favicon/maskable_icon_x384.png",
         "type": "image/png"
     },
     {
         "purpose": "maskable",
         "sizes": "512x512",
-        "src": "/player/assets/favicon/maskable_icon_x512.png",
+        "src": "assets/favicon/maskable_icon_x512.png",
         "type": "image/png"
     },
     {
-        "src": "/player/assets/favicon/android-chrome-192x192.png",
+        "src": "assets/favicon/android-chrome-192x192.png",
         "sizes": "192x192",
         "type": "image/png",
         "purpose": "any"
     },
     {
-        "src": "/player/assets/favicon/android-chrome-512x512.png",
+        "src": "assets/favicon/android-chrome-512x512.png",
         "sizes": "512x512",
         "type": "image/png",
         "purpose": "any"
