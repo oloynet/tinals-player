@@ -589,11 +589,11 @@ function getVideoCardHtml( g ) {
     return `
     <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
         <div class="video-container">
-            ${statusBadge}
             <div class="group-title-center">
                 <h2>${g.event_name}</h2>
                 ${songTitleCenter}
                 ${splashMetaHtml}
+                ${statusBadge}
             </div>
             <div class="video-background" style="background-image: url('${bgImage}');"></div>
             <div id="player-${g.id}" class="yt-placeholder"></div>
