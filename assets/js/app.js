@@ -1468,6 +1468,11 @@ function handleOrientationChange() {
 const PWAManager = {
     deferredPrompt: null,
     init: function() {
+        // Migration: Remove old localStorage key to unblock users who clicked "Later"
+        if (localStorage.getItem('app_install_seen')) {
+            localStorage.removeItem('app_install_seen');
+        }
+
         window.addEventListener('beforeinstallprompt', (e) => {
             e.preventDefault();
             this.deferredPrompt = e;
@@ -1476,7 +1481,7 @@ const PWAManager = {
 
         window.addEventListener('appinstalled', () => {
             this.deferredPrompt = null;
-            localStorage.setItem('app_install_seen', 'true');
+            localStorage.setItem('app_installed', 'true');
             console.log('PWA was installed');
         });
 
@@ -1487,8 +1492,10 @@ const PWAManager = {
         if(btnLater) btnLater.addEventListener('click', () => this.dismiss());
     },
     checkAndShow: function() {
-        const seen = localStorage.getItem('app_install_seen');
-        if (!seen) {
+        const dismissed = sessionStorage.getItem('app_install_dismissed');
+        const installed = localStorage.getItem('app_installed');
+
+        if (!dismissed && !installed) {
             setTimeout(() => {
                 this.showModal();
             }, 2000);
@@ -1511,7 +1518,7 @@ const PWAManager = {
     dismiss: function() {
         const modal = document.getElementById('install-modal');
         if (modal) modal.classList.remove('active');
-        localStorage.setItem('app_install_seen', 'true');
+        sessionStorage.setItem('app_install_dismissed', 'true');
     },
     install: async function() {
         if (this.deferredPrompt) {
@@ -1526,7 +1533,7 @@ const PWAManager = {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v=1.08' )
+    navigator.serviceWorker.register( 'service-worker.js?v=1.10' )
         .then( ( reg ) => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker', err ) );
 }
