@@ -15,7 +15,7 @@
             "Envie d'en découdre"
         ],
         "video_title": "Chemical",
-        "video_url": "https://www.youtube.com/watch?v=ZzwPfuLIw1o&t=30",
+        "video_url": "https://www.youtube.com/watch?v=ZzwPfuLIw1o",
         "video_timestart": "30",
         "video_zoom": "315%",
         "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/projector--59792--zzwpfuliw1o--projector--chemical-official-video.mp3",
@@ -58,13 +58,14 @@
             "Day #1"
         ],
         "video_title": "Infinity peaking",
-        "video_url": "https://www.youtube.com/watch?v=kieWDh2NAiE&t=35",
+        "video_url": "https://www.youtube.com/watch?v=kieWDh2NAiE",
         "image": "data/2025/images/bdrmm-by-stew-baxter.webp",
         "description": "Avec Microtonic, bdrmm franchit un cap décisif. Le groupe de Hull, mené par Ryan Smith, explore de nouveaux territoires sonores, mêlant shoegaze, post-rock et electronica dans une approche plus libre et collaborative que jamais. Les guitares rêveuses qui ont fait leur réputation sont toujours là, mais s’entrelacent désormais avec des textures électroniques, des pulsations ambient ou dance, comme sur l’hypnotique Infinity Peaking. Cette évolution s’est construite dans un esprit d’ouverture, tant dans le processus de création — fait de contributions à distance et de production collective — que dans les collaborations, avec notamment Syd de Working Men’s Club et Olivesque. L’album s’ancre aussi dans une ambiance dystopique, marquée par l’après-pandémie, les souvenirs flous et une certaine mélancolie contemporaine.",
         "other_tags": [
             "Post-rock",
             "UK"
-        ]
+        ],
+        "video_timestart": "35"
     },
     {
         "id": 5,
