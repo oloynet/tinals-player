@@ -43,11 +43,14 @@ const VideoManager = {
         // Determine content type: YouTube vs Audio vs None
         if (group.video_url) {
             const ytData     = parseYoutubeData(group.video_url);
-            let videoId      = ytData.id
-            let startSeconds = ytData.start
+            let videoId      = ytData.id;
+            let startSeconds = 0;
 
-            if (startSeconds === undefined) {
-                startSeconds = 0;
+            if ( group.video_timestart !== undefined && group.video_timestart !== null ) {
+                const parsed = parseInt( group.video_timestart, 10 );
+                if ( !isNaN( parsed ) ) startSeconds = parsed;
+            } else if ( ytData.start ) {
+                startSeconds = ytData.start;
             }
 
             if ( !videoId ) return;

@@ -93,6 +93,7 @@ This file contains the playlist and artist information. It is an array of object
 | video\_url |  | url | YouTube video of the artist at the event (if unavailable, displays image only) |
 | audio |  | url | The audio file of the artist at the event (MP3). Used if video_url is missing. |
 | video\_title |  | text | YouTube video title of the artist at the event |
+| video\_timestart |  | number | The video start time in seconds |
 | event\_day |  | text | Day of the week of the event |
 | event\_start\_date |  | date | The event start date, format 'yyyy-mm-dd' |
 | event\_end\_date |  | date | The event end date, format 'yyyy-mm-dd' | 
