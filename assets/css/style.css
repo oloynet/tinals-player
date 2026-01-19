@@ -38,6 +38,12 @@
     --status-rescheduled-bg: var(--primary-color);
     --status-scheduled-color: var(--light-color);
     --status-scheduled-bg: var(--primary-color);
+
+    --header-height: 65px;
+}
+
+body.menu-hidden {
+    --header-height: 0px;
 }
 
 * {
@@ -128,13 +134,12 @@ body {
 #fav-mode-bar,
 #tag-mode-bar {
     position: fixed;
-    bottom: 0;
+    top: var(--header-height);
     left: 0;
     width: 100%;
     height: auto;
     min-height: 40px;
-    padding-bottom: env(safe-area-inset-bottom);
-    z-index: 500;
+    z-index: 90;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -142,10 +147,15 @@ body {
     text-transform: uppercase;
     letter-spacing: 1px;
     font-size: 0.85rem;
-    transform: translateY(100%);
-    transition: transform 0.3s ease-in-out;
-    box-shadow: 0 -4px 15px rgba(0, 0, 0, 0.3);
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out, top 0.4s ease, padding-top 0.4s ease;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+}
+
+body.menu-hidden #fav-mode-bar,
+body.menu-hidden #tag-mode-bar {
+    padding-top: env(safe-area-inset-top);
 }
 
 #fav-mode-bar {
