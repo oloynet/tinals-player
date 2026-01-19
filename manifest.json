@@ -8,7 +8,10 @@
     "start_url": "./",
     "scope": "./",
     "display": "standalone",
-    "display_override": ["fullscreen", "minimal-ui"],
+    "display_override": [
+        "fullscreen",
+        "minimal-ui"
+    ],
     "orientation": "portrait-primary",
     "background_color": "#000000",
     "theme_color": "#2d91d0",
@@ -77,16 +80,76 @@
     ],
     "shortcuts": [
         {
-            "name": "TINALS en français",
+            "name": "TINALS 2026 - français",
             "short_name": "Français",
             "url": "./?lang=fr",
-            "icons": [{ "src": "assets/images/shortcuts/flag-FR.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+            "icons": [
+                {
+                    "src": "assets/images/shortcuts/flag-FR.svg",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
         },
         {
-            "name": "TINALS in English",
+            "name": "TINALS day#1 - vendredi 5 juin",
+            "short_name": "vendredi 5 juin",
+            "url": "./?filter=day-1",
+            "icons": [
+                {
+                    "src": "assets/images/shortcuts/flag-FR.svg",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        },
+        {
+            "name": "TINALS day#1 - samedi 6 juin",
+            "short_name": "samedi 6 juin",
+            "url": "./?filter=day-2",
+            "icons": [
+                {
+                    "src": "assets/images/shortcuts/flag-FR.svg",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        },
+        {
+            "name": "TINALS 2026 - English",
             "short_name": "English",
             "url": "./?lang=en",
-            "icons": [{ "src": "assets/images/shortcuts/flag-EN.svg", "sizes": "96x96", "type": "image/svg+xml" }]
+            "icons": [
+                {
+                    "src": "assets/images/shortcuts/flag-EN.svg",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        },
+        {
+            "name": "TINALS day #1 - friday june 5",
+            "short_name": "friday june 5",
+            "url": "./?lang=en&filter=day-1",
+            "icons": [
+                {
+                    "src": "assets/images/shortcuts/flag-EN.svg",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
+        },
+        {
+            "name": "TINALS day #2 - saturday june 6",
+            "short_name": "saturday june 6",
+            "url": "./?lang=en&filter=day-2",
+            "icons": [
+                {
+                    "src": "assets/images/shortcuts/flag-EN.svg",
+                    "sizes": "96x96",
+                    "type": "image/svg+xml"
+                }
+            ]
         }
     ]
 }
