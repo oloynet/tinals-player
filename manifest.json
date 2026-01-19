@@ -1,155 +1,155 @@
 {
-    "name": "TINALS 2026",
-    "short_name": "TINALS",
-    "version": "v1.10",
-    "version_name": "TINALS 2026 v1.10",
-    "description": "Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma.",
-    "id": "tinals-player-2026",
-    "start_url": "./",
-    "scope": "./",
-    "display": "standalone",
-    "display_override": [
-        "fullscreen",
-        "minimal-ui"
-    ],
-    "orientation": "portrait-primary",
-    "background_color": "#000000",
-    "theme_color": "#2d91d0",
-    "lang": "fr",
-    "icons": [
-        {
-            "src": "assets/favicon/android-chrome-192x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "assets/favicon/android-chrome-512x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "any"
-        },
-        {
-            "src": "assets/favicon/maskable_icon_x192.png",
-            "sizes": "192x192",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "assets/favicon/maskable_icon_x512.png",
-            "sizes": "512x512",
-            "type": "image/png",
-            "purpose": "maskable"
-        },
-        {
-            "src": "assets/favicon/favicon.svg",
-            "sizes": "512x512",
-            "type": "image/svg+xml",
-            "purpose": "any maskable"
-        }
-    ],
-    "screenshots": [
-        {
-            "src": "assets/images/screenshots/tinals-player-FR-android.webp",
-            "sizes": "500x983",
-            "type": "image/webp",
-            "form_factor": "narrow",
-            "label": "Page accueil en français - mobile"
-        },
-        {
-            "src": "assets/images/screenshots/tinals-player-EN-android.webp",
-            "sizes": "500x983",
-            "type": "image/webp",
-            "form_factor": "narrow",
-            "label": "Home page in english - mobile"
-        },
-        {
-            "src": "assets/images/screenshots/tinals-player-FR-full.webp",
-            "sizes": "2560x1600",
-            "type": "image/webp",
-            "form_factor": "wide",
-            "label": "Page accueil en français - desktop"
-        },
-        {
-            "src": "assets/images/screenshots/tinals-player-EN-full.webp",
-            "sizes": "2560x1600",
-            "type": "image/webp",
-            "form_factor": "wide",
-            "label": "Home page in english - desktop"
-        }
-    ],
-    "shortcuts": [
-        {
-            "name": "TINALS 2026 - français",
-            "short_name": "Français",
-            "url": "./?lang=fr",
-            "icons": [
-                {
-                    "src": "assets/images/shortcuts/flag-FR.svg",
-                    "sizes": "96x96",
-                    "type": "image/svg+xml"
-                }
-            ]
-        },
-        {
-            "name": "TINALS day#1 - vendredi 5 juin",
-            "short_name": "vendredi 5 juin",
-            "url": "./?filter=day-1",
-            "icons": [
-                {
-                    "src": "assets/images/shortcuts/flag-FR.svg",
-                    "sizes": "96x96",
-                    "type": "image/svg+xml"
-                }
-            ]
-        },
-        {
-            "name": "TINALS day#1 - samedi 6 juin",
-            "short_name": "samedi 6 juin",
-            "url": "./?filter=day-2",
-            "icons": [
-                {
-                    "src": "assets/images/shortcuts/flag-FR.svg",
-                    "sizes": "96x96",
-                    "type": "image/svg+xml"
-                }
-            ]
-        },
-        {
-            "name": "TINALS 2026 - English",
-            "short_name": "English",
-            "url": "./?lang=en",
-            "icons": [
-                {
-                    "src": "assets/images/shortcuts/flag-EN.svg",
-                    "sizes": "96x96",
-                    "type": "image/svg+xml"
-                }
-            ]
-        },
-        {
-            "name": "TINALS day #1 - friday june 5",
-            "short_name": "friday june 5",
-            "url": "./?lang=en&filter=day-1",
-            "icons": [
-                {
-                    "src": "assets/images/shortcuts/flag-EN.svg",
-                    "sizes": "96x96",
-                    "type": "image/svg+xml"
-                }
-            ]
-        },
-        {
-            "name": "TINALS day #2 - saturday june 6",
-            "short_name": "saturday june 6",
-            "url": "./?lang=en&filter=day-2",
-            "icons": [
-                {
-                    "src": "assets/images/shortcuts/flag-EN.svg",
-                    "sizes": "96x96",
-                    "type": "image/svg+xml"
-                }
-            ]
-        }
-    ]
+   "name":"TINALS 2026",
+   "short_name":"TINALS",
+   "version":"v1.10",
+   "version_name":"TINALS 2026 v1.10",
+   "description":"Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma.",
+   "id":"tinals-player-2026",
+   "start_url":"./",
+   "scope":"./",
+   "display":"standalone",
+   "display_override":[
+      "fullscreen",
+      "minimal-ui"
+   ],
+   "orientation":"portrait-primary",
+   "background_color":"#000000",
+   "theme_color":"#2d91d0",
+   "lang":"fr",
+   "icons":[
+      {
+         "src":"assets/favicon/android-chrome-192x192.png",
+         "sizes":"192x192",
+         "type":"image/png",
+         "purpose":"any"
+      },
+      {
+         "src":"assets/favicon/android-chrome-512x512.png",
+         "sizes":"512x512",
+         "type":"image/png",
+         "purpose":"any"
+      },
+      {
+         "src":"assets/favicon/maskable_icon_x192.png",
+         "sizes":"192x192",
+         "type":"image/png",
+         "purpose":"maskable"
+      },
+      {
+         "src":"assets/favicon/maskable_icon_x512.png",
+         "sizes":"512x512",
+         "type":"image/png",
+         "purpose":"maskable"
+      },
+      {
+         "src":"assets/favicon/favicon.svg",
+         "sizes":"512x512",
+         "type":"image/svg+xml",
+         "purpose":"any maskable"
+      }
+   ],
+   "screenshots":[
+      {
+         "src":"assets/images/screenshots/tinals-player-FR-android.webp",
+         "sizes":"500x983",
+         "type":"image/webp",
+         "form_factor":"narrow",
+         "label":"Page accueil en français - mobile"
+      },
+      {
+         "src":"assets/images/screenshots/tinals-player-EN-android.webp",
+         "sizes":"500x983",
+         "type":"image/webp",
+         "form_factor":"narrow",
+         "label":"Home page in english - mobile"
+      },
+      {
+         "src":"assets/images/screenshots/tinals-player-FR-full.webp",
+         "sizes":"2560x1600",
+         "type":"image/webp",
+         "form_factor":"wide",
+         "label":"Page accueil en français - desktop"
+      },
+      {
+         "src":"assets/images/screenshots/tinals-player-EN-full.webp",
+         "sizes":"2560x1600",
+         "type":"image/webp",
+         "form_factor":"wide",
+         "label":"Home page in english - desktop"
+      }
+   ],
+   "shortcuts":[
+      {
+         "name":"TINALS 2026 - français",
+         "short_name":"Français",
+         "url":"./?lang=fr",
+         "icons":[
+            {
+               "src":"assets/images/shortcuts/flag-FR.svg",
+               "sizes":"96x96",
+               "type":"image/svg+xml"
+            }
+         ]
+      },
+      {
+         "name":"TINALS day#1 - vendredi 5 juin",
+         "short_name":"vendredi 5 juin",
+         "url":"./?filter=day-1",
+         "icons":[
+            {
+               "src":"assets/images/shortcuts/flag-FR.svg",
+               "sizes":"96x96",
+               "type":"image/svg+xml"
+            }
+         ]
+      },
+      {
+         "name":"TINALS day#1 - samedi 6 juin",
+         "short_name":"samedi 6 juin",
+         "url":"./?filter=day-2",
+         "icons":[
+            {
+               "src":"assets/images/shortcuts/flag-FR.svg",
+               "sizes":"96x96",
+               "type":"image/svg+xml"
+            }
+         ]
+      },
+      {
+         "name":"TINALS 2026 - English",
+         "short_name":"English",
+         "url":"./?lang=en",
+         "icons":[
+            {
+               "src":"assets/images/shortcuts/flag-EN.svg",
+               "sizes":"96x96",
+               "type":"image/svg+xml"
+            }
+         ]
+      },
+      {
+         "name":"TINALS day #1 - friday june 5",
+         "short_name":"friday june 5",
+         "url":"./?lang=en&filter=day-1",
+         "icons":[
+            {
+               "src":"assets/images/shortcuts/flag-EN.svg",
+               "sizes":"96x96",
+               "type":"image/svg+xml"
+            }
+         ]
+      },
+      {
+         "name":"TINALS day #2 - saturday june 6",
+         "short_name":"saturday june 6",
+         "url":"./?lang=en&filter=day-2",
+         "icons":[
+            {
+               "src":"assets/images/shortcuts/flag-EN.svg",
+               "sizes":"96x96",
+               "type":"image/svg+xml"
+            }
+         ]
+      }
+   ]
 }
