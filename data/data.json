@@ -2,6 +2,7 @@
     {
         "id": 2,
         "event_name": "Projector",
+        "event_status": "scheduled",
         "event_day": "vendredi",
         "event_start_date": "2025-06-27",
         "event_end_date": "2025-06-27",
@@ -37,6 +38,7 @@
     {
         "id": 3,
         "event_name": "Deki Alem",
+        "event_status": "scheduled",
         "audio": "https://thisisnotalovesong.fr/wp-content/uploads/2025/03/deki-alem--59775--pvq-1ax3phi--deki-alem--wet-paint.mp3",
         "image": "data/2025/images/deki-alem-pressbilder-bilder-horisontell.webp",
         "description": "Avec une énergie et un dynamisme incomparable, Deki Alem est un groupe sans frontières, impossible à mettre dans une seule case. Créant sans cesse de nouveaux ponts dans la musique moderne, le duo de frères jumeaux est pour ainsi dire multi-visages. Avec une pureté et une masculinité sensible, Deki Alem mélangent les sous-genres tels que la drum & bass, la dance le grunge et le rap de manière harmonieuse. Après avoir sorti deux clips pour “Razor” et “Wet Paint”, le duo a sorti le single “Act Nice” suivi de son premier EP “Among Heads” le 1er avril et produit par LIOHN et Klahr (Lady Gaga, Bree Runway, Swedish House Mafia).",
@@ -45,6 +47,7 @@
     {
         "id": 4,
         "event_name": "bdrmm",
+        "event_status": "scheduled",
         "event_day": "vendredi",
         "event_start_date": "2025-06-27",
         "event_start_time": "20:05",
@@ -66,6 +69,7 @@
     {
         "id": 5,
         "event_name": "Tea Eater",
+        "event_status": "scheduled",
         "event_day": "vendredi",
         "event_start_date": "2025-06-27",
         "event_start_time": "20:20",
@@ -89,6 +93,7 @@
     {
         "id": 6,
         "event_name": "John Maus",
+        "event_status": "scheduled",
         "event_day": "vendredi",
         "event_start_date": "2025-06-27",
         "event_start_time": "21:45",
@@ -111,6 +116,7 @@
     {
         "id": 7,
         "event_name": "GHOSTWOMAN",
+        "event_status": "scheduled",
         "event_day": "vendredi",
         "event_start_date": "2025-06-27",
         "event_start_time": "21:00",
@@ -136,6 +142,7 @@
     {
         "id": 8,
         "event_name": "The Murder Capital",
+        "event_status": "scheduled",
         "event_day": "samedi",
         "event_start_date": "2025-06-28",
         "event_start_time": "21:50",
@@ -158,6 +165,7 @@
     {
         "id": 9,
         "event_name": "Knives",
+        "event_status": "scheduled",
         "event_day": "samedi",
         "event_start_date": "2025-06-28",
         "event_start_time": "22:00",
