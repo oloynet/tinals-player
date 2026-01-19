@@ -42,7 +42,7 @@
             "src": "assets/favicon/favicon.svg",
             "sizes": "512x512",
             "type": "image/svg+xml",
-            "purpose": "any"
+            "purpose": "any maskable"
         }
     ],
     "screenshots": [
@@ -78,11 +78,13 @@
     "shortcuts": [
         {
             "name": "TINALS en français",
+            "short_name": "Français",
             "url": "./?lang=fr",
             "icons": [{ "src": "assets/images/shortcuts/flag-FR.svg", "sizes": "96x96", "type": "image/svg+xml" }]
         },
         {
-            "name": "TINALS in english",
+            "name": "TINALS in English",
+            "short_name": "English",
             "url": "./?lang=en",
             "icons": [{ "src": "assets/images/shortcuts/flag-EN.svg", "sizes": "96x96", "type": "image/svg+xml" }]
         }
