@@ -202,6 +202,7 @@ async function init() {
         }, 800 );
 
         setupInteraction();
+        setupMenuObserver();
         setupDrawerListeners();
         setupSwipeGestures();
         setupScrollToasts();
@@ -1530,6 +1531,25 @@ const PWAManager = {
         this.dismiss();
     }
 };
+
+function setupMenuObserver() {
+    const menu = document.getElementById('top-drawer');
+    if (!menu) return;
+
+    const observer = new MutationObserver((mutations) => {
+        mutations.forEach((mutation) => {
+            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
+                if (menu.classList.contains('auto-hidden')) {
+                    document.body.classList.add('menu-hidden');
+                } else {
+                    document.body.classList.remove('menu-hidden');
+                }
+            }
+        });
+    });
+
+    observer.observe(menu, { attributes: true });
+}
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
