@@ -691,7 +691,7 @@ iframe {
     transform: translate(-50%, -50%);
     font-size: 85px;
     color: var(--primary-color);
-    opacity: 0.9;
+    opacity: 1;
     z-index: 5;
     transition: opacity 0.5s, transform 0.5s;
     pointer-events: none;
@@ -710,7 +710,7 @@ iframe {
 }
 
 .video-card.paused-manual .video-state-icon {
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .video-card.paused-manual .group-title-center {
@@ -1893,7 +1893,7 @@ iframe {
 
 @keyframes pulse-paused {
     0% {
-        opacity: 0.9;
+        opacity: 1;
         transform: translate(-50%, -50%) scale(1);
     }
     50% {
@@ -1901,7 +1901,7 @@ iframe {
         transform: translate(-50%, -50%) scale(1.5);
     }
     100% {
-        opacity: 0.9;
+        opacity: 1;
         transform: translate(-50%, -50%) scale(1);
     }
 }
