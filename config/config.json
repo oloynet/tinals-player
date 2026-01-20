@@ -48,6 +48,9 @@
         "is_auto_play_loop": true,
         "is_app_install": true,
         "is_force_zoom": true,
+        "is_ticketing_display_like": false,
+        "is_ticketing_display_count": false,
+        "is_ticketing_display_artists_name": false,
         "displayed_statuses": ["canceled", "moved_online", "postponed", "rescheduled"]
     },
 

@@ -45,7 +45,10 @@ const AppState = {
         isAutoPlayNext: true,
         isAutoPlayLoop: true,
         isAppInstall: false,
-        isForceZoom: false
+        isForceZoom: false,
+        isTicketingDisplayLike: false,
+        isTicketingDisplayCount: false,
+        isTicketingDisplayArtistsName: false
     }
 };
 
@@ -275,6 +278,9 @@ function applyConfigs() {
     s.isAutoPlayLoop            = f.is_auto_play_loop            ?? true;
     s.isAppInstall              = f.is_app_install               ?? true;
     s.isForceZoom               = f.is_force_zoom                ?? false;
+    s.isTicketingDisplayLike    = f.is_ticketing_display_like    ?? false;
+    s.isTicketingDisplayCount   = f.is_ticketing_display_count   ?? false;
+    s.isTicketingDisplayArtistsName = f.is_ticketing_display_artists_name ?? false;
 
     if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
     else document.body.classList.remove( 'hide-desc-mobile' );
@@ -642,6 +648,7 @@ function getVideoCardHtml( g ) {
 
 function getTicketingHtml() {
     const t = AppState.config.texts;
+    const s = AppState.settings;
     const ticketing = AppState.config.ticketing || {};
     let blocksHtml = '';
 
@@ -662,11 +669,59 @@ function getTicketingHtml() {
                 btnHtml = `<span class="ticket-btn ${colorClass} disabled" title="${btnText}">${btnText}</span>`;
             }
 
+            // --- TICKET STATS LOGIC ---
+            let statsHtml = '';
+            const startDate = ticket.start_date;
+            const endDate = ticket.end_date;
+
+            if (startDate && endDate) {
+                const ticketEvents = AppState.data.filter(g =>
+                    g.event_start_date >= startDate && g.event_start_date <= endDate
+                );
+
+                const artistsCount = ticketEvents.length;
+                const likesCount = ticketEvents.filter(g => AppState.favorites.includes(g.id)).length;
+                const artistNames = ticketEvents.map(g => g.event_name).join(', ');
+
+                // Likes Row (All tickets)
+                let likesHtml = '';
+                if (s.isTicketingDisplayLike) {
+                    likesHtml = `
+                    <div class="ticket-likes-row" id="ticket-likes-${key}">
+                        <span class="material-icons">favorite</span>
+                        <span class="likes-text"><span class="likes-count">${likesCount}</span> ${t.ticket_likes_label}</span>
+                    </div>`;
+                }
+
+                // Artists Count (Full Pass only)
+                let countHtml = '';
+                if (s.isTicketingDisplayCount && key === 'full_pass_ticket') {
+                    const label = t.ticket_artists_count_label.replace('{count}', artistsCount);
+                    countHtml = `<div class="ticket-artists-count">${label}</div>`;
+                }
+
+                // Artist Names (Day Passes only)
+                let listHtml = '';
+                if (s.isTicketingDisplayArtistsName && key.startsWith('day_pass_ticket')) {
+                    listHtml = `<div class="ticket-artists-list">${artistNames}</div>`;
+                }
+
+                if (likesHtml || countHtml || listHtml) {
+                    statsHtml = `
+                        <div class="ticket-stats">
+                            ${likesHtml}
+                            ${countHtml}
+                            ${listHtml}
+                        </div>`;
+                }
+            }
+
             blocksHtml += `
                 <div class="ticket-block ${colorClass}">
                     <h2>${title}</h2>
                     <h3>${subtitle}</h3>
                     ${btnHtml}
+                    ${statsHtml}
                 </div>`;
         }
     }
@@ -842,6 +897,28 @@ function toggleFav( id ) {
     renderFavorites();
     renderTimeline();
     updateFavoritesIcon();
+    updateTicketingStats();
+}
+
+function updateTicketingStats() {
+    const ticketing = AppState.config.ticketing || {};
+    for (const key in ticketing) {
+        const ticket = ticketing[key];
+        const container = document.getElementById(`ticket-likes-${key}`);
+        if (container) {
+             const startDate = ticket.start_date;
+             const endDate = ticket.end_date;
+             if (startDate && endDate) {
+                 const count = AppState.data.filter(g =>
+                    g.event_start_date >= startDate &&
+                    g.event_start_date <= endDate &&
+                    AppState.favorites.includes(g.id)
+                 ).length;
+                 const countSpan = container.querySelector('.likes-count');
+                 if(countSpan) countSpan.innerText = count;
+             }
+        }
+    }
 }
 
 function toggleFavCurrent() {

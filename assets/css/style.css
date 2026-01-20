@@ -1957,3 +1957,63 @@ iframe {
     animation: pulse-paused 2.5s ease-in-out infinite;
     transition: none;
 }
+
+/* --- TICKET STATS --- */
+.ticket-stats {
+    margin-top: 15px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 8px;
+    width: 100%;
+}
+
+.ticket-likes-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    font-size: 0.95rem;
+    font-weight: bold;
+    background: rgba(0, 0, 0, 0.2);
+    padding: 6px 14px;
+    border-radius: 20px;
+    backdrop-filter: blur(2px);
+}
+
+.ticket-likes-row .material-icons {
+    font-size: 1.2rem;
+    color: #fff;
+}
+
+.ticket-artists-count {
+    font-size: 0.9rem;
+    font-weight: bold;
+    opacity: 0.9;
+    text-transform: uppercase;
+}
+
+.ticket-artists-list {
+    display: none; /* Hidden on mobile */
+    font-size: 0.85rem;
+    line-height: 1.4;
+    text-align: center;
+    opacity: 0.95;
+    margin-top: 5px;
+    max-width: 90%;
+    font-weight: normal;
+}
+
+@media (min-width: 1024px) {
+    .ticket-artists-list {
+        display: block;
+    }
+
+    .ticket-stats {
+        margin-top: 20px;
+    }
+
+    .ticket-block:hover .ticket-stats {
+        /* Prevent jitter if needed, but existing scaling applies to h2, h3, btn */
+    }
+}
