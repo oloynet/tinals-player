@@ -1412,7 +1412,7 @@ iframe {
 }
 
 .ticket-btn:hover {
-    transform: scale(1.05);
+    transform: scale(1.2);
     box-shadow: 0 6px 20px rgba(0, 0, 0, 0.3);
 }
 
@@ -1455,7 +1455,7 @@ iframe {
     }
 
     .ticket-block:hover {
-        flex: 1.2;
+        flex: 1.6;
     }
 
     /* Enlarge elements on hover (text and button) */
@@ -1468,7 +1468,7 @@ iframe {
     .ticket-block:hover h2,
     .ticket-block:hover h3,
     .ticket-block:hover .ticket-btn {
-        transform: scale(1.1);
+        transform: scale(1.2);
     }
 }
 
