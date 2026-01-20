@@ -8,7 +8,7 @@ const STATIC_ASSETS = [
     './config/config_en.json',
     './config/config_fr.json',
 
-    './data/data.json',
+    './data/2025/data.json',
     './data/2025/images/bdrmm-by-stew-baxter.webp',
     './data/2025/images/deki-alem-pressbilder-bilder-horisontell.webp',
     './data/2025/images/ghostwoman-by-andrin-fretz.webp',
