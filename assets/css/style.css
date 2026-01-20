@@ -724,7 +724,7 @@ iframe {
 /* Overlay positionné pour ne pas être caché par la barre safe-area */
 .video-overlay {
     position: absolute;
-    bottom: 5dvh;
+    bottom: 0dvh;
     left: 0;
     right: 0;
     padding: 25px;
