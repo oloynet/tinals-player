@@ -1469,6 +1469,7 @@ iframe {
     .ticket-block:hover h3,
     .ticket-block:hover .ticket-btn {
         transform: scale(1.2);
+        margin-bottom: 15px;
     }
 }
 
