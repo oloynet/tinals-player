@@ -818,7 +818,7 @@ iframe {
     content: '\e147';
     font-family: 'Material Icons';
     font-weight: normal;
-    font-size: 1.2rem;
+    font-size: 2.4rem;
     color: var(--primary-color);
     position: absolute;
     bottom: 0;
@@ -840,7 +840,7 @@ iframe {
     content: '\e15c';
     font-family: 'Material Icons';
     font-weight: normal;
-    font-size: 1.2rem;
+    font-size: 2.4rem;
     color: var(--primary-color);
     display: inline-block;
     vertical-align: middle;
