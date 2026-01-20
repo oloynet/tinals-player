@@ -25,7 +25,7 @@ The application is **data-driven**. Before writing new code, check if the requir
     *   Contains **Asset Paths**.
     *   *Agent Tip:* If asked to "hide the time" or "change the title," check these files first.
 
-*   **`data/data.json`**:
+*   **`data/2025/data.json`**:
     *   Contains the actual playlist content (artists, video IDs, schedule).
     *   Do not hardcode artist data in `app.js`.
 
