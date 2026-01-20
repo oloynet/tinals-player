@@ -4,16 +4,46 @@ function parseYoutubeData(url) {
 
     try {
         const urlObj = new URL(url);
+        const hostname = urlObj.hostname;
+        const pathname = urlObj.pathname;
 
         // Récupération ID
-        if (urlObj.hostname.includes('youtu.be')) {
-            videoId = urlObj.pathname.slice(1);
-        } else {
-            videoId = urlObj.searchParams.get('v');
+        if (hostname.includes('youtu.be')) {
+            videoId = pathname.slice(1);
+        } else if (hostname.includes('youtube.com') || hostname.includes('m.youtube.com')) {
+            // Standard /watch?v=
+            if (urlObj.searchParams.has('v')) {
+                videoId = urlObj.searchParams.get('v');
+            }
+            // Embed: /embed/ID
+            else if (pathname.startsWith('/embed/')) {
+                videoId = pathname.split('/')[2];
+            }
+            // Legacy/Flash: /v/ID
+            else if (pathname.startsWith('/v/')) {
+                videoId = pathname.split('/')[2];
+            }
+            // Shorts: /shorts/ID
+            else if (pathname.startsWith('/shorts/')) {
+                videoId = pathname.split('/')[2];
+            }
+            // Live: /live/ID
+            else if (pathname.startsWith('/live/')) {
+                videoId = pathname.split('/')[2];
+            }
         }
 
-        // Récupération Temps (t)
-        const t = urlObj.searchParams.get('t');
+        if (videoId) {
+            // Remove any trailing slash
+            if (videoId.endsWith('/')) {
+                videoId = videoId.slice(0, -1);
+            }
+        }
+
+        // Récupération Temps (t) ou (start)
+        let t = urlObj.searchParams.get('t');
+        if (!t) t = urlObj.searchParams.get('start');
+
         if (t) {
             // Convertit "30s" ou "30" en entier
             startSeconds = parseInt(t.replace('s', ''), 10);
