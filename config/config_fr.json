@@ -51,8 +51,8 @@
         "timeline_title": "Timeline",
         "timeline_empty": "Aucun concert pour ce filtre",
 
-        "filter_cancel_fav": "Annuler l'affichage des favoris",
-        "filter_cancel_tags": "Annuler l'affichage par tags",
+        "filter_cancel_fav": "Affichage des favoris. Cliquer pour annuler",
+        "filter_cancel_tags": "Affichage par tags \"{tag}\". Cliquer pour annuler",
 
         "share_title": "Partager",
         "share_facebook": "Facebook",
