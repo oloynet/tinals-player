@@ -74,6 +74,9 @@
         "status_moved_online": "Moved Online",
         "status_postponed": "Postponed",
         "status_rescheduled": "Rescheduled",
-        "status_scheduled": "Scheduled"
+        "status_scheduled": "Scheduled",
+
+        "ticket_likes_label": "My favorites",
+        "ticket_artists_count_label": "{count} artists are coming to the festival"
     }
 }

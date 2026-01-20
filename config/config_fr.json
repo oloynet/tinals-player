@@ -74,6 +74,9 @@
         "status_moved_online": "En ligne",
         "status_postponed": "Reporté",
         "status_rescheduled": "Reprogrammé",
-        "status_scheduled": "Planifié"
+        "status_scheduled": "Planifié",
+
+        "ticket_likes_label": "Mes coups de coeur",
+        "ticket_artists_count_label": "{count} groupes viennent au festival"
     }
 }
