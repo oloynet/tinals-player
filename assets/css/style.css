@@ -815,14 +815,17 @@ iframe {
 }
 
 .description:not(.expanded)::after {
-    content: ' +';
-    font-weight: bold;
+    content: '\e147';
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-size: 1.2rem;
     color: var(--primary-color);
     position: absolute;
     bottom: 0;
     right: 0;
-    padding-left: 5px;
-    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.8));
+    padding-left: 10px;
+    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.9));
+    line-height: 1.2;
 }
 
 .description.expanded {
@@ -834,7 +837,14 @@ iframe {
 }
 
 .description.expanded::after {
-    display: none;
+    content: '\e15c';
+    font-family: 'Material Icons';
+    font-weight: normal;
+    font-size: 1.2rem;
+    color: var(--primary-color);
+    display: inline-block;
+    vertical-align: middle;
+    margin-left: 8px;
 }
 
 .tags-container {
