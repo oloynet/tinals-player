@@ -175,11 +175,8 @@ const VideoManager = {
                 else card.classList.add( 'playing' );
 
                 if ( icon ) {
-                    icon.textContent = 'pause';
                     if ( AppState.timers.iconSwap ) clearTimeout( AppState.timers.iconSwap );
-                    AppState.timers.iconSwap = setTimeout( () => {
-                        icon.textContent = 'play_arrow';
-                    }, 500 );
+                    icon.textContent = 'play_arrow';
                 }
             } else {
                 ControlBar.stopTracking();

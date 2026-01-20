@@ -1890,3 +1890,23 @@ iframe {
     animation: pulse-audio 2s ease-in-out infinite;
     transition: none;
 }
+
+@keyframes pulse-paused {
+    0% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1.5);
+    }
+    100% {
+        opacity: 0.9;
+        transform: translate(-50%, -50%) scale(1);
+    }
+}
+
+.video-card.paused-manual:not(.ended) .video-state-icon {
+    animation: pulse-paused 2.5s ease-in-out infinite;
+    transition: none;
+}
