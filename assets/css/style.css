@@ -1600,6 +1600,11 @@ iframe {
         transition: all 0.8s ease 4s;
     }
 
+    .description.expanded {
+        max-height: 50vh;
+        overflow-y: auto;
+    }
+
     .presentation-card {
         padding: 7vh 20px 5vh 20px;
     }
