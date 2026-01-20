@@ -97,8 +97,8 @@ body {
 
 /* Intro Logo */
 .intro-logo {
-    width: 100%;
-    max-width: 800px;
+    width: 800px;
+    max-width: 100%;
     height: auto;
     aspect-ratio: 58 / 6;
     fill: white;
