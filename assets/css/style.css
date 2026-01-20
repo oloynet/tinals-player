@@ -691,7 +691,7 @@ iframe {
     transform: translate(-50%, -50%);
     font-size: 85px;
     color: var(--primary-color);
-    opacity: 0.9;
+    opacity: 1;
     z-index: 5;
     transition: opacity 0.5s, transform 0.5s;
     pointer-events: none;
@@ -710,7 +710,7 @@ iframe {
 }
 
 .video-card.paused-manual .video-state-icon {
-    opacity: 0.9;
+    opacity: 1;
 }
 
 .video-card.paused-manual .group-title-center {
@@ -724,7 +724,7 @@ iframe {
 /* Overlay positionné pour ne pas être caché par la barre safe-area */
 .video-overlay {
     position: absolute;
-    bottom: 5dvh;
+    bottom: 0dvh;
     left: 0;
     right: 0;
     padding: 25px;
@@ -753,8 +753,8 @@ iframe {
 /* --- AVATAR INTERACTIF --- */
 .group-avatar-container {
     display: block;
-    width: 60px;
-    height: 60px;
+    width: 96px;
+    height: 96px;
     margin-bottom: 12px;
     position: relative;
     cursor: pointer;
@@ -779,7 +779,7 @@ iframe {
 
 .group-info h2 {
     margin: 0 0 2px 0;
-    font-size: 1.2rem;
+    font-size: 2.0rem;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -795,7 +795,7 @@ iframe {
 
 /* --- DESCRIPTION --- */
 .description {
-    font-size: 0.85rem;
+    font-size: 1.5rem;
     opacity: 0.85;
     margin: 8px 0;
     max-width: 85%;
@@ -857,9 +857,9 @@ iframe {
 .tag-pill {
     background: var(--tag-pill-bg);
     color: var(--tag-pill-color);
-    padding: 4px 10px;
+    padding: 6px 16px;
     border-radius: 12px;
-    font-size: 0.7rem;
+    font-size: 1.2rem;
     font-weight: bold;
     backdrop-filter: blur(4px);
     text-transform: uppercase;
@@ -1457,6 +1457,19 @@ iframe {
     .ticket-block:hover {
         flex: 1.2;
     }
+
+    /* Enlarge elements on hover (text and button) */
+    .ticket-block h2,
+    .ticket-block h3,
+    .ticket-block .ticket-btn {
+        transition: transform 0.3s ease;
+    }
+
+    .ticket-block:hover h2,
+    .ticket-block:hover h3,
+    .ticket-block:hover .ticket-btn {
+        transform: scale(1.1);
+    }
 }
 
 @media (max-width: 1023px) {
@@ -1490,6 +1503,24 @@ iframe {
 }
 
 @media (max-width: 600px) {
+
+    .group-avatar-container {
+        width: 64px;
+        height: 64px;
+    }
+
+    .group-info h2 {
+        font-size: 1.3rem;
+    }
+
+    .tag-pill {
+        font-size: 0.85rem;
+        padding: 5px 12px;
+    }
+
+    .description {
+        font-size: 1.0rem;
+    }
 
     .btn-ticket,
     .btn-program {
@@ -1908,7 +1939,7 @@ iframe {
 
 @keyframes pulse-paused {
     0% {
-        opacity: 0.9;
+        opacity: 1;
         transform: translate(-50%, -50%) scale(1);
     }
     50% {
@@ -1916,7 +1947,7 @@ iframe {
         transform: translate(-50%, -50%) scale(1.5);
     }
     100% {
-        opacity: 0.9;
+        opacity: 1;
         transform: translate(-50%, -50%) scale(1);
     }
 }

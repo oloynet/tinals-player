@@ -455,6 +455,33 @@ function formatDate( dateStr ) {
     }
 }
 
+function getTagNameFromSlug(tagSlug) {
+    if (!tagSlug) return '';
+    let tagName = tagSlug;
+    for (const group of AppState.data) {
+        if (group.event_tags) {
+            const found = group.event_tags.find(t => slugify(t) === tagSlug);
+            if (found) {
+                tagName = found;
+                break;
+            }
+        }
+    }
+    return translateText(tagName, 'tags');
+}
+
+function renderTagFilterBar() {
+    const t = AppState.config.texts;
+    const currentSlug = AppState.state.currentTagFilter;
+    if (!currentSlug) return;
+
+    const tagName = getTagNameFromSlug(currentSlug);
+    const text = t.filter_cancel_tags.replace('{tag}', tagName);
+
+    const html = `${text} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    document.getElementById( 'tag-mode-bar' ).innerHTML = html;
+}
+
 function updateStaticTexts() {
     const t = AppState.config.texts;
     document.getElementById( 'btn-header-prog' ).innerText   = t.nav_programming;
@@ -470,11 +497,11 @@ function updateStaticTexts() {
     document.getElementById( 'share-link-label' ).innerText  = t.share_link;
     document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
-    document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
+    document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
 
-    // Tag mode bar: we need to handle the text inside dynamically based on the slug -> name mapping or just display the current filter
-    // For now we just put the template
-    document.getElementById( 'tag-mode-bar' ).innerHTML      = `${t.filter_cancel_tags} <span id="active-tag-name" class="tag-name-label"></span> <button class="close-fav-mode"><span class="material-icons">close</span></button>`;
+    if (AppState.state.currentTagFilter) {
+        renderTagFilterBar();
+    }
 }
 
 function renderFeed() {
@@ -1195,18 +1222,9 @@ function filterByTag( tagSlug, event ) {
     document.body.classList.add( 'tag-filtering' );
     document.getElementById( 'tag-mode-bar' ).classList.add( 'active' );
 
-    // Find the original name for this slug to display
-    let tagName = tagSlug;
-    for (const group of AppState.data) {
-        if (group.event_tags) {
-            const found = group.event_tags.find(t => slugify(t) === tagSlug);
-            if (found) {
-                tagName = found;
-                break;
-            }
-        }
-    }
-    document.getElementById( 'active-tag-name' ).innerText = tagName;
+    renderTagFilterBar();
+
+    const tagName = getTagNameFromSlug(tagSlug);
 
     document.querySelectorAll( '.video-card' ).forEach( card => {
         const id = Number( card.dataset.id );
