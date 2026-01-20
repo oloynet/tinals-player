@@ -1447,6 +1447,19 @@ iframe {
     .ticket-block:hover {
         flex: 1.2;
     }
+
+    /* Enlarge elements on hover (text and button) */
+    .ticket-block h2,
+    .ticket-block h3,
+    .ticket-block .ticket-btn {
+        transition: transform 0.3s ease;
+    }
+
+    .ticket-block:hover h2,
+    .ticket-block:hover h3,
+    .ticket-block:hover .ticket-btn {
+        transform: scale(1.1);
+    }
 }
 
 @media (max-width: 1023px) {
