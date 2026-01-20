@@ -51,14 +51,6 @@
         "displayed_statuses": ["canceled", "moved_online", "postponed", "rescheduled"]
     },
 
-    "texts": {
-        "status_canceled": "Canceled",
-        "status_moved_online": "Moved Online",
-        "status_postponed": "Postponed",
-        "status_rescheduled": "Rescheduled",
-        "status_scheduled": "Scheduled"
-    },
-
     "images":
     {
         "menu_id": "logo-menu",
