@@ -123,7 +123,7 @@ def process_yt_to_mp3(local_data, remote_data):
                 print(f"Extracting audio for {item.get('event_name', 'Unknown')} (ID: {item['id']})...")
 
                 # Construct command
-                output_template = f"{TMP_DIR}%(id)s/%(id)s___%(title)s.%(ext)s"
+                output_template = f"{TMP_DIR}%(id)s___%(title)s.%(ext)s"
 
                 cmd = [
                     YT_DLP_BIN,
@@ -140,25 +140,23 @@ def process_yt_to_mp3(local_data, remote_data):
                     subprocess.run(cmd, check=True)
 
                     # Find the generated file
-                    id_dir = os.path.join(TMP_DIR, item['id'])
-                    if os.path.isdir(id_dir):
-                        files = [f for f in os.listdir(id_dir) if f.endswith('.mp3')]
-                        if files:
-                            # We take the first mp3 found
-                            filename = files[0]
-                            src_file = os.path.join(id_dir, filename)
-                            dest_path = os.path.join(MP3_DIR, filename)
+                    # We look for files in TMP_DIR starting with the ID and ending with .mp3
+                    files = [f for f in os.listdir(TMP_DIR) if f.startswith(f"{item['id']}___") and f.endswith('.mp3')]
 
-                            # Move file
-                            shutil.move(src_file, dest_path)
-                            print(f"Moved to {dest_path}")
+                    if files:
+                        # We take the first mp3 found
+                        filename = files[0]
+                        src_file = os.path.join(TMP_DIR, filename)
+                        dest_path = os.path.join(MP3_DIR, filename)
 
-                            # Update local data with relative path
-                            item['audio'] = f"data/{YEAR}/mp3/{filename}"
-                        else:
-                            print(f"No MP3 file found in {id_dir}")
+                        # Move file
+                        shutil.move(src_file, dest_path)
+                        print(f"Moved to {dest_path}")
+
+                        # Update local data with relative path
+                        item['audio'] = f"data/{YEAR}/mp3/{filename}"
                     else:
-                        print(f"Directory {id_dir} not found after yt-dlp run.")
+                        print(f"No MP3 file found in {TMP_DIR} for ID {item['id']}")
 
                 except subprocess.CalledProcessError as e:
                     print(f"Failed to extract audio for {video_url}: {e}")
