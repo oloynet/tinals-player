@@ -62,6 +62,7 @@ def main():
     parser.add_argument("--yt-to-mp3", action="store_true", help="Extract and import mp3 files from YouTube")
     parser.add_argument("--local-mp3", action="store_true", help="Import mp3 files locally from external server")
     parser.add_argument("--local-image", action="store_true", help="Import image files locally and convert to WebP")
+    parser.add_argument("--limit", type=int, help="Limit the number of items processed from the data file")
 
     args = parser.parse_args()
 
@@ -76,21 +77,26 @@ def main():
         print("No local data found or empty.")
         return
 
+    items_to_process = local_data
+    if args.limit and args.limit > 0:
+        print(f"Limiting processing to first {args.limit} items.")
+        items_to_process = local_data[:args.limit]
+
     remote_data = fetch_remote_data(REMOTE_DATA_SOURCE)
     # We might only need remote data if we actually look things up,
     # but simplest is to fetch it once if any operation needs it.
     # However, if remote fetch fails, we should handle it gracefully depending on if the operation needs it.
 
     if args.yt_to_mp3:
-        process_yt_to_mp3(local_data, remote_data)
+        process_yt_to_mp3(items_to_process, remote_data)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
     if args.local_mp3:
-        process_local_mp3(local_data, remote_data)
+        process_local_mp3(items_to_process, remote_data)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
     if args.local_image:
-        process_local_image(local_data, remote_data)
+        process_local_image(items_to_process, remote_data)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
     # Cleanup tmp
