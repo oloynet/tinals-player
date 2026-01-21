@@ -146,16 +146,24 @@ def process_yt_to_mp3(local_data, remote_data):
 
                     if files:
                         # We take the first mp3 found
-                        filename = files[0]
-                        src_file = os.path.join(TMP_DIR, filename)
-                        dest_path = os.path.join(MP3_DIR, filename)
+                        src_filename = files[0]
+                        src_file = os.path.join(TMP_DIR, src_filename)
+
+                        # Determine destination filename based on event name
+                        event_name = item.get('event_name')
+                        if event_name:
+                            dest_filename = f"{sanitize_filename(event_name)}.mp3"
+                        else:
+                            dest_filename = src_filename
+
+                        dest_path = os.path.join(MP3_DIR, dest_filename)
 
                         # Move file
                         shutil.move(src_file, dest_path)
                         print(f"Moved to {dest_path}")
 
                         # Update local data with relative path
-                        item['audio'] = f"data/{YEAR}/mp3/{filename}"
+                        item['audio'] = f"data/{YEAR}/mp3/{dest_filename}"
                     else:
                         print(f"No MP3 file found in {TMP_DIR} for ID {item['id']}")
 
