@@ -1,0 +1,7 @@
+Metadata-Version: 2.4
+Name: tinals-tools
+Version: 0.1.0
+Summary: Tools for TINALS project asset management
+Requires-Python: >=3.12
+Requires-Dist: requests
+Requires-Dist: pillow
