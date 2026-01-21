@@ -1475,7 +1475,8 @@ iframe {
 
 @media (max-width: 1023px) {
     .ticketing-card {
-        height: 80vh !important;
+        height: 100vh;
+        height: 100dvh;
         min-height: auto;
     }
 
