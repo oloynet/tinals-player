@@ -1,7 +1,0 @@
-import_assets.py
-pyproject.toml
-tinals_tools.egg-info/PKG-INFO
-tinals_tools.egg-info/SOURCES.txt
-tinals_tools.egg-info/dependency_links.txt
-tinals_tools.egg-info/requires.txt
-tinals_tools.egg-info/top_level.txt

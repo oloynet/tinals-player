@@ -9,17 +9,16 @@ import re
 from PIL import Image
 
 # Configuration
-YEAR               = "2026"
+YEAR = "2026"
 REMOTE_DATA_SOURCE = "https://thisisnotalovesong.fr/wp-content/themes/tinals/cli/tools/data.json"
-LOCAL_DATA_SOURCE  = f"../data/{YEAR}/data.json"
-COMPRESS_WEBP      = 80
+LOCAL_DATA_SOURCE = f"../data/{YEAR}/data.json"
+COMPRESS_WEBP = 80
 # Use environment variables or defaults for binaries to allow overriding in tests
-YT_DLP_BIN         = os.getenv("YT_DLP_BIN", "/usr/local/bin/yt-dlp")
-WGET_BIN           = os.getenv("WGET_BIN", "/usr/bin/wget")
-MP3_DIR            = f"../data/{YEAR}/mp3/"
-IMAGES_DIR         = f"../data/{YEAR}/images/"
-TMP_DIR            = "tmp/"
-
+YT_DLP_BIN = os.getenv("YT_DLP_BIN", "/usr/local/bin/yt-dlp")
+WGET_BIN = os.getenv("WGET_BIN", "/usr/bin/wget")
+MP3_DIR = f"../data/{YEAR}/mp3/"
+IMAGES_DIR = f"../data/{YEAR}/images/"
+TMP_DIR = "tmp/"
 
 def load_json(filepath):
     try:
@@ -32,12 +31,10 @@ def load_json(filepath):
         print(f"Error: Failed to decode JSON from {filepath}.")
         return []
 
-
 def save_json(filepath, data):
     with open(filepath, 'w', encoding='utf-8') as f:
         json.dump(data, f, indent=4, ensure_ascii=False)
     print(f"Updated {filepath}")
-
 
 def fetch_remote_data(url):
     print(f"Fetching remote data from {url}...")
@@ -49,19 +46,16 @@ def fetch_remote_data(url):
         print(f"Error fetching remote data: {e}")
         return []
 
-
 def sanitize_filename(name):
     # Remove invalid characters and spaces
     name = re.sub(r'[<>:"/\\|?*]', '', name)
     name = re.sub(r'\s+', '-', name)
     return name.lower()
 
-
 def ensure_dirs():
-    os.makedirs(MP3_DIR,    exist_ok=True)
+    os.makedirs(MP3_DIR, exist_ok=True)
     os.makedirs(IMAGES_DIR, exist_ok=True)
-    os.makedirs(TMP_DIR,    exist_ok=True)
-
+    os.makedirs(TMP_DIR, exist_ok=True)
 
 def main():
     parser = argparse.ArgumentParser(description="TINALS Asset Import Tool")
@@ -114,24 +108,22 @@ def main():
         # Let's clean it to be tidy.
         shutil.rmtree(TMP_DIR)
 
-
 def process_yt_to_mp3(local_data, remote_data):
     print("Processing YouTube to MP3...")
     # Create a map for faster lookup
     remote_map = {item['id']: item for item in remote_data if 'id' in item}
 
     for item in local_data:
-
         # Check if audio is empty
         if not item.get('audio') and item.get('id') in remote_map:
             remote_item = remote_map[item['id']]
-            video_url   = remote_item.get('video_url')
+            video_url = remote_item.get('video_url')
 
             if video_url:
                 print(f"Extracting audio for {item.get('event_name', 'Unknown')} (ID: {item['id']})...")
 
                 # Construct command
-                output_template = f"{TMP_DIR}%(id)s___%(title)s.%(ext)s"
+                output_template = f"{TMP_DIR}{item['id']}___%(title)s.%(ext)s"
 
                 cmd = [
                     YT_DLP_BIN,
@@ -153,12 +145,9 @@ def process_yt_to_mp3(local_data, remote_data):
 
                     if files:
                         # We take the first mp3 found
-                        filename  = files[0]
-                        src_file  = os.path.join(TMP_DIR, filename)
+                        filename = files[0]
+                        src_file = os.path.join(TMP_DIR, filename)
                         dest_path = os.path.join(MP3_DIR, filename)
-
-                        print(f"{src_file=}")
-                        print(f"{dest_path=}")
 
                         # Move file
                         shutil.move(src_file, dest_path)
@@ -171,11 +160,9 @@ def process_yt_to_mp3(local_data, remote_data):
 
                 except subprocess.CalledProcessError as e:
                     print(f"Failed to extract audio for {video_url}: {e}")
-
                 except FileNotFoundError:
                     print(f"yt-dlp binary not found at {YT_DLP_BIN}. Please install it or set YT_DLP_BIN env var.")
                     return # Stop processing if tool is missing
-
 
 def process_local_mp3(local_data, remote_data):
     print("Processing Local MP3...")
@@ -184,7 +171,7 @@ def process_local_mp3(local_data, remote_data):
     for item in local_data:
         if not item.get('audio') and item.get('id') in remote_map:
             remote_item = remote_map[item['id']]
-            audio_url   = remote_item.get('audio')
+            audio_url = remote_item.get('audio')
 
             if audio_url and isinstance(audio_url, str) and audio_url.startswith(('http://', 'https://')):
                 print(f"Downloading audio for {item.get('event_name', 'Unknown')} from {audio_url}...")
@@ -212,7 +199,6 @@ def process_local_mp3(local_data, remote_data):
                 except FileNotFoundError:
                     print(f"wget binary not found at {WGET_BIN}")
 
-
 def process_local_image(local_data, remote_data):
     print("Processing Local Images...")
     remote_map = {item['id']: item for item in remote_data if 'id' in item}
@@ -226,7 +212,7 @@ def process_local_image(local_data, remote_data):
     for item in local_data:
         if item.get('id') in remote_map:
             remote_item = remote_map[item['id']]
-            event_name  = sanitize_filename(item.get('event_name', 'unknown'))
+            event_name = sanitize_filename(item.get('event_name', 'unknown'))
 
             for field, suffix in image_fields.items():
                 # Check if local is empty
@@ -248,7 +234,7 @@ def process_local_image(local_data, remote_data):
                             if os.path.exists(tmp_download_path):
                                 # Convert to WebP
                                 dest_filename = f"{event_name}{suffix}"
-                                dest_path     = os.path.join(IMAGES_DIR, dest_filename)
+                                dest_path = os.path.join(IMAGES_DIR, dest_filename)
 
                                 try:
                                     with Image.open(tmp_download_path) as img:
@@ -269,7 +255,6 @@ def process_local_image(local_data, remote_data):
                             print(f"Failed to download image {remote_url}: {e}")
                          except FileNotFoundError:
                             print(f"wget binary not found at {WGET_BIN}")
-
 
 if __name__ == "__main__":
     main()
