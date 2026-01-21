@@ -69,6 +69,8 @@ def main():
     parser.add_argument("--reset", choices=['image', 'mp3', 'all'], help="Reset fields and delete files")
     parser.add_argument("--force", action="store_true", help="Force overwrite existing values")
     parser.add_argument("--check", nargs='?', const='all', choices=['image', 'mp3', 'all'], help="Check file existence and clean data")
+    parser.add_argument("--max-width", type=int, help="Limit the width of the image")
+    parser.add_argument("--compress", type=int, help="Set compression quality percentage")
 
     args = parser.parse_args()
 
@@ -110,7 +112,7 @@ def main():
         save_json(LOCAL_DATA_SOURCE, local_data)
 
     if args.local_image:
-        process_local_image(items_to_process, remote_data, args.force)
+        process_local_image(items_to_process, remote_data, args.force, args.max_width, args.compress)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
     # Cleanup tmp
@@ -265,9 +267,13 @@ def process_local_mp3(local_data, remote_data, force=False):
                 except FileNotFoundError:
                     print(f"wget binary not found at {WGET_BIN}")
 
-def process_local_image(local_data, remote_data, force=False):
+def process_local_image(local_data, remote_data, force=False, max_width=None, quality=None):
     print("Processing Local Images...")
     remote_map = {item['id']: item for item in remote_data if 'id' in item}
+
+    # Use default quality if not provided
+    if quality is None:
+        quality = COMPRESS_WEBP
 
     image_fields = {
         'image': '.webp',
@@ -304,9 +310,16 @@ def process_local_image(local_data, remote_data, force=False):
 
                                 try:
                                     with Image.open(tmp_download_path) as img:
-                                        img.save(dest_path, "WEBP", quality=COMPRESS_WEBP)
+                                        if max_width and img.width > max_width:
+                                            # Calculate new height maintaining aspect ratio
+                                            aspect_ratio = img.height / img.width
+                                            new_height = int(max_width * aspect_ratio)
+                                            img = img.resize((max_width, new_height), Image.LANCZOS)
+                                            print(f"Resized image to {max_width}x{new_height}")
 
-                                    print(f"Converted and saved to {dest_path}")
+                                        img.save(dest_path, "WEBP", quality=quality)
+
+                                    print(f"Converted and saved to {dest_path} (Quality: {quality}%)")
                                     # Update with relative path
                                     item[field] = f"data/{YEAR}/images/{dest_filename}"
 
