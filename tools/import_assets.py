@@ -66,12 +66,15 @@ def main():
     parser.add_argument("--local-mp3", action="store_true", help="Import mp3 files locally from external server")
     parser.add_argument("--local-image", action="store_true", help="Import image files locally and convert to WebP")
     parser.add_argument("--limit", type=int, help="Limit the number of items processed from the data file")
+    parser.add_argument("--reset", choices=['image', 'mp3', 'all'], help="Reset fields and delete files")
+    parser.add_argument("--force", action="store_true", help="Force overwrite existing values")
+    parser.add_argument("--check", nargs='?', const='all', choices=['image', 'mp3', 'all'], help="Check file existence and clean data")
 
     args = parser.parse_args()
 
     ensure_dirs()
 
-    if not any([args.yt_to_mp3, args.local_mp3, args.local_image]):
+    if not any([args.yt_to_mp3, args.local_mp3, args.local_image, args.reset, args.check]):
         parser.print_help()
         return
 
@@ -85,21 +88,29 @@ def main():
         print(f"Limiting processing to first {args.limit} items.")
         items_to_process = local_data[:args.limit]
 
+    if args.reset:
+        process_reset(local_data, args.reset)
+        save_json(LOCAL_DATA_SOURCE, local_data)
+
+    if args.check:
+        process_check(local_data, args.check)
+        save_json(LOCAL_DATA_SOURCE, local_data)
+
     remote_data = fetch_remote_data(REMOTE_DATA_SOURCE)
     # We might only need remote data if we actually look things up,
     # but simplest is to fetch it once if any operation needs it.
     # However, if remote fetch fails, we should handle it gracefully depending on if the operation needs it.
 
     if args.yt_to_mp3:
-        process_yt_to_mp3(items_to_process, remote_data)
+        process_yt_to_mp3(items_to_process, remote_data, args.force)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
     if args.local_mp3:
-        process_local_mp3(items_to_process, remote_data)
+        process_local_mp3(items_to_process, remote_data, args.force)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
     if args.local_image:
-        process_local_image(items_to_process, remote_data)
+        process_local_image(items_to_process, remote_data, args.force)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
     # Cleanup tmp
@@ -111,14 +122,57 @@ def main():
         # Let's clean it to be tidy.
         shutil.rmtree(TMP_DIR)
 
-def process_yt_to_mp3(local_data, remote_data):
+def process_reset(local_data, target):
+    print(f"Resetting {target}...")
+    image_fields = ['image', 'image_mobile', 'image_thumbnail']
+
+    for item in local_data:
+        if target in ['mp3', 'all']:
+            if item.get('audio'):
+                # Construct file path relative to tools/
+                file_path = item['audio'].replace("data/2026/", "../data/2026/")
+                if os.path.exists(file_path):
+                    os.remove(file_path)
+                    print(f"Deleted {file_path}")
+                item['audio'] = ""
+
+        if target in ['image', 'all']:
+            for field in image_fields:
+                if item.get(field):
+                    file_path = item[field].replace("data/2026/", "../data/2026/")
+                    if os.path.exists(file_path):
+                        os.remove(file_path)
+                        print(f"Deleted {file_path}")
+                    item[field] = ""
+
+def process_check(local_data, target):
+    print(f"Checking {target}...")
+    image_fields = ['image', 'image_mobile', 'image_thumbnail']
+
+    for item in local_data:
+        if target in ['mp3', 'all']:
+            if item.get('audio'):
+                file_path = item['audio'].replace("data/2026/", "../data/2026/")
+                if not os.path.exists(file_path):
+                    print(f"Missing MP3: {file_path} (removing ref)")
+                    item['audio'] = ""
+
+        if target in ['image', 'all']:
+            for field in image_fields:
+                if item.get(field):
+                    file_path = item[field].replace("data/2026/", "../data/2026/")
+                    if not os.path.exists(file_path):
+                        print(f"Missing Image: {file_path} (removing ref)")
+                        item[field] = ""
+
+def process_yt_to_mp3(local_data, remote_data, force=False):
     print("Processing YouTube to MP3...")
     # Create a map for faster lookup
     remote_map = {item['id']: item for item in remote_data if 'id' in item}
 
     for item in local_data:
-        # Check if audio is empty
-        if not item.get('audio') and item.get('id') in remote_map:
+        # Check if audio is empty or force is True
+        if (not item.get('audio') or force) and item.get('id') in remote_map:
             remote_item = remote_map[item['id']]
             video_url = remote_item.get('video_url')
 
@@ -176,12 +230,12 @@ def process_yt_to_mp3(local_data, remote_data):
                     print(f"yt-dlp binary not found at {YT_DLP_BIN}. Please install it or set YT_DLP_BIN env var.")
                     return # Stop processing if tool is missing
 
-def process_local_mp3(local_data, remote_data):
+def process_local_mp3(local_data, remote_data, force=False):
     print("Processing Local MP3...")
     remote_map = {item['id']: item for item in remote_data if 'id' in item}
 
     for item in local_data:
-        if not item.get('audio') and item.get('id') in remote_map:
+        if (not item.get('audio') or force) and item.get('id') in remote_map:
             remote_item = remote_map[item['id']]
             audio_url = remote_item.get('audio')
 
@@ -211,7 +265,7 @@ def process_local_mp3(local_data, remote_data):
                 except FileNotFoundError:
                     print(f"wget binary not found at {WGET_BIN}")
 
-def process_local_image(local_data, remote_data):
+def process_local_image(local_data, remote_data, force=False):
     print("Processing Local Images...")
     remote_map = {item['id']: item for item in remote_data if 'id' in item}
 
@@ -227,8 +281,8 @@ def process_local_image(local_data, remote_data):
             event_name = sanitize_filename(item.get('event_name', 'unknown'))
 
             for field, suffix in image_fields.items():
-                # Check if local is empty
-                if not item.get(field):
+                # Check if local is empty or force is True
+                if not item.get(field) or force:
                     remote_url = remote_item.get(field)
 
                     if remote_url and isinstance(remote_url, str) and remote_url.startswith(('http://', 'https://')):
