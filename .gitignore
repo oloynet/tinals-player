@@ -4,6 +4,7 @@ __pycache__/
 assets/images-src/
 doc/
 dist/
+*.egg-info/
 node_modules/
 venv/
 *.log
@@ -11,3 +12,4 @@ venv/
 .DS_Store
 notes.txt
 manifest.prev.json
+tools/data
