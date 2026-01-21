@@ -63,8 +63,8 @@ def ensure_dirs():
 def main():
     parser = argparse.ArgumentParser(description="TINALS Asset Import Tool")
     parser.add_argument("--yt-to-mp3", action="store_true", help="Extract and import mp3 files from YouTube")
-    parser.add_argument("--local-mp3", action="store_true", help="Import mp3 files locally from external server")
-    parser.add_argument("--local-image", action="store_true", help="Import image files locally and convert to WebP")
+    parser.add_argument("--mp3", action="store_true", help="Import mp3 files locally from external server")
+    parser.add_argument("--image", action="store_true", help="Import image files locally and convert to WebP")
     parser.add_argument("--limit", type=int, help="Limit the number of items processed from the data file")
     parser.add_argument("--reset", choices=['image', 'mp3', 'all'], help="Reset fields and delete files")
     parser.add_argument("--force", action="store_true", help="Force overwrite existing values")
@@ -76,7 +76,7 @@ def main():
 
     ensure_dirs()
 
-    if not any([args.yt_to_mp3, args.local_mp3, args.local_image, args.reset, args.check]):
+    if not any([args.yt_to_mp3, args.mp3, args.image, args.reset, args.check]):
         parser.print_help()
         return
 
@@ -107,11 +107,11 @@ def main():
         process_yt_to_mp3(items_to_process, remote_data, args.force)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
-    if args.local_mp3:
+    if args.mp3:
         process_local_mp3(items_to_process, remote_data, args.force)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
-    if args.local_image:
+    if args.image:
         process_local_image(items_to_process, remote_data, args.force, args.max_width, args.compress)
         save_json(LOCAL_DATA_SOURCE, local_data)
 
