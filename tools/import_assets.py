@@ -11,13 +11,13 @@ from PIL import Image
 # Configuration
 YEAR = "2026"
 REMOTE_DATA_SOURCE = "https://thisisnotalovesong.fr/wp-content/themes/tinals/cli/tools/data.json"
-LOCAL_DATA_SOURCE = f"data/{YEAR}/data.json"
+LOCAL_DATA_SOURCE = f"../data/{YEAR}/data.json"
 COMPRESS_WEBP = 80
 # Use environment variables or defaults for binaries to allow overriding in tests
 YT_DLP_BIN = os.getenv("YT_DLP_BIN", "/usr/local/bin/yt-dlp")
 WGET_BIN = os.getenv("WGET_BIN", "/usr/bin/wget")
-MP3_DIR = f"data/{YEAR}/mp3/"
-IMAGES_DIR = f"data/{YEAR}/images/"
+MP3_DIR = f"../data/{YEAR}/mp3/"
+IMAGES_DIR = f"../data/{YEAR}/images/"
 TMP_DIR = "tmp/"
 
 def load_json(filepath):
