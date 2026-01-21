@@ -8,6 +8,9 @@ from pathlib import Path
 import re
 from PIL import Image
 
+# Disable DecompressionBombWarning for large images
+Image.MAX_IMAGE_PIXELS = None
+
 # Configuration
 YEAR = "2026"
 REMOTE_DATA_SOURCE = "https://thisisnotalovesong.fr/wp-content/themes/tinals/cli/tools/data.json"
