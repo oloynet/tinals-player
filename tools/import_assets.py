@@ -9,16 +9,16 @@ import re
 from PIL import Image
 
 # Configuration
-YEAR = "2026"
+YEAR               = "2026"
 REMOTE_DATA_SOURCE = "https://thisisnotalovesong.fr/wp-content/themes/tinals/cli/tools/data.json"
-LOCAL_DATA_SOURCE = f"data/{YEAR}/data.json"
-COMPRESS_WEBP = 80
+LOCAL_DATA_SOURCE  = f"../data/{YEAR}/data.json"
+COMPRESS_WEBP      = 80
 # Use environment variables or defaults for binaries to allow overriding in tests
-YT_DLP_BIN = os.getenv("YT_DLP_BIN", "/usr/local/bin/yt-dlp")
-WGET_BIN = os.getenv("WGET_BIN", "/usr/bin/wget")
-MP3_DIR = f"data/{YEAR}/mp3/"
-IMAGES_DIR = f"data/{YEAR}/images/"
-TMP_DIR = "tmp/"
+YT_DLP_BIN         = os.getenv("YT_DLP_BIN", "/usr/local/bin/yt-dlp")
+WGET_BIN           = os.getenv("WGET_BIN", "/usr/bin/wget")
+MP3_DIR            = f"../data/{YEAR}/mp3/"
+IMAGES_DIR         = f"../data/{YEAR}/images/"
+TMP_DIR            = "tmp/"
 
 def load_json(filepath):
     try:
@@ -59,8 +59,8 @@ def ensure_dirs():
 
 def main():
     parser = argparse.ArgumentParser(description="TINALS Asset Import Tool")
-    parser.add_argument("--yt-to-mp3", action="store_true", help="Extract and import mp3 files from YouTube")
-    parser.add_argument("--local-mp3", action="store_true", help="Import mp3 files locally from external server")
+    parser.add_argument("--yt-to-mp3",   action="store_true", help="Extract and import mp3 files from YouTube")
+    parser.add_argument("--local-mp3",   action="store_true", help="Import mp3 files locally from external server")
     parser.add_argument("--local-image", action="store_true", help="Import image files locally and convert to WebP")
 
     args = parser.parse_args()

@@ -4,6 +4,7 @@ __pycache__/
 assets/images-src/
 doc/
 dist/
+*.egg-info/
 node_modules/
 venv/
 *.log
