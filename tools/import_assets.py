@@ -5,6 +5,7 @@ import subprocess
 import shutil
 import requests
 import re
+import unicodedata
 from PIL import Image
 
 # Disable DecompressionBombWarning for large images
@@ -49,6 +50,11 @@ def fetch_remote_data(url):
         return []
 
 def sanitize_filename(name):
+    # Normalize unicode characters to decompose accents (e.g., 'à' -> 'a' + '`')
+    name = unicodedata.normalize('NFKD', name)
+    # Encode to ASCII bytes, ignoring non-ASCII characters, then decode back to string
+    name = name.encode('ASCII', 'ignore').decode('utf-8')
+
     # Lowercase and replace spaces with dashes
     name = name.lower()
     name = re.sub(r'\s+', '-', name)
