@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v=1.14';
+const CACHE_NAME = 'v=1.15';
 
 const STATIC_ASSETS = [
     './',
