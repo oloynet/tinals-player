@@ -12,7 +12,7 @@ from PIL import Image
 Image.MAX_IMAGE_PIXELS = None
 
 # Configuration
-YEAR = "2026"
+YEAR               = "2026"
 REMOTE_DATA_SOURCE = "https://thisisnotalovesong.fr/wp-content/themes/tinals/cli/tools/data.json"
 LOCAL_DATA_SOURCE = f"../data/{YEAR}/data.json"
 COMPRESS_WEBP = 80
