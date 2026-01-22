@@ -1105,6 +1105,7 @@ function setupObserver() {
                 updateNavButtons();
             } else {
                 entry.target.classList.remove( 'active' );
+                entry.target.classList.remove( 'desc-open' );
                 if ( entry.target.querySelector( '.description' ) ) {
                     entry.target.querySelector( '.description' ).classList.remove( 'expanded' );
                 }
@@ -1518,6 +1519,16 @@ function toggleDescription( element, event ) {
     if ( event ) event.stopPropagation();
     element.classList.add( 'manual-toggle' );
     element.classList.toggle( 'expanded' );
+
+    const card = element.closest('.video-card');
+    if (card) {
+        if (element.classList.contains('expanded')) {
+            card.classList.add('desc-open');
+        } else {
+            card.classList.remove('desc-open');
+        }
+    }
+
     setTimeout( () => {
         element.classList.remove( 'manual-toggle' );
     }, 50 );
