@@ -4,7 +4,6 @@ import os
 import subprocess
 import shutil
 import requests
-from pathlib import Path
 import re
 from PIL import Image
 
@@ -50,10 +49,14 @@ def fetch_remote_data(url):
         return []
 
 def sanitize_filename(name):
-    # Remove invalid characters and spaces
-    name = re.sub(r'[<>:"/\\|?*]', '', name)
+    # Lowercase and replace spaces with dashes
+    name = name.lower()
     name = re.sub(r'\s+', '-', name)
-    return name.lower()
+    # Remove any character that is not a-z, 0-9, dash, or dot
+    name = re.sub(r'[^a-z0-9.-]', '', name)
+    # Remove multiple dashes
+    name = re.sub(r'-+', '-', name)
+    return name
 
 def ensure_dirs():
     os.makedirs(MP3_DIR, exist_ok=True)
@@ -244,22 +247,27 @@ def process_local_mp3(local_data, remote_data, force=False):
             if audio_url and isinstance(audio_url, str) and audio_url.startswith(('http://', 'https://')):
                 print(f"Downloading audio for {item.get('event_name', 'Unknown')} from {audio_url}...")
 
-                # Determine filename from URL
-                filename = os.path.basename(audio_url.split("?")[0])
-                if not filename:
-                    filename = f"{item['id']}.mp3"
-
-                tmp_path = os.path.join(TMP_DIR, filename)
+                # Download to tmp first
+                tmp_filename = f"temp_{item['id']}.mp3"
+                tmp_path = os.path.join(TMP_DIR, tmp_filename)
 
                 try:
                     subprocess.run([WGET_BIN, "-O", tmp_path, audio_url], check=True)
 
                     if os.path.exists(tmp_path):
-                        dest_path = os.path.join(MP3_DIR, filename)
+                        # Determine destination filename
+                        event_name = item.get('event_name')
+                        if event_name:
+                            dest_filename = f"{sanitize_filename(event_name)}.mp3"
+                        else:
+                            # Fallback if no event name
+                            dest_filename = f"{item['id']}.mp3"
+
+                        dest_path = os.path.join(MP3_DIR, dest_filename)
                         shutil.move(tmp_path, dest_path)
                         print(f"Downloaded to {dest_path}")
 
-                        item['audio'] = f"data/{YEAR}/mp3/{filename}"
+                        item['audio'] = f"data/{YEAR}/mp3/{dest_filename}"
                     else:
                         print(f"File not found after wget: {tmp_path}")
                 except subprocess.CalledProcessError as e:
@@ -314,7 +322,7 @@ def process_local_image(local_data, remote_data, force=False, max_width=None, qu
                                             # Calculate new height maintaining aspect ratio
                                             aspect_ratio = img.height / img.width
                                             new_height = int(max_width * aspect_ratio)
-                                            img = img.resize((max_width, new_height), Image.LANCZOS)
+                                            img = img.resize((max_width, new_height), Image.Resampling.LANCZOS)
                                             print(f"Resized image to {max_width}x{new_height}")
 
                                         img.save(dest_path, "WEBP", quality=quality)
