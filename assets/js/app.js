@@ -156,7 +156,10 @@ async function init() {
                 return false;
             }
             return true;
-        });
+        }).map( item => {
+            item.id = Number( item.id );
+            return item;
+        } );
 
         let storedFavs     = JSON.parse( localStorage.getItem( 'selected' ) ) || [];
         const validIds     = AppState.data.map( g => g.id );
