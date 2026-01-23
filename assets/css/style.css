@@ -879,6 +879,8 @@ iframe {
     flex-wrap: wrap;
     margin-bottom: 4px;
     transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, visibility 0.3s;
+    max-height: 300px;
+    overflow: hidden;
 }
 
 .tag-pill {
@@ -928,6 +930,8 @@ iframe {
     text-transform: uppercase;
     letter-spacing: 1px;
     transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, visibility 0.3s;
+    max-height: 100px;
+    overflow: hidden;
 }
 
 /* --- HIDING ELEMENTS ON PLAY (After 2s) --- */
