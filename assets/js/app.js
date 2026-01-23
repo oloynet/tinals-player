@@ -567,10 +567,10 @@ function getVideoCardHtml( g ) {
     const s = AppState.settings;
     const tagsHtml = ( s.isDisplayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => {
         const slug = slugify(t);
-        return `<span class="tag-pill" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+        return `<span class="tag-pill" data-slug="${slug}" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
     }).join('')}</div>` : '';
 
-    const songTitleOverlay = ( s.isDisplayRecordName && g.video_title ) ? `<h3 class="song-title-overlay">"${g.video_title}"</h3>` : '';
+    const songTitleOverlay = ( s.isDisplayRecordName && g.video_title ) ? `<h3 class="song-title-overlay" onclick="toggleDescription(this.parentNode.querySelector('.description'), event)">"${g.video_title}"</h3>` : '';
     const songTitleCenter  = ( s.isDisplayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
     const dayName          = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
     const dateRaw          = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
@@ -639,7 +639,7 @@ function getVideoCardHtml( g ) {
         <div class="video-overlay">
             <div class="group-info">
                 ${avatarHtml}
-                <h2>${g.event_name}</h2>
+                <h2 onclick="toggleDescription(this.parentNode.querySelector('.description'), event)">${g.event_name}</h2>
                 ${songTitleOverlay}
                 ${tagsHtml}
                 ${descHtml}
@@ -1307,6 +1307,13 @@ function filterByTag( tagSlug, event ) {
 
     const tagName = getTagNameFromSlug(tagSlug);
 
+    document.querySelectorAll('.tag-pill').forEach(el => {
+        el.classList.remove('tag-active');
+    });
+    document.querySelectorAll(`.tag-pill[data-slug="${tagSlug}"]`).forEach(el => {
+        el.classList.add('tag-active');
+    });
+
     document.querySelectorAll( '.video-card' ).forEach( card => {
         const id = Number( card.dataset.id );
         const group = AppState.data.find( g => g.id === id );
@@ -1328,6 +1335,7 @@ function clearTagFilter() {
     if ( !AppState.state.currentTagFilter ) return;
     AppState.state.currentTagFilter = null;
     document.body.classList.remove( 'tag-filtering' );
+    document.querySelectorAll('.tag-pill').forEach(el => el.classList.remove('tag-active'));
     document.getElementById( 'tag-mode-bar' ).classList.remove( 'active' );
     document.getElementById( 'fav-filter-info' ).innerText  = '';
     document.getElementById( 'time-filter-info' ).innerText = '';
