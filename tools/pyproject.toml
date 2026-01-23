@@ -7,4 +7,5 @@ dependencies = [
     "requests",
     "pillow",
     "yt-dlp",
+    "cairosvg",
 ]
