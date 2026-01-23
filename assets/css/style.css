@@ -821,7 +821,7 @@ iframe {
     display: block;
     max-height: 2.8em;
     overflow: hidden;
-    transition: max-height 1s cubic-bezier(0.25, 1, 0.5, 1), background-color 0.3s;
+    transition: max-height 0.5s ease, background-color 0.3s, opacity 0.3s, margin 0.3s, visibility 0.3s;
     cursor: pointer;
     position: relative;
     display: -webkit-box;
@@ -850,9 +850,14 @@ iframe {
 .description.expanded {
     -webkit-line-clamp: unset;
     display: block;
-    max-height: 80vh;
+    height: 70vh;
+    max-height: 70vh;
+    background-color: rgba(0, 0, 0, 0.85);
+    padding: 15px;
+    border-radius: 8px;
     overflow-y: auto;
     opacity: 1;
+    cursor: default;
 }
 
 .description.expanded::after {
@@ -864,6 +869,7 @@ iframe {
     display: inline-block;
     vertical-align: middle;
     margin-left: 8px;
+    cursor: pointer;
 }
 
 .tags-container {
@@ -871,6 +877,7 @@ iframe {
     gap: 8px;
     flex-wrap: wrap;
     margin-bottom: 4px;
+    transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, visibility 0.3s;
 }
 
 .tag-pill {
@@ -888,6 +895,11 @@ iframe {
 
 .tag-pill:hover {
     background: rgba(255, 255, 255, 0.4);
+}
+
+.tag-pill.tag-active {
+    background-color: var(--secondary-color);
+    color: white;
 }
 
 .social-pill {
@@ -914,6 +926,19 @@ iframe {
     color: var(--primary-color);
     text-transform: uppercase;
     letter-spacing: 1px;
+    transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, visibility 0.3s;
+}
+
+/* --- HIDING ELEMENTS ON PLAY (After 2s) --- */
+.video-card.playing:not(.desc-open) .tags-container,
+.video-card.playing:not(.desc-open) .event-details,
+.video-card.playing:not(.desc-open) .description:not(.expanded) {
+    opacity: 0;
+    max-height: 0;
+    margin: 0;
+    padding: 0;
+    visibility: hidden;
+    transition: all 0.5s ease 2s;
 }
 
 .video-card:fullscreen {
@@ -1641,20 +1666,6 @@ iframe {
     .tags-container,
     .description {
         margin-bottom: 4px;
-        transition: all 0.5s ease;
-    }
-
-    body.hide-desc-mobile .video-card.playing .description:not(.expanded) {
-        opacity: 0;
-        max-height: 0;
-        margin-bottom: 0;
-        transform: translateY(10px);
-        transition: all 0.8s ease 4s;
-    }
-
-    .description.expanded {
-        max-height: 50vh;
-        overflow-y: auto;
     }
 
     .presentation-card {
@@ -1882,9 +1893,14 @@ iframe {
 
 .social-links-container {
     margin-top: 10px;
-    display: flex;
+    display: none;
     gap: 10px;
     flex-wrap: wrap;
+    justify-content: center;
+}
+
+.description.expanded .social-links-container {
+    display: flex;
 }
 
 .ticket-block.full-pass-ticket {
