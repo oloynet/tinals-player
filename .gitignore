@@ -2,7 +2,6 @@
 .vscode/
 __pycache__/
 assets/images-src/
-doc/
 dist/
 *.egg-info/
 node_modules/
@@ -10,5 +9,4 @@ venv/
 *.log
 *.mp3
 .DS_Store
-notes.txt
-manifest.prev.json
+*.nogit.*
