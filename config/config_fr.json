@@ -77,6 +77,9 @@
         "status_scheduled": "Planifié",
 
         "ticket_likes_label": "Mes coups de coeur",
-        "ticket_artists_count_label": "{count} groupes viennent au festival"
+        "ticket_artists_count_label": "{count} groupes viennent au festival",
+
+        "error_video_playback": "Problème de lecture de la vidéo",
+        "error_video_suggestion": "Veuillez recharger la page pour réessayer"
     }
 }

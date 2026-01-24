@@ -114,6 +114,7 @@ const VideoManager = {
                     'onError': ( e ) => {
                         console.log( "Erreur Youtube", e.data );
                         card.classList.remove( 'loading' );
+                        this.showError( id );
                     }
                 }
             } );
@@ -346,6 +347,41 @@ const VideoManager = {
         setTimeout( () => {
             AppState.state.isMenuNavigation = false;
         }, 1000 );
+    },
+    showError: function(id) {
+        const card = document.getElementById(`video-${id}`);
+        if (!card) return;
+        const container = card.querySelector('.video-container');
+        if (!container) return;
+
+        // Cleanup states
+        card.classList.remove('loading');
+        card.classList.remove('playing');
+        card.classList.remove('audio-playing');
+
+        if ( AppState.settings.isDisplayControlBar ) {
+            document.getElementById( 'control-bar' ).classList.remove( 'visible' );
+            ControlBar.stopTracking();
+        }
+
+        // Remove existing error if any
+        const existing = container.querySelector('.video-error-overlay');
+        if (existing) existing.remove();
+
+        const t = AppState.config.texts;
+        const msg = (t && t.error_video_playback) ? t.error_video_playback : "Problème de lecture de la vidéo";
+        const suggestion = (t && t.error_video_suggestion) ? t.error_video_suggestion : "Veuillez recharger la page pour réessayer";
+
+        const div = document.createElement('div');
+        div.className = 'video-error-overlay';
+        div.innerHTML = `
+            <span class="material-icons video-error-icon">error_outline</span>
+            <div class="video-error-message">${msg}</div>
+            <div class="video-error-subtext">${suggestion}</div>
+        `;
+
+        container.appendChild(div);
+        card.classList.add('has-error');
     },
     applyMobileZoom: function ( id ) {
         const isForce = AppState.settings.isForceZoom;
