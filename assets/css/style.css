@@ -151,6 +151,8 @@ body {
     transition: transform 0.3s ease-in-out, top 0.4s ease, padding-top 0.4s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     cursor: pointer;
+    padding-left: 50px;
+    padding-right: 50px;
 }
 
 body.menu-hidden #fav-mode-bar,
@@ -178,7 +180,8 @@ body.menu-hidden #tag-mode-bar {
     border: none;
     color: white;
     cursor: pointer;
-    margin-left: 15px;
+    position: absolute;
+    right: 15px;
     padding: 5px;
     display: flex;
     align-items: center;
@@ -1985,7 +1988,7 @@ iframe {
         transform: translate(-50%, -50%) scale(1);
     }
     50% {
-        opacity: 0.5;
+        opacity: 0.8;
         transform: translate(-50%, -50%) scale(1.5);
     }
     100% {
@@ -1995,7 +1998,7 @@ iframe {
 }
 
 .video-card.paused-manual:not(.ended) .video-state-icon {
-    animation: pulse-paused 2.5s ease-in-out infinite;
+    animation: pulse-paused 1.5s ease-in-out infinite;
     transition: none;
 }
 
