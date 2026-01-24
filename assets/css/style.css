@@ -188,13 +188,13 @@ body.menu-hidden #tag-mode-bar {
 }
 
 body.favorites-mode .video-card:not(.is-favorite),
-body.favorites-mode .presentation-card,
+body.favorites-mode .intro-card,
 body.favorites-mode .ticketing-card {
     display: none !important;
 }
 
 body.tag-filtering .video-card:not(.has-matching-tag),
-body.tag-filtering .presentation-card,
+body.tag-filtering .intro-card,
 body.tag-filtering .ticketing-card {
     display: none !important;
 }
@@ -470,7 +470,7 @@ body.tag-filtering .ticketing-card {
 }
 
 /* --- PRESENTATION CARD (Utilisation DVH) --- */
-.presentation-card {
+.intro-card {
     height: 100vh;
     height: 100dvh;
     width: 100%;
@@ -1697,7 +1697,7 @@ iframe {
         margin-bottom: 4px;
     }
 
-    .presentation-card {
+    .intro-card {
         padding: 7vh 20px 5vh 20px;
     }
 

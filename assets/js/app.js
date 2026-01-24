@@ -535,7 +535,7 @@ function getIntroHtml() {
     const logoHtml = getSvgHtml( c.images.presentation_id, "intro-logo" );
 
     return `
-        <section class="presentation-card section-snap" id="intro-section">
+        <section id="intro" class="intro-card section-snap">
             <div class="intro-content-top">
                 <h1>${logoHtml}</h1>
                 <h2 class="intro-subtitle">${c.texts.intro_subtitle}</h2>
@@ -741,7 +741,7 @@ function getTicketingHtml() {
     }
 
     return `
-        <section class="ticketing-card section-snap" id="ticketing-section">
+        <section id="ticketing" class="ticketing-card section-snap" >
             <div class="ticket-title"><h2>${t.ticket_section_title}</h2></div>
             <div class="ticket-container">
                 ${blocksHtml}
@@ -1512,7 +1512,7 @@ function scrollToTop() {
 }
 
 function scrollToTicketing() {
-    const ticketSection = document.getElementById( 'ticketing-section' );
+    const ticketSection = document.getElementById( 'ticketing' );
     if ( ticketSection ) ticketSection.scrollIntoView( {
         behavior: 'smooth'
     } );
@@ -1696,7 +1696,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v=1.15' )
+    navigator.serviceWorker.register( 'service-worker.js?v=1.16' )
         .then( ( reg ) => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker', err ) );
 }
