@@ -1527,6 +1527,10 @@ iframe {
     #control-bar {
         min-height: 60px;
     }
+
+    .video-overlay {
+        padding-bottom: calc(35px + env(safe-area-inset-bottom));
+    }
 }
 
 @media (max-width: 1023px) {
