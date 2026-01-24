@@ -2070,3 +2070,42 @@ iframe {
     cursor: pointer;
     background: transparent;
 }
+
+/* --- VIDEO ERROR OVERLAY --- */
+.video-error-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.85);
+    z-index: 20;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: white;
+    padding: 20px;
+    backdrop-filter: blur(5px);
+}
+
+.video-error-icon {
+    font-size: 4rem !important;
+    color: var(--secondary-color);
+    margin-bottom: 20px;
+}
+
+.video-error-message {
+    font-size: 1.2rem;
+    font-weight: bold;
+    text-transform: uppercase;
+    margin-bottom: 10px;
+    max-width: 80%;
+}
+
+.video-error-subtext {
+    font-size: 0.9rem;
+    opacity: 0.8;
+    max-width: 80%;
+}

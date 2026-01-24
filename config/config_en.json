@@ -77,6 +77,9 @@
         "status_scheduled": "Scheduled",
 
         "ticket_likes_label": "My favorites",
-        "ticket_artists_count_label": "{count} artists are coming to the festival"
+        "ticket_artists_count_label": "{count} artists are coming to the festival",
+
+        "error_video_playback": "Problem playing the video",
+        "error_video_suggestion": "Please reload the page to try again"
     }
 }
