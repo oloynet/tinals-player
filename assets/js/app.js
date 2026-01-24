@@ -7,6 +7,7 @@ const AppState = {
     currentLang: 'fr',
     state: {
         activeId: null,
+        activeSection: null,
         previousId: null,
         isAutoNext: false,
         isMenuNavigation: false,
@@ -168,6 +169,7 @@ async function init() {
         const filterParam  = urlParams.get( 'filter' );
         const favsParam    = urlParams.get( 'favorites' );
         const idParam      = urlParams.get( 'id' );
+        const sectionParam = urlParams.get( 'section' );
 
         renderFeed();
         renderFavorites();
@@ -194,6 +196,14 @@ async function init() {
             AppState.state.activeId = Number( idParam );
             setTimeout( () => {
                 const target = document.getElementById( `video-${AppState.state.activeId}` );
+                if ( target ) target.scrollIntoView( {
+                    behavior: 'auto'
+                } );
+            }, 100 );
+            updateURLState();
+        } else if ( sectionParam ) {
+            setTimeout( () => {
+                const target = document.getElementById( sectionParam );
                 if ( target ) target.scrollIntoView( {
                     behavior: 'auto'
                 } );
@@ -525,7 +535,7 @@ function getIntroHtml() {
     const logoHtml = getSvgHtml( c.images.presentation_id, "intro-logo" );
 
     return `
-        <section class="presentation-card section-snap">
+        <section class="presentation-card section-snap" id="intro-section">
             <div class="intro-content-top">
                 <h1>${logoHtml}</h1>
                 <h2 class="intro-subtitle">${c.texts.intro_subtitle}</h2>
@@ -1065,6 +1075,7 @@ function setupObserver() {
             if ( entry.isIntersecting ) {
                 if ( entry.target.hasAttribute( 'data-id' ) ) {
                     const id = Number( entry.target.dataset.id );
+                    AppState.state.activeSection = null;
                     entry.target.classList.add( 'active' );
                     let shouldPlay = false;
                     if ( AppState.state.isMenuNavigation ) shouldPlay = false;
@@ -1094,6 +1105,9 @@ function setupObserver() {
 
                 } else {
                     AppState.state.activeId = null;
+                    if ( entry.target.id ) {
+                        AppState.state.activeSection = entry.target.id;
+                    }
                     if ( AppState.state.previousId !== null && VideoManager.instances[ AppState.state.previousId ] && typeof VideoManager.instances[ AppState.state.previousId ].pauseVideo === 'function' ) {
                         VideoManager.instances[ AppState.state.previousId ].pauseVideo();
                     }
@@ -1278,21 +1292,27 @@ function updateNavButtons() {
 
 function updateActionButtons( id ) {
     const heartBtn = document.getElementById( 'btn-dynamic-heart' );
+    if ( !heartBtn ) return;
+
     const icon = heartBtn.querySelector( '.material-icons:not(.btn-bg)' );
     const bg = heartBtn.querySelector( '.btn-bg' );
     if ( id === null || isNaN( id ) ) {
         heartBtn.classList.add( 'disabled' );
-        bg.classList.remove( 'bright' );
+        if ( bg ) bg.classList.remove( 'bright' );
     } else {
         heartBtn.classList.remove( 'disabled' );
         if ( AppState.favorites.includes( id ) ) {
-            icon.innerHTML = 'favorite';
-            bg.classList.add( 'bright' );
-            icon.style.color = 'var(--primary-color)';
+            if ( icon ) {
+                icon.innerHTML = 'favorite';
+                icon.style.color = 'var(--primary-color)';
+            }
+            if ( bg ) bg.classList.add( 'bright' );
         } else {
-            icon.innerHTML = 'favorite_border';
-            bg.classList.remove( 'bright' );
-            icon.style.color = 'white';
+            if ( icon ) {
+                icon.innerHTML = 'favorite_border';
+                icon.style.color = 'white';
+            }
+            if ( bg ) bg.classList.remove( 'bright' );
         }
     }
 }
@@ -1351,6 +1371,7 @@ function updateURLState() {
     const url = new URL( window.location );
 
     url.searchParams.delete( 'id' );
+    url.searchParams.delete( 'section' );
     url.searchParams.delete( 'filter' );
     url.searchParams.delete( 'favorites' );
     url.searchParams.delete( 'share' );
@@ -1367,6 +1388,8 @@ function updateURLState() {
         url.searchParams.set( 'filter', AppState.state.currentTagFilter );
     } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
         url.searchParams.set( 'id', AppState.state.activeId );
+    } else if ( AppState.state.activeSection ) {
+        url.searchParams.set( 'section', AppState.state.activeSection );
     }
 
     window.history.replaceState( null, '', url );
@@ -1516,14 +1539,16 @@ function triggerHaptic( el ) {
 
 function updateFavoritesIcon() {
     const btn = document.getElementById( 'btn-drawer-favorites' );
+    if ( !btn ) return;
+
     const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
     const bg = btn.querySelector( '.btn-bg' );
     if ( AppState.favorites.length > 0 ) {
-        bg.classList.add( 'bright' );
-        icon.style.color = 'var(--primary-color)';
+        if ( bg ) bg.classList.add( 'bright' );
+        if ( icon ) icon.style.color = 'var(--primary-color)';
     } else {
-        bg.classList.remove( 'bright' );
-        icon.style.color = 'white';
+        if ( bg ) bg.classList.remove( 'bright' );
+        if ( icon ) icon.style.color = 'white';
     }
 }
 

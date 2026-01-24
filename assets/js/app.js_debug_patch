@@ -1,0 +1,16 @@
+        } else if ( sectionParam ) {
+            console.log("SECTION PARAM FOUND:", sectionParam);
+            setTimeout( () => {
+                const target = document.getElementById( sectionParam );
+                console.log("SCROLL TARGET:", target);
+                if ( target ) {
+                    target.scrollIntoView( {
+                        behavior: 'auto'
+                    } );
+                    console.log("SCROLL EXECUTED");
+                } else {
+                    console.log("SCROLL TARGET NOT FOUND");
+                }
+            }, 100 );
+            updateURLState();
+        } else {
