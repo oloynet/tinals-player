@@ -89,7 +89,7 @@ body {
 }
 
 .menu-logo {
-    width: 100px;
+    width: 80px; /* Mobile First (<640px) */
     height: auto;
     aspect-ratio: 40 / 17;
     fill: white;
@@ -106,28 +106,15 @@ body {
 
 /* --- DRAPEAUX --- */
 .lang-icon {
-    width: 32px;
+    width: 24px; /* Mobile First (<640px) */
     height: auto;
     aspect-ratio: 48 / 32;
     display: block;
     margin: 0 auto;
 }
 
-@media (max-width: 600px) {
-    .menu-logo {
-        width: 80px;
-    }
-
-    .lang-icon {
-        width: 24px;
-    }
-
-    #btn-header-lang {
-        margin-left: 0;
-        min-width: 24px;
-        padding: 5px;
-        border: none;
-    }
+.logo {
+    max-width: 30%; /* Mobile First (<640px) */
 }
 
 /* --- BARRES DE NOTIFICATION (Mobile Safe Area) --- */
@@ -206,7 +193,7 @@ body.tag-filtering .ticketing-card {
     left: 0;
     width: 100%;
     height: auto;
-    min-height: 40px;
+    min-height: 40px; /* Mobile First */
     padding-top: 5px;
     padding-bottom: env(safe-area-inset-bottom);
     background-color: var(--control-bar-bg);
@@ -481,7 +468,7 @@ body.tag-filtering .ticketing-card {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 12vh 20px 2vh 20px;
+    padding: 7vh 20px 5vh 20px; /* Mobile First (<640px) */
     text-align: center;
 }
 
@@ -506,10 +493,11 @@ body.tag-filtering .ticketing-card {
     opacity: 0;
     animation: slideInUp 0.8s ease-out forwards;
     animation-delay: 0.3s;
+    margin-top: 28px; /* Mobile First (<640px) */
 }
 
 .intro-subtitle {
-    font-size: 1.5rem;
+    font-size: 1.4rem; /* Mobile First (<640px) */
     text-transform: uppercase;
     font-weight: 700;
     letter-spacing: 1px;
@@ -521,7 +509,7 @@ body.tag-filtering .ticketing-card {
 .intro-date {
     display: flex;
     flex-direction: column;
-    font-size: 3.5rem;
+    font-size: 2.2rem; /* Mobile First (<640px) */
     font-weight: 900;
     line-height: 1;
     text-transform: uppercase;
@@ -547,25 +535,29 @@ body.tag-filtering .ticketing-card {
 
 .intro-buttons-container {
     display: flex;
-    gap: 20px;
+    gap: 15px; /* Mobile First (<640px) */
     width: 100%;
     justify-content: center;
+    flex-direction: column; /* Mobile First (<640px) */
+    align-items: center; /* Mobile First (<640px) */
 }
 
 .intro-btn {
     background-color: var(--primary-color);
     color: white;
-    padding: 15px 20px;
+    padding: 10px 25px; /* Mobile First (<640px) */
     border-radius: 50px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.95rem;
+    font-size: 0.8rem; /* Mobile First (<640px) */
     text-transform: uppercase;
     border: none;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s;
-    flex: 1;
+    flex: unset; /* Mobile First (<640px) */
+    width: auto; /* Mobile First (<640px) */
+    min-width: 200px; /* Mobile First (<640px) */
     white-space: nowrap;
 }
 
@@ -668,7 +660,7 @@ iframe {
 }
 
 .group-title-center h2 {
-    font-size: 3.5rem;
+    font-size: 1.5rem; /* Mobile First (<640px) */
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -697,12 +689,12 @@ iframe {
 }
 
 .splash-meta-place {
-    font-size: 1.7rem;
-    margin-bottom: 4px;
+    font-size: 1.0rem; /* Mobile First (<640px) */
+    margin-bottom: 0px; /* Mobile First (<640px) */
 }
 
 .splash-meta-date {
-    font-size: 1.7rem;
+    font-size: 1.0rem; /* Mobile First (<640px) */
     opacity: 0.9;
 }
 
@@ -749,7 +741,7 @@ iframe {
     bottom: 0dvh;
     left: 0;
     right: 0;
-    padding: 25px;
+    padding: 5px; /* Mobile First (<640px) */
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
     display: flex;
     justify-content: space-between;
@@ -759,7 +751,7 @@ iframe {
     transform: translateY(20px);
     transition: opacity 0.8s ease, transform 0.8s ease;
     pointer-events: none;
-    padding-bottom: calc(25px + env(safe-area-inset-bottom));
+    padding-bottom: calc(17px + env(safe-area-inset-bottom)); /* Mobile First (<640px) */
 }
 
 .video-card.active .video-overlay {
@@ -775,8 +767,8 @@ iframe {
 /* --- AVATAR INTERACTIF --- */
 .group-avatar-container {
     display: block;
-    width: 96px;
-    height: 96px;
+    width: 64px; /* Mobile First (<640px) */
+    height: 64px; /* Mobile First (<640px) */
     margin-bottom: 12px;
     position: relative;
     cursor: pointer;
@@ -801,7 +793,7 @@ iframe {
 
 .group-info h2 {
     margin: 0 0 2px 0;
-    font-size: 2.0rem;
+    font-size: 1.3rem; /* Mobile First (<640px) */
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -817,7 +809,7 @@ iframe {
 
 /* --- DESCRIPTION --- */
 .description {
-    font-size: 1.5rem;
+    font-size: 1.0rem; /* Mobile First (<640px) */
     opacity: 0.85;
     margin: 8px 0;
     max-width: 85%;
@@ -830,6 +822,7 @@ iframe {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    margin-bottom: 4px; /* Mobile First (<640px) */
 }
 
 .description.manual-toggle {
@@ -880,7 +873,7 @@ iframe {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin-bottom: 4px;
+    margin-bottom: 4px; /* Mobile First (<640px) */
     transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, visibility 0.3s;
     max-height: 300px;
     overflow: hidden;
@@ -889,9 +882,9 @@ iframe {
 .tag-pill {
     background: var(--tag-pill-bg);
     color: var(--tag-pill-color);
-    padding: 6px 16px;
+    padding: 5px 12px; /* Mobile First (<640px) */
     border-radius: 12px;
-    font-size: 1.2rem;
+    font-size: 0.85rem; /* Mobile First (<640px) */
     font-weight: bold;
     backdrop-filter: blur(4px);
     text-transform: uppercase;
@@ -970,15 +963,16 @@ iframe {
 /* --- ACTION BAR (RIGHT) --- */
 .right-action-bar {
     position: fixed;
-    right: 20px;
-    bottom: 50px;
+    right: 5px; /* Mobile First (<640px) */
+    bottom: 50px; /* Mobile First (<640px) */
     top: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 20px;
+    gap: 15px; /* Mobile First (<640px) */
     z-index: 300;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    padding-bottom: env(safe-area-inset-bottom); /* Mobile First (<640px) */
 }
 
 .drawer-right.active~.right-action-bar {
@@ -987,8 +981,8 @@ iframe {
 
 .btn-fav-float {
     position: relative;
-    width: 50px;
-    height: 50px;
+    width: 40px; /* Mobile First (<640px) */
+    height: 40px; /* Mobile First (<640px) */
     background: transparent !important;
     color: white;
     border-radius: 50%;
@@ -1049,7 +1043,7 @@ iframe {
     background: none;
     border: none;
     color: white;
-    font-size: 20px !important;
+    font-size: 20px !important; /* Mobile First (<640px) */
     cursor: pointer;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
     transition: transform 0.2s;
@@ -1068,8 +1062,8 @@ iframe {
     position: fixed;
     top: 0;
     right: 0;
-    width: 85%;
-    max-width: 420px;
+    width: 100%; /* Mobile First (<640px) */
+    max-width: none; /* Mobile First (<640px) */
     height: 100%;
     background: var(--drawer-bg);
     color: var(--drawer-text);
@@ -1087,7 +1081,7 @@ iframe {
 
 /* --- DRAWER TABS & HEADER --- */
 .drawer-header {
-    padding: 15px 20px;
+    padding: 10px; /* Mobile First (<640px) */
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1137,13 +1131,13 @@ iframe {
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 15px 25px;
+    padding: 10px; /* Mobile First (<640px) */
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .favorite-item img {
-    width: 55px;
-    height: 55px;
+    width: 55px; /* Mobile First (<640px) */
+    height: 55px; /* Mobile First (<640px) */
     border-radius: 6px;
     object-fit: cover;
 }
@@ -1205,7 +1199,7 @@ iframe {
 /* --- TIMELINE --- */
 .timeline-item {
     display: flex;
-    padding: 15px;
+    padding: 10px; /* Mobile First (<640px) */
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     transition: background 0.2s;
     cursor: pointer;
@@ -1216,11 +1210,11 @@ iframe {
 }
 
 .time-thumb {
-    width: 80px;
-    height: 80px;
+    width: 55px; /* Mobile First (<640px) */
+    height: 55px; /* Mobile First (<640px) */
     object-fit: cover;
     border-radius: 6px;
-    margin-right: 15px;
+    margin-right: 10px; /* Mobile First (<640px) */
     flex-shrink: 0;
     cursor: pointer;
 }
@@ -1339,17 +1333,17 @@ iframe {
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 4px; /* Mobile First (<640px) */
 }
 
 .btn-ticket {
     background: white;
     color: var(--primary-color);
-    padding: 10px 18px;
+    padding: 4px 8px; /* Mobile First (<640px) */
     border-radius: 25px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 11px;
+    font-size: 9px; /* Mobile First (<640px) */
     border: none;
     cursor: pointer;
 }
@@ -1357,25 +1351,20 @@ iframe {
 .btn-program {
     background: transparent;
     color: white;
-    padding: 9px 16px;
+    padding: 4px 8px; /* Mobile First (<640px) */
     border-radius: 25px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 11px;
+    font-size: 9px; /* Mobile First (<640px) */
     border: 1px solid white;
     cursor: pointer;
 }
 
 #btn-header-lang {
-    margin-left: 5px;
-    min-width: 40px;
+    margin-left: 0; /* Mobile First (<640px) */
+    min-width: 24px; /* Mobile First (<640px) */
     padding: 5px;
     border: none;
-}
-
-.lang-icon {
-    width: 24px;
-    height: 16px;
 }
 
 /* --- TICKETING CARD (Utilisation DVH) --- */
@@ -1390,6 +1379,7 @@ iframe {
     display: flex;
     flex-direction: column;
     padding-top: 70px;
+    min-height: auto; /* Mobile First (<640px) */
 }
 
 .ticket-title {
@@ -1412,8 +1402,8 @@ iframe {
     height: auto;
     flex: 1;
     width: 100%;
-    gap: 20px;
-    padding: 20px;
+    gap: 10px; /* Mobile First (<640px) */
+    padding: 0 10px 10px 10px; /* Mobile First (<640px) */
 }
 
 .ticket-block {
@@ -1422,9 +1412,9 @@ iframe {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 20px;
+    padding: 15px; /* Mobile First (<640px) */
     gap: 10px;
-    margin: 10px;
+    margin: 5px; /* Mobile First (<640px) */
     text-align: center;
     color: #ffffff;
     transition: flex 0.3s ease;
@@ -1437,7 +1427,7 @@ iframe {
 }
 
 .ticket-block h2 {
-    font-size: 2rem;
+    font-size: 1.4rem; /* Mobile First (<640px) */
     margin: 0;
     text-transform: uppercase;
     font-weight: 900;
@@ -1445,7 +1435,7 @@ iframe {
 }
 
 .ticket-block h3 {
-    font-size: 1.5rem;
+    font-size: 1rem; /* Mobile First (<640px) */
     margin: 0;
     font-weight: 300;
     opacity: 0.9;
@@ -1453,11 +1443,11 @@ iframe {
 
 .ticket-btn {
     background-color: #ffffff;
-    padding: 15px 30px;
+    padding: 8px 15px; /* Mobile First (<640px) */
     border-radius: 50px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 1rem;
+    font-size: 0.8rem; /* Mobile First (<640px) */
     text-transform: uppercase;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -1499,233 +1489,6 @@ iframe {
 
 #app-version-indicator.visible {
     display: block;
-}
-
-@media (min-width: 1024px) {
-    .ticket-container {
-        flex-direction: row;
-    }
-
-    .ticket-block:hover {
-        flex: 1.6;
-    }
-
-    /* Enlarge elements on hover (text and button) */
-    .ticket-block h2,
-    .ticket-block h3,
-    .ticket-block .ticket-btn {
-        transition: transform 0.3s ease;
-    }
-
-    .ticket-block:hover h2,
-    .ticket-block:hover h3,
-    .ticket-block:hover .ticket-btn {
-        transform: scale(1.2);
-        margin-bottom: 15px;
-    }
-
-    #control-bar {
-        min-height: 60px;
-    }
-
-    .video-overlay {
-        padding-bottom: calc(35px + env(safe-area-inset-bottom));
-    }
-}
-
-@media (max-width: 1023px) {
-
-    .group-title-center h2 {
-        font-size: 2.5rem;
-    }
-
-    .splash-meta-place {
-        font-size: 1.3rem;
-    }
-
-    .splash-meta-date {
-        font-size: 1.3rem;
-    }
-
-    .ticketing-card {
-        height: 100vh;
-        height: 100dvh;
-        min-height: auto;
-    }
-
-    .ticket-container {
-        gap: 10px;
-        padding: 0 10px 10px 10px;
-    }
-
-    .ticket-block {
-        padding: 15px;
-        margin: 5px;
-    }
-
-    .ticket-block h2 {
-        font-size: 1.4rem;
-    }
-
-    .ticket-block h3 {
-        font-size: 1rem;
-    }
-
-    .ticket-btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-    }
-}
-
-@media (max-width: 600px) {
-
-    .group-avatar-container {
-        width: 64px;
-        height: 64px;
-    }
-
-    .group-info h2 {
-        font-size: 1.3rem;
-    }
-
-    .tag-pill {
-        font-size: 0.85rem;
-        padding: 5px 12px;
-    }
-
-    .description {
-        font-size: 1.0rem;
-    }
-
-    .btn-ticket,
-    .btn-program {
-        padding: 4px 8px;
-        font-size: 9px;
-    }
-
-    .header-actions {
-        gap: 4px;
-    }
-
-    .logo {
-        max-width: 30%;
-    }
-
-    .intro-content-top {
-        margin-top: 28px;
-    }
-
-    .intro-subtitle {
-        font-size: 1.4rem;
-    }
-
-    .intro-date {
-        font-size: 2.2rem;
-    }
-
-    .intro-buttons-container {
-        gap: 15px;
-        flex-direction: column;
-        align-items: center;
-    }
-
-    .intro-btn {
-        padding: 10px 25px;
-        font-size: 0.8rem;
-        flex: unset;
-        width: auto;
-        min-width: 200px;
-    }
-
-    .ticket-btn {
-        padding: 8px 15px;
-        font-size: 0.8rem;
-    }
-
-    .video-overlay {
-        padding: 5px;
-        padding-bottom: 17px;
-        padding-bottom: calc(17px + env(safe-area-inset-bottom));
-    }
-
-    .right-action-bar {
-        bottom: 50px;
-        gap: 15px;
-        right: 5px;
-        padding-bottom: env(safe-area-inset-bottom);
-    }
-
-    .btn-fav-float {
-        width: 40px;
-        height: 40px;
-    }
-
-    .btn-action {
-        font-size: 20px !important;
-    }
-
-    .drawer-right {
-        width: 100%;
-        max-width: none;
-    }
-
-    .favorite-item {
-        padding: 10px;
-    }
-
-    .favorite-item img {
-        width: 55px;
-        height: 55px;
-    }
-
-    .drawer-header {
-        padding: 10px;
-    }
-
-    .timeline-item {
-        padding: 10px;
-    }
-
-    .time-thumb {
-        width: 55px;
-        height: 55px;
-        margin-right: 10px;
-    }
-
-    .tags-container,
-    .description {
-        margin-bottom: 4px;
-    }
-
-    .intro-card {
-        padding: 7vh 20px 5vh 20px;
-    }
-
-    #btn-header-lang {
-        margin-left: 0;
-        min-width: 24px;
-        padding: 5px;
-        border: none;
-    }
-
-    .lang-icon {
-        width: 24px;
-        height: 16px;
-    }
-
-    .group-title-center h2 {
-        font-size: 1.5rem;
-    }
-
-    .splash-meta-place {
-        font-size: 1.0rem;
-        margin-bottom: 0px;
-    }
-
-    .splash-meta-date {
-        font-size: 1.0rem;
-        opacity: 0.9;
-    }
 }
 
 /* --- INSTALL MODAL --- */
@@ -2069,20 +1832,6 @@ iframe {
     font-weight: normal;
 }
 
-@media (min-width: 1024px) {
-    .ticket-artists-list {
-        display: block;
-    }
-
-    .ticket-stats {
-        margin-top: 20px;
-    }
-
-    .ticket-block:hover .ticket-stats {
-        /* Prevent jitter if needed, but existing scaling applies to h2, h3, btn */
-    }
-}
-
 /* --- VIDEO CLICK LAYER --- */
 .video-click-layer {
     position: absolute;
@@ -2132,4 +1881,232 @@ iframe {
     font-size: 0.9rem;
     opacity: 0.8;
     max-width: 80%;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES - MOBILE FIRST STRATEGY
+   ========================================================================== */
+
+/* --- TABLET (min-width: 640px) --- */
+@media (min-width: 640px) {
+    .menu-logo {
+        width: 100px;
+    }
+
+    .lang-icon {
+        width: 32px;
+    }
+
+    .logo {
+        max-width: 100%;
+    }
+
+    #btn-header-lang {
+        margin-left: 5px;
+        min-width: 40px;
+    }
+
+    .intro-card {
+        padding: 12vh 20px 2vh 20px;
+    }
+
+    .intro-content-top {
+        margin-top: 0;
+    }
+
+    .intro-subtitle {
+        font-size: 1.5rem;
+    }
+
+    .intro-date {
+        font-size: 3.5rem;
+    }
+
+    .intro-buttons-container {
+        gap: 20px;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    .intro-btn {
+        padding: 15px 20px;
+        font-size: 0.95rem;
+        flex: 1;
+        width: auto;
+        min-width: auto;
+    }
+
+    .group-title-center h2 {
+        font-size: 2.5rem;
+    }
+
+    .splash-meta-place {
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+    }
+
+    .splash-meta-date {
+        font-size: 1.3rem;
+    }
+
+    .video-overlay {
+        padding: 25px;
+        padding-bottom: calc(25px + env(safe-area-inset-bottom));
+    }
+
+    .group-avatar-container {
+        width: 96px;
+        height: 96px;
+    }
+
+    .group-info h2 {
+        font-size: 2.0rem;
+    }
+
+    .description {
+        font-size: 1.5rem;
+        margin-bottom: 8px;
+    }
+
+    .tag-pill {
+        padding: 6px 16px;
+        font-size: 1.2rem;
+    }
+
+    .tags-container {
+        margin-bottom: 4px;
+    }
+
+    .right-action-bar {
+        right: 20px;
+        gap: 20px;
+        padding-bottom: 0;
+    }
+
+    .btn-fav-float {
+        width: 50px;
+        height: 50px;
+    }
+
+    .drawer-right {
+        width: 85%;
+        max-width: 420px;
+    }
+
+    .drawer-header {
+        padding: 15px 20px;
+    }
+
+    .favorite-item {
+        padding: 15px 25px;
+    }
+
+    .favorite-item img {
+        width: 55px;
+        height: 55px;
+    }
+
+    .timeline-item {
+        padding: 15px;
+    }
+
+    .time-thumb {
+        width: 80px;
+        height: 80px;
+        margin-right: 15px;
+    }
+
+    .header-actions {
+        gap: 10px;
+    }
+
+    .btn-ticket {
+        padding: 10px 18px;
+        font-size: 11px;
+    }
+
+    .btn-program {
+        padding: 9px 16px;
+        font-size: 11px;
+    }
+
+    .ticket-btn {
+        padding: 10px 20px;
+        font-size: 0.9rem;
+    }
+
+    /* Revert .btn-action size restriction if implicit */
+}
+
+/* --- DESKTOP (min-width: 1024px) --- */
+@media (min-width: 1024px) {
+    #control-bar {
+        min-height: 60px;
+    }
+
+    .group-title-center h2 {
+        font-size: 3.5rem;
+    }
+
+    .splash-meta-place {
+        font-size: 1.7rem;
+    }
+
+    .splash-meta-date {
+        font-size: 1.7rem;
+    }
+
+    .video-overlay {
+        padding-bottom: calc(35px + env(safe-area-inset-bottom));
+    }
+
+    .ticketing-card {
+        /* min-height was auto in mobile, keep it? or restore 100vh behavior if lost */
+    }
+
+    .ticket-container {
+        flex-direction: row;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .ticket-block {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .ticket-block:hover {
+        flex: 1.6;
+    }
+
+    .ticket-block h2 {
+        font-size: 2rem;
+        transition: transform 0.3s ease;
+    }
+
+    .ticket-block h3 {
+        font-size: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    .ticket-btn {
+        padding: 15px 30px;
+        font-size: 1rem;
+        transition: transform 0.2s, box-shadow 0.2s, transform 0.3s ease;
+    }
+
+    .ticket-block:hover h2,
+    .ticket-block:hover h3,
+    .ticket-block:hover .ticket-btn {
+        transform: scale(1.2);
+        margin-bottom: 15px;
+    }
+
+    .ticket-artists-list {
+        display: block;
+    }
+
+    .ticket-stats {
+        margin-top: 20px;
+    }
 }
