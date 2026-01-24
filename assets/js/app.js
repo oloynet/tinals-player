@@ -169,7 +169,7 @@ async function init() {
         const filterParam  = urlParams.get( 'filter' );
         const favsParam    = urlParams.get( 'favorites' );
         const idParam      = urlParams.get( 'id' );
-        const sectionParam = urlParams.get( 'section' );
+        const hash         = window.location.hash ? window.location.hash.substring(1) : null;
 
         renderFeed();
         renderFavorites();
@@ -201,9 +201,9 @@ async function init() {
                 } );
             }, 100 );
             updateURLState();
-        } else if ( sectionParam ) {
+        } else if ( hash ) {
             setTimeout( () => {
-                const target = document.getElementById( sectionParam );
+                const target = document.getElementById( hash );
                 if ( target ) target.scrollIntoView( {
                     behavior: 'auto'
                 } );
@@ -1376,6 +1376,9 @@ function updateURLState() {
     url.searchParams.delete( 'favorites' );
     url.searchParams.delete( 'share' );
 
+    // Clear hash by default, re-add if needed
+    url.hash = '';
+
     if ( AppState.currentLang && AppState.currentLang !== 'fr' ) {
         url.searchParams.set( 'lang', AppState.currentLang );
     } else {
@@ -1389,7 +1392,7 @@ function updateURLState() {
     } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
         url.searchParams.set( 'id', AppState.state.activeId );
     } else if ( AppState.state.activeSection ) {
-        url.searchParams.set( 'section', AppState.state.activeSection );
+        url.hash = AppState.state.activeSection;
     }
 
     window.history.replaceState( null, '', url );
