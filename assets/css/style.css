@@ -458,7 +458,7 @@ body.tag-filtering .ticketing-card {
     height: 100vh;
     height: 100dvh;
     overflow-y: scroll;
-    scroll-snap-type: y mandatory;
+    scroll-snap-type: y proximity;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
@@ -656,7 +656,7 @@ iframe {
 
 .group-title-center {
     position: absolute;
-    top: 40%;
+    top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
     width: 90%;
@@ -708,7 +708,7 @@ iframe {
 
 .video-state-icon {
     position: absolute;
-    top: 55%;
+    top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     font-size: 85px;
@@ -1522,6 +1522,10 @@ iframe {
     .ticket-block:hover .ticket-btn {
         transform: scale(1.2);
         margin-bottom: 15px;
+    }
+
+    #control-bar {
+        min-height: 60px;
     }
 }
 
