@@ -1371,7 +1371,6 @@ function updateURLState() {
     const url = new URL( window.location );
 
     url.searchParams.delete( 'id' );
-    url.searchParams.delete( 'section' );
     url.searchParams.delete( 'filter' );
     url.searchParams.delete( 'favorites' );
     url.searchParams.delete( 'share' );
