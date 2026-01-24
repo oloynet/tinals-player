@@ -458,7 +458,7 @@ body.tag-filtering .ticketing-card {
     height: 100vh;
     height: 100dvh;
     overflow-y: scroll;
-    scroll-snap-type: y proximity;
+    scroll-snap-type: y mandatory;
     scroll-behavior: smooth;
     -webkit-overflow-scrolling: touch;
     overscroll-behavior-y: contain;
