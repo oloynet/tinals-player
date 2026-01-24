@@ -294,8 +294,8 @@ function applyConfigs() {
         document.getElementById( 'btn-nav-bottom' ).style.display = 'none';
     }
     if ( !s.isButtonPrevNextEnable ) {
-        document.getElementById( 'btn-nav-up' ).style.display   = 'none';
-        document.getElementById( 'btn-nav-down' ).style.display = 'none';
+        document.getElementById( 'btn-nav-previous-card' ).style.display   = 'none';
+        document.getElementById( 'btn-nav-next-card' ).style.display = 'none';
     }
 
     const versionEl = document.getElementById('app-version-indicator');
@@ -1257,8 +1257,8 @@ function updateNavButtons() {
     const sections     = Array.from( document.querySelectorAll( '.section-snap' ) ).filter( el => el.offsetParent !== null );
     const currentIndex = sections.findIndex( sec => sec.classList.contains( 'active' ) );
     const btnTop       = document.getElementById( 'btn-nav-top' );
-    const btnUp        = document.getElementById( 'btn-nav-up' );
-    const btnDown      = document.getElementById( 'btn-nav-down' );
+    const btnUp        = document.getElementById( 'btn-nav-previous-card' );
+    const btnDown      = document.getElementById( 'btn-nav-next-card' );
     const btnBottom    = document.getElementById( 'btn-nav-bottom' );
     if ( currentIndex <= 0 ) {
         btnTop.classList.add( 'disabled' );
@@ -1277,7 +1277,7 @@ function updateNavButtons() {
 }
 
 function updateActionButtons( id ) {
-    const heartBtn = document.getElementById( 'dynamic-heart' );
+    const heartBtn = document.getElementById( 'btn-dynamic-heart' );
     const icon = heartBtn.querySelector( '.material-icons:not(.btn-bg)' );
     const bg = heartBtn.querySelector( '.btn-bg' );
     if ( id === null || isNaN( id ) ) {
@@ -1411,7 +1411,7 @@ function toggleCombinedDrawer(tabName) {
     }
 
     // Update button icon state
-    const btnFloat = document.getElementById('btn-float');
+    const btnFloat = document.getElementById('btn-drawer-favorites');
     const icon = btnFloat.querySelector('.material-icons:not(.btn-bg)');
 
     if (drawer.classList.contains('active') && AppState.state.activeTab === 'favorites') {
@@ -1444,7 +1444,7 @@ function switchTab(tabName) {
     // Update floating button icon if switching tabs while open
     const drawer = document.getElementById('combined-drawer');
     if (drawer.classList.contains('active')) {
-         const btnFloat = document.getElementById('btn-float');
+         const btnFloat = document.getElementById('btn-drawer-favorites');
          const icon = btnFloat.querySelector('.material-icons:not(.btn-bg)');
          if (tabName === 'favorites') {
              icon.textContent = 'chevron_right';
@@ -1460,7 +1460,7 @@ function closeAllDrawers() {
     document.querySelectorAll( '.drawer-right' ).forEach( el => el.classList.remove( 'active' ) );
     document.getElementById( 'drawer-overlay' ).classList.remove( 'active' );
 
-    const btnFloat   = document.getElementById( 'btn-float' );
+    const btnFloat   = document.getElementById( 'btn-drawer-favorites' );
     const icon       = btnFloat.querySelector( '.material-icons:not(.btn-bg)' );
     icon.textContent = 'bookmarks';
     updateFavoritesIcon();
@@ -1515,7 +1515,7 @@ function triggerHaptic( el ) {
 }
 
 function updateFavoritesIcon() {
-    const btn = document.getElementById( 'btn-float' );
+    const btn = document.getElementById( 'btn-drawer-favorites' );
     const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
     const bg = btn.querySelector( '.btn-bg' );
     if ( AppState.favorites.length > 0 ) {

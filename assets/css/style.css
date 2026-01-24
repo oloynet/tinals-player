@@ -1057,8 +1057,8 @@ iframe {
 }
 
 #btn-nav-top,
-#btn-nav-up,
-#btn-nav-down,
+#btn-nav-previous-card,
+#btn-nav-next-card,
 #btn-nav-bottom {
     font-size: 28px !important;
 }

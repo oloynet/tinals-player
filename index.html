@@ -55,7 +55,7 @@
         <button id="cb-play-pause" onclick="ControlBar.togglePlay()"><span class="material-icons">play_arrow</span></button>
         <div class="cb-time-container">
             <span id="cb-current-time">0:00</span>
-            <input type="range" id="cb-slider" min="0" max="100" value="0" step="0.1" oninput="ControlBar.onSeekInput()" onchange="ControlBar.onSeekChange()" aria-label="Seek video">
+            <input id="cb-slider" type="range" min="0" max="100" value="0" step="0.1" oninput="ControlBar.onSeekInput()" onchange="ControlBar.onSeekChange()" aria-label="Seek video">
             <span id="cb-duration">0:00</span>
         </div>
     </div>
@@ -81,7 +81,7 @@
                 <button class="share-btn-modal qr" onclick="shareTo('qrcode')"><span class="material-icons">qr_code_2</span> <span id="txt-share-qr">QR Code</span></button>
             </div>
             <div id="qr-result"></div>
-            <button class="close-share" id="btn-close-share" onclick="closeShareModal()">Fermer</button>
+            <button id="btn-close-share" class="close-share" onclick="closeShareModal()">Fermer</button>
         </div>
     </div>
     <nav id="top-drawer" class="drawer-top">
@@ -91,9 +91,9 @@
             </svg>
         </div>
         <div class="header-actions">
-            <button onclick="scrollToFirstVideo()" class="btn-program" id="btn-header-prog">PROGRAMMATION</button>
-            <button onclick="scrollToTicketing()" class="btn-ticket" id="btn-header-ticket">BILLETTERIE</button>
-            <button onclick="toggleLanguage()" class="btn-program" id="btn-header-lang">
+            <button id="btn-header-prog" class="btn-program" onclick="scrollToFirstVideo()">PROGRAMMATION</button>
+            <button id="btn-header-ticket" class="btn-ticket" onclick="scrollToTicketing()">BILLETTERIE</button>
+            <button id="btn-header-lang" class="btn-program" onclick="toggleLanguage()">
                 <svg class="lang-icon" viewBox="0 0 48 32">
                     <use id="lang-icon-use" href=""></use>
                 </svg>
@@ -114,8 +114,8 @@
         <div id="favorites-content" class="tab-content active">
              <div id="favorites-list" class="scrollable-list"></div>
              <div id="favorites-footer" class="drawer-footer">
-                <button onclick="playFavorites()" class="btn-drawer-action btn-drawer-play"><span class="material-icons">play_arrow</span> <span id="btn-txt-play-fav">Écouter</span></button>
-                <button onclick="shareFavoritesList()" class="btn-drawer-action btn-drawer-share"><span class="material-icons">share</span> <span id="btn-txt-share-fav">Partager</span></button>
+                <button class="btn-drawer-action btn-drawer-play" onclick="playFavorites()"><span class="material-icons">play_arrow</span> <span id="btn-txt-play-fav">Écouter</span></button>
+                <button class="btn-drawer-action btn-drawer-share" onclick="shareFavoritesList()"><span class="material-icons">share</span> <span id="btn-txt-share-fav">Partager</span></button>
             </div>
         </div>
 
@@ -124,15 +124,15 @@
         </div>
     </aside>
     <div class="right-action-bar">
-        <button onclick="toggleMute()" class="btn-fav-float material-icons" id="btn-mute"><span class="btn-bg"></span><span class="material-icons">volume_up</span></button>
-        <button onclick="scrollToTop()" class="btn-fav-float material-icons" id="btn-nav-top"><span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_up</span></button>
-        <button onclick="navigateScroll('up')" class="btn-fav-float material-icons" id="btn-nav-up"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_up</span></button>
-        <button id="dynamic-heart" onclick="toggleFavCurrent()" class="btn-fav-float material-icons"><span class="btn-bg"></span><span class="material-icons">favorite_border</span></button>
-        <button onclick="toggleCombinedDrawer('favorites')" class="btn-fav-float material-icons" id="btn-float"><span class="btn-bg"></span><span class="material-icons">bookmarks</span></button>
-        <button onclick="shareCurrent()" class="btn-fav-float material-icons" id="btn-share"><span class="btn-bg"></span><span class="material-icons">share</span></button>
-        <button onclick="toggleCombinedDrawer('timeline')" class="btn-fav-float material-icons" id="btn-timeline"><span class="btn-bg"></span><span class="material-icons">event_note</span></button>
-        <button onclick="navigateScroll('down')" class="btn-fav-float material-icons" id="btn-nav-down"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_down</span></button>
-        <button onclick="scrollToTicketing()" class="btn-fav-float material-icons" id="btn-nav-bottom"><span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_down</span></button>
+        <button id="btn-mute" class="btn-fav-float material-icons" onclick="toggleMute()"><span class="btn-bg"></span><span class="material-icons">volume_up</span></button>
+        <button id="btn-nav-top" class="btn-fav-float material-icons" onclick="scrollToTop()"><span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_up</span></button>
+        <button id="btn-nav-previous-card" class="btn-fav-float material-icons" onclick="navigateScroll('up')"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_up</span></button>
+        <button id="btn-dynamic-heart" class="btn-fav-float material-icons" onclick="toggleFavCurrent()"><span class="btn-bg"></span><span class="material-icons">favorite_border</span></button>
+        <button id="btn-drawer-favorites" class="btn-fav-float material-icons" onclick="toggleCombinedDrawer('favorites')"><span class="btn-bg"></span><span class="material-icons">bookmarks</span></button>
+        <button id="btn-share" class="btn-fav-float material-icons" onclick="shareCurrent()"><span class="btn-bg"></span><span class="material-icons">share</span></button>
+        <button id="btn-drawer-timeline" class="btn-fav-float material-icons" onclick="toggleCombinedDrawer('timeline')"><span class="btn-bg"></span><span class="material-icons">event_note</span></button>
+        <button id="btn-nav-next-card" class="btn-fav-float material-icons" onclick="navigateScroll('down')"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_down</span></button>
+        <button id="btn-nav-bottom" class="btn-fav-float material-icons" onclick="scrollToTicketing()"><span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_down</span></button>
     </div>
     <script src="https://www.youtube.com/iframe_api"></script>
     <script src="assets/js/app.js?v=1.15"></script>
