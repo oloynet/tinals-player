@@ -668,7 +668,7 @@ iframe {
 }
 
 .group-title-center h2 {
-    font-size: 2.5rem;
+    font-size: 3.5rem;
     font-weight: 700;
     text-transform: uppercase;
     letter-spacing: 2px;
@@ -697,12 +697,12 @@ iframe {
 }
 
 .splash-meta-place {
-    font-size: 1.3rem;
+    font-size: 1.7rem;
     margin-bottom: 4px;
 }
 
 .splash-meta-date {
-    font-size: 1rem;
+    font-size: 1.7rem;
     opacity: 0.9;
 }
 
@@ -1534,6 +1534,19 @@ iframe {
 }
 
 @media (max-width: 1023px) {
+
+    .group-title-center h2 {
+        font-size: 2.5rem;
+    }
+
+    .splash-meta-place {
+        font-size: 1.3rem;
+    }
+
+    .splash-meta-date {
+        font-size: 1.3rem;
+    }
+
     .ticketing-card {
         height: 100vh;
         height: 100dvh;
@@ -1710,7 +1723,7 @@ iframe {
     }
 
     .splash-meta-date {
-        font-size: 1rem;
+        font-size: 1.0rem;
         opacity: 0.9;
     }
 }
