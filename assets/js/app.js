@@ -634,6 +634,7 @@ function getVideoCardHtml( g ) {
             </div>
             <div class="video-background" style="background-image: url('${bgImage}');"></div>
             <div id="player-${g.id}" class="yt-placeholder"></div>
+            <div class="video-click-layer"></div>
             <div class="video-state-icon material-icons">play_arrow</div>
         </div>
         <div class="video-overlay">
