@@ -1584,7 +1584,8 @@ function renderDrawerTimeline() {
 
         const tagsHtml  = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
             const slug = slugify(t);
-            return `<span class="time-tag" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+            const activeClass = (slug === AppState.state.currentTagFilter) ? ' tag-active' : '';
+            return `<span class="time-tag${activeClass}" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
         } ).join( '' ) : '';
         const isFav = AppState.favorites.includes( g.id );
         const thumb = g.image_thumbnail || g.image;
