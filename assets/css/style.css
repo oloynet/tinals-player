@@ -15,7 +15,7 @@
     --content-bg: var(--dark-color);
     --control-bar-bg: rgba(20, 20, 20, 0.95);
     --control-bar-color: var(--content-color);
-    --drawer-bg: var(--fourth-color);
+    --drawer-bg: var(--light-color);
     --drawer-text: var(--dark-color);
     --fav-mode-bar-bg: var(--secondary-color);
     --fav-mode-bar-color: var(--content-color);
@@ -140,8 +140,9 @@ body {
     transition: transform 0.3s ease-in-out, top 0.4s ease, padding-top 0.4s ease;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     cursor: pointer;
-    padding-left: 50px;
-    padding-right: 50px;
+    padding-left: 20px;
+    padding-right: 20px;
+    text-align: center;
 }
 
 body.menu-hidden #fav-mode-bar,
