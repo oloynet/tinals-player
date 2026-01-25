@@ -834,7 +834,6 @@ iframe {
     overflow: hidden;
     overflow-y: auto;
     position: relative;
-    display: -webkit-box;
     transition: max-height 1.0s ease-in, background-color 0.3s, opacity 0.3s, margin 0.3s, visibility 0.3s;
     cursor: pointer;
 }
