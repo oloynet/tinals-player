@@ -1324,6 +1324,11 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     background: #ccc;
 }
 
+.time-tag.tag-active {
+    background-color: var(--secondary-color);
+    color: white;
+}
+
 #drawer-overlay {
     position: fixed;
     top: 0;
