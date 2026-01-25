@@ -365,7 +365,7 @@ function applyConfigs() {
         if (actionBar) actionBar.style.display = '';
     }
 
-1    if ( !s.isButtonSoundEnable ) document.getElementById( 'btn-mute' ).style.display = 'none';
+    if ( !s.isButtonSoundEnable ) document.getElementById( 'btn-mute' ).style.display = 'none';
     if ( !s.isButtonTopBottomEnable ) {
         document.getElementById( 'btn-nav-top' ).style.display    = 'none';
         document.getElementById( 'btn-nav-bottom' ).style.display = 'none';

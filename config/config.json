@@ -26,6 +26,7 @@
     {
         "is_debug_js": false,
         "is_display_version": false,
+
         "is_display_box_title": false,
         "is_display_artist": true,
         "is_display_action_bar": true,
