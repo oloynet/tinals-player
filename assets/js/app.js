@@ -608,7 +608,7 @@ function getVideoCardHtml( g ) {
 
     const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
     const socialsHtml     = getSocialsHtml(g);
-    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-state-icon material-icons">add_circle</div>${descriptionText}${socialsHtml}</div>` : '';
+    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-header-row"><div class="desc-text">${descriptionText}</div><div class="desc-state-icon material-icons">expand_content</div></div>${socialsHtml}</div>` : '';
     const artistAvatarImg = g.image_thumbnail || g.image;
 
     const artistAvatarHtml = `
@@ -738,9 +738,9 @@ function toggleArtistDescription( element, event ) {
     const icon = element.querySelector('.desc-state-icon');
     if (icon) {
         if (element.classList.contains('expanded')) {
-            icon.innerText = 'remove_circle';
+            icon.innerText = 'collapse_content';
         } else {
-            icon.innerText = 'add_circle';
+            icon.innerText = 'expand_content';
         }
     }
 
