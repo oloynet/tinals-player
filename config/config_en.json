@@ -52,7 +52,7 @@
         "timeline_empty": "No concerts for this filter",
 
         "filter_cancel_fav": "Only favorites.<br />Click to cancel",
-        "filter_cancel_tags": "Filtered by the tag : \"{tag}\".<br />Click to cancel",
+        "filter_cancel_tags": "Filtered by : \"{tag}\".<br />Click to cancel",
 
         "share_title": "Share",
         "share_facebook": "Facebook",
