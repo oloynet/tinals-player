@@ -608,7 +608,7 @@ function getVideoCardHtml( g ) {
 
     const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
     const socialsHtml     = getSocialsHtml(g);
-    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-header-row"><div class="desc-text">${descriptionText}</div><div class="desc-state-icon material-icons">expand_content</div></div>${socialsHtml}</div>` : '';
+    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-header-row"><div class="desc-state-icon material-icons">expand_less</div><div class="desc-text">${descriptionText}</div></div>${socialsHtml}</div>` : '';
     const artistAvatarImg = g.image_thumbnail || g.image;
 
     const artistAvatarHtml = `
@@ -738,9 +738,9 @@ function toggleArtistDescription( element, event ) {
     const icon = element.querySelector('.desc-state-icon');
     if (icon) {
         if (element.classList.contains('expanded')) {
-            icon.innerText = 'collapse_content';
+            icon.innerText = 'expand_more';
         } else {
-            icon.innerText = 'expand_content';
+            icon.innerText = 'expand_less';
         }
     }
 

@@ -857,7 +857,7 @@ iframe {
 
 .artist-info .desc-text {
     flex: 1;
-    margin-right: 15px;
+    margin: 0;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
@@ -872,13 +872,6 @@ iframe {
 }
 
 
-/*
-.artist-info .artist-description.manual-toggle {
-    transition-delay: 0s !important;
-}
-
-*/
-
 .artist-info .artist-description .desc-state-icon {
     color: var(--primary-color);
     font-weight: normal;
@@ -887,10 +880,8 @@ iframe {
     flex-shrink: 0;
 }
 
-.artist-info .artist-description.expanded .desc-state-icon {
-    color: var(--primary-color);
-    opacity: 0.8;
-}
+
+
 
 
 
@@ -949,7 +940,7 @@ iframe {
     background: var(--social-pill-bg);
     padding: 4px 10px;
     border-radius: 12px;
-    font-size: 0.7rem;
+    font-size: 0.8rem;
     font-weight: bold;
     backdrop-filter: blur(4px);
     text-transform: uppercase;
