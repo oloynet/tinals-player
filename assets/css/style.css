@@ -834,7 +834,7 @@ iframe {
     overflow: hidden;
     overflow-y: auto;
     position: relative;
-    transition: max-height 1.0s ease-in, background-color 0.3s, opacity 0.3s, margin 0.3s, visibility 0.3s;
+    transition: all 1s ease-in;
     cursor: pointer;
 }
 
@@ -845,19 +845,17 @@ iframe {
     padding: 15px;
     padding-left: 0;
     overflow-y: auto;
-    transition: max-height 1.0s ease-in, background-color 0.3s, opacity 0.3s, margin 0.3s, visibility 0.3s;
+    transition: all 1s ease-in;
 }
 
 
-/*
 .artist-info .artist-description.manual-toggle {
     transition-delay: 0s !important;
 }
-*/
+
 
 .artist-info .artist-description .desc-state-icon {
     float: right;
-    content: 'add_circle';
     color: var(--primary-color);
     font-weight: normal;
     font-size: 2.4rem;
@@ -865,7 +863,6 @@ iframe {
 }
 
 .artist-info .artist-description.expanded .desc-state-icon {
-    content: 'remove_circle';
     color: var(--secondary-color);
 }
 
