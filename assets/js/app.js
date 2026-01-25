@@ -1502,6 +1502,12 @@ function renderTagFilterBar() {
 
 function filterByTag( tagSlug, event ) {
     if ( event ) event.stopPropagation();
+
+    if ( AppState.state.currentTagFilter === tagSlug ) {
+        exitTagFilterMode();
+        return;
+    }
+
     exitFavoritesMode();
     AppState.state.currentTagFilter = tagSlug;
     document.body.classList.add( 'tag-filtering' );
