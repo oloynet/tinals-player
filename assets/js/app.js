@@ -608,7 +608,7 @@ function getVideoCardHtml( g ) {
 
     const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
     const socialsHtml     = getSocialsHtml(g);
-    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)">${descriptionText}${socialsHtml}</div>` : '';
+    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-state-icon material-icons">add_circle</div>${descriptionText}${socialsHtml}</div>` : '';
     const artistAvatarImg = g.image_thumbnail || g.image;
 
     const artistAvatarHtml = `
@@ -1310,7 +1310,7 @@ function setupKeyboardControls() {
 /* TOAST */
 
 function showToast( message ) {
-    const toast = document.getElementById( 'scroll-toast' );
+    const toast = document.getElementById( 'toast-message' );
     if ( toast.classList.contains( 'visible' ) && toast.innerText === message ) return;
     toast.innerText = message;
     toast.classList.add( 'visible' );

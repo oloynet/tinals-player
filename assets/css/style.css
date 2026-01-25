@@ -5,6 +5,9 @@
     --fourth-color: #feffe0;    /* light yellow */
     --fifth-color: #959f01;     /* green */
     --light-color:  white;
+    --light-grey-color:  #d3d3d3;
+    --light-grey-transparent-color:  #d3d3d37f;
+    --dark-grey-color:  #a9a9a9;
     --dark-color:  black;
     --transparent-color:  rgba(255, 255, 255, 0.0);
 
@@ -89,7 +92,7 @@ body {
 }
 
 .menu-logo {
-    width: 80px; /* Mobile First (<640px) */
+    width: 80px;
     height: auto;
     aspect-ratio: 40 / 17;
     fill: white;
@@ -106,7 +109,7 @@ body {
 
 /* --- DRAPEAUX --- */
 .lang-icon {
-    width: 24px; /* Mobile First (<640px) */
+    width: 24px;
     height: auto;
     aspect-ratio: 48 / 32;
     display: block;
@@ -114,7 +117,7 @@ body {
 }
 
 .logo {
-    max-width: 30%; /* Mobile First (<640px) */
+    max-width: 30%;
 }
 
 /* --- BARRES DE NOTIFICATION (Mobile Safe Area) --- */
@@ -132,7 +135,6 @@ body {
     align-items: center;
     font-weight: bold;
     text-transform: uppercase;
-    letter-spacing: 1px;
     font-size: 0.85rem;
     transform: translateY(-100%);
     transition: transform 0.3s ease-in-out, top 0.4s ease, padding-top 0.4s ease;
@@ -196,13 +198,13 @@ body.tag-filtering .ticketing-card {
     min-height: 40px; /* Mobile First */
     padding-top: 5px;
     padding-bottom: env(safe-area-inset-bottom);
+    padding-left: 0;
+    padding-right: 0;
     background-color: var(--control-bar-bg);
     color: var(--control-bar-color);
     z-index: 350;
     display: flex;
     align-items: center;
-    padding-left: 10px;
-    padding-right: 10px;
     transform: translateY(100%);
     transition: transform 0.3s ease-in-out;
     border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -279,7 +281,7 @@ body.tag-filtering .ticketing-card {
 }
 
 /* --- TOAST --- */
-#scroll-toast {
+#toast-message {
     position: fixed;
     top: 30%;
     left: 50%;
@@ -300,7 +302,7 @@ body.tag-filtering .ticketing-card {
     text-transform: uppercase;
 }
 
-#scroll-toast.visible {
+#toast-message.visible {
     opacity: 1;
     visibility: visible;
 }
@@ -468,7 +470,7 @@ body.tag-filtering .ticketing-card {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 7vh 20px 5vh 20px; /* Mobile First (<640px) */
+    padding: 7vh 20px 5vh 20px;
     text-align: center;
 }
 
@@ -493,14 +495,13 @@ body.tag-filtering .ticketing-card {
     opacity: 0;
     animation: slideInUp 0.8s ease-out forwards;
     animation-delay: 0.3s;
-    margin-top: 28px; /* Mobile First (<640px) */
+    margin-top: 28px;
 }
 
 .intro-subtitle {
-    font-size: 1.4rem; /* Mobile First (<640px) */
+    font-size: 1.4rem;
     text-transform: uppercase;
     font-weight: 700;
-    letter-spacing: 1px;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
     margin: 0;
     max-width: 75%;
@@ -509,7 +510,7 @@ body.tag-filtering .ticketing-card {
 .intro-date {
     display: flex;
     flex-direction: column;
-    font-size: 2.2rem; /* Mobile First (<640px) */
+    font-size: 2.2rem;
     font-weight: 900;
     line-height: 1;
     text-transform: uppercase;
@@ -535,29 +536,29 @@ body.tag-filtering .ticketing-card {
 
 .intro-buttons-container {
     display: flex;
-    gap: 15px; /* Mobile First (<640px) */
+    gap: 15px;
     width: 100%;
     justify-content: center;
-    flex-direction: column; /* Mobile First (<640px) */
-    align-items: center; /* Mobile First (<640px) */
+    flex-direction: column;
+    align-items: center;
 }
 
 .intro-btn {
     background-color: var(--primary-color);
     color: white;
-    padding: 10px 25px; /* Mobile First (<640px) */
+    padding: 10px 25px;
     border-radius: 50px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.8rem; /* Mobile First (<640px) */
+    font-size: 0.8rem;
     text-transform: uppercase;
     border: none;
     cursor: pointer;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s;
-    flex: unset; /* Mobile First (<640px) */
-    width: auto; /* Mobile First (<640px) */
-    min-width: 200px; /* Mobile First (<640px) */
+    flex: unset;
+    width: auto;
+    min-width: 200px;
     white-space: nowrap;
 }
 
@@ -597,7 +598,6 @@ body.tag-filtering .ticketing-card {
     cursor: pointer;
 }
 
-/* Dimming overlay when description is expanded */
 .video-container::after {
     content: '';
     position: absolute;
@@ -646,7 +646,7 @@ iframe {
     pointer-events: none;
 }
 
-/* --- BOX --- */
+/* --- BOX TITLE --- */
 
 .box-title {
     position: absolute;
@@ -662,12 +662,16 @@ iframe {
 }
 
 .box-title h2 {
-    font-size: 1.5rem; /* Mobile First (<640px) */
+    font-size: 1.5rem;
     font-weight: 700;
     text-transform: uppercase;
-    letter-spacing: 2px;
-    text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+    color: var(--light-color);
+    display: inline;
     margin: 0;
+    padding: 5px 10px;
+    /* background-color: var(--light-grey-transparent-color); */
+    text-shadow: 0 0 20px rgba(0, 0, 0, 0.8);
+
 }
 
 .box-title h3 {
@@ -681,7 +685,6 @@ iframe {
     font-weight: bold;
     text-transform: uppercase;
     margin-top: 15px;
-    letter-spacing: 1px;
     color: var(--primary-color);
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
     display: flex;
@@ -691,12 +694,12 @@ iframe {
 }
 
 .box-meta-place {
-    font-size: 1.0rem; /* Mobile First (<640px) */
-    margin-bottom: 0px; /* Mobile First (<640px) */
+    font-size: 1.0rem;
+    margin-bottom: 0px;
 }
 
 .box-meta-date {
-    font-size: 1.0rem; /* Mobile First (<640px) */
+    font-size: 1.0rem;
     opacity: 0.9;
 }
 
@@ -747,7 +750,7 @@ iframe {
     bottom: 0dvh;
     left: 0;
     right: 0;
-    padding: 5px; /* Mobile First (<640px) */
+    padding: 5px;
     background: linear-gradient(transparent, rgba(0, 0, 0, 0.95));
     display: flex;
     justify-content: space-between;
@@ -774,8 +777,8 @@ iframe {
 
 .artist-info .artist-avatar-container {
     display: block;
-    width: 64px;  /* Mobile First (<640px) */
-    height: 64px; /* Mobile First (<640px) */
+    width: 64px;
+    height: 64px;
     margin-bottom: 12px;
     position: relative;
     cursor: pointer;
@@ -800,7 +803,7 @@ iframe {
 
 .artist-info h2 {
     margin: 0 0 2px 0;
-    font-size: 1.3rem; /* Mobile First (<640px) */
+    font-size: 1.2rem;
     font-weight: bold;
     text-transform: uppercase;
 }
@@ -814,8 +817,10 @@ iframe {
     margin: 0 0 8px 0;
 }
 
+/* --- ARTIST DESCRIPTION --- */
+
 .artist-info .artist-description {
-    font-size: 1.0rem; /* Mobile First (<640px) */
+    font-size: 1.0rem;
     opacity: 0.85;
     margin: 8px 0;
     max-width: 85%;
@@ -828,25 +833,19 @@ iframe {
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
-    margin-bottom: 4px; /* Mobile First (<640px) */
+    margin-bottom: 4px;
 }
 
 .artist-info .artist-description.manual-toggle {
     transition-delay: 0s !important;
 }
 
-.artist-info .artist-description:not(.expanded)::after {
-    content: '\e147';
-    font-family: 'Material Icons';
+.artist-info .artist-description .desc-state-icon {
+    float: right;
+    color: var(--primary-color);
     font-weight: normal;
     font-size: 2.4rem;
-    color: var(--primary-color);
-    position: absolute;
-    bottom: 0;
-    right: 0;
-    padding-left: 10px;
-    background: linear-gradient(to right, transparent, rgba(0, 0, 0, 0.9));
-    line-height: 1.2;
+    line-height: 2.4rem;
 }
 
 .artist-info .artist-description.expanded {
@@ -854,7 +853,7 @@ iframe {
     display: block;
     /* height: 70vh; */
     max-height: 70vh;
-    background-color: rgba(0, 0, 0, 0.10);
+    /* background-color: rgba(0, 0, 0, 0.10); */
     padding: 15px;
     padding-left: 0;
     border-radius: 8px;
@@ -863,34 +862,30 @@ iframe {
     cursor: default;
 }
 
-.artist-info .artist-description.expanded::after {
-    content: '\e15c';
-    font-family: 'Material Icons';
-    font-weight: normal;
-    font-size: 2.4rem;
-    color: var(--primary-color);
-    display: inline-block;
-    vertical-align: middle;
-    margin-left: 8px;
-    cursor: pointer;
+.artist-info .artist-description.expanded .desc-state-icon {
+    content: 'remove_circle';
+    color: var(--secondary-color);
 }
+
+/* --- ARTIST DATE, PLACE --- */
 
 .artist-info .artist-date-place {
     font-size: 0.8rem;
     font-weight: bold;
     color: var(--primary-color);
     text-transform: uppercase;
-    letter-spacing: 1px;
     transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, visibility 0.3s;
     max-height: 100px;
     overflow: hidden;
 }
 
+/* --- ARTIST TAG PILL --- */
+
 .artist-info .tags-container {
     display: flex;
     gap: 8px;
     flex-wrap: wrap;
-    margin-bottom: 4px; /* Mobile First (<640px) */
+    margin-bottom: 4px;
     transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, visibility 0.3s;
     max-height: 300px;
     overflow: hidden;
@@ -899,9 +894,9 @@ iframe {
 .artist-info .tag-pill {
     background: var(--tag-pill-bg);
     color: var(--tag-pill-color);
-    padding: 5px 12px; /* Mobile First (<640px) */
+    padding: 5px 12px;
     border-radius: 12px;
-    font-size: 0.85rem; /* Mobile First (<640px) */
+    font-size: 0.85rem;
     font-weight: bold;
     backdrop-filter: blur(4px);
     text-transform: uppercase;
@@ -917,6 +912,8 @@ iframe {
     background-color: var(--secondary-color);
     color: white;
 }
+
+/* --- ARTIST SOCIAL PILL --- */
 
 .artist-info .social-pill {
     background: var(--social-pill-bg);
@@ -937,14 +934,14 @@ iframe {
 }
 
 
-/* --- HIDING ELEMENTS ON PLAY (After 2s) --- */
+/* --- HIDING ELEMENTS ON PLAY (after 2s) --- */
 
 .video-card.playing:not(.desc-open) .tags-container,
 .video-card.playing:not(.desc-open) .artist-date-place,
 .video-card.playing:not(.desc-open) .artist-description:not(.expanded) {
     opacity: 0;
     max-height: 0;
-    margin: 8px 0; /* same margin to don't make a shift move to bottom */
+    margin: 8px 0;
     padding: 0;
     visibility: hidden;
     transition: all 0.5s ease 2s;
@@ -969,20 +966,20 @@ iframe {
 }
 
 
-/* --- ACTION BAR (RIGHT) --- */
+/* --- ACTION BAR --- */
 
 .action-bar {
     position: fixed;
-    right: 5px; /* Mobile First (<640px) */
-    bottom: 50px; /* Mobile First (<640px) */
+    right: 5px;
+    bottom: 50px;
     top: auto;
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 15px; /* Mobile First (<640px) */
+    gap: 15px;
     z-index: 300;
     transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
-    padding-bottom: env(safe-area-inset-bottom); /* Mobile First (<640px) */
+    padding-bottom: env(safe-area-inset-bottom);
 }
 
 .drawer-fav-timeline.active~.action-bar {
@@ -991,8 +988,8 @@ iframe {
 
 .btn-fav-float {
     position: relative;
-    width: 40px; /* Mobile First (<640px) */
-    height: 40px; /* Mobile First (<640px) */
+    width: 40px;
+    height: 40px;
     background: transparent !important;
     color: white;
     border-radius: 50%;
@@ -1053,7 +1050,7 @@ iframe {
     background: none;
     border: none;
     color: white;
-    font-size: 20px !important; /* Mobile First (<640px) */
+    font-size: 20px !important;
     cursor: pointer;
     text-shadow: 0 2px 10px rgba(0, 0, 0, 0.8);
     transition: transform 0.2s;
@@ -1073,8 +1070,8 @@ iframe {
     position: fixed;
     top: 0;
     right: 0;
-    width: 100%; /* Mobile First (<640px) */
-    max-width: none; /* Mobile First (<640px) */
+    width: 100%;
+    max-width: none;
     height: 100%;
     background: var(--drawer-bg);
     color: var(--drawer-text);
@@ -1093,7 +1090,7 @@ iframe {
 /* --- DRAWER TABS & HEADER --- */
 
 .drawer-header {
-    padding: 10px; /* Mobile First (<640px) */
+    padding: 10px;
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -1143,13 +1140,13 @@ iframe {
     display: flex;
     align-items: center;
     gap: 15px;
-    padding: 10px; /* Mobile First (<640px) */
+    padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
 }
 
 .favorite-item img {
-    width: 55px; /* Mobile First (<640px) */
-    height: 55px; /* Mobile First (<640px) */
+    width: 55px;
+    height: 55px;
     border-radius: 6px;
     object-fit: cover;
 }
@@ -1211,7 +1208,7 @@ iframe {
 /* --- TIMELINE --- */
 .timeline-item {
     display: flex;
-    padding: 10px; /* Mobile First (<640px) */
+    padding: 10px;
     border-bottom: 1px solid rgba(0, 0, 0, 0.05);
     transition: background 0.2s;
     cursor: pointer;
@@ -1222,11 +1219,11 @@ iframe {
 }
 
 .time-thumb {
-    width: 55px; /* Mobile First (<640px) */
-    height: 55px; /* Mobile First (<640px) */
+    width: 55px;
+    height: 55px;
     object-fit: cover;
     border-radius: 6px;
-    margin-right: 10px; /* Mobile First (<640px) */
+    margin-right: 10px;
     flex-shrink: 0;
     cursor: pointer;
 }
@@ -1345,17 +1342,17 @@ iframe {
 .header-actions {
     display: flex;
     align-items: center;
-    gap: 4px; /* Mobile First (<640px) */
+    gap: 4px;
 }
 
 .btn-ticket {
     background: white;
     color: var(--primary-color);
-    padding: 4px 8px; /* Mobile First (<640px) */
+    padding: 4px 8px;
     border-radius: 25px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 9px; /* Mobile First (<640px) */
+    font-size: 9px;
     border: none;
     cursor: pointer;
 }
@@ -1363,18 +1360,18 @@ iframe {
 .btn-program {
     background: transparent;
     color: white;
-    padding: 4px 8px; /* Mobile First (<640px) */
+    padding: 4px 8px;
     border-radius: 25px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 9px; /* Mobile First (<640px) */
+    font-size: 9px;
     border: 1px solid white;
     cursor: pointer;
 }
 
 #btn-header-lang {
-    margin-left: 0; /* Mobile First (<640px) */
-    min-width: 24px; /* Mobile First (<640px) */
+    margin-left: 0;
+    min-width: 24px;
     padding: 5px;
     border: none;
 }
@@ -1392,7 +1389,7 @@ iframe {
     display: flex;
     flex-direction: column;
     padding-top: 70px;
-    min-height: auto; /* Mobile First (<640px) */
+    min-height: auto;
 }
 
 .ticket-title {
@@ -1415,8 +1412,8 @@ iframe {
     height: auto;
     flex: 1;
     width: 100%;
-    gap: 10px; /* Mobile First (<640px) */
-    padding: 0 10px 10px 10px; /* Mobile First (<640px) */
+    gap: 10px;
+    padding: 0 10px 10px 10px;
 }
 
 .ticket-block {
@@ -1425,9 +1422,9 @@ iframe {
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 15px; /* Mobile First (<640px) */
+    padding: 15px;
     gap: 10px;
-    margin: 5px; /* Mobile First (<640px) */
+    margin: 5px;
     text-align: center;
     color: #ffffff;
     transition: flex 0.3s ease;
@@ -1440,7 +1437,7 @@ iframe {
 }
 
 .ticket-block h2 {
-    font-size: 1.4rem; /* Mobile First (<640px) */
+    font-size: 1.4rem;
     margin: 0;
     text-transform: uppercase;
     font-weight: 900;
@@ -1448,7 +1445,7 @@ iframe {
 }
 
 .ticket-block h3 {
-    font-size: 1rem; /* Mobile First (<640px) */
+    font-size: 1rem;
     margin: 0;
     font-weight: 300;
     opacity: 0.9;
@@ -1456,11 +1453,11 @@ iframe {
 
 .ticket-btn {
     background-color: #ffffff;
-    padding: 8px 15px; /* Mobile First (<640px) */
+    padding: 8px 15px;
     border-radius: 50px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 0.8rem; /* Mobile First (<640px) */
+    font-size: 0.8rem;
     text-transform: uppercase;
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     transition: transform 0.2s, box-shadow 0.2s;
@@ -1497,7 +1494,6 @@ iframe {
     pointer-events: none; /* Ne pas gêner le clic sur la vidéo */
     display: none; /* Caché par défaut */
     text-transform: uppercase;
-    letter-spacing: 1px;
     backdrop-filter: blur(2px);
 }
 
@@ -1659,7 +1655,6 @@ iframe {
     display: inline-block;
     text-transform: uppercase;
     font-size: 0.8rem;
-    letter-spacing: 0.5px;
 }
 
 .status-badge.status-canceled {
@@ -1957,7 +1952,7 @@ iframe {
         min-width: auto;
     }
 
-    /* --- BOX --- */
+    /* --- BOX TITLE --- */
 
     .box-title h2 {
         font-size: 2.5rem;
@@ -1972,24 +1967,29 @@ iframe {
         font-size: 1.3rem;
     }
 
-    /* --- ARTIST --- */
+
+    /* --- ARTIST OVERLAY --- */
 
     .artist-overlay {
         padding: 25px;
         padding-bottom: calc(35px + env(safe-area-inset-bottom));
     }
 
-    .artist-avatar-container {
-        width: 96px;
-        height: 96px;
+    .artist-info .artist-avatar-container {
+        width: 80px;
+        height: 80px;
     }
 
     .artist-info h2 {
-        font-size: 2.0rem;
+        font-size: 1.7rem;
+    }
+
+    .artist-info .artist-date-place {
+        font-size: 0.9rem;
     }
 
     .artist-info .artist-description {
-        font-size: 1.5rem;
+        font-size: 1.15rem;
         margin-bottom: 8px;
     }
 
@@ -2002,7 +2002,8 @@ iframe {
         margin-bottom: 4px;
     }
 
-    /* --- RIGHT-ACTION --- */
+
+    /* --- ACTION BAR --- */
 
     .action-bar {
         right: 20px;
@@ -2115,7 +2116,7 @@ iframe {
 /* --- DESKTOP (min-width: 1024px) --- */
 @media (min-width: 1024px) {
 
-    /* --- BOX --- */
+    /* --- BOX TITLE --- */
 
     .box-title h2 {
         font-size: 3.5rem;
@@ -2129,13 +2130,13 @@ iframe {
         font-size: 1.7rem;
     }
 
-    /* --- ARTIST --- */
+    /* --- ARTIST OVERLAY --- */
 
     .artist-overlay {
         padding-bottom: calc(35px + env(safe-area-inset-bottom));
     }
 
-    .artist-avatar-container {
+    .artist-info .artist-avatar-container {
         width: 96px;
         height: 96px;
     }
@@ -2144,9 +2145,12 @@ iframe {
         font-size: 2.0rem;
     }
 
+    .artist-info .artist-date-place {
+        font-size: 1.0rem;
+    }
+
     .artist-info .artist-description {
-        font-size: 1.5rem;
-        margin-bottom: 8px;
+        font-size: 1.2rem;
     }
 
     .artist-info .tag-pill {
