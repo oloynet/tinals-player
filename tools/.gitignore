@@ -1,2 +1,4 @@
-.venv
-dist
+__pycache__/
+.venv/
+dist/
+*.egg-info/

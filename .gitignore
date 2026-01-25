@@ -1,12 +1,7 @@
 .env
 .vscode/
-__pycache__/
-assets/images-src/
-dist/
 *.egg-info/
-node_modules/
-venv/
-*.log
-*.mp3
+*-nogit/
 .DS_Store
+*.log
 *.nogit.*
