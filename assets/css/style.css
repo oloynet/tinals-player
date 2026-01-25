@@ -936,9 +936,9 @@ iframe {
 
 /* --- HIDING ELEMENTS ON PLAY (after 2s) --- */
 
-.video-card.playing:not(.desc-open) .tags-container,
-.video-card.playing:not(.desc-open) .artist-date-place,
-.video-card.playing:not(.desc-open) .artist-description:not(.expanded) {
+body.hide-desc-mobile .video-card.playing:not(.desc-open) .tags-container,
+body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-date-place,
+body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:not(.expanded) {
     opacity: 0;
     max-height: 0;
     margin: 8px 0;
