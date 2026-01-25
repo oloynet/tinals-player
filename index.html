@@ -30,70 +30,84 @@
     <meta name="theme-color" content="#2d91d0">
     <link rel="icon" href="assets/favicon/favicon.ico">
     <link rel="apple-touch-icon" href="assets/favicon/apple-touch-icon.png">
-    <link rel="manifest" href="manifest.json?v=1.16">
+    <link rel="manifest" href="manifest.json?v=1.17">
     <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap" rel="stylesheet">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <link href="assets/css/style.css?v=1.16" rel="stylesheet">
+    <link href="assets/css/style.css?v=1.17" rel="stylesheet">
 </head>
 
 <body>
     <div id="loader">
         <svg class="loader-logo">
-            <use href="assets/images/sprite.svg?v=1.16#logo-loader"></use>
+            <use href="assets/images/sprite.svg?v=1.17#logo-loader"></use>
         </svg>
     </div>
     <div id="fav-mode-bar" onclick="exitFavoritesMode()">
-        <button class="close-fav-mode"><span class="material-icons">close</span></button>
+        <button class="close-fav-mode" aria-label="Annuler le filtrage des vidéos favorites">
+            <span class="material-icons">close</span>
+        </button>
     </div>
-    <div id="tag-mode-bar" onclick="clearTagFilter()">
+    <div id="tag-mode-bar" onclick="exitTagFilterMode()">
         <span id="active-tag-name" class="tag-name-label"></span>
-        <button class="close-fav-mode"><span class="material-icons">close</span></button>
+        <button class="close-fav-mode" aria-label="Annuler le filtrage des vidéos par tag">
+            <span class="material-icons">close</span>
+        </button>
     </div>
     <div id="scroll-toast"></div>
-    <div id="drawer-overlay" onclick="closeAllDrawers()"></div>
+    <div id="drawer-overlay" onclick="closeFavTimelineDrawers()"></div>
     <div id="control-bar">
-        <button id="cb-play-pause" onclick="ControlBar.togglePlay()"><span class="material-icons">play_arrow</span></button>
+        <button id="cb-play-pause" onclick="ControlBar.togglePlay()" aria-label="Play / pause">
+            <span class="material-icons">play_arrow</span>
+        </button>
         <div class="cb-time-container">
             <span id="cb-current-time">0:00</span>
-            <input id="cb-slider" type="range" min="0" max="100" value="0" step="0.1" oninput="ControlBar.onSeekInput()" onchange="ControlBar.onSeekChange()" aria-label="Seek video">
+            <input id="cb-slider" type="range" min="0" max="100" value="0" step="0.1" oninput="ControlBar.onSeekInput()" onchange="ControlBar.onSeekChange()" aria-label="Parcourir une vidéo">
             <span id="cb-duration">0:00</span>
         </div>
     </div>
     <div id="install-modal">
-        <div class="install-box">
+        <div class="install-box-modal">
             <h3 id="pwa-title">INSTALLER L'APPLICATION</h3>
             <p id="pwa-text">Installez l'application TINALS 2026 pour une meilleure expérience : accès hors ligne, plein écran et plus rapide !</p>
             <div class="install-buttons">
-                <button id="btn-pwa-install" class="install-btn yes">INSTALLER</button>
-                <button id="btn-pwa-later" class="install-btn no">PLUS TARD</button>
+                <button id="btn-pwa-install" class="install-btn yes" aria-label="Installer l'application" >INSTALLER</button>
+                <button id="btn-pwa-later"   class="install-btn no"  aria-label="Repousser l'installation de l'application">PLUS TARD</button>
             </div>
         </div>
     </div>
-    <div id="share-modal">
+    <div id="share-box-modal">
         <div class="share-box">
             <h3 id="share-title-text">&nbsp;</h3>
             <p id="share-link-display" onclick="shareTo('copy')"></p>
             <p id="share-link-label"></p>
             <div class="share-options">
-                <button class="share-btn-modal facebook" onclick="shareTo('facebook')"><span class="material-icons">facebook</span> <span id="txt-share-fb">Facebook</span></button>
-                <button class="share-btn-modal tiktok" onclick="shareTo('tiktok')"><span class="material-icons">music_note</span> <span id="txt-share-tiktok">TikTok</span></button>
-                <button class="share-btn-modal email" onclick="shareTo('email')"><span class="material-icons">email</span> <span id="txt-share-email">Email</span></button>
-                <button class="share-btn-modal qr" onclick="shareTo('qrcode')"><span class="material-icons">qr_code_2</span> <span id="txt-share-qr">QR Code</span></button>
+                <button class="share-btn-modal facebook" onclick="shareTo('facebook')" aria-label="Partager sur Facebook">
+                    <span class="material-icons">facebook</span> <span id="txt-share-fb">Facebook</span>
+                </button>
+                <button class="share-btn-modal tiktok" onclick="shareTo('tiktok')"     aria-label="Partager sur TikTok">
+                    <span class="material-icons">music_note</span> <span id="txt-share-tiktok">TikTok</span>
+                </button>
+                <button class="share-btn-modal email" onclick="shareTo('email')"       aria-label="Partager par email">
+                    <span class="material-icons">email</span> <span id="txt-share-email">Email</span>
+                </button>
+                <button class="share-btn-modal qr" onclick="shareTo('qrcode')"         aria-label="Partager par QRcode">
+                    <span class="material-icons">qr_code_2</span> <span id="txt-share-qr">QR Code</span>
+                </button>
             </div>
             <div id="qr-result"></div>
-            <button id="btn-close-share" class="close-share" onclick="closeShareModal()">Fermer</button>
+            <button id="btn-close-share" class="close-share" onclick="closeShareModal()" aria-label="Fermer">Fermer</button>
         </div>
     </div>
-    <nav id="top-drawer" class="drawer-top">
+    <nav id="main-menu-drawer" class="drawer-menu">
         <div class="logo-container" onclick="scrollToTop()">
             <svg class="menu-logo">
-                <use href="assets/images/sprite.svg?v=1.16#logo-menu"></use>
+                <use href="assets/images/sprite.svg?v=1.17#logo-menu"></use>
             </svg>
         </div>
         <div class="header-actions">
-            <button id="btn-header-prog" class="btn-program" onclick="scrollToFirstVideo()">PROGRAMMATION</button>
-            <button id="btn-header-ticket" class="btn-ticket" onclick="scrollToTicketing()">BILLETTERIE</button>
-            <button id="btn-header-lang" class="btn-program" onclick="toggleLanguage()">
+            <button id="btn-header-prog"   class="btn-program" onclick="scrollToFirstVideo()" aria-label="La programmation du festival">PROGRAMMATION</button>
+            <button id="btn-header-ticket" class="btn-ticket"  onclick="scrollToTicketing()"  aria-label="La billetterie">BILLETTERIE</button>
+            <button id="btn-header-lang"   class="btn-program" onclick="toggleLanguage()"     aria-label="Changer de langue">
                 <svg class="lang-icon" viewBox="0 0 48 32">
                     <use id="lang-icon-use" href=""></use>
                 </svg>
@@ -102,20 +116,28 @@
     </nav>
     <main id="main-feed"></main>
     <div id="app-version-indicator">version</div>
-    <aside id="combined-drawer" class="drawer-right">
+    <aside id="fav-timeline-drawer" class="drawer-fav-timeline">
         <div class="drawer-header">
             <div class="drawer-tabs">
-                <button id="tab-favorites" class="drawer-tab active" onclick="switchTab('favorites')"><span id="drawer-fav-title">MES FAVORIS</span> <span id="fav-filter-info"></span></button>
-                <button id="tab-timeline" class="drawer-tab" onclick="switchTab('timeline')"><span id="drawer-time-title">TIMELINE</span> <span id="time-filter-info"></span></button>
+                <button id="tab-favorites" class="drawer-tab active" onclick="switchTab('favorites')" aria-label="Mes favoris">
+                    <span id="drawer-fav-title">MES FAVORIS</span> <span id="fav-filter-info"></span>
+                </button>
+                <button id="tab-timeline"  class="drawer-tab"        onclick="switchTab('timeline')"  aria-label="Timeline">
+                    <span id="drawer-time-title">TIMELINE</span> <span id="time-filter-info"></span>
+                </button>
             </div>
-            <button class="material-icons btn-close-drawer" onclick="closeAllDrawers()">close</button>
+            <button class="material-icons btn-close-drawer"   onclick="closeFavTimelineDrawers()" aria-label="Fermer">close</button>
         </div>
 
         <div id="favorites-content" class="tab-content active">
-             <div id="favorites-list" class="scrollable-list"></div>
+             <div id="favorites-list"   class="scrollable-list"></div>
              <div id="favorites-footer" class="drawer-footer">
-                <button class="btn-drawer-action btn-drawer-play" onclick="playFavorites()"><span class="material-icons">play_arrow</span> <span id="btn-txt-play-fav">Écouter</span></button>
-                <button class="btn-drawer-action btn-drawer-share" onclick="shareFavoritesList()"><span class="material-icons">share</span> <span id="btn-txt-share-fav">Partager</span></button>
+                <button class="btn-drawer-action btn-drawer-play"  onclick="playFavorites()" aria-label="Jouer mes favoris">
+                    <span class="material-icons">play_arrow</span> <span id="btn-txt-play-fav">Écouter</span>
+                </button>
+                <button class="btn-drawer-action btn-drawer-share" onclick="shareFavoritesList()" aria-label="Partager mes favoris">
+                    <span class="material-icons">share</span> <span id="btn-txt-share-fav">Partager</span>
+                </button>
             </div>
         </div>
 
@@ -123,22 +145,40 @@
             <div id="timeline-list" class="scrollable-list"></div>
         </div>
     </aside>
-    <div class="right-action-bar">
-        <button id="btn-mute" class="btn-fav-float material-icons" onclick="toggleMute()"><span class="btn-bg"></span><span class="material-icons">volume_up</span></button>
-        <button id="btn-nav-top" class="btn-fav-float material-icons" onclick="scrollToTop()"><span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_up</span></button>
-        <button id="btn-nav-previous-card" class="btn-fav-float material-icons" onclick="navigateScroll('up')"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_up</span></button>
-        <button id="btn-dynamic-heart" class="btn-fav-float material-icons" onclick="toggleFavCurrent()"><span class="btn-bg"></span><span class="material-icons">favorite_border</span></button>
-        <button id="btn-drawer-favorites" class="btn-fav-float material-icons" onclick="toggleCombinedDrawer('favorites')"><span class="btn-bg"></span><span class="material-icons">bookmarks</span></button>
-        <button id="btn-share" class="btn-fav-float material-icons" onclick="shareCurrent()"><span class="btn-bg"></span><span class="material-icons">share</span></button>
-        <button id="btn-drawer-timeline" class="btn-fav-float material-icons" onclick="toggleCombinedDrawer('timeline')"><span class="btn-bg"></span><span class="material-icons">event_note</span></button>
-        <button id="btn-nav-next-card" class="btn-fav-float material-icons" onclick="navigateScroll('down')"><span class="btn-bg"></span><span class="material-icons">keyboard_arrow_down</span></button>
-        <button id="btn-nav-bottom" class="btn-fav-float material-icons" onclick="scrollToTicketing()"><span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_down</span></button>
+    <div class="action-bar">
+        <button id="btn-mute"              class="btn-fav-float material-icons" onclick="toggleMute()" aria-label="xxxxxxxxxxxxxx">
+            <span class="btn-bg"></span><span class="material-icons">volume_up</span>
+        </button>
+        <button id="btn-nav-top"           class="btn-fav-float material-icons" onclick="scrollToTop()" aria-label="Faire défiler en haut de la page">
+            <span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_up</span>
+        </button>
+        <button id="btn-nav-previous-card" class="btn-fav-float material-icons" onclick="navigateScroll('up')" aria-label="Page précédente">
+            <span class="btn-bg"></span><span class="material-icons">keyboard_arrow_up</span>
+        </button>
+        <button id="btn-dynamic-heart"     class="btn-fav-float material-icons" onclick="toggleFavCurrent()" aria-label="Ajouter aux favoris">
+            <span class="btn-bg"></span><span class="material-icons">favorite_border</span>
+        </button>
+        <button id="btn-drawer-favorites"  class="btn-fav-float material-icons" onclick="toggleFavTimelineDrawer('favorites')" aria-label="Voir mes favoris">
+            <span class="btn-bg"></span><span class="material-icons">bookmarks</span>
+        </button>
+        <button id="btn-share"             class="btn-fav-float material-icons" onclick="shareCurrent()" aria-label="Partager">
+            <span class="btn-bg"></span><span class="material-icons">share</span>
+        </button>
+        <button id="btn-drawer-timeline"   class="btn-fav-float material-icons" onclick="toggleFavTimelineDrawer('timeline')" aria-label="Voir la timeline">
+            <span class="btn-bg"></span><span class="material-icons">event_note</span>
+        </button>
+        <button id="btn-nav-next-card"     class="btn-fav-float material-icons" onclick="navigateScroll('down')" aria-label="Page suivante">
+            <span class="btn-bg"></span><span class="material-icons">keyboard_arrow_down</span>
+        </button>
+        <button id="btn-nav-bottom"        class="btn-fav-float material-icons" onclick="scrollToTicketing()" aria-label="Faire défiler en bas de la page">
+            <span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_down</span>
+        </button>
     </div>
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="assets/js/app.js?v=1.16"></script>
-    <script src="assets/js/simple-audio-player.js?v=1.16"></script>
-    <script src="assets/js/control-bar.js?v=1.16"></script>
-    <script src="assets/js/video-manager.js?v=1.16"></script>
+    <script src="assets/js/app.js?v=1.17"></script>
+    <script src="assets/js/simple-audio-player.js?v=1.17"></script>
+    <script src="assets/js/control-bar.js?v=1.17"></script>
+    <script src="assets/js/video-manager.js?v=1.17"></script>
 </body>
 
 </html>

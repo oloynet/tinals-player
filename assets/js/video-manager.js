@@ -153,7 +153,7 @@ const VideoManager = {
             if ( s.isDisplayControlBar ) ControlBar.startTracking( id );
 
             clearTimeout( tm.menu );
-            const topDrawer = document.getElementById( 'top-drawer' );
+            const topDrawer = document.getElementById( 'main-menu-drawer' );
             topDrawer.classList.remove( 'auto-hidden' );
             topDrawer.style.transform = '';
             if ( s.isMenuAutoHide || isLandscape() ) {
@@ -167,7 +167,7 @@ const VideoManager = {
             card.classList.remove( 'audio-playing' );
 
             clearTimeout( tm.menu );
-            document.getElementById( 'top-drawer' ).classList.remove( 'auto-hidden' );
+            document.getElementById( 'main-menu-drawer' ).classList.remove( 'auto-hidden' );
 
             ControlBar.updatePlayPauseIcon( false );
 
@@ -309,7 +309,7 @@ const VideoManager = {
                 }, 100 );
             }
         }
-        closeAllDrawers();
+        closeFavTimelineDrawers();
         AppState.state.isMenuNavigation = true;
         setTimeout( () => {
             const el = document.getElementById( `video-${id}` );

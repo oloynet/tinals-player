@@ -53,6 +53,7 @@ const AppState = {
     }
 };
 
+
 const translations = {
     days: {
         "lundi": "Monday",
@@ -66,41 +67,7 @@ const translations = {
     tags: {}
 };
 
-function deepMerge(target, source) {
-    const isObject = (obj) => obj && typeof obj === 'object';
-
-    if (!isObject(target) || !isObject(source)) {
-        return source;
-    }
-
-    Object.keys(source).forEach(key => {
-        const targetValue = target[key];
-        const sourceValue = source[key];
-
-        if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
-            target[key] = targetValue.concat(sourceValue);
-        } else if (isObject(targetValue) && isObject(sourceValue)) {
-            target[key] = deepMerge(Object.assign({}, targetValue), sourceValue);
-        } else {
-            target[key] = sourceValue;
-        }
-    });
-
-    return target;
-}
-
-function slugify(text) {
-    if (!text) return '';
-    return text.toString().toLowerCase()
-        .normalize('NFD')                  // separate accents
-        .replace(/[\u0300-\u036f]/g, '')   // remove accents
-        .replace(/[^a-z0-9]+/g, '-')       // replace non-alphanumeric chars with dash
-        .replace(/^-+|-+$/g, '');          // remove leading/trailing dashes
-}
-
-function isLandscape() {
-    return window.innerWidth > window.innerHeight;
-}
+/* INIT */
 
 async function init() {
     try {
@@ -172,8 +139,8 @@ async function init() {
         const hash         = window.location.hash ? window.location.hash.substring(1) : null;
 
         renderFeed();
-        renderFavorites();
-        renderTimeline();
+        renderDrawerFavorites();
+        renderDrawerTimeline();
 
         if ( favsParam ) {
             const urlFavs = favsParam.split( ',' ).map( Number ).filter( id => validIds.includes( id ) );
@@ -243,6 +210,90 @@ async function init() {
     }
 }
 
+
+function isMobileDevice() {
+    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
+}
+
+
+function isLandscape() {
+    return window.innerWidth > window.innerHeight;
+}
+
+
+function handleOrientationChange() {
+    const s         = AppState.settings;
+    const topDrawer = document.getElementById( 'main-menu-drawer' );
+    const tm        = AppState.timers;
+
+    if ( AppState.state.activeId !== null ) {
+        VideoManager.applyMobileZoom( AppState.state.activeId );
+    }
+
+    // Only relevant if a video is playing
+    if ( AppState.state.activeId === null ) return;
+    const player = VideoManager.instances[AppState.state.activeId];
+
+    // Check player state safely
+    let isPlaying = false;
+    if (player && typeof player.getPlayerState === 'function') {
+        isPlaying = (player.getPlayerState() === 1);
+    }
+
+    if(!isPlaying) return;
+
+    // We are playing. Check logic.
+    if ( s.isMenuAutoHide || isLandscape() ) {
+        // Should be auto-hidden.
+        // If it's not already scheduled to hide and not hidden, schedule it.
+        if ( !topDrawer.classList.contains('auto-hidden') && !tm.menu ) {
+             tm.menu = setTimeout( () => {
+                topDrawer.classList.add( 'auto-hidden' );
+            }, 3000 );
+        }
+    } else {
+        // Should stay visible (Portrait + config=false)
+        clearTimeout( tm.menu );
+        tm.menu = null;
+        topDrawer.classList.remove( 'auto-hidden' );
+    }
+}
+
+
+function deepMerge(target, source) {
+    const isObject = (obj) => obj && typeof obj === 'object';
+
+    if (!isObject(target) || !isObject(source)) {
+        return source;
+    }
+
+    Object.keys(source).forEach(key => {
+        const targetValue = target[key];
+        const sourceValue = source[key];
+
+        if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
+            target[key] = targetValue.concat(sourceValue);
+        } else if (isObject(targetValue) && isObject(sourceValue)) {
+            target[key] = deepMerge(Object.assign({}, targetValue), sourceValue);
+        } else {
+            target[key] = sourceValue;
+        }
+    });
+
+    return target;
+}
+
+
+function slugify(text) {
+    if (!text) return '';
+    return text.toString().toLowerCase()
+        .normalize('NFD')                  // separate accents
+        .replace(/[\u0300-\u036f]/g, '')   // remove accents
+        .replace(/[^a-z0-9]+/g, '-')       // replace non-alphanumeric chars with dash
+        .replace(/^-+|-+$/g, '');          // remove leading/trailing dashes
+}
+
+
 function attachDebugWrappers( obj, objName ) {
     for ( let prop in obj ) {
         if ( typeof obj[ prop ] === 'function' ) {
@@ -256,6 +307,7 @@ function attachDebugWrappers( obj, objName ) {
         }
     }
 }
+
 
 function applyConfigs() {
     const c = AppState.config;
@@ -438,12 +490,6 @@ function applyConfigs() {
     }
 }
 
-function toggleLanguage() {
-    const newLang = AppState.currentLang === 'fr' ? 'en' : 'fr';
-    const url = new URL( window.location );
-    url.searchParams.set( 'lang', newLang );
-    window.location.href = url.href;
-}
 
 function translateText( text, type ) {
     if ( !text || AppState.currentLang === 'fr' ) return text;
@@ -452,54 +498,6 @@ function translateText( text, type ) {
     return text;
 }
 
-function getSvgHtml( spriteId, cssClass ) {
-    return `<svg class="${cssClass}"><use href="${AppState.config.images.sprite_path}#${spriteId}"></use></svg>`;
-}
-
-function formatDate( dateStr ) {
-    if ( !dateStr ) return "";
-    const parts = dateStr.split( '-' );
-    if ( parts.length !== 3 ) return dateStr;
-    const day = parseInt( parts[ 2 ] );
-    const yearShort = parts[ 0 ].slice( 2 );
-    const monthIndex = parseInt( parts[ 1 ] ) - 1;
-    const yearDisplay = AppState.settings.isDisplayYear ? ` ${yearShort}` : '';
-    if ( AppState.currentLang === 'en' ) {
-        const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-        const suffix = AppState.settings.isDisplayYear ? `, ${yearShort}` : '';
-        return `${months[monthIndex]} ${day}${suffix}`;
-    } else {
-        const months = [ "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre" ];
-        return `${day} ${months[monthIndex]}${yearDisplay}`;
-    }
-}
-
-function getTagNameFromSlug(tagSlug) {
-    if (!tagSlug) return '';
-    let tagName = tagSlug;
-    for (const group of AppState.data) {
-        if (group.event_tags) {
-            const found = group.event_tags.find(t => slugify(t) === tagSlug);
-            if (found) {
-                tagName = found;
-                break;
-            }
-        }
-    }
-    return translateText(tagName, 'tags');
-}
-
-function renderTagFilterBar() {
-    const t = AppState.config.texts;
-    const currentSlug = AppState.state.currentTagFilter;
-    if (!currentSlug) return;
-
-    const tagName = getTagNameFromSlug(currentSlug);
-    const text = t.filter_cancel_tags.replace('{tag}', tagName);
-
-    const html = `${text} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
-    document.getElementById( 'tag-mode-bar' ).innerHTML = html;
-}
 
 function updateStaticTexts() {
     const t = AppState.config.texts;
@@ -523,11 +521,32 @@ function updateStaticTexts() {
     }
 }
 
-function renderFeed() {
-    const feed = document.getElementById( 'main-feed' );
-    const htmlParts = [ getIntroHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() ];
-    feed.innerHTML = htmlParts.join( '' );
+
+function formatDate( dateStr ) {
+    if ( !dateStr ) return "";
+    const parts = dateStr.split( '-' );
+    if ( parts.length !== 3 ) return dateStr;
+    const day = parseInt( parts[ 2 ] );
+    const yearShort = parts[ 0 ].slice( 2 );
+    const monthIndex = parseInt( parts[ 1 ] ) - 1;
+    const yearDisplay = AppState.settings.isDisplayYear ? ` ${yearShort}` : '';
+    if ( AppState.currentLang === 'en' ) {
+        const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
+        const suffix = AppState.settings.isDisplayYear ? `, ${yearShort}` : '';
+        return `${months[monthIndex]} ${day}${suffix}`;
+    } else {
+        const months = [ "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre" ];
+        return `${day} ${months[monthIndex]}${yearDisplay}`;
+    }
 }
+
+
+/* HTML TEMPLATES */
+
+function getSvgHtml( spriteId, cssClass ) {
+    return `<svg class="${cssClass}"><use href="${AppState.config.images.sprite_path}#${spriteId}"></use></svg>`;
+}
+
 
 function getIntroHtml() {
     const c = AppState.config;
@@ -551,18 +570,282 @@ function getIntroHtml() {
         </section>`;
 }
 
+
+function getVideoCardHtml( g ) {
+    const s = AppState.settings;
+    const tagsHtml = ( s.isDisplayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => {
+        const slug = slugify(t);
+        return `<span class="tag-pill" data-slug="${slug}" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+    }).join('')}</div>` : '';
+
+    const artistSongTitle = ( s.isDisplayRecordName && g.video_title ) ? `<h3 class="artist-song-title" onclick="toggleArtistDescription(this.parentNode.querySelector('.artist-description'), event)">"${g.video_title}"</h3>` : '';
+    const boxSongTitle    = ( s.isDisplayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
+    const dayName         = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
+    const dateRaw         = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
+
+    let timeString = '';
+    if ( s.isDisplayTime ) {
+        timeString = g.event_start_time || '';
+        if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
+    }
+
+    const placeName       = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
+    const artistDatePlace = [ placeName, dayName, dateRaw, timeString ].filter( Boolean ).join( ' • ' );
+
+    let boxSplashHtml = '';
+    if ( s.isDisplayPlace && g.event_place ) boxSplashHtml += `<span class="box-meta-place">${g.event_place}</span>`;
+
+    let dateTimeParts = [];
+    if ( dayName ) dateTimeParts.push( dayName );
+    if ( dateRaw ) dateTimeParts.push( dateRaw );
+
+    let dateTimeStr = dateTimeParts.join( ' ' );
+    if ( dateTimeStr && timeString ) dateTimeStr += ' • ' + timeString;
+    else if ( !dateTimeStr && timeString ) dateTimeStr = timeString;
+
+    if ( dateTimeStr ) boxSplashHtml += `<span class="box-meta-date">${dateTimeStr}</span>`;
+    const boxMetaHtml     = boxSplashHtml ? `<div class="box-meta">${boxSplashHtml}</div>` : '';
+
+    const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
+    const socialsHtml     = getSocialsHtml(g);
+    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)">${descriptionText}${socialsHtml}</div>` : '';
+    const artistAvatarImg = g.image_thumbnail || g.image;
+
+    const artistAvatarHtml = `
+        <div class="artist-avatar-container" onclick="toggleArtistDescription(this.parentNode.querySelector('.artist-description'), event)">
+            <img src="${artistAvatarImg}" class="artist-avatar" alt="${g.event_name}">
+        </div>`;
+
+    const isMobile = isMobileDevice();
+    const bgImage  = ( isMobile && g.image_mobile ) ? g.image_mobile : g.image;
+
+    // Status logic
+    const status = g.event_status || 'scheduled';
+    const displayedStatuses = AppState.config.features.displayed_statuses || [];
+
+    let eventStatusBadge = '';
+    if (displayedStatuses.includes(status)) {
+        const statusKey     = 'status_' + status;
+        const statusLabel   = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
+        const statusClass   = 'status-' + status.replace('_', '-');
+        eventStatusBadge = `<div class="status-badge ${statusClass}">${statusLabel}</div>`;
+    }
+
+    return `
+    <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
+        <div class="video-container">
+            <div class="box-title">
+                <h2>${g.event_name}</h2>
+                ${boxSongTitle}
+                ${boxMetaHtml}
+                ${eventStatusBadge}
+            </div>
+            <div class="video-background" style="background-image: url('${bgImage}');"></div>
+            <div id="player-${g.id}" class="yt-placeholder"></div>
+            <div class="video-click-layer"></div>
+            <div class="video-state-icon material-icons">play_arrow</div>
+        </div>
+        <div class="artist-overlay">
+            <div class="artist-info">
+                ${artistAvatarHtml}
+                <h2 onclick="toggleArtistDescription(this.parentNode.querySelector('.artist-description'), event)">${g.event_name}</h2>
+                <div class="artist-date-place">${artistDatePlace}</div>
+                ${artistSongTitle}
+                ${tagsHtml}
+                ${descHtml}
+            </div>
+        </div>
+    </article>`;
+}
+
+
+
+
+
+
+/* RENDER */
+
+
+function renderFeed() {
+    const feed = document.getElementById( 'main-feed' );
+    const htmlParts = [ getIntroHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() ];
+    feed.innerHTML = htmlParts.join( '' );
+}
+
+
+
+/* TOGGLE */
+
+function toggleLanguage() {
+    const newLang = AppState.currentLang === 'fr' ? 'en' : 'fr';
+    const url = new URL( window.location );
+    url.searchParams.set( 'lang', newLang );
+    window.location.href = url.href;
+}
+
+
+function toggleMute() {
+    VideoManager.toggleMute();
+}
+
+
+function toggleFavTimelineDrawer(tabName) {
+    const drawer   = document.getElementById('fav-timeline-drawer');
+    const overlay  = document.getElementById('drawer-overlay');
+    const isActive = drawer.classList.contains('active');
+
+    // If already open
+    if (isActive) {
+        // If same tab, close it (toggle)
+        if (AppState.state.activeTab === tabName) {
+            closeFavTimelineDrawers();
+        } else {
+            // Switch tab
+            switchDrawerTab(tabName);
+        }
+    } else {
+        // Open drawer and select tab
+        switchDrawerTab(tabName);
+        drawer.classList.add('active');
+        overlay.classList.add('active');
+    }
+
+    // Update button icon state
+    const btnFloat = document.getElementById('btn-drawer-favorites');
+    const icon     = btnFloat.querySelector('.material-icons:not(.btn-bg)');
+
+    if (drawer.classList.contains('active') && AppState.state.activeTab === 'favorites') {
+        icon.textContent = 'chevron_right';
+    } else {
+        icon.textContent = 'bookmarks';
+        updateFavoritesIcon();
+    }
+}
+
+
+function toggleText( el, event ) {
+    event.stopPropagation();
+    if ( closeDrawerIfOpen() ) return;
+    el.classList.toggle( 'expanded' );
+}
+
+
+function toggleArtistDescription( element, event ) {
+    if ( event ) event.stopPropagation();
+    element.classList.add( 'manual-toggle' );
+    element.classList.toggle( 'expanded' );
+
+    const card = element.closest('.video-card');
+    if (card) {
+        if (element.classList.contains('expanded')) {
+            card.classList.add('desc-open');
+        } else {
+            card.classList.remove('desc-open');
+        }
+    }
+
+    setTimeout( () => {
+        element.classList.remove( 'manual-toggle' );
+    }, 50 );
+}
+
+
+/* FAVORITES */
+
+function updateFavoritesIcon() {
+    const btn = document.getElementById( 'btn-drawer-favorites' );
+    if ( !btn ) return;
+
+    const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
+    const bg = btn.querySelector( '.btn-bg' );
+    if ( AppState.favorites.length > 0 ) {
+        if ( bg ) bg.classList.add( 'bright' );
+        if ( icon ) icon.style.color = 'var(--primary-color)';
+    } else {
+        if ( bg ) bg.classList.remove( 'bright' );
+        if ( icon ) icon.style.color = 'white';
+    }
+}
+
+
+function toggleFavCurrent() {
+    toggleFav( AppState.state.activeId );
+}
+
+
+function toggleFav( id ) {
+    if ( AppState.favorites.includes( id ) ) {
+        AppState.favorites = AppState.favorites.filter( f => f !== id );
+        showToast( AppState.config.texts.bar_fav_removed );
+    } else {
+        AppState.favorites.push( id );
+        showToast( AppState.config.texts.bar_fav_added );
+
+        const drawer = document.getElementById( 'fav-timeline-drawer' );
+
+        if ( !drawer.classList.contains( 'active' ) &&
+            !AppState.state.isPlayingFavorites ) {
+
+            toggleFavTimelineDrawer( 'favorites' );
+            startDrawerAutoCloseTimer();
+        }
+    }
+    localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
+    updateActionButtons( AppState.state.activeId );
+    renderDrawerFavorites();
+    renderDrawerTimeline();
+    updateFavoritesIcon();
+    updateTicketingStats();
+}
+
+
+/* PLAY FAVORITES */
+
+
+function playFavorites() {
+    if ( AppState.favorites.length === 0 ) return;
+    exitTagFilterMode();
+    AppState.state.isPlayingFavorites = true;
+    document.body.classList.add( 'favorites-mode' );
+    document.getElementById( 'fav-mode-bar' ).classList.add( 'active' );
+    AppState.state.isMenuNavigation = true;
+    VideoManager.scrollTo( AppState.favorites[ 0 ] );
+}
+
+
+function exitFavoritesMode() {
+    AppState.state.isPlayingFavorites = false;
+    document.body.classList.remove( 'favorites-mode' );
+    document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
+    if ( AppState.state.activeId ) {
+        setTimeout( () => {
+            const el = document.getElementById( `video-${AppState.state.activeId}` );
+            if ( el ) el.scrollIntoView( {
+                behavior: 'auto',
+                block: 'start'
+            } );
+        }, 50 );
+    }
+    updateActionButtons( AppState.state.activeId );
+    updateNavActionButtons();
+}
+
+
+
+/* SOCIALS */
+
 function getSocialsHtml(g) {
     const networks = [
-        { key: 'performer_facebook', label: 'Facebook' },
+        { key: 'performer_facebook',  label: 'Facebook' },
         { key: 'performer_instagram', label: 'Instagram' },
-        { key: 'performer_tiktok', label: 'TikTok' },
+        { key: 'performer_tiktok',    label: 'TikTok' },
         { key: 'performer_pinterest', label: 'Pinterest' },
-        { key: 'performer_youtube', label: 'YouTube' },
-        { key: 'performer_spotify', label: 'Spotify' },
-        { key: 'performer_deezer', label: 'Deezer' },
-        { key: 'performer_website', label: 'Website' },
-        { key: 'event_link', label: 'Event' },
-        { key: 'event_ticket', label: 'Tickets' }
+        { key: 'performer_youtube',   label: 'YouTube' },
+        { key: 'performer_spotify',   label: 'Spotify' },
+        { key: 'performer_deezer',    label: 'Deezer' },
+        { key: 'performer_website',   label: 'Website' },
+        { key: 'event_link',          label: 'Event' },
+        { key: 'event_ticket',        label: 'Tickets' }
     ];
 
     const links = networks.filter(n => g[n.key]).map(n => {
@@ -573,92 +856,9 @@ function getSocialsHtml(g) {
     return `<div class="social-links-container">${links.join('')}</div>`;
 }
 
-function getVideoCardHtml( g ) {
-    const s = AppState.settings;
-    const tagsHtml = ( s.isDisplayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => {
-        const slug = slugify(t);
-        return `<span class="tag-pill" data-slug="${slug}" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
-    }).join('')}</div>` : '';
 
-    const songTitleOverlay = ( s.isDisplayRecordName && g.video_title ) ? `<h3 class="song-title-overlay" onclick="toggleDescription(this.parentNode.querySelector('.description'), event)">"${g.video_title}"</h3>` : '';
-    const songTitleCenter  = ( s.isDisplayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
-    const dayName          = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-    const dateRaw          = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
+/* TICKETING */
 
-    let timeString         = '';
-    if ( s.isDisplayTime ) {
-        timeString = g.event_start_time || '';
-        if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
-    }
-
-    const placeName      = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
-    const overlayDetails = [ placeName, dayName, dateRaw, timeString ].filter( Boolean ).join( ' • ' );
-
-    let splashHtml       = '';
-    if ( s.isDisplayPlace && g.event_place ) splashHtml += `<span class="splash-meta-place">${g.event_place}</span>`;
-
-    let dateTimeParts    = [];
-    if ( dayName ) dateTimeParts.push( dayName );
-    if ( dateRaw ) dateTimeParts.push( dateRaw );
-
-    let dateTimeStr       = dateTimeParts.join( ' ' );
-    if ( dateTimeStr && timeString ) dateTimeStr += ' • ' + timeString;
-    else if ( !dateTimeStr && timeString ) dateTimeStr = timeString;
-
-    if ( dateTimeStr ) splashHtml += `<span class="splash-meta-date">${dateTimeStr}</span>`;
-    const splashMetaHtml  = splashHtml ? `<div class="splash-meta">${splashHtml}</div>` : '';
-
-    const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
-    const socialsHtml     = getSocialsHtml(g);
-    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="description" onclick="toggleDescription(this, event)">${descriptionText}${socialsHtml}</div>` : '';
-
-    const avatarImg       = g.image_thumbnail || g.image;
-    const avatarHtml      = `
-        <div class="group-avatar-container" onclick="toggleDescription(this.parentNode.querySelector('.description'), event)">
-            <img src="${avatarImg}" class="group-avatar" alt="${g.event_name}">
-        </div>`;
-
-    const isMobile = isMobileDevice();
-    const bgImage = ( isMobile && g.image_mobile ) ? g.image_mobile : g.image;
-
-    // Status logic
-    const status = g.event_status || 'scheduled';
-    const displayedStatuses = AppState.config.features.displayed_statuses || [];
-    let statusBadge = '';
-
-    if (displayedStatuses.includes(status)) {
-        const statusKey = 'status_' + status;
-        const statusLabel = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
-        const statusClass = 'status-' + status.replace('_', '-');
-        statusBadge = `<div class="status-badge ${statusClass}">${statusLabel}</div>`;
-    }
-
-    return `
-    <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
-        <div class="video-container">
-            <div class="group-title-center">
-                <h2>${g.event_name}</h2>
-                ${songTitleCenter}
-                ${splashMetaHtml}
-                ${statusBadge}
-            </div>
-            <div class="video-background" style="background-image: url('${bgImage}');"></div>
-            <div id="player-${g.id}" class="yt-placeholder"></div>
-            <div class="video-click-layer"></div>
-            <div class="video-state-icon material-icons">play_arrow</div>
-        </div>
-        <div class="video-overlay">
-            <div class="group-info">
-                ${avatarHtml}
-                <h2 onclick="toggleDescription(this.parentNode.querySelector('.description'), event)">${g.event_name}</h2>
-                ${songTitleOverlay}
-                ${tagsHtml}
-                ${descHtml}
-                <div class="event-details">${overlayDetails}</div>
-            </div>
-        </div>
-    </article>`;
-}
 
 function getTicketingHtml() {
     const t = AppState.config.texts;
@@ -749,170 +949,6 @@ function getTicketingHtml() {
         </section>`;
 }
 
-function renderFavorites() {
-    const list = document.getElementById( 'favorites-list' );
-    let favs = AppState.data.filter( g => AppState.favorites.includes( g.id ) );
-    if ( AppState.state.currentTagFilter ) {
-        // Filter using slug comparison
-        favs = favs.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
-    }
-
-    // Use UL/LI for list semantics
-    if (favs.length) {
-        const itemsHtml = favs.map( g => {
-            const thumb = g.image_thumbnail || g.image;
-            return `
-            <li class="favorite-item">
-                <img src="${thumb}" alt="${g.event_name}">
-                <div class="fav-title">${g.event_name}</div>
-                <button onclick="shareSong(${g.id})" class="material-icons btn-fav-share">share</button>
-                <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons btn-fav-play">play_arrow</button>
-                <button onclick="toggleFav(${g.id})" class="material-icons btn-fav-remove">close</button>
-            </li>`;
-        }).join('');
-        list.innerHTML = `<ul>${itemsHtml}</ul>`;
-    } else {
-        list.innerHTML = `<p class="fav-empty-msg">${AppState.config.texts.fav_empty}</p>`;
-    }
-
-    const footer = document.getElementById( 'favorites-footer' );
-    if ( favs.length > 0 ) footer.classList.add( 'visible' );
-    else footer.classList.remove( 'visible' );
-}
-
-function renderTimeline() {
-    const list       = document.getElementById( 'timeline-list' );
-    const s          = AppState.settings;
-    let dataToRender = AppState.data;
-
-    if ( AppState.state.currentTagFilter ) {
-        // Filter using slug comparison
-        dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
-    }
-    const sortedData = [ ...dataToRender ].sort( ( a, b ) => {
-        const tA = ( a.event_start_date || '9999-99-99' ) + 'T' + ( a.event_start_time || '00:00' );
-        const tB = ( b.event_start_date || '9999-99-99' ) + 'T' + ( b.event_start_time || '00:00' );
-        return tA.localeCompare( tB );
-    } );
-    if ( sortedData.length === 0 ) {
-        list.innerHTML = `<p class="list-empty-msg">${AppState.config.texts.timeline_empty}</p>`;
-        return;
-    }
-
-    // Use UL/LI for list semantics
-    const itemsHtml = sortedData.map( g => {
-        const dayName  = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-        const dateRaw  = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
-        let timeString = '';
-        if ( s.isDisplayTime ) {
-            timeString = g.event_start_time || '';
-            if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
-        }
-        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
-        const metaLine  = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
-
-        // Status for timeline
-        const status = g.event_status || 'scheduled';
-        const displayedStatuses = AppState.config.features.displayed_statuses || [];
-        let statusBadge = '';
-
-        if (displayedStatuses.includes(status)) {
-            const statusKey = 'status_' + status;
-            const statusLabel = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
-            const statusClass = 'status-' + status.replace('_', '-');
-            statusBadge = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
-        }
-
-        const tagsHtml  = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
-            const slug = slugify(t);
-            return `<span class="time-tag" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
-        } ).join( '' ) : '';
-        const isFav = AppState.favorites.includes( g.id );
-        const thumb = g.image_thumbnail || g.image;
-        return `
-        <li class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
-            <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
-            <div class="time-info">
-                <div class="time-row-1">
-                    <h3>${g.event_name}</h3>
-                    <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav(${g.id});">${isFav ? 'favorite' : 'favorite_border'}</button>
-                </div>
-                <div class="time-row-2">${metaLine}</div>
-                <div class="time-row-3">${statusBadge}${tagsHtml}</div>
-            </div>
-        </li>`;
-    } ).join( '' );
-
-    list.innerHTML = `<ul>${itemsHtml}</ul>`;
-}
-
-
-
-function toggleMute() {
-    VideoManager.toggleMute();
-}
-
-function scrollToFirstVideo() {
-    const firstVideo = document.querySelector( '.video-card[data-id]' );
-    if ( firstVideo ) {
-        const id = Number( firstVideo.dataset.id );
-        if ( !isNaN( id ) ) {
-            VideoManager.scrollTo( id, false );
-        }
-    }
-}
-
-function playFavorites() {
-    if ( AppState.favorites.length === 0 ) return;
-    clearTagFilter();
-    AppState.state.isPlayingFavorites = true;
-    document.body.classList.add( 'favorites-mode' );
-    document.getElementById( 'fav-mode-bar' ).classList.add( 'active' );
-    AppState.state.isMenuNavigation = true;
-    VideoManager.scrollTo( AppState.favorites[ 0 ] );
-}
-
-function exitFavoritesMode() {
-    AppState.state.isPlayingFavorites = false;
-    document.body.classList.remove( 'favorites-mode' );
-    document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
-    if ( AppState.state.activeId ) {
-        setTimeout( () => {
-            const el = document.getElementById( `video-${AppState.state.activeId}` );
-            if ( el ) el.scrollIntoView( {
-                behavior: 'auto',
-                block: 'start'
-            } );
-        }, 50 );
-    }
-    updateActionButtons( AppState.state.activeId );
-    updateNavButtons();
-}
-
-function toggleFav( id ) {
-    if ( AppState.favorites.includes( id ) ) {
-        AppState.favorites = AppState.favorites.filter( f => f !== id );
-        showToast( AppState.config.texts.bar_fav_removed );
-    } else {
-        AppState.favorites.push( id );
-        showToast( AppState.config.texts.bar_fav_added );
-
-        const drawer = document.getElementById( 'combined-drawer' );
-
-        if ( !drawer.classList.contains( 'active' ) &&
-            !AppState.state.isPlayingFavorites ) {
-
-            toggleCombinedDrawer( 'favorites' );
-            startAutoCloseTimer();
-        }
-    }
-    localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
-    updateActionButtons( AppState.state.activeId );
-    renderFavorites();
-    renderTimeline();
-    updateFavoritesIcon();
-    updateTicketingStats();
-}
 
 function updateTicketingStats() {
     const ticketing = AppState.config.ticketing || {};
@@ -935,13 +971,17 @@ function updateTicketingStats() {
     }
 }
 
-function toggleFavCurrent() {
-    toggleFav( AppState.state.activeId );
+
+function scrollToTicketing() {
+    const ticketSection = document.getElementById( 'ticketing' );
+    if ( ticketSection ) ticketSection.scrollIntoView( {
+        behavior: 'smooth'
+    } );
 }
 
-function isMobileDevice() {
-    return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
-}
+
+
+/* URL and SHARE */
 
 function getBaseShareUrl() {
     const url = new URL( window.location.origin + window.location.pathname );
@@ -951,6 +991,38 @@ function getBaseShareUrl() {
     }
     return url;
 }
+
+
+function updateURLState() {
+    const url = new URL( window.location );
+
+    url.searchParams.delete( 'id' );
+    url.searchParams.delete( 'filter' );
+    url.searchParams.delete( 'favorites' );
+    url.searchParams.delete( 'share' );
+
+    // Clear hash by default, re-add if needed
+    url.hash = '';
+
+    if ( AppState.currentLang && AppState.currentLang !== 'fr' ) {
+        url.searchParams.set( 'lang', AppState.currentLang );
+    } else {
+        url.searchParams.delete( 'lang' );
+    }
+
+    if ( AppState.state.isPlayingFavorites && AppState.favorites.length > 0 ) {
+        url.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
+    } else if ( AppState.state.currentTagFilter ) {
+        url.searchParams.set( 'filter', AppState.state.currentTagFilter );
+    } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
+        url.searchParams.set( 'id', AppState.state.activeId );
+    } else if ( AppState.state.activeSection ) {
+        url.hash = AppState.state.activeSection;
+    }
+
+    window.history.replaceState( null, '', url );
+}
+
 
 async function shareCurrent() {
     let urlObj = getBaseShareUrl();
@@ -979,6 +1051,7 @@ async function shareCurrent() {
     }
 }
 
+
 async function shareSong( id ) {
     let urlObj = getBaseShareUrl();
     urlObj.searchParams.set( 'id', id );
@@ -999,38 +1072,6 @@ async function shareSong( id ) {
     }
 }
 
-async function shareFavoritesList() {
-    if ( AppState.favorites.length === 0 ) return;
-    toggleCombinedDrawer( 'favorites' );
-
-    let urlObj = getBaseShareUrl();
-    urlObj.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
-
-    const url = urlObj.href;
-    AppState.state.shareUrl = url;
-
-    if ( isMobileDevice() && navigator.share ) {
-        try {
-            await navigator.share( {
-                title: AppState.config.texts.share_title,
-                text: AppState.config.texts.fav_title,
-                url: url
-            } );
-        } catch ( err ) {}
-    } else {
-        openShareModal();
-    }
-}
-
-function openShareModal() {
-    document.getElementById( 'share-link-display' ).innerText = AppState.state.shareUrl;
-    document.getElementById( 'share-modal' ).classList.add( 'active' );
-}
-
-function closeShareModal() {
-    document.getElementById( 'share-modal' ).classList.remove( 'active' );
-    document.getElementById( 'qr-result' ).style.display = 'none';
-}
 
 function shareTo( platform ) {
     const url = encodeURIComponent( AppState.state.shareUrl );
@@ -1051,6 +1092,45 @@ function shareTo( platform ) {
     closeShareModal();
 }
 
+
+async function shareFavoritesList() {
+    if ( AppState.favorites.length === 0 ) return;
+    toggleFavTimelineDrawer( 'favorites' );
+
+    let urlObj = getBaseShareUrl();
+    urlObj.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
+
+    const url = urlObj.href;
+    AppState.state.shareUrl = url;
+
+    if ( isMobileDevice() && navigator.share ) {
+        try {
+            await navigator.share( {
+                title: AppState.config.texts.share_title,
+                text: AppState.config.texts.fav_title,
+                url: url
+            } );
+        } catch ( err ) {}
+    } else {
+        openShareModal();
+    }
+}
+
+
+/* SHARE MODAL */
+
+function openShareModal() {
+    document.getElementById( 'share-link-display' ).innerText = AppState.state.shareUrl;
+    document.getElementById( 'share-box-modal' ).classList.add( 'active' );
+}
+
+
+function closeShareModal() {
+    document.getElementById( 'share-box-modal' ).classList.remove( 'active' );
+    document.getElementById( 'qr-result' ).style.display = 'none';
+}
+
+
 function setupInteraction() {
     document.querySelectorAll( '.video-card' ).forEach( container => {
         container.addEventListener( 'click', function ( e ) {
@@ -1068,6 +1148,9 @@ function setupInteraction() {
         } );
     } );
 }
+
+
+/* OBSERVER */
 
 function setupObserver() {
     const observer = new IntersectionObserver( ( entries ) => {
@@ -1120,12 +1203,12 @@ function setupObserver() {
                         document.getElementById( 'control-bar' ).classList.remove( 'visible' );
                     }
                 }
-                updateNavButtons();
+                updateNavActionButtons();
             } else {
                 entry.target.classList.remove( 'active' );
                 entry.target.classList.remove( 'desc-open' );
-                if ( entry.target.querySelector( '.description' ) ) {
-                    entry.target.querySelector( '.description' ).classList.remove( 'expanded' );
+                if ( entry.target.querySelector( '.artist-description' ) ) {
+                    entry.target.querySelector( '.artist-description' ).classList.remove( 'expanded' );
                 }
             }
         } );
@@ -1134,6 +1217,9 @@ function setupObserver() {
     } );
     document.querySelectorAll( '.section-snap' ).forEach( el => observer.observe( el ) );
 }
+
+
+/* GESTURES AND KEYBOARD */
 
 function setupSwipeGestures() {
     let touchStartX = 0;
@@ -1149,39 +1235,41 @@ function setupSwipeGestures() {
     } );
 }
 
+
 function handleGesture( startX, startY, endX, endY ) {
     let xDiff = startX - endX;
     let yDiff = startY - endY;
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
         if ( Math.abs( xDiff ) > 50 ) {
-            const drawer = document.getElementById( 'combined-drawer' );
+            const drawer = document.getElementById( 'fav-timeline-drawer' );
             if ( drawer.classList.contains( 'active' ) ) {
                  // If dragging right (startX < endX), we might want to close?
                  // Current logic: any swipe > 50 horizontal triggers toggle.
                  // We will maintain toggle behavior: if open, close.
-                 closeAllDrawers();
+                 closeFavTimelineDrawers();
             } else {
                  // If closed, maybe open?
                  // Original logic opened favorites drawer if nothing was open.
-                 toggleCombinedDrawer('favorites');
+                 toggleFavTimelineDrawer('favorites');
             }
         }
     }
 }
+
 
 function setupKeyboardControls() {
     document.addEventListener( 'keydown', ( e ) => {
         const key = e.key.toLowerCase();
         const activeId = AppState.state.activeId;
         if ( e.key === 'Escape' ) {
-            const shareModal = document.getElementById( 'share-modal' );
+            const shareModal = document.getElementById( 'share-box-modal' );
             if ( shareModal.classList.contains( 'active' ) ) {
                 closeShareModal();
                 return;
             }
-            const drawers = document.querySelectorAll( '.drawer-right.active' );
+            const drawers = document.querySelectorAll( '.drawer-fav-timeline.active' );
             if ( drawers.length > 0 ) {
-                closeAllDrawers();
+                closeFavTimelineDrawers();
                 return;
             }
             if ( document.fullscreenElement ) document.exitFullscreen();
@@ -1218,6 +1306,9 @@ function setupKeyboardControls() {
     } );
 }
 
+
+/* TOAST */
+
 function showToast( message ) {
     const toast = document.getElementById( 'scroll-toast' );
     if ( toast.classList.contains( 'visible' ) && toast.innerText === message ) return;
@@ -1228,6 +1319,7 @@ function showToast( message ) {
         toast.classList.remove( 'visible' );
     }, 2000 );
 }
+
 
 function setupScrollToasts() {
     const feed = document.getElementById( 'main-feed' );
@@ -1241,6 +1333,9 @@ function setupScrollToasts() {
         lastScrollTop = st <= 0 ? 0 : st;
     } );
 }
+
+
+/* SCROLL */
 
 function navigateScroll( direction ) {
     const sections     = Array.from( document.querySelectorAll( '.section-snap' ) ).filter( el => el.offsetParent !== null );
@@ -1267,7 +1362,29 @@ function navigateScroll( direction ) {
     }
 }
 
-function updateNavButtons() {
+
+function scrollToTop() {
+    document.getElementById( 'main-feed' ).scrollTo( {
+        top: 0,
+        behavior: 'smooth'
+    } );
+}
+
+
+function scrollToFirstVideo() {
+    const firstVideo = document.querySelector( '.video-card[data-id]' );
+    if ( firstVideo ) {
+        const id = Number( firstVideo.dataset.id );
+        if ( !isNaN( id ) ) {
+            VideoManager.scrollTo( id, false );
+        }
+    }
+}
+
+
+/* ACTION BUTTONS */
+
+function updateNavActionButtons() {
     const sections     = Array.from( document.querySelectorAll( '.section-snap' ) ).filter( el => el.offsetParent !== null );
     const currentIndex = sections.findIndex( sec => sec.classList.contains( 'active' ) );
     const btnTop       = document.getElementById( 'btn-nav-top' );
@@ -1289,6 +1406,7 @@ function updateNavButtons() {
         btnBottom.classList.remove( 'disabled' );
     }
 }
+
 
 function updateActionButtons( id ) {
     const heartBtn = document.getElementById( 'btn-dynamic-heart' );
@@ -1317,6 +1435,38 @@ function updateActionButtons( id ) {
     }
 }
 
+
+/* TAG */
+
+function getTagNameFromSlug(tagSlug) {
+    if (!tagSlug) return '';
+    let tagName = tagSlug;
+    for (const group of AppState.data) {
+        if (group.event_tags) {
+            const found = group.event_tags.find(t => slugify(t) === tagSlug);
+            if (found) {
+                tagName = found;
+                break;
+            }
+        }
+    }
+    return translateText(tagName, 'tags');
+}
+
+
+function renderTagFilterBar() {
+    const t = AppState.config.texts;
+    const currentSlug = AppState.state.currentTagFilter;
+    if (!currentSlug) return;
+
+    const tagName = getTagNameFromSlug(currentSlug);
+    const text = t.filter_cancel_tags.replace('{tag}', tagName);
+
+    const html = `${text} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    document.getElementById( 'tag-mode-bar' ).innerHTML = html;
+}
+
+
 function filterByTag( tagSlug, event ) {
     if ( event ) event.stopPropagation();
     exitFavoritesMode();
@@ -1343,8 +1493,8 @@ function filterByTag( tagSlug, event ) {
     } );
     document.getElementById( 'fav-filter-info' ).innerText  = `(${tagName})`;
     document.getElementById( 'time-filter-info' ).innerText = `(${tagName})`;
-    renderTimeline();
-    renderFavorites();
+    renderDrawerTimeline();
+    renderDrawerFavorites();
     updateURLState();
     const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
     if ( firstMatch ) firstMatch.scrollIntoView( {
@@ -1352,7 +1502,8 @@ function filterByTag( tagSlug, event ) {
     } );
 }
 
-function clearTagFilter() {
+
+function exitTagFilterMode() {
     if ( !AppState.state.currentTagFilter ) return;
     AppState.state.currentTagFilter = null;
     document.body.classList.remove( 'tag-filtering' );
@@ -1360,53 +1511,125 @@ function clearTagFilter() {
     document.getElementById( 'tag-mode-bar' ).classList.remove( 'active' );
     document.getElementById( 'fav-filter-info' ).innerText  = '';
     document.getElementById( 'time-filter-info' ).innerText = '';
-    renderTimeline();
-    renderFavorites();
+    renderDrawerTimeline();
+    renderDrawerFavorites();
     updateURLState();
     updateActionButtons( AppState.state.activeId );
-    updateNavButtons();
+    updateNavActionButtons();
 }
 
-function updateURLState() {
-    const url = new URL( window.location );
 
-    url.searchParams.delete( 'id' );
-    url.searchParams.delete( 'filter' );
-    url.searchParams.delete( 'favorites' );
-    url.searchParams.delete( 'share' );
 
-    // Clear hash by default, re-add if needed
-    url.hash = '';
+/* DRAWER FAVORITE - TIMELINE */
 
-    if ( AppState.currentLang && AppState.currentLang !== 'fr' ) {
-        url.searchParams.set( 'lang', AppState.currentLang );
-    } else {
-        url.searchParams.delete( 'lang' );
-    }
-
-    if ( AppState.state.isPlayingFavorites && AppState.favorites.length > 0 ) {
-        url.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
-    } else if ( AppState.state.currentTagFilter ) {
-        url.searchParams.set( 'filter', AppState.state.currentTagFilter );
-    } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
-        url.searchParams.set( 'id', AppState.state.activeId );
-    } else if ( AppState.state.activeSection ) {
-        url.hash = AppState.state.activeSection;
-    }
-
-    window.history.replaceState( null, '', url );
-}
-
-function startAutoCloseTimer() {
+function startDrawerAutoCloseTimer() {
     clearTimeout( AppState.timers.close );
     AppState.timers.close = setTimeout( () => {
-        const drawer = document.getElementById( 'combined-drawer' );
-        if ( drawer.classList.contains( 'active' ) ) closeAllDrawers();
+        const drawer = document.getElementById( 'fav-timeline-drawer' );
+        if ( drawer.classList.contains( 'active' ) ) closeFavTimelineDrawers();
     }, 1000 );
 }
 
+
+function renderDrawerTimeline() {
+    const list       = document.getElementById( 'timeline-list' );
+    const s          = AppState.settings;
+    let dataToRender = AppState.data;
+
+    if ( AppState.state.currentTagFilter ) {
+        // Filter using slug comparison
+        dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
+    }
+    const sortedData = [ ...dataToRender ].sort( ( a, b ) => {
+        const tA = ( a.event_start_date || '9999-99-99' ) + 'T' + ( a.event_start_time || '00:00' );
+        const tB = ( b.event_start_date || '9999-99-99' ) + 'T' + ( b.event_start_time || '00:00' );
+        return tA.localeCompare( tB );
+    } );
+    if ( sortedData.length === 0 ) {
+        list.innerHTML = `<p class="list-empty-msg">${AppState.config.texts.timeline_empty}</p>`;
+        return;
+    }
+
+    const itemsHtml = sortedData.map( g => {
+        const dayName  = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
+        const dateRaw  = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
+        let timeString = '';
+        if ( s.isDisplayTime ) {
+            timeString = g.event_start_time || '';
+            if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
+        }
+        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
+        const metaLine  = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
+
+        // Status for timeline
+        const status = g.event_status || 'scheduled';
+        const displayedStatuses = AppState.config.features.displayed_statuses || [];
+        let eventStatusBadge = '';
+
+        if (displayedStatuses.includes(status)) {
+            const statusKey = 'status_' + status;
+            const statusLabel = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
+            const statusClass = 'status-' + status.replace('_', '-');
+            eventStatusBadge = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
+        }
+
+        const tagsHtml  = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
+            const slug = slugify(t);
+            return `<span class="time-tag" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+        } ).join( '' ) : '';
+        const isFav = AppState.favorites.includes( g.id );
+        const thumb = g.image_thumbnail || g.image;
+        return `
+        <li class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
+            <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
+            <div class="time-info">
+                <div class="time-row-1">
+                    <h3>${g.event_name}</h3>
+                    <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav(${g.id});">${isFav ? 'favorite' : 'favorite_border'}</button>
+                </div>
+                <div class="time-row-2">${metaLine}</div>
+                <div class="time-row-3">${eventStatusBadge}${tagsHtml}</div>
+            </div>
+        </li>`;
+    } ).join( '' );
+
+    list.innerHTML = `<ul>${itemsHtml}</ul>`;
+}
+
+
+function renderDrawerFavorites() {
+    const list = document.getElementById( 'favorites-list' );
+    let favs = AppState.data.filter( g => AppState.favorites.includes( g.id ) );
+    if ( AppState.state.currentTagFilter ) {
+        // Filter using slug comparison
+        favs = favs.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
+    }
+
+    if (favs.length) {
+        const itemsHtml = favs.map( g => {
+            const thumb = g.image_thumbnail || g.image;
+            return `
+            <li class="favorite-item">
+                <img src="${thumb}" alt="${g.event_name}">
+                <div class="fav-title">${g.event_name}</div>
+                <button onclick="shareSong(${g.id})" class="material-icons btn-fav-share">share</button>
+                <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons btn-fav-play">play_arrow</button>
+                <button onclick="toggleFav(${g.id})" class="material-icons btn-fav-remove">close</button>
+            </li>`;
+        }).join('');
+        list.innerHTML = `<ul>${itemsHtml}</ul>`;
+    } else {
+        list.innerHTML = `<p class="fav-empty-msg">${AppState.config.texts.fav_empty}</p>`;
+    }
+
+    const footer = document.getElementById( 'favorites-footer' );
+    if ( favs.length > 0 ) footer.classList.add( 'visible' );
+    else footer.classList.remove( 'visible' );
+}
+
+
 function setupDrawerListeners() {
-    const drawer = document.getElementById( 'combined-drawer' );
+    const drawer = document.getElementById( 'fav-timeline-drawer' );
     if(!drawer) return;
     const stop = () => clearTimeout( AppState.timers.close );
     drawer.addEventListener( 'touchstart', stop );
@@ -1414,40 +1637,8 @@ function setupDrawerListeners() {
     drawer.addEventListener( 'click', stop );
 }
 
-function toggleCombinedDrawer(tabName) {
-    const drawer = document.getElementById('combined-drawer');
-    const overlay = document.getElementById('drawer-overlay');
-    const isActive = drawer.classList.contains('active');
 
-    // If already open
-    if (isActive) {
-        // If same tab, close it (toggle)
-        if (AppState.state.activeTab === tabName) {
-            closeAllDrawers();
-        } else {
-            // Switch tab
-            switchTab(tabName);
-        }
-    } else {
-        // Open drawer and select tab
-        switchTab(tabName);
-        drawer.classList.add('active');
-        overlay.classList.add('active');
-    }
-
-    // Update button icon state
-    const btnFloat = document.getElementById('btn-drawer-favorites');
-    const icon = btnFloat.querySelector('.material-icons:not(.btn-bg)');
-
-    if (drawer.classList.contains('active') && AppState.state.activeTab === 'favorites') {
-        icon.textContent = 'chevron_right';
-    } else {
-        icon.textContent = 'bookmarks';
-        updateFavoritesIcon();
-    }
-}
-
-function switchTab(tabName) {
+function switchDrawerTab(tabName) {
     AppState.state.activeTab = tabName;
 
     // Update Tab Buttons
@@ -1467,7 +1658,7 @@ function switchTab(tabName) {
     }
 
     // Update floating button icon if switching tabs while open
-    const drawer = document.getElementById('combined-drawer');
+    const drawer = document.getElementById('fav-timeline-drawer');
     if (drawer.classList.contains('active')) {
          const btnFloat = document.getElementById('btn-drawer-favorites');
          const icon = btnFloat.querySelector('.material-icons:not(.btn-bg)');
@@ -1481,8 +1672,8 @@ function switchTab(tabName) {
 }
 
 
-function closeAllDrawers() {
-    document.querySelectorAll( '.drawer-right' ).forEach( el => el.classList.remove( 'active' ) );
+function closeFavTimelineDrawers() {
+    document.querySelectorAll( '.drawer-fav-timeline' ).forEach( el => el.classList.remove( 'active' ) );
     document.getElementById( 'drawer-overlay' ).classList.remove( 'active' );
 
     const btnFloat   = document.getElementById( 'btn-drawer-favorites' );
@@ -1491,34 +1682,18 @@ function closeAllDrawers() {
     updateFavoritesIcon();
 }
 
+
 function closeDrawerIfOpen() {
-    const drawer = document.getElementById( 'combined-drawer' );
+    const drawer = document.getElementById( 'fav-timeline-drawer' );
     if ( drawer.classList.contains( 'active' ) ) {
-        closeAllDrawers();
+        closeFavTimelineDrawers();
         return true;
     }
     return false;
 }
 
-function toggleText( el, event ) {
-    event.stopPropagation();
-    if ( closeDrawerIfOpen() ) return;
-    el.classList.toggle( 'expanded' );
-}
 
-function scrollToTop() {
-    document.getElementById( 'main-feed' ).scrollTo( {
-        top: 0,
-        behavior: 'smooth'
-    } );
-}
-
-function scrollToTicketing() {
-    const ticketSection = document.getElementById( 'ticketing' );
-    if ( ticketSection ) ticketSection.scrollIntoView( {
-        behavior: 'smooth'
-    } );
-}
+/* HAPTIC */
 
 function setupHapticFeedback() {
     const buttons = document.querySelectorAll( '.btn-fav-float, .btn-drawer-action, .btn-program, .btn-ticket, .intro-btn, .ticket-btn' );
@@ -1530,6 +1705,7 @@ function setupHapticFeedback() {
     } );
 }
 
+
 function triggerHaptic( el ) {
     const target = el.tagName === 'BUTTON' || el.tagName === 'A' ? el : el.closest( 'button, a' );
     if ( !target ) return;
@@ -1539,77 +1715,10 @@ function triggerHaptic( el ) {
     }, 250 );
 }
 
-function updateFavoritesIcon() {
-    const btn = document.getElementById( 'btn-drawer-favorites' );
-    if ( !btn ) return;
 
-    const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
-    const bg = btn.querySelector( '.btn-bg' );
-    if ( AppState.favorites.length > 0 ) {
-        if ( bg ) bg.classList.add( 'bright' );
-        if ( icon ) icon.style.color = 'var(--primary-color)';
-    } else {
-        if ( bg ) bg.classList.remove( 'bright' );
-        if ( icon ) icon.style.color = 'white';
-    }
-}
 
-function toggleDescription( element, event ) {
-    if ( event ) event.stopPropagation();
-    element.classList.add( 'manual-toggle' );
-    element.classList.toggle( 'expanded' );
 
-    const card = element.closest('.video-card');
-    if (card) {
-        if (element.classList.contains('expanded')) {
-            card.classList.add('desc-open');
-        } else {
-            card.classList.remove('desc-open');
-        }
-    }
 
-    setTimeout( () => {
-        element.classList.remove( 'manual-toggle' );
-    }, 50 );
-}
-
-function handleOrientationChange() {
-    const s         = AppState.settings;
-    const topDrawer = document.getElementById( 'top-drawer' );
-    const tm        = AppState.timers;
-
-    if ( AppState.state.activeId !== null ) {
-        VideoManager.applyMobileZoom( AppState.state.activeId );
-    }
-
-    // Only relevant if a video is playing
-    if ( AppState.state.activeId === null ) return;
-    const player = VideoManager.instances[AppState.state.activeId];
-
-    // Check player state safely
-    let isPlaying = false;
-    if (player && typeof player.getPlayerState === 'function') {
-        isPlaying = (player.getPlayerState() === 1);
-    }
-
-    if(!isPlaying) return;
-
-    // We are playing. Check logic.
-    if ( s.isMenuAutoHide || isLandscape() ) {
-        // Should be auto-hidden.
-        // If it's not already scheduled to hide and not hidden, schedule it.
-        if ( !topDrawer.classList.contains('auto-hidden') && !tm.menu ) {
-             tm.menu = setTimeout( () => {
-                topDrawer.classList.add( 'auto-hidden' );
-            }, 3000 );
-        }
-    } else {
-        // Should stay visible (Portrait + config=false)
-        clearTimeout( tm.menu );
-        tm.menu = null;
-        topDrawer.classList.remove( 'auto-hidden' );
-    }
-}
 
 const PWAManager = {
     deferredPrompt: null,
@@ -1677,8 +1786,9 @@ const PWAManager = {
     }
 };
 
+
 function setupMenuObserver() {
-    const menu = document.getElementById('top-drawer');
+    const menu = document.getElementById('main-menu-drawer');
     if (!menu) return;
 
     const observer = new MutationObserver((mutations) => {
@@ -1696,9 +1806,10 @@ function setupMenuObserver() {
     observer.observe(menu, { attributes: true });
 }
 
+
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v=1.16' )
-        .then( ( reg ) => console.log( 'Service Worker enregistré', reg ) )
-        .catch( ( err ) => console.log( 'Erreur Service Worker', err ) );
+    navigator.serviceWorker.register( 'service-worker.js?v=1.17' )
+        .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
+        .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
