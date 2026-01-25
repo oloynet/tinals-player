@@ -735,6 +735,15 @@ function toggleArtistDescription( element, event ) {
     element.classList.add( 'manual-toggle' );
     element.classList.toggle( 'expanded' );
 
+    const icon = element.querySelector('.desc-state-icon');
+    if (icon) {
+        if (element.classList.contains('expanded')) {
+            icon.innerText = 'remove_circle';
+        } else {
+            icon.innerText = 'add_circle';
+        }
+    }
+
     const card = element.closest('.video-card');
     if (card) {
         if (element.classList.contains('expanded')) {
