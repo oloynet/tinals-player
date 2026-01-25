@@ -10,7 +10,10 @@
         "event_end_time": "",
         "event_duration": "",
         "event_place": "TINALS 2026 - Paloma Nîmes",
-        "event_tags": [],
+        "event_tags": [
+            "Tag #1",
+            "Tag #2"
+        ],
         "video_url": "https://www.youtube.com/watch?v=38E1GRdv2C8",
         "video_title": "",
         "video_timestart": "10",
@@ -40,7 +43,10 @@
         "event_end_time": "",
         "event_duration": "",
         "event_place": "TINALS 2026 - Paloma Nîmes",
-        "event_tags": [],
+        "event_tags": [
+            "Tag #3",
+            "Tag #4"
+        ],
         "video_url": "https://www.youtube.com/watch?v=4G_IvBNofjQ",
         "video_title": "",
         "video_timestart": "5",
@@ -70,7 +76,10 @@
         "event_end_time": "",
         "event_duration": "",
         "event_place": "TINALS 2026 - Paloma Nîmes",
-        "event_tags": [],
+        "event_tags": [
+            "Tag #1",
+            "Tag #4"
+        ],
         "video_url": "https://www.youtube.com/watch?v=t9rEZzMN0YU",
         "video_title": "",
         "video_timestart": "0",
@@ -100,7 +109,10 @@
         "event_end_time": "",
         "event_duration": "",
         "event_place": "TINALS 2026 - Paloma Nîmes",
-        "event_tags": [],
+        "event_tags": [
+            "Tag #4",
+            "Tag #2"
+        ],
         "video_url": "https://www.youtube.com/watch?v=iEqD9L63I1I",
         "video_title": "",
         "video_timestart": "20",
@@ -130,7 +142,8 @@
         "event_end_time": "",
         "event_duration": "",
         "event_place": "TINALS 2026 - Paloma Nîmes",
-        "event_tags": [],
+        "event_tags": [
+        ],
         "video_url": "https://www.youtube.com/watch?v=V8sVs_vrCzQ",
         "video_title": "",
         "video_timestart": "24",
@@ -160,7 +173,8 @@
         "event_end_time": "",
         "event_duration": "",
         "event_place": "TINALS 2026 - Paloma Nîmes",
-        "event_tags": [],
+        "event_tags": [
+        ],
         "video_url": "https://www.youtube.com/watch?v=5DbOvTiif6U",
         "video_title": "",
         "video_timestart": "3",
@@ -190,7 +204,8 @@
         "event_end_time": "",
         "event_duration": "",
         "event_place": "TINALS 2026 - Paloma Nîmes",
-        "event_tags": [],
+        "event_tags": [
+        ],
         "video_url": "https://youtu.be/zxcjzcmAbGA?si=-5isHGvGkJapGVTQ",
         "video_title": "",
         "video_timestart": "20",
@@ -220,7 +235,8 @@
         "event_end_time": "",
         "event_duration": "",
         "event_place": "TINALS 2026 - Paloma Nîmes",
-        "event_tags": [],
+        "event_tags": [
+        ],
         "video_url": "https://youtu.be/b0H12w8GFkE?si=c7FXesj4FOUEsc9j",
         "video_title": "",
         "video_timestart": "0",

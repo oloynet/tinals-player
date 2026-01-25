@@ -833,7 +833,7 @@ iframe {
     max-width: 92%;
     overflow: hidden;
     position: relative;
-    transition: max-height 0.5s ease;
+    transition: max-height 1s ease;
     cursor: pointer;
 }
 
@@ -843,7 +843,7 @@ iframe {
     padding: 15px;
     padding-left: 0;
     overflow-y: auto;
-    transition: max-height 0.5s ease;
+    transition: max-height 1s ease;
 }
 
 .artist-info .desc-header-row {
@@ -855,7 +855,7 @@ iframe {
     flex-shrink: 0;
 }
 
-.artist-info .desc-text {
+.artist-info .artist-description .desc-text {
     flex: 1;
     margin: 0;
     display: -webkit-box;
@@ -891,13 +891,14 @@ iframe {
 /* --- ARTIST DATE, PLACE --- */
 
 .artist-info .artist-date-place {
-    font-size: 0.8rem;
+    font-size: 0.9rem;
     font-weight: bold;
     color: var(--primary-color);
     text-transform: uppercase;
     transition: opacity 0.3s ease, max-height 0.3s ease, margin 0.3s ease, visibility 0.3s;
     max-height: 100px;
     overflow: hidden;
+    margin-bottom: 5px;
 }
 
 /* --- ARTIST TAG PILL --- */
@@ -913,11 +914,11 @@ iframe {
 }
 
 .artist-info .tag-pill {
+    font-size: 0.85rem;
+    padding: 4px 10px;
     background: var(--tag-pill-bg);
     color: var(--tag-pill-color);
-    padding: 5px 12px;
     border-radius: 12px;
-    font-size: 0.85rem;
     font-weight: bold;
     backdrop-filter: blur(4px);
     text-transform: uppercase;
@@ -938,9 +939,9 @@ iframe {
 
 .artist-info .social-pill {
     background: var(--social-pill-bg);
-    padding: 4px 10px;
     border-radius: 12px;
     font-size: 0.8rem;
+    padding: 4px 10px;
     font-weight: bold;
     backdrop-filter: blur(4px);
     text-transform: uppercase;
@@ -2006,21 +2007,25 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     }
 
     .artist-info .artist-date-place {
-        font-size: 0.9rem;
+        font-size: 1.1rem;
     }
 
-    .artist-info .artist-description {
+    .artist-info .artist-description .desc-text {
         font-size: 1.15rem;
         margin-bottom: 8px;
     }
 
     .artist-info .tag-pill {
-        padding: 6px 16px;
-        font-size: 1.2rem;
+        font-size: 0.90rem;
+        padding: 4px 10px;
     }
 
     .artist-info .tags-container {
         margin-bottom: 4px;
+    }
+
+    .artist-info .social-pill {
+        font-size: 0.90rem;
     }
 
 
@@ -2167,20 +2172,25 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     }
 
     .artist-info .artist-date-place {
-        font-size: 1.0rem;
+        font-size: 1.25rem;
     }
 
-    .artist-info .artist-description {
-        font-size: 1.2rem;
+    .artist-info .artist-description .desc-text {
+        font-size: 1.4rem;
     }
 
     .artist-info .tag-pill {
-        padding: 6px 16px;
-        font-size: 1.2rem;
+        font-size: 1.0rem;
+        padding: 4px 10px;
     }
 
     .artist-info .tags-container {
         margin-bottom: 4px;
+    }
+
+    .artist-info .social-pill {
+        font-size: 1.0rem;
+        padding: 4px 10px;
     }
 
 }
