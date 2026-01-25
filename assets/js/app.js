@@ -321,37 +321,38 @@ function applyConfigs() {
     }
     const f = c.features || {};
     const s = AppState.settings;
-    s.isDebugJS                 = f.is_debug_js                  ?? false;
-    s.isDisplayVersion          = f.is_display_version           ?? false;
-    s.versionNumber             = c.site.version || "";
-    s.isFullscreenEnable        = f.is_fullscreen_enable         ?? true;
-    s.isButtonSoundEnable       = f.is_button_sound_enable       ?? true;
-    s.isButtonTopBottomEnable   = f.is_button_top_bottom_enable  ?? false;
-    s.isButtonPrevNextEnable    = f.is_button_prev_next_enable   ?? true;
-    s.isMenuAutoHide            = f.is_menu_auto_hide            ?? false;
-    s.isDisplayDay              = f.is_display_day               ?? true;
-    s.isDisplayDate             = f.is_display_date              ?? true;
-    s.isDisplayTime             = f.is_display_time              ?? true;
-    s.isDisplayTag              = f.is_display_tag               ?? true;
-    s.isDisplayPlace            = f.is_display_place             ?? true;
-    s.isDisplayRecordName       = f.is_display_record_name       ?? false;
-    s.isDisplayGroupDescription = f.is_display_group_description ?? true;
-    s.isDescriptionAutoHide     = f.is_description_auto_hide     ?? true;
-    s.isDisplayImageVideoEnd    = f.is_display_image_video_end   ?? true;
-    s.isDisplayImageVideoPause  = f.is_display_image_video_pause ?? true;
-    s.isDisplayYear             = f.is_display_year              ?? false;
-    s.isDisplayControlBar       = f.is_display_control_bar       ?? true;
-    s.isAutoLoadVideo           = f.is_auto_load_video           ?? false;
-    s.isAutoPlayNext            = f.is_auto_play_next            ?? true;
-    s.isAutoPlayLoop            = f.is_auto_play_loop            ?? true;
-    s.isAppInstall              = f.is_app_install               ?? true;
-    s.isForceZoom               = f.is_force_zoom                ?? false;
-    s.isTicketingDisplayLike    = f.is_ticketing_display_like    ?? false;
-    s.isTicketingDisplayCount   = f.is_ticketing_display_count   ?? false;
+
+    s.isDebugJS                     = f.is_debug_js                       ?? false;
+    s.isDisplayVersion              = f.is_display_version                ?? false;
+    s.versionNumber                 = c.site.version || "";
+    s.isDisplayBoxTitle             = f.is_display_box_title              ?? false;
+    s.isDisplayArtist               = f.is_display_artist                 ?? true;
+    s.isDisplayActionBar            = f.is_display_action_bar             ?? true;
+    s.isDisplayControlBar           = f.is_display_control_bar            ?? true;
+    s.isButtonSoundEnable           = f.is_button_sound_enable            ?? true;
+    s.isButtonTopBottomEnable       = f.is_button_top_bottom_enable       ?? false;
+    s.isButtonPrevNextEnable        = f.is_button_prev_next_enable        ?? true;
+    s.isFullscreenEnable            = f.is_fullscreen_enable              ?? true;
+    s.isMenuAutoHide                = f.is_menu_auto_hide                 ?? false;
+    s.isDisplayDay                  = f.is_display_day                    ?? true;
+    s.isDisplayDate                 = f.is_display_date                   ?? true;
+    s.isDisplayTime                 = f.is_display_time                   ?? true;
+    s.isDisplayTag                  = f.is_display_tag                    ?? true;
+    s.isDisplayPlace                = f.is_display_place                  ?? true;
+    s.isDisplayRecordName           = f.is_display_record_name            ?? false;
+    s.isDisplayGroupDescription     = f.is_display_group_description      ?? true;
+    s.isDescriptionAutoHide         = f.is_description_auto_hide          ?? true;
+    s.isDisplayImageVideoEnd        = f.is_display_image_video_end        ?? true;
+    s.isDisplayImageVideoPause      = f.is_display_image_video_pause      ?? true;
+    s.isDisplayYear                 = f.is_display_year                   ?? false;
+    s.isAutoLoadVideo               = f.is_auto_load_video                ?? false;
+    s.isAutoPlayNext                = f.is_auto_play_next                 ?? true;
+    s.isAutoPlayLoop                = f.is_auto_play_loop                 ?? true;
+    s.isAppInstall                  = f.is_app_install                    ?? true;
+    s.isForceZoom                   = f.is_force_zoom                     ?? false;
+    s.isTicketingDisplayLike        = f.is_ticketing_display_like         ?? false;
+    s.isTicketingDisplayCount       = f.is_ticketing_display_count        ?? false;
     s.isTicketingDisplayArtistsName = f.is_ticketing_display_artists_name ?? false;
-    s.isDisplayBoxTitle         = f.is_display_box_title         ?? false;
-    s.isDisplayArtist           = f.is_display_artist            ?? true;
-    s.isDisplayActionBar        = f.is_display_action_bar        ?? true;
 
     if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
     else document.body.classList.remove( 'hide-desc-mobile' );
@@ -364,7 +365,7 @@ function applyConfigs() {
         if (actionBar) actionBar.style.display = '';
     }
 
-    if ( !s.isButtonSoundEnable ) document.getElementById( 'btn-mute' ).style.display = 'none';
+1    if ( !s.isButtonSoundEnable ) document.getElementById( 'btn-mute' ).style.display = 'none';
     if ( !s.isButtonTopBottomEnable ) {
         document.getElementById( 'btn-nav-top' ).style.display    = 'none';
         document.getElementById( 'btn-nav-bottom' ).style.display = 'none';
