@@ -817,55 +817,63 @@ iframe {
     margin: 0 0 8px 0;
 }
 
+
+
+
 /* --- ARTIST DESCRIPTION --- */
 
 .artist-info .artist-description {
-    font-size: 1.0rem;
-    opacity: 0.85;
-    margin: 8px 0;
-    max-width: 85%;
-    display: block;
-    max-height: 2.8em;
-    overflow: hidden;
-    transition: max-height 0.5s ease, background-color 0.3s, opacity 0.3s, margin 0.3s, visibility 0.3s;
-    cursor: pointer;
-    position: relative;
     display: -webkit-box;
     -webkit-line-clamp: 2;
     -webkit-box-orient: vertical;
+    opacity: 0.85;
+    font-size: 1.0rem;
+    margin: 8px 0;
     margin-bottom: 4px;
+    max-width: 85%;
+    overflow: hidden;
+    overflow-y: auto;
+    position: relative;
+    display: -webkit-box;
+    transition: max-height 1.0s ease-in, background-color 0.3s, opacity 0.3s, margin 0.3s, visibility 0.3s;
+    cursor: pointer;
 }
 
+.artist-info .artist-description.expanded {
+    -webkit-line-clamp: unset;
+    opacity: 1;
+    max-height: 70vh;
+    padding: 15px;
+    padding-left: 0;
+    overflow-y: auto;
+    transition: max-height 1.0s ease-in, background-color 0.3s, opacity 0.3s, margin 0.3s, visibility 0.3s;
+}
+
+
+/*
 .artist-info .artist-description.manual-toggle {
     transition-delay: 0s !important;
 }
+*/
 
 .artist-info .artist-description .desc-state-icon {
     float: right;
+    content: 'add_circle';
     color: var(--primary-color);
     font-weight: normal;
     font-size: 2.4rem;
     line-height: 2.4rem;
 }
 
-.artist-info .artist-description.expanded {
-    -webkit-line-clamp: unset;
-    display: block;
-    /* height: 70vh; */
-    max-height: 70vh;
-    /* background-color: rgba(0, 0, 0, 0.10); */
-    padding: 15px;
-    padding-left: 0;
-    border-radius: 8px;
-    overflow-y: auto;
-    opacity: 1;
-    cursor: default;
-}
-
 .artist-info .artist-description.expanded .desc-state-icon {
     content: 'remove_circle';
     color: var(--secondary-color);
 }
+
+
+
+
+
 
 /* --- ARTIST DATE, PLACE --- */
 
