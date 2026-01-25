@@ -49,7 +49,10 @@ const AppState = {
         isForceZoom: false,
         isTicketingDisplayLike: false,
         isTicketingDisplayCount: false,
-        isTicketingDisplayArtistsName: false
+        isTicketingDisplayArtistsName: false,
+        isDisplayBoxTitle: false,
+        isDisplayArtist: true,
+        isDisplayActionBar: true
     }
 };
 
@@ -346,9 +349,20 @@ function applyConfigs() {
     s.isTicketingDisplayLike    = f.is_ticketing_display_like    ?? false;
     s.isTicketingDisplayCount   = f.is_ticketing_display_count   ?? false;
     s.isTicketingDisplayArtistsName = f.is_ticketing_display_artists_name ?? false;
+    s.isDisplayBoxTitle         = f.is_display_box_title         ?? false;
+    s.isDisplayArtist           = f.is_display_artist            ?? true;
+    s.isDisplayActionBar        = f.is_display_action_bar        ?? true;
 
     if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
     else document.body.classList.remove( 'hide-desc-mobile' );
+
+    if ( !s.isDisplayActionBar ) {
+        const actionBar = document.querySelector('.action-bar');
+        if (actionBar) actionBar.style.display = 'none';
+    } else {
+        const actionBar = document.querySelector('.action-bar');
+        if (actionBar) actionBar.style.display = '';
+    }
 
     if ( !s.isButtonSoundEnable ) document.getElementById( 'btn-mute' ).style.display = 'none';
     if ( !s.isButtonTopBottomEnable ) {
@@ -631,20 +645,15 @@ function getVideoCardHtml( g ) {
         eventStatusBadge = `<div class="status-badge ${statusClass}">${statusLabel}</div>`;
     }
 
-    return `
-    <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
-        <div class="video-container">
+    const boxTitleHtml = s.isDisplayBoxTitle ? `
             <div class="box-title">
                 <h2>${g.event_name}</h2>
                 ${boxSongTitle}
                 ${boxMetaHtml}
                 ${eventStatusBadge}
-            </div>
-            <div class="video-background" style="background-image: url('${bgImage}');"></div>
-            <div id="player-${g.id}" class="yt-placeholder"></div>
-            <div class="video-click-layer"></div>
-            <div class="video-state-icon material-icons">play_arrow</div>
-        </div>
+            </div>` : '';
+
+    const artistOverlayHtml = s.isDisplayArtist ? `
         <div class="artist-overlay">
             <div class="artist-info">
                 ${artistAvatarHtml}
@@ -654,7 +663,18 @@ function getVideoCardHtml( g ) {
                 ${tagsHtml}
                 ${descHtml}
             </div>
+        </div>` : '';
+
+    return `
+    <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
+        <div class="video-container">
+            ${boxTitleHtml}
+            <div class="video-background" style="background-image: url('${bgImage}');"></div>
+            <div id="player-${g.id}" class="yt-placeholder"></div>
+            <div class="video-click-layer"></div>
+            <div class="video-state-icon material-icons">play_arrow</div>
         </div>
+        ${artistOverlayHtml}
     </article>`;
 }
 
