@@ -1,6 +1,5 @@
 .env
 .vscode/
-*.egg-info/
 *-nogit/
 .DS_Store
 *.log
