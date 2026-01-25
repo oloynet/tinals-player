@@ -783,12 +783,15 @@ function toggleFavCurrent() {
 
 
 function toggleFav( id ) {
+    const card = document.getElementById(`video-${id}`);
     if ( AppState.favorites.includes( id ) ) {
         AppState.favorites = AppState.favorites.filter( f => f !== id );
         showToast( AppState.config.texts.bar_fav_removed );
+        if(card) card.classList.remove('is-favorite');
     } else {
         AppState.favorites.push( id );
         showToast( AppState.config.texts.bar_fav_added );
+        if(card) card.classList.add('is-favorite');
 
         const drawer = document.getElementById( 'fav-timeline-drawer' );
 
@@ -815,10 +818,10 @@ function playFavorites() {
     if ( AppState.favorites.length === 0 ) return;
     exitTagFilterMode();
     AppState.state.isPlayingFavorites = true;
-    document.body.classList.add( 'favorites-mode' );
-    document.getElementById( 'fav-mode-bar' ).classList.add( 'active' );
     AppState.state.isMenuNavigation = true;
     VideoManager.scrollTo( AppState.favorites[ 0 ] );
+    document.body.classList.add( 'favorites-mode' );
+    document.getElementById( 'fav-mode-bar' ).classList.add( 'active' );
 }
 
 

@@ -229,7 +229,11 @@ const VideoManager = {
         Object.keys( this.instances ).forEach( key => {
             const p = this.instances[ key ];
             if ( p && typeof p.pauseVideo === 'function' && parseInt( key ) !== exceptId ) {
-                p.pauseVideo();
+                try {
+                    p.pauseVideo();
+                } catch ( e ) {
+                    console.warn( `Error pausing video ${key}:`, e );
+                }
             }
         } );
         ControlBar.stopTracking();
