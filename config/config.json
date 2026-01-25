@@ -1,12 +1,12 @@
 {
     "site":
     {
-        "version": "v1.18",
-        "version_name": "player TINALS v1.18",
+        "version": "v1.19",
+        "version_name": "player TINALS v1.19",
         "title": "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name": "Playlist | TINALS 2026",
         "short_name": "TINALS",
-        "description": "Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 \u00e0 N\u00eemes. TINALS est un festival de musiques ind\u00e9pendantes dites 'indie' \u00e0 Paloma.",
+        "description": "Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma.",
         "theme_color": "#2d91d0",
         "background_color": "#000000",
         "orientation": "portrait-primary",
@@ -18,7 +18,7 @@
         "author": "Olivier LOYNET - +33.668055252",
         "url": "https://thisisnotalovesong.fr",
         "homepage_url": "https://thisisnotalovesong.fr",
-        "data_source": "data/2026/data.json",
+        "data_source": "data/2026/data.json?v1.19",
         "path": "./"
     },
 
@@ -62,7 +62,7 @@
         "flag_fr_id": "flag-fr",
         "flag_en_id": "flag-en",
 
-        "sprite_path": "assets/images/sprite.svg?v=1.18",
+        "sprite_path": "assets/images/sprite.svg?v1.19",
 
         "icon_16": "assets/favicon/favicon-16x16.png",
         "icon_32_maskable": "assets/favicon/favicon-maskable-32x32.png",
