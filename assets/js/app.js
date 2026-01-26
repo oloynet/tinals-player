@@ -105,6 +105,8 @@ async function init() {
 
         applyConfigs();
 
+        checkVersion();
+
         if ( AppState.settings.isDebugJS ) {
             console.log( "--- DEBUG MODE ACTIVATED ---" );
             attachDebugWrappers( VideoManager, "VideoManager" );
@@ -541,6 +543,12 @@ function updateStaticTexts() {
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
     document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
 
+    // Confirm Modal Buttons
+    const btnYes = document.getElementById('btn-confirm-yes');
+    const btnNo = document.getElementById('btn-confirm-no');
+    if (btnYes) btnYes.innerText = t.btn_yes || 'OUI';
+    if (btnNo) btnNo.innerText = t.btn_no || 'NON';
+
     // Features Modal
     document.getElementById( 'features-title' ).innerText = t.features_modal_title;
     document.getElementById( 'btn-close-features' ).innerText = t.features_modal_close;
@@ -953,6 +961,30 @@ async function reloadApp() {
     // I'll stick to SW and Caches.
 
     window.location.reload(true);
+}
+
+async function checkVersion() {
+    try {
+        const response = await fetch(`./VERSION?t=${Date.now()}`);
+        if (!response.ok) return;
+        const serverVersion = (await response.text()).trim();
+        const currentVersion = AppState.config.site.version;
+
+        if (serverVersion && currentVersion && serverVersion !== currentVersion) {
+            if (AppState.settings.isDebugJS) {
+                console.log(`Version mismatch: server=${serverVersion}, local=${currentVersion}`);
+            }
+            openConfirmModal(
+                AppState.config.texts.update_available_title,
+                AppState.config.texts.update_available_text,
+                () => {
+                    reloadApp();
+                }
+            );
+        }
+    } catch (e) {
+        console.error("Error checking version:", e);
+    }
 }
 
 /* CONFIRM MODAL */
