@@ -153,7 +153,7 @@ const VideoManager = {
             if ( s.isDisplayControlBar ) ControlBar.startTracking( id );
 
             clearTimeout( tm.menu );
-            const topDrawer = document.getElementById( 'main-menu-drawer' );
+            const topDrawer = document.getElementById( 'top-menu' );
             topDrawer.classList.remove( 'auto-hidden' );
             topDrawer.style.transform = '';
             if ( s.isMenuAutoHide || isLandscape() ) {
@@ -167,7 +167,7 @@ const VideoManager = {
             card.classList.remove( 'audio-playing' );
 
             clearTimeout( tm.menu );
-            document.getElementById( 'main-menu-drawer' ).classList.remove( 'auto-hidden' );
+            document.getElementById( 'top-menu' ).classList.remove( 'auto-hidden' );
 
             ControlBar.updatePlayPauseIcon( false );
 

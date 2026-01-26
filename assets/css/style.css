@@ -1349,7 +1349,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 /* --- HEADER & NAVIGATION --- */
-.drawer-menu {
+.menu-top {
     position: fixed;
     top: 0;
     width: 100%;
@@ -1363,7 +1363,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     transition: transform 0.4s ease;
 }
 
-.drawer-menu.auto-hidden {
+.menu-top.auto-hidden {
     transform: translateY(-100%);
 }
 
@@ -2093,7 +2093,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     /* --- video-state-icon --- */
 
     .video-state-icon {
-        font-size: 72px;
+        font-size: 76px;
     }
 
     /* --- TICKETING --- */
@@ -2208,7 +2208,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     /* --- video-state-icon --- */
 
     .video-state-icon {
-        font-size: 84px;
+        font-size: 96px;
     }
 
 }
