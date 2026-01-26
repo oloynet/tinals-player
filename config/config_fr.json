@@ -97,6 +97,11 @@
         "menu_reload_confirm_title": "Recharger l'application",
         "menu_reload_confirm_text": "Voulez-vous vraiment effacer le cache et recharger l'application ?",
         "menu_uninstall_confirm_title": "Désinstaller l'application",
-        "menu_uninstall_confirm_text": "Voulez-vous vraiment désinstaller l'application ?"
+        "menu_uninstall_confirm_text": "Voulez-vous vraiment désinstaller l'application ?",
+
+        "menu_home": "Accueil",
+        "menu_features": "Fonctionnalités",
+        "features_modal_title": "Fonctionnalités",
+        "features_modal_close": "Fermer"
     }
 }

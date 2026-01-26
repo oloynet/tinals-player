@@ -1608,6 +1608,110 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     background: #555;
 }
 
+/* --- FEATURES MODAL --- */
+#features-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 7000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+#features-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.features-box {
+    background: #1a1a1a;
+    padding: 30px;
+    border-radius: 15px;
+    width: 90%;
+    max-width: 600px;
+    height: 80%;
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    color: white;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+    border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.features-box h3 {
+    margin-top: 0;
+    margin-bottom: 20px;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+    flex-shrink: 0;
+}
+
+#features-list {
+    flex: 1;
+    overflow-y: auto;
+    margin-bottom: 20px;
+    text-align: left;
+    padding-right: 10px;
+}
+
+.feature-item {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 10px 0;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    font-size: 0.9rem;
+}
+
+.feature-item:last-child {
+    border-bottom: none;
+}
+
+.feature-key {
+    font-weight: bold;
+    color: #ccc;
+    flex: 1;
+    word-break: break-all;
+    margin-right: 15px;
+}
+
+.feature-value {
+    color: var(--primary-color);
+    font-family: monospace;
+    text-align: right;
+    max-width: 50%;
+}
+
+.feature-value .material-icons {
+    font-size: 1.2rem;
+    vertical-align: middle;
+}
+
+.close-features {
+    padding: 10px 25px;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    font-size: 1rem;
+    color: white;
+    background: #555;
+    transition: transform 0.2s;
+    text-transform: uppercase;
+    align-self: center;
+}
+
+.close-features:hover {
+    transform: scale(1.05);
+}
+
 /* --- INLINE STYLE REFACTORING --- */
 
 .tag-name-label {

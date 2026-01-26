@@ -541,11 +541,17 @@ function updateStaticTexts() {
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
     document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
 
+    // Features Modal
+    document.getElementById( 'features-title' ).innerText = t.features_modal_title;
+    document.getElementById( 'btn-close-features' ).innerText = t.features_modal_close;
+
     // Main Menu Texts
     const setText = (id, text) => {
         const el = document.getElementById(id);
         if(el) el.innerText = text;
     };
+    setText('menu-txt-home', t.menu_home);
+    setText('menu-txt-features', t.menu_features);
     setText('menu-txt-program', t.menu_program);
     setText('menu-txt-favorites', t.menu_favorites);
     setText('menu-txt-timeline', t.menu_timeline);
@@ -769,6 +775,10 @@ function handleMenuAction(action) {
     const links = AppState.config.external_links;
 
     switch (action) {
+        case 'home':
+            closeMainMenu();
+            scrollToTop();
+            break;
         case 'program':
             closeMainMenu();
             scrollToFirstVideo();
@@ -805,6 +815,10 @@ function handleMenuAction(action) {
             if(links.home) window.open(links.home, '_blank');
             closeMainMenu();
             break;
+        case 'features':
+            closeMainMenu();
+            openFeaturesModal();
+            break;
         case 'install':
             // Logic for installation / uninstall
             triggerInstallOrUninstall();
@@ -815,6 +829,38 @@ function handleMenuAction(action) {
         default:
             break;
     }
+}
+
+function openFeaturesModal() {
+    const modal = document.getElementById('features-modal');
+    const features = AppState.config.features || {};
+    let html = '';
+
+    for (const [key, value] of Object.entries(features)) {
+        let displayValue = value;
+        if (typeof value === 'boolean') {
+            const icon = value ? 'check_box' : 'check_box_outline_blank';
+            displayValue = `<span class="material-icons">${icon}</span>`;
+        } else if (Array.isArray(value)) {
+            displayValue = value.join(', ');
+        }
+
+        html += `
+            <div class="feature-item">
+                <span class="feature-key">${key}</span>
+                <span class="feature-value">${displayValue}</span>
+            </div>`;
+    }
+
+    const listContainer = document.getElementById('features-list');
+    if(listContainer) listContainer.innerHTML = html;
+
+    if(modal) modal.classList.add('active');
+}
+
+function closeFeaturesModal() {
+    const modal = document.getElementById('features-modal');
+    if(modal) modal.classList.remove('active');
 }
 
 function toggleSettingsAccordion() {
