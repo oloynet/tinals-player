@@ -103,6 +103,13 @@
         "menu_home": "Home",
         "menu_features": "Features",
         "features_modal_title": "Features",
-        "features_modal_close": "Close"
+        "features_modal_close": "Close",
+
+        "menu_about": "About",
+        "about_title": "About",
+        "about_organized_by": "Organized by",
+        "about_developer": "Developer",
+        "about_follow_us": "Follow us on Facebook",
+        "about_close": "Close"
     }
 }
