@@ -550,39 +550,38 @@ function updateStaticTexts() {
         const el = document.getElementById(id);
         if(el) el.innerText = text;
     };
-    setText('menu-txt-home', t.menu_home);
-    setText('menu-txt-features', t.menu_features);
-    setText('menu-txt-program', t.menu_program);
+    setText('menu-txt-home',      t.menu_home);
+    setText('menu-txt-program',   t.menu_program);
     setText('menu-txt-favorites', t.menu_favorites);
-    setText('menu-txt-timeline', t.menu_timeline);
+    setText('menu-txt-timeline',  t.menu_timeline);
     setText('menu-txt-ticketing', t.menu_ticketing);
-    setText('menu-txt-language', t.menu_language);
-    setText('menu-txt-news', t.menu_news);
+    setText('menu-txt-language',  t.menu_language);
+    setText('menu-txt-website',   t.menu_website);
+    setText('menu-txt-news',      t.menu_news);
     setText('menu-txt-practical', t.menu_practical);
-    setText('menu-txt-map', t.menu_map);
-    setText('menu-txt-pro-area', t.menu_pro_area);
-    setText('menu-txt-website', t.menu_website);
-    setText('menu-txt-settings', t.menu_settings);
-    setText('menu-txt-install', t.menu_install);
-    setText('menu-txt-reload', t.menu_reload);
-    setText('menu-txt-about', t.menu_about);
+    setText('menu-txt-map',       t.menu_map);
+    setText('menu-txt-pro-area',  t.menu_pro_area);
+    setText('menu-txt-settings',  t.menu_settings);
+    setText('menu-txt-features',  t.menu_features);
+    setText('menu-txt-install',   t.menu_install);
+    setText('menu-txt-reload',    t.menu_reload);
+    setText('menu-txt-about',     t.menu_about);
     setText('menu-version', AppState.settings.versionNumber);
 
     // About Modal
-    if(t.about_title) document.getElementById('about-title').innerText = t.about_title;
-    if(t.about_organized_by) document.getElementById('txt-about-organized-by').innerText = t.about_organized_by;
-    if(t.about_developer) document.getElementById('txt-about-developer').innerText = t.about_developer;
-    if(t.about_follow_us) document.getElementById('txt-about-follow-us').innerText = t.about_follow_us;
-    if(t.about_close) document.getElementById('btn-close-about').innerText = t.about_close;
-
+    if(t.about_title) document.getElementById('about-title').innerText                     = t.about_title;
+    if(t.about_organized_by) document.getElementById('txt-about-organized-by').innerText   = t.about_organized_by;
     if(t.about_festival_desc) document.getElementById('txt-about-festival-desc').innerText = t.about_festival_desc;
-    if(t.about_media_inter) document.getElementById('txt-about-media-inter').innerText = t.about_media_inter;
-    if(t.about_media_local) document.getElementById('txt-about-media-local').innerText = t.about_media_local;
-    if(t.about_comm_manager) document.getElementById('txt-about-comm-manager').innerText = t.about_comm_manager;
+    if(t.about_media_inter) document.getElementById('txt-about-media-inter').innerText     = t.about_media_inter;
+    if(t.about_media_local) document.getElementById('txt-about-media-local').innerText     = t.about_media_local;
+    if(t.about_comm_manager) document.getElementById('txt-about-comm-manager').innerText   = t.about_comm_manager;
 
     if(t.about_press_officer) {
-        document.querySelectorAll('.txt-about-press-officer').forEach(el => el.innerText = t.about_press_officer);
+        document.querySelectorAll('.txt-about-press-officer').forEach(el => el.innerText  = t.about_press_officer);
     }
+    if(t.about_developer) document.getElementById('txt-about-developer').innerText        = t.about_developer;
+    if(t.about_follow_us) document.getElementById('txt-about-follow-us').innerText        = t.about_follow_us;
+    if(t.about_close) document.getElementById('btn-close-about').innerText                = t.about_close;
 
     if (AppState.state.currentTagFilter) {
         renderTagFilterBar();
