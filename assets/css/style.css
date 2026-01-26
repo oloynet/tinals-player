@@ -2051,6 +2051,12 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     font-size: 32px;
 }
 
+.menu-icon {
+    margin-right: 15px;
+    font-size: 24px;
+    color: inherit;
+}
+
 .main-menu-drawer {
     position: fixed;
     top: 0;
