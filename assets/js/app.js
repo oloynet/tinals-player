@@ -575,6 +575,15 @@ function updateStaticTexts() {
     if(t.about_follow_us) document.getElementById('txt-about-follow-us').innerText = t.about_follow_us;
     if(t.about_close) document.getElementById('btn-close-about').innerText = t.about_close;
 
+    if(t.about_festival_desc) document.getElementById('txt-about-festival-desc').innerText = t.about_festival_desc;
+    if(t.about_media_inter) document.getElementById('txt-about-media-inter').innerText = t.about_media_inter;
+    if(t.about_media_local) document.getElementById('txt-about-media-local').innerText = t.about_media_local;
+    if(t.about_comm_manager) document.getElementById('txt-about-comm-manager').innerText = t.about_comm_manager;
+
+    if(t.about_press_officer) {
+        document.querySelectorAll('.txt-about-press-officer').forEach(el => el.innerText = t.about_press_officer);
+    }
+
     if (AppState.state.currentTagFilter) {
         renderTagFilterBar();
     }

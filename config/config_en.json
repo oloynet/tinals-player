@@ -110,6 +110,12 @@
         "about_organized_by": "Organized by",
         "about_developer": "Developer",
         "about_follow_us": "Follow us on Facebook",
-        "about_close": "Close"
+        "about_close": "Close",
+
+        "about_festival_desc": "An indie rock festival in Nîmes, France",
+        "about_media_inter": "International Media Contacts",
+        "about_media_local": "Local Media Contact",
+        "about_press_officer": "Press Officer",
+        "about_comm_manager": "Head of Communication and Public Relations at Paloma"
     }
 }

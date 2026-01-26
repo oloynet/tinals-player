@@ -110,6 +110,12 @@
         "about_organized_by": "Organisé par",
         "about_developer": "Développeur",
         "about_follow_us": "Suivez-nous sur Facebook",
-        "about_close": "Fermer"
+        "about_close": "Fermer",
+
+        "about_festival_desc": "Un festival indie rock à Nîmes, France",
+        "about_media_inter": "Contacts médias (inter)nationaux",
+        "about_media_local": "Contact médias locaux",
+        "about_press_officer": "Attachée de presse",
+        "about_comm_manager": "Responsable communication et relations publiques de Paloma"
     }
 }
