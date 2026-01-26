@@ -37,7 +37,6 @@
         "is_button_prev_next_enable": false,
         "is_fullscreen_enable": true,
 
-        "is_menu_auto_hide": false,
         "is_display_day": true,
         "is_display_date": true,
         "is_display_time": true,
@@ -48,15 +47,20 @@
         "is_display_group_description": true,
         "is_display_image_video_pause": true,
         "is_display_image_video_end": true,
+
+        "is_menu_auto_hide": false,
         "is_description_auto_hide": true,
+        "is_force_zoom": true,
+        "is_app_install": true,
+
         "is_auto_load_video": false,
         "is_auto_play_next": true,
         "is_auto_play_loop": true,
-        "is_app_install": true,
-        "is_force_zoom": true,
+
         "is_ticketing_display_like": false,
         "is_ticketing_display_count": false,
         "is_ticketing_display_artists_name": false,
+
         "displayed_statuses": ["canceled", "moved_online", "postponed", "rescheduled"]
     },
 
@@ -80,6 +84,18 @@
         "icon_512": "assets/favicon/android-chrome-512x512.png",
         "icon_512_maskable": "assets/favicon/favicon-maskable-512x512.png",
         "icon_svg": "assets/favicon/favicon.svg"
+    },
+
+    "external_links":
+    {
+        "home": "https://thisisnotalovesong.fr/",
+        "news": "https://thisisnotalovesong.fr/actualites/",
+        "practical": "https://thisisnotalovesong.fr/infos-pratiques/",
+        "contact": "https://thisisnotalovesong.fr/infos-pratiques/",
+        "ticketing": "https://billetterie.paloma-nimes.fr/agenda?id_categ=2&search=this+is+not+a+love+song",
+        "professional_area": "https://thisisnotalovesong.fr/espace-pro-presse/",
+        "google_maps_place": "https://www.google.com/maps/place/SMAC+Paloma/@43.8559795,4.4022731,792m/",
+        "google_maps_dir": "https://www.google.com/maps/dir//SMAC+Paloma,+250+Chem.+de+l'A%C3%A9rodrome,+30000+N%C3%AEmes+France/@43.8561514,4.4049709,13z"
     },
 
     "icons": [
