@@ -75,6 +75,13 @@
             </div>
         </div>
     </div>
+    <div id="features-modal">
+        <div class="features-box">
+            <h3 id="features-title">Features</h3>
+            <div id="features-list" class="scrollable-list"></div>
+            <button id="btn-close-features" class="close-features" onclick="closeFeaturesModal()">Close</button>
+        </div>
+    </div>
     <div id="share-box-modal">
         <div class="share-box">
             <h3 id="share-title-text">&nbsp;</h3>
@@ -138,10 +145,14 @@
         </div>
         <div class="main-menu-content">
             <ul class="main-menu-list">
+                <li onclick="handleMenuAction('home')"><span class="menu-text" id="menu-txt-home">Home</span></li>
                 <li onclick="handleMenuAction('program')"><span class="menu-text" id="menu-txt-program">Programmation</span></li>
                 <li onclick="handleMenuAction('favorites')"><span class="menu-text" id="menu-txt-favorites">Mes favoris</span></li>
                 <li onclick="handleMenuAction('timeline')"><span class="menu-text" id="menu-txt-timeline">Timeline</span></li>
                 <li onclick="handleMenuAction('ticketing')"><span class="menu-text" id="menu-txt-ticketing">Billetterie</span></li>
+
+                <li class="separator"></li>
+
                 <li onclick="handleMenuAction('language')">
                     <span class="menu-text" id="menu-txt-language">Changer de langue</span>
                     <svg class="lang-icon-menu"><use id="menu-lang-icon-use" href=""></use></svg>
@@ -149,10 +160,10 @@
 
                 <li class="separator"></li>
 
+                <li onclick="handleMenuAction('website')"><span class="menu-text" id="menu-txt-website">Site Officiel</span> <span class="material-icons external-link-icon">open_in_new</span></li>
                 <li onclick="handleMenuAction('news')"><span class="menu-text" id="menu-txt-news">Actualités</span> <span class="material-icons external-link-icon">open_in_new</span></li>
                 <li onclick="handleMenuAction('practical')"><span class="menu-text" id="menu-txt-practical">Infos Pratiques</span> <span class="material-icons external-link-icon">open_in_new</span></li>
                 <li onclick="handleMenuAction('map')"><span class="menu-text" id="menu-txt-map">Plan</span> <span class="material-icons external-link-icon">open_in_new</span></li>
-                <li onclick="handleMenuAction('website')"><span class="menu-text" id="menu-txt-website">Site Officiel</span> <span class="material-icons external-link-icon">open_in_new</span></li>
 
                 <li class="separator"></li>
 
@@ -162,6 +173,7 @@
                         <span class="material-icons accordion-icon">expand_more</span>
                     </div>
                     <ul class="accordion-content" id="settings-accordion">
+                        <li onclick="handleMenuAction('features')"><span class="menu-text" id="menu-txt-features">Features</span></li>
                         <li onclick="handleMenuAction('install')"><span class="menu-text" id="menu-txt-install">Installation</span></li>
                         <li onclick="handleMenuAction('reload')"><span class="menu-text" id="menu-txt-reload">Recharger</span></li>
                     </ul>
