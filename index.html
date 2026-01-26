@@ -99,6 +99,9 @@
         </div>
     </div>
     <nav id="top-bar" class="bar-top">
+        <div class="main-menu-icon" onclick="toggleMainMenu()" aria-label="Menu principal">
+            <span class="material-icons">menu</span>
+        </div>
         <div class="logo-container" onclick="scrollToTop()">
             <svg class="menu-logo">
                 <use href="assets/images/sprite.svg?v1.22#logo-menu"></use>
@@ -116,6 +119,60 @@
     </nav>
     <main id="main-feed"></main>
     <div id="app-version-indicator">version</div>
+
+    <div id="confirm-modal">
+        <div class="confirm-box">
+            <h3 id="confirm-title">Confirmation</h3>
+            <p id="confirm-text">Êtes-vous sûr ?</p>
+            <div class="confirm-buttons">
+                <button id="btn-confirm-yes" class="confirm-btn yes">OUI</button>
+                <button id="btn-confirm-no"  class="confirm-btn no"  onclick="closeConfirmModal()">NON</button>
+            </div>
+        </div>
+    </div>
+
+    <aside id="main-menu-drawer" class="main-menu-drawer">
+        <div class="drawer-header">
+            <span class="drawer-title">MENU</span>
+            <button class="material-icons btn-close-drawer" onclick="closeMainMenu()" aria-label="Fermer le menu">close</button>
+        </div>
+        <div class="main-menu-content">
+            <ul class="main-menu-list">
+                <li onclick="handleMenuAction('program')"><span class="menu-text" id="menu-txt-program">Programmation</span></li>
+                <li onclick="handleMenuAction('favorites')"><span class="menu-text" id="menu-txt-favorites">Mes favoris</span></li>
+                <li onclick="handleMenuAction('timeline')"><span class="menu-text" id="menu-txt-timeline">Timeline</span></li>
+                <li onclick="handleMenuAction('ticketing')"><span class="menu-text" id="menu-txt-ticketing">Billetterie</span></li>
+                <li onclick="handleMenuAction('language')">
+                    <span class="menu-text" id="menu-txt-language">Changer de langue</span>
+                    <svg class="lang-icon-menu"><use id="menu-lang-icon-use" href=""></use></svg>
+                </li>
+
+                <li class="separator"></li>
+
+                <li onclick="handleMenuAction('news')"><span class="menu-text" id="menu-txt-news">Actualités</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+                <li onclick="handleMenuAction('practical')"><span class="menu-text" id="menu-txt-practical">Infos Pratiques</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+                <li onclick="handleMenuAction('map')"><span class="menu-text" id="menu-txt-map">Plan</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+                <li onclick="handleMenuAction('website')"><span class="menu-text" id="menu-txt-website">Site Officiel</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+
+                <li class="separator"></li>
+
+                <li class="accordion-item">
+                    <div class="accordion-header" onclick="toggleSettingsAccordion()">
+                        <span class="menu-text" id="menu-txt-settings">Paramètres</span>
+                        <span class="material-icons accordion-icon">expand_more</span>
+                    </div>
+                    <ul class="accordion-content" id="settings-accordion">
+                        <li onclick="handleMenuAction('install')"><span class="menu-text" id="menu-txt-install">Installation</span></li>
+                        <li onclick="handleMenuAction('reload')"><span class="menu-text" id="menu-txt-reload">Recharger</span></li>
+                    </ul>
+                </li>
+            </ul>
+        </div>
+        <div class="main-menu-footer">
+            <span id="menu-version"></span>
+        </div>
+    </aside>
+
     <aside id="fav-timeline-drawer" class="drawer-fav-timeline">
         <div class="drawer-header">
             <div class="drawer-tabs">

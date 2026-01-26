@@ -1925,6 +1925,231 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     max-width: 80%;
 }
 
+/* --- MAIN MENU (LEFT DRAWER) --- */
+
+.main-menu-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    padding: 5px;
+    margin-right: 15px;
+    color: white;
+    transition: transform 0.2s;
+}
+
+.main-menu-icon:active {
+    transform: scale(0.9);
+}
+
+.main-menu-icon .material-icons {
+    font-size: 32px;
+}
+
+.main-menu-drawer {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    max-width: none;
+    height: 100%;
+    background: var(--drawer-bg);
+    color: var(--drawer-text);
+    z-index: 500; /* Higher than other drawers */
+    transform: translateX(-100%);
+    transition: transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+    display: flex;
+    flex-direction: column;
+    box-shadow: 10px 0 30px rgba(0, 0, 0, 0.15);
+}
+
+.main-menu-drawer.active {
+    transform: translateX(0);
+}
+
+.drawer-title {
+    font-size: 1.2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+}
+
+.main-menu-content {
+    flex: 1;
+    overflow-y: auto;
+}
+
+.main-menu-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.main-menu-list li {
+    padding: 15px 20px;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 1rem;
+    color: #333;
+    transition: background 0.2s;
+}
+
+.main-menu-list li:hover {
+    background: rgba(0, 0, 0, 0.03);
+}
+
+.main-menu-list li.separator {
+    height: 10px;
+    background: rgba(0, 0, 0, 0.03);
+    border-bottom: none;
+    padding: 0;
+    cursor: default;
+}
+
+.menu-text {
+    flex: 1;
+}
+
+.external-link-icon {
+    font-size: 18px;
+    color: #999;
+}
+
+.lang-icon-menu {
+    width: 28px;
+    height: 20px;
+    margin-left: 10px;
+}
+
+/* Accordion */
+.accordion-item {
+    display: block !important; /* Override flex */
+    padding: 0 !important;
+}
+
+.accordion-header {
+    display: flex;
+    align-items: center;
+    padding: 15px 20px;
+    cursor: pointer;
+}
+
+.accordion-icon {
+    transition: transform 0.3s;
+}
+
+.accordion-item.expanded .accordion-icon {
+    transform: rotate(180deg);
+}
+
+.accordion-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease-in-out;
+    background: rgba(0, 0, 0, 0.03);
+    list-style: none;
+}
+
+.accordion-item.expanded .accordion-content {
+    max-height: 200px;
+}
+
+.accordion-content li {
+    padding-left: 40px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    font-size: 0.95rem;
+}
+
+.main-menu-footer {
+    padding: 20px;
+    text-align: center;
+    background: var(--drawer-bg);
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
+
+#menu-version {
+    font-size: 0.8rem;
+    color: #999;
+    font-weight: bold;
+}
+
+/* --- CONFIRM MODAL --- */
+#confirm-modal {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    z-index: 8000;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s;
+}
+
+#confirm-modal.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.confirm-box {
+    background: #fff;
+    color: #333;
+    padding: 25px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 350px;
+    text-align: center;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
+}
+
+.confirm-box h3 {
+    margin: 0 0 15px 0;
+    font-size: 1.2rem;
+    text-transform: uppercase;
+}
+
+.confirm-box p {
+    font-size: 1rem;
+    margin-bottom: 25px;
+    color: #555;
+    line-height: 1.4;
+}
+
+.confirm-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+}
+
+.confirm-btn {
+    padding: 10px 20px;
+    border-radius: 4px;
+    border: none;
+    font-weight: bold;
+    cursor: pointer;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    transition: background 0.2s;
+}
+
+.confirm-btn.yes {
+    background: var(--primary-color);
+    color: white;
+}
+
+.confirm-btn.no {
+    background: #ddd;
+    color: #333;
+}
+
+
 /* ==========================================================================
    MEDIA QUERIES - MOBILE FIRST STRATEGY
    ========================================================================== */
@@ -2051,6 +2276,11 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     .drawer-fav-timeline {
         width: 85%;
         max-width: 420px;
+    }
+
+    .main-menu-drawer {
+        width: 85%;
+        max-width: 350px;
     }
 
     .drawer-header {

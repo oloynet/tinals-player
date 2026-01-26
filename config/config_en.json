@@ -80,6 +80,23 @@
         "ticket_artists_count_label": "{count} artists are coming to the festival",
 
         "error_video_playback": "Problem playing the video",
-        "error_video_suggestion": "Please reload the page to try again"
+        "error_video_suggestion": "Please reload the page to try again",
+
+        "menu_program": "Program",
+        "menu_favorites": "My Favorites",
+        "menu_timeline": "Timeline",
+        "menu_ticketing": "Ticketing",
+        "menu_language": "Version française",
+        "menu_news": "News",
+        "menu_practical": "Accommodation & Catering",
+        "menu_map": "Map",
+        "menu_website": "Official Website",
+        "menu_settings": "Settings",
+        "menu_install": "Installation / Uninstall",
+        "menu_reload": "Reload",
+        "menu_reload_confirm_title": "Reload App",
+        "menu_reload_confirm_text": "Do you really want to clear the cache and reload the application?",
+        "menu_uninstall_confirm_title": "Uninstall App",
+        "menu_uninstall_confirm_text": "Do you really want to uninstall the application?"
     }
 }
