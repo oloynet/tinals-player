@@ -2082,6 +2082,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     font-size: 1.2rem;
     font-weight: 900;
     text-transform: uppercase;
+    cursor: pointer;
 }
 
 .drawer-title .menu-logo {
