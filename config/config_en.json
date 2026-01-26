@@ -107,14 +107,15 @@
         "features_modal_close": "Close",
 
         "about_title": "About",
-        "about_organized_by": "Organized by",
-        "about_developer": "Development",
-        "about_follow_us": "Follow us on Facebook",
         "about_close": "Close",
         "about_festival_desc": "An indie rock festival in Nîmes, France",
+        "about_organized_by": "Organized by",
         "about_media_inter": "(Inter)national Media Contacts",
         "about_media_local": "Local Media Contact",
         "about_press_officer": "Press Officer",
-        "about_comm_manager": "Head of Communication and Public Relations at Paloma"
+        "about_comm_manager": "Head of Communication and Public Relations at Paloma",
+        "about_developer": "Development",
+        "about_development": "No cookies, just the essentials. We believe that your browsing experience should not be commodified. That's why our app works without any cookies and does not collect any personal data without your knowledge. We focus on what really matters: offering you the best possible experience while guaranteeing your complete anonymity.",
+        "about_follow_us": "Follow us on Facebook"
     }
 }

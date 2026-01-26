@@ -107,14 +107,15 @@
         "features_modal_close": "Fermer",
 
         "about_title": "A propos",
-        "about_organized_by": "Organisé par",
-        "about_developer": "Développement",
-        "about_follow_us": "Suivez-nous sur Facebook",
         "about_close": "Fermer",
         "about_festival_desc": "Un festival indie rock à Nîmes, France",
+        "about_organized_by": "Organisé par",
         "about_media_inter": "Contacts médias (inter)nationaux",
         "about_media_local": "Contact médias locaux",
         "about_press_officer": "Attachée de presse",
-        "about_comm_manager": "Responsable communication et relations publiques de Paloma"
+        "about_comm_manager": "Responsable communication et relations publiques de Paloma",
+        "about_developer": "Développement",
+        "about_developement": "Pas de cookies, juste l'essentiel. Nous croyons que votre navigation ne devrait pas être une marchandise. C’est pourquoi notre application fonctionne sans aucun cookie et ne collecte aucune donnée personnelle à votre insu. Nous nous concentrons sur ce qui compte vraiment : vous offrir la meilleure expérience possible, tout en garantissant votre anonymat total.",
+        "about_follow_us": "Suivez-nous sur Facebook"
     }
 }
