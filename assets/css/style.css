@@ -1360,7 +1360,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 0 20px;
+    padding: 0 12px 0 10px;
     transition: transform 0.4s ease;
 }
 
@@ -2038,6 +2038,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     justify-content: center;
     cursor: pointer;
     padding: 5px;
+    padding-left: 0;
     /* margin-right: 15px; */
     color: white;
     transition: transform 0.2s;
@@ -2271,6 +2272,11 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
 /* --- TABLET (min-width: 640px) --- */
 @media (min-width: 640px) {
+
+    .bar-top {
+        padding: 0 20px;
+    }
+
     .menu-logo {
         width: 100px;
     }
@@ -2498,6 +2504,10 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
 /* --- DESKTOP (min-width: 1024px) --- */
 @media (min-width: 1024px) {
+
+    .bar-top {
+        padding: 0 30px;
+    }
 
     /* --- BOX TITLE --- */
 
