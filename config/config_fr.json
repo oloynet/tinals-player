@@ -80,6 +80,23 @@
         "ticket_artists_count_label": "{count} groupes viennent au festival",
 
         "error_video_playback": "Problème de lecture de la vidéo",
-        "error_video_suggestion": "Veuillez recharger la page pour réessayer"
+        "error_video_suggestion": "Veuillez recharger la page pour réessayer",
+
+        "menu_program": "Programmation",
+        "menu_favorites": "Mes favoris",
+        "menu_timeline": "Timeline",
+        "menu_ticketing": "Billetterie",
+        "menu_language": "English version",
+        "menu_news": "Actualités",
+        "menu_practical": "Hébergement & Restauration",
+        "menu_map": "Plan",
+        "menu_website": "Site officiel",
+        "menu_settings": "Paramètres",
+        "menu_install": "Installation / Désinstallation",
+        "menu_reload": "Recharger",
+        "menu_reload_confirm_title": "Recharger l'application",
+        "menu_reload_confirm_text": "Voulez-vous vraiment effacer le cache et recharger l'application ?",
+        "menu_uninstall_confirm_title": "Désinstaller l'application",
+        "menu_uninstall_confirm_text": "Voulez-vous vraiment désinstaller l'application ?"
     }
 }

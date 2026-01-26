@@ -14,6 +14,7 @@ const AppState = {
         isPlayingFavorites: false,
         currentTagFilter: null,
         isGlobalMuted: false,
+        isMainMenuOpen: false,
         shareUrl: ""
     },
     timers: {
@@ -502,6 +503,15 @@ function applyConfigs() {
         }
 
         // DESACTIVATE document.querySelector( 'link[rel="manifest"]' ).href = URL.createObjectURL( blob );
+
+        // Update menu lang icon
+        const menuLangIconUse = document.getElementById('menu-lang-icon-use');
+        if (menuLangIconUse && c.images) {
+             const targetFlagId = AppState.currentLang === 'fr' ? c.images.flag_en_id : c.images.flag_fr_id;
+             const href = `${c.images.sprite_path}#${targetFlagId}`;
+             menuLangIconUse.setAttribute( 'href', href );
+             menuLangIconUse.setAttributeNS( 'http://www.w3.org/1999/xlink', 'href', href );
+        }
     }
 }
 
@@ -530,6 +540,25 @@ function updateStaticTexts() {
     document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
     document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+
+    // Main Menu Texts
+    const setText = (id, text) => {
+        const el = document.getElementById(id);
+        if(el) el.innerText = text;
+    };
+    setText('menu-txt-program', t.menu_program);
+    setText('menu-txt-favorites', t.menu_favorites);
+    setText('menu-txt-timeline', t.menu_timeline);
+    setText('menu-txt-ticketing', t.menu_ticketing);
+    setText('menu-txt-language', t.menu_language);
+    setText('menu-txt-news', t.menu_news);
+    setText('menu-txt-practical', t.menu_practical);
+    setText('menu-txt-map', t.menu_map);
+    setText('menu-txt-website', t.menu_website);
+    setText('menu-txt-settings', t.menu_settings);
+    setText('menu-txt-install', t.menu_install);
+    setText('menu-txt-reload', t.menu_reload);
+    setText('menu-version', AppState.settings.versionNumber);
 
     if (AppState.state.currentTagFilter) {
         renderTagFilterBar();
@@ -703,6 +732,175 @@ function toggleLanguage() {
     url.searchParams.set( 'lang', newLang );
     window.location.href = url.href;
 }
+
+/* MAIN MENU */
+
+function toggleMainMenu() {
+    const drawer = document.getElementById('main-menu-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    if (!drawer) return;
+
+    if (AppState.state.isMainMenuOpen) {
+        closeMainMenu();
+    } else {
+        closeFavTimelineDrawers(); // Close other drawers first
+        drawer.classList.add('active');
+        overlay.classList.add('active');
+        AppState.state.isMainMenuOpen = true;
+    }
+}
+
+function closeMainMenu() {
+    const drawer = document.getElementById('main-menu-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    if (drawer) drawer.classList.remove('active');
+
+    // Only remove overlay if other drawers are not active (should be handled by closeFavTimelineDrawers too but let's be safe)
+    // Actually overlay is shared.
+    // If we close main menu, we should check if others are open?
+    // But typically we treat overlay as "one modal/drawer open".
+    if(overlay) overlay.classList.remove('active');
+
+    AppState.state.isMainMenuOpen = false;
+}
+
+function handleMenuAction(action) {
+    const s = AppState.settings;
+    const links = AppState.config.external_links;
+
+    switch (action) {
+        case 'program':
+            closeMainMenu();
+            scrollToFirstVideo();
+            break;
+        case 'favorites':
+            closeMainMenu();
+            setTimeout(() => toggleFavTimelineDrawer('favorites'), 300);
+            break;
+        case 'timeline':
+            closeMainMenu();
+            setTimeout(() => toggleFavTimelineDrawer('timeline'), 300);
+            break;
+        case 'ticketing':
+            closeMainMenu();
+            scrollToTicketing();
+            break;
+        case 'language':
+            closeMainMenu();
+            toggleLanguage();
+            break;
+        case 'news':
+            if(links.news) window.open(links.news, '_blank');
+            closeMainMenu();
+            break;
+        case 'practical':
+            if(links.practical) window.open(links.practical, '_blank');
+            closeMainMenu();
+            break;
+        case 'map':
+            if(links.google_maps_dir) window.open(links.google_maps_dir, '_blank');
+            closeMainMenu();
+            break;
+        case 'website':
+            if(links.home) window.open(links.home, '_blank');
+            closeMainMenu();
+            break;
+        case 'install':
+            // Logic for installation / uninstall
+            triggerInstallOrUninstall();
+            break;
+        case 'reload':
+            triggerReload();
+            break;
+        default:
+            break;
+    }
+}
+
+function toggleSettingsAccordion() {
+    const item = document.querySelector('.accordion-item');
+    if(item) {
+        item.classList.toggle('expanded');
+    }
+}
+
+function triggerInstallOrUninstall() {
+    const isInstalled = localStorage.getItem('app_installed') === 'true';
+    if (isInstalled) {
+        // App is installed, ask for "uninstall" (reset)
+        openConfirmModal(
+            AppState.config.texts.menu_uninstall_confirm_title,
+            AppState.config.texts.menu_uninstall_confirm_text,
+            () => {
+                reloadApp(); // "Uninstall" via clearing data
+            }
+        );
+    } else {
+        // App is not installed, show install prompt
+        closeMainMenu();
+        PWAManager.showModal();
+    }
+}
+
+function triggerReload() {
+    openConfirmModal(
+        AppState.config.texts.menu_reload_confirm_title,
+        AppState.config.texts.menu_reload_confirm_text,
+        () => {
+            reloadApp();
+        }
+    );
+}
+
+async function reloadApp() {
+    // Unregister SW
+    if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (let registration of registrations) {
+            await registration.unregister();
+        }
+    }
+    // Clear Caches
+    if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(key => caches.delete(key)));
+    }
+    // Clear LocalStorage (optional but good for hard reset)
+    // localStorage.clear(); // Maybe too aggressive if we want to keep favorites?
+    // User said "clear local cache". Usually implies SW cache.
+    // I'll stick to SW and Caches.
+
+    window.location.reload(true);
+}
+
+/* CONFIRM MODAL */
+
+let confirmCallback = null;
+
+function openConfirmModal(title, text, onYes) {
+    const modal = document.getElementById('confirm-modal');
+    document.getElementById('confirm-title').innerText = title;
+    document.getElementById('confirm-text').innerText = text;
+    confirmCallback = onYes;
+    modal.classList.add('active');
+}
+
+function closeConfirmModal() {
+    const modal = document.getElementById('confirm-modal');
+    modal.classList.remove('active');
+    confirmCallback = null;
+}
+
+// Bind confirm yes button
+document.addEventListener('DOMContentLoaded', () => {
+    const btnYes = document.getElementById('btn-confirm-yes');
+    if(btnYes) {
+        btnYes.addEventListener('click', () => {
+            if(confirmCallback) confirmCallback();
+            closeConfirmModal();
+        });
+    }
+});
 
 
 function toggleMute() {
@@ -1301,7 +1499,7 @@ function setupKeyboardControls() {
                 return;
             }
             const drawers = document.querySelectorAll( '.drawer-fav-timeline.active' );
-            if ( drawers.length > 0 ) {
+            if ( drawers.length > 0 || AppState.state.isMainMenuOpen ) {
                 closeFavTimelineDrawers();
                 return;
             }
@@ -1716,16 +1914,23 @@ function closeFavTimelineDrawers() {
     document.querySelectorAll( '.drawer-fav-timeline' ).forEach( el => el.classList.remove( 'active' ) );
     document.getElementById( 'drawer-overlay' ).classList.remove( 'active' );
 
+    // Also close main menu if open
+    if(AppState.state.isMainMenuOpen) {
+        closeMainMenu();
+    }
+
     const btnFloat   = document.getElementById( 'btn-drawer-favorites' );
     const icon       = btnFloat.querySelector( '.material-icons:not(.btn-bg)' );
-    icon.textContent = 'bookmarks';
-    updateFavoritesIcon();
+    if (icon) {
+        icon.textContent = 'bookmarks';
+        updateFavoritesIcon();
+    }
 }
 
 
 function closeDrawerIfOpen() {
     const drawer = document.getElementById( 'fav-timeline-drawer' );
-    if ( drawer.classList.contains( 'active' ) ) {
+    if ( drawer.classList.contains( 'active' ) || AppState.state.isMainMenuOpen ) {
         closeFavTimelineDrawers();
         return true;
     }
