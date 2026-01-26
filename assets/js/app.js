@@ -580,6 +580,7 @@ function updateStaticTexts() {
         document.querySelectorAll('.txt-about-press-officer').forEach(el => el.innerText  = t.about_press_officer);
     }
     if(t.about_developer) document.getElementById('txt-about-developer').innerText        = t.about_developer;
+    if(t.about_development) document.getElementById('txt-about-development').innerText    = t.about_development;
     if(t.about_follow_us) document.getElementById('txt-about-follow-us').innerText        = t.about_follow_us;
     if(t.about_close) document.getElementById('btn-close-about').innerText                = t.about_close;
 
