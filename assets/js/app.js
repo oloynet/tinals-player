@@ -226,7 +226,7 @@ function isLandscape() {
 
 function handleOrientationChange() {
     const s         = AppState.settings;
-    const topDrawer = document.getElementById( 'top-menu' );
+    const topDrawer = document.getElementById( 'top-bar' );
     const tm        = AppState.timers;
 
     if ( AppState.state.activeId !== null ) {
@@ -1828,7 +1828,7 @@ const PWAManager = {
 
 
 function setupMenuObserver() {
-    const menu = document.getElementById('top-menu');
+    const menu = document.getElementById('top-bar');
     if (!menu) return;
 
     const observer = new MutationObserver((mutations) => {
