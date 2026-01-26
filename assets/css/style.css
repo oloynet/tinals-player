@@ -2078,6 +2078,10 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     text-transform: uppercase;
 }
 
+.drawer-title .menu-logo {
+    filter: invert(1);
+}
+
 .main-menu-content {
     flex: 1;
     overflow-y: auto;

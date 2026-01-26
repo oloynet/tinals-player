@@ -140,7 +140,11 @@
 
     <aside id="main-menu-drawer" class="main-menu-drawer">
         <div class="drawer-header">
-            <span class="drawer-title">MENU</span>
+            <span class="drawer-title">
+                <svg class="menu-logo">
+                    <use href="assets/images/sprite.svg?v1.23#logo-menu"></use>
+                </svg>
+            </span>
             <button class="material-icons btn-close-drawer" onclick="closeMainMenu()" aria-label="Fermer le menu">close</button>
         </div>
         <div class="main-menu-content">
@@ -164,6 +168,7 @@
                 <li onclick="handleMenuAction('news')"><span class="menu-text" id="menu-txt-news">Actualités</span> <span class="material-icons external-link-icon">open_in_new</span></li>
                 <li onclick="handleMenuAction('practical')"><span class="menu-text" id="menu-txt-practical">Infos Pratiques</span> <span class="material-icons external-link-icon">open_in_new</span></li>
                 <li onclick="handleMenuAction('map')"><span class="menu-text" id="menu-txt-map">Plan</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+                <li onclick="handleMenuAction('pro_area')"><span class="menu-text" id="menu-txt-pro-area">Espace Pro</span> <span class="material-icons external-link-icon">open_in_new</span></li>
 
                 <li class="separator"></li>
 
