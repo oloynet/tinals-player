@@ -82,6 +82,36 @@
             <button id="btn-close-features" class="close-features" onclick="closeFeaturesModal()">Close</button>
         </div>
     </div>
+    <div id="about-modal">
+        <div class="about-box">
+            <h3 id="about-title">A propos</h3>
+            <div class="about-content">
+                <h4 class="about-section-title">Festival indie rock</h4>
+                <ul class="about-list">
+                    <li><a href="https://thisisnotalovesong.fr/" target="_blank">This Is Not A Love Song (TINALS)</a></li>
+                    <li>
+                        <span id="txt-about-organized-by">Organisé par</span>
+                        <ul class="about-sublist">
+                            <li><a href="https://www.comeonpeople.fr/" target="_blank">Come On people</a></li>
+                            <li><a href="https://paloma-nimes.fr/" target="_blank">SMAC Paloma Nîmes Métropole</a></li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h4 class="about-section-title" id="txt-about-developer">Développeur</h4>
+                <ul class="about-list">
+                    <li>Olivier LOYNET</li>
+                    <li><a href="tel:+33668055252">Phone +33.668055252</a></li>
+                    <li><a href="mailto:olivierloynet@gmail.com">Email olivierloynet@gmail.com</a></li>
+                </ul>
+
+                <div class="about-social">
+                    <a href="https://www.facebook.com/thisisnotalovesongfestival/" target="_blank" id="txt-about-follow-us">Suivez-nous sur Facebook</a>
+                </div>
+            </div>
+            <button id="btn-close-about" class="close-features" onclick="closeAboutModal()">Fermer</button>
+        </div>
+    </div>
     <div id="share-box-modal">
         <div class="share-box">
             <h3 id="share-title-text">&nbsp;</h3>
@@ -183,6 +213,10 @@
                         <li onclick="handleMenuAction('reload')"><span class="menu-text" id="menu-txt-reload">Recharger</span></li>
                     </ul>
                 </li>
+
+                <li class="separator"></li>
+
+                <li onclick="handleMenuAction('about')"><span class="menu-text" id="menu-txt-about">A propos</span></li>
             </ul>
         </div>
         <div class="main-menu-footer">

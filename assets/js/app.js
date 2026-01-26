@@ -565,7 +565,15 @@ function updateStaticTexts() {
     setText('menu-txt-settings', t.menu_settings);
     setText('menu-txt-install', t.menu_install);
     setText('menu-txt-reload', t.menu_reload);
+    setText('menu-txt-about', t.menu_about);
     setText('menu-version', AppState.settings.versionNumber);
+
+    // About Modal
+    if(t.about_title) document.getElementById('about-title').innerText = t.about_title;
+    if(t.about_organized_by) document.getElementById('txt-about-organized-by').innerText = t.about_organized_by;
+    if(t.about_developer) document.getElementById('txt-about-developer').innerText = t.about_developer;
+    if(t.about_follow_us) document.getElementById('txt-about-follow-us').innerText = t.about_follow_us;
+    if(t.about_close) document.getElementById('btn-close-about').innerText = t.about_close;
 
     if (AppState.state.currentTagFilter) {
         renderTagFilterBar();
@@ -831,6 +839,10 @@ function handleMenuAction(action) {
         case 'reload':
             triggerReload();
             break;
+        case 'about':
+            closeMainMenu();
+            openAboutModal();
+            break;
         default:
             break;
     }
@@ -865,6 +877,16 @@ function openFeaturesModal() {
 
 function closeFeaturesModal() {
     const modal = document.getElementById('features-modal');
+    if(modal) modal.classList.remove('active');
+}
+
+function openAboutModal() {
+    const modal = document.getElementById('about-modal');
+    if(modal) modal.classList.add('active');
+}
+
+function closeAboutModal() {
+    const modal = document.getElementById('about-modal');
     if(modal) modal.classList.remove('active');
 }
 
