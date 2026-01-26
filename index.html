@@ -205,44 +205,46 @@
         </div>
         <div class="main-menu-content">
             <ul class="main-menu-list">
-                <li onclick="handleMenuAction('home')"><span class="menu-text" id="menu-txt-home">Home</span></li>
-                <li onclick="handleMenuAction('program')"><span class="menu-text" id="menu-txt-program">Programmation</span></li>
-                <li onclick="handleMenuAction('favorites')"><span class="menu-text" id="menu-txt-favorites">Mes favoris</span></li>
-                <li onclick="handleMenuAction('timeline')"><span class="menu-text" id="menu-txt-timeline">Timeline</span></li>
-                <li onclick="handleMenuAction('ticketing')"><span class="menu-text" id="menu-txt-ticketing">Billetterie</span></li>
+                <li onclick="handleMenuAction('home')"><span class="material-icons menu-icon">home</span><span class="menu-text" id="menu-txt-home">Home</span></li>
+                <li onclick="handleMenuAction('program')"><span class="material-icons menu-icon">video_library</span><span class="menu-text" id="menu-txt-program">Programmation</span></li>
+                <li onclick="handleMenuAction('favorites')"><span class="material-icons menu-icon">bookmarks</span><span class="menu-text" id="menu-txt-favorites">Mes favoris</span></li>
+                <li onclick="handleMenuAction('timeline')"><span class="material-icons menu-icon">event_note</span><span class="menu-text" id="menu-txt-timeline">Timeline</span></li>
+                <li onclick="handleMenuAction('ticketing')"><span class="material-icons menu-icon">confirmation_number</span><span class="menu-text" id="menu-txt-ticketing">Billetterie</span></li>
 
                 <li class="separator"></li>
 
                 <li onclick="handleMenuAction('language')">
+                    <span class="material-icons menu-icon">language</span>
                     <span class="menu-text" id="menu-txt-language">Changer de langue</span>
                     <svg class="lang-icon-menu"><use id="menu-lang-icon-use" href=""></use></svg>
                 </li>
 
                 <li class="separator"></li>
 
-                <li onclick="handleMenuAction('website')"><span class="menu-text" id="menu-txt-website">Site Officiel</span> <span class="material-icons external-link-icon">open_in_new</span></li>
-                <li onclick="handleMenuAction('news')"><span class="menu-text" id="menu-txt-news">Actualités</span> <span class="material-icons external-link-icon">open_in_new</span></li>
-                <li onclick="handleMenuAction('practical')"><span class="menu-text" id="menu-txt-practical">Infos Pratiques</span> <span class="material-icons external-link-icon">open_in_new</span></li>
-                <li onclick="handleMenuAction('map')"><span class="menu-text" id="menu-txt-map">Plan</span> <span class="material-icons external-link-icon">open_in_new</span></li>
-                <li onclick="handleMenuAction('pro_area')"><span class="menu-text" id="menu-txt-pro-area">Espace Pro</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+                <li onclick="handleMenuAction('website')"><span class="material-icons menu-icon">link</span><span class="menu-text" id="menu-txt-website">Site Officiel</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+                <li onclick="handleMenuAction('news')"><span class="material-icons menu-icon">textsms</span><span class="menu-text" id="menu-txt-news">Actualités</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+                <li onclick="handleMenuAction('practical')"><span class="material-icons menu-icon">hotel</span><span class="menu-text" id="menu-txt-practical">Infos Pratiques</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+                <li onclick="handleMenuAction('map')"><span class="material-icons menu-icon">map</span><span class="menu-text" id="menu-txt-map">Plan</span> <span class="material-icons external-link-icon">open_in_new</span></li>
+                <li onclick="handleMenuAction('pro_area')"><span class="material-icons menu-icon">person</span><span class="menu-text" id="menu-txt-pro-area">Espace Pro</span> <span class="material-icons external-link-icon">open_in_new</span></li>
 
                 <li class="separator"></li>
 
                 <li class="accordion-item">
                     <div class="accordion-header" onclick="toggleSettingsAccordion()">
+                        <span class="material-icons menu-icon">settings</span>
                         <span class="menu-text" id="menu-txt-settings">Paramètres</span>
                         <span class="material-icons accordion-icon">expand_more</span>
                     </div>
                     <ul class="accordion-content" id="settings-accordion">
-                        <li onclick="handleMenuAction('features')"><span class="menu-text" id="menu-txt-features">Features</span></li>
-                        <li onclick="handleMenuAction('install')"><span class="menu-text" id="menu-txt-install">Installation</span></li>
-                        <li onclick="handleMenuAction('reload')"><span class="menu-text" id="menu-txt-reload">Recharger</span></li>
+                        <li onclick="handleMenuAction('features')"><span class="material-icons menu-icon">list</span><span class="menu-text" id="menu-txt-features">Features</span></li>
+                        <li onclick="handleMenuAction('install')"><span class="material-icons menu-icon">system_update</span><span class="menu-text" id="menu-txt-install">Installation</span></li>
+                        <li onclick="handleMenuAction('reload')"><span class="material-icons menu-icon">cached</span><span class="menu-text" id="menu-txt-reload">Recharger</span></li>
                     </ul>
                 </li>
 
                 <li class="separator"></li>
 
-                <li onclick="handleMenuAction('about')"><span class="menu-text" id="menu-txt-about">A propos</span></li>
+                <li onclick="handleMenuAction('about')"><span class="material-icons menu-icon">info</span><span class="menu-text" id="menu-txt-about">A propos</span></li>
             </ul>
         </div>
         <div class="main-menu-footer">
