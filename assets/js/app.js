@@ -2168,7 +2168,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.26' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.27' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
