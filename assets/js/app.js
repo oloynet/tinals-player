@@ -560,6 +560,7 @@ function updateStaticTexts() {
     setText('menu-txt-news', t.menu_news);
     setText('menu-txt-practical', t.menu_practical);
     setText('menu-txt-map', t.menu_map);
+    setText('menu-txt-pro-area', t.menu_pro_area);
     setText('menu-txt-website', t.menu_website);
     setText('menu-txt-settings', t.menu_settings);
     setText('menu-txt-install', t.menu_install);
@@ -809,6 +810,10 @@ function handleMenuAction(action) {
             break;
         case 'map':
             if(links.google_maps_dir) window.open(links.google_maps_dir, '_blank');
+            closeMainMenu();
+            break;
+        case 'pro_area':
+            if(links.professional_area) window.open(links.professional_area, '_blank');
             closeMainMenu();
             break;
         case 'website':
