@@ -1571,10 +1571,11 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     text-transform: uppercase;
 }
 
-#install-text {
+#install-text,
+.install-box-modal p {
     font-size: 1rem;
-    margin-bottom: 30px;
-    line-height: 1.5;
+    margin-bottom: 25px;
+    line-height: 1.4;
     color: #555;
 }
 
@@ -1702,7 +1703,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     cursor: pointer;
     font-size: 1rem;
     color: white;
-    background: #555;
+    background: var(--primary-color);
     transition: transform 0.2s;
     text-transform: uppercase;
     align-self: center;
@@ -2594,7 +2595,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 .about-box {
-    background: #1a1a1a;
+    background: #fff;
     padding: 30px;
     border-radius: 15px;
     width: 90%;
@@ -2603,9 +2604,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     display: flex;
     flex-direction: column;
     text-align: center;
-    color: white;
+    color: #333;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .about-box h3 {
@@ -2630,7 +2630,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     margin-bottom: 10px;
     text-transform: uppercase;
     font-size: 1rem;
-    border-bottom: 1px solid rgba(255,255,255,0.1);
+    border-bottom: 1px solid rgba(0,0,0,0.1);
     padding-bottom: 5px;
 }
 
@@ -2651,7 +2651,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 .about-list a {
-    color: white;
+    color: #333;
     text-decoration: none;
     transition: color 0.2s;
 }
@@ -2665,7 +2665,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     list-style: none;
     padding-left: 20px;
     margin-top: 5px;
-    border-left: 2px solid rgba(255,255,255,0.1);
+    border-left: 2px solid rgba(0,0,0,0.1);
 }
 
 .about-sublist li {
@@ -2677,7 +2677,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     margin-top: 20px;
     text-align: center;
     padding-top: 10px;
-    border-top: 1px solid rgba(255,255,255,0.1);
+    border-top: 1px solid rgba(0,0,0,0.1);
 }
 
 .about-social a {
