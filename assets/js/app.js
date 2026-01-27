@@ -572,6 +572,7 @@ function updateStaticTexts() {
     setText('menu-txt-settings',  t.menu_settings);
     setText('menu-txt-features',  t.menu_features);
     setText('menu-txt-install',   t.menu_install);
+    setText('menu-txt-check-version', t.menu_check_version);
     setText('menu-txt-reload',    t.menu_reload);
     setText('menu-txt-about',     t.menu_about);
     setText('menu-version', AppState.settings.versionNumber);
@@ -853,6 +854,10 @@ function handleMenuAction(action) {
             // Logic for installation / uninstall
             triggerInstallOrUninstall();
             break;
+        case 'check_version':
+            closeMainMenu();
+            checkVersion(true);
+            break;
         case 'reload':
             triggerReload();
             break;
@@ -963,7 +968,7 @@ async function reloadApp() {
     window.location.reload(true);
 }
 
-async function checkVersion() {
+async function checkVersion(manualCheck = false) {
     try {
         const response = await fetch(`./VERSION?t=${Date.now()}`);
         if (!response.ok) return;
@@ -981,6 +986,8 @@ async function checkVersion() {
                     reloadApp();
                 }
             );
+        } else if (manualCheck) {
+            showToast(AppState.config.texts.msg_up_to_date);
         }
     } catch (e) {
         console.error("Error checking version:", e);
