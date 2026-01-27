@@ -198,7 +198,7 @@ async function init() {
         setupKeyboardControls();
         setupHapticFeedback();
         updateFavoritesIcon();
-        updateStaticTexts();
+        updateStaticTextsxxxx();
 
         if ( AppState.settings.isAppInstall ) {
             PWAManager.init();
@@ -214,12 +214,19 @@ async function init() {
         const loader = document.getElementById( 'loader' );
         if ( loader ) {
             loader.innerHTML = `
-            <div style="text-align: center; color: white;">
-                <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur de chargement de l'application TINALS<br />Error loading the TINALS application</h1>
-                <p class='loader-error-msg' style="margin-bottom: 30px;">
-                FR: Le problème trouve souvent son origine dans le système de cache du navigateur.<br>
-                EN: The problem often originates in the browser's cache system.</p>
-                <button class="intro-btn" onclick="reloadApp()">Réinitialiser / Reload</button>
+            <div class="console-error" style="text-align: center; color: white;margin: 0 40px;">
+                <div>
+                    <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur de chargement de l'application TINALS<br />/<br />Error loading the TINALS application</h1>
+                    <p class='loader-error-msg' style="margin-bottom: 30px;">
+                    FR: Le problème trouve souvent son origine dans le système de cache du navigateur.<br>
+                    EN: The problem often originates in the browser's cache system.</p>
+                </div>
+                <div style="margin-bottom: 20px;">
+                    Message JS
+                </div>
+                <div>
+                    <button class="intro-btn" onclick="reloadApp()">Réinitialiser / Reload</button>
+                </div>
             </div>`;
         }
     }
