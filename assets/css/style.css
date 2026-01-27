@@ -1384,7 +1384,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     display: flex;
     /* justify-content: space-between; */
     align-items: center;
-    padding: 0 12px 0 10px;
+    padding: 0 10px 0 5px;
     transition: transform 0.4s ease;
 }
 
@@ -1395,12 +1395,15 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 /* --- BAR TOP : MENU LOGO --- */
 
 .bar-top .logo-container {
-    /* width: 150px; */
+    width: auto;
     height: 35px;
     display: flex;
     flex: 0 0 content;
     align-items: center;
     cursor: pointer;
+    padding: 0;
+    margin: 0;
+    margin-right: 10px;
 }
 
 
@@ -1436,7 +1439,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     border-radius: 25px;
     text-decoration: none;
     font-weight: bold;
-    font-size: 9px;
+    font-size: 0.7em;
     border: none;
     cursor: pointer;
 }
@@ -2078,13 +2081,13 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
 .bar-top .main-menu-icon {
     display: flex;
-    flex: 0 0 38px;
+    flex: 0 0 content;
     align-items: center;
     justify-content: center;
     cursor: pointer;
-    padding: 5px;
-    padding-left: 0;
-    /* margin-right: 15px; */
+    padding: 0;
+    margin: 0;
+    margin-right: 10px;
     color: white;
     transition: transform 0.2s;
 }
@@ -2486,10 +2489,6 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     /* --- bar-top --- */
 
     .bar-top .main-menu-icon {
-        display: flex;
-        padding: 20px;
-        padding-left: 0;
-        flex: 0 0 content;
     }
 
 
@@ -2499,12 +2498,12 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
     .bar-top .header-actions .btn-program {
         padding: 10px 18px;
-        font-size: 11px;
+        font-size: 0.7em;
     }
 
     .bar-top .header-actions .btn-ticket {
         padding: 10px 18px;
-        font-size: 11px;
+        font-size: 0.7em;
     }
 
     /* --- video-state-icon --- */
