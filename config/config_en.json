@@ -30,8 +30,15 @@
 
         "bar_sound_on": "Sound on",
         "bar_sound_off": "Sound off",
+
         "bar_top_page": "Page top",
         "bar_bottom_page": "Page footer",
+
+        "bar_filter_top_page": "You are on the first item<br />in the list filtered by tag",
+        "bar_filter_bottom_page": "You are on the last item<br />in the list filtered by tag",
+        "bar_fav_top_page": "You are on the first<br />of my list of favorites",
+        "bar_fav_bottom_page": "You are on the last item<br />of my list of favorites",
+
         "bar_fav_added": "Added to favorites",
         "bar_fav_removed": "Removed from favorites",
         "bar_share": "Share",
