@@ -1554,15 +1554,14 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 .install-box-modal {
-    background: #1a1a1a;
-    padding: 30px;
-    border-radius: 15px;
-    width: 90%;
-    max-width: 400px;
+    background: #fff;
+    color: #333;
+    padding: 25px;
+    border-radius: 12px;
+    width: 85%;
+    max-width: 350px;
     text-align: center;
-    color: white;
-    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.5);
 }
 
 .install-box-modal h3 {
@@ -1576,6 +1575,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     font-size: 1rem;
     margin-bottom: 30px;
     line-height: 1.5;
+    color: #555;
 }
 
 .install-buttons {
@@ -1605,7 +1605,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 .install-btn.no {
-    background: #555;
+    background: #ddd;
+    color: #333;
 }
 
 /* --- FEATURES MODAL --- */
@@ -1631,7 +1632,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 .features-box {
-    background: #1a1a1a;
+    background: var(--drawer-bg);
     padding: 30px;
     border-radius: 15px;
     width: 90%;
@@ -1640,9 +1641,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     display: flex;
     flex-direction: column;
     text-align: center;
-    color: white;
+    color: var(--drawer-text);
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
-    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .features-box h3 {
@@ -1666,7 +1666,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     justify-content: space-between;
     align-items: center;
     padding: 10px 0;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
     font-size: 0.9rem;
 }
 
@@ -1676,7 +1676,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
 .feature-key {
     font-weight: bold;
-    color: #ccc;
+    color: #555;
     flex: 1;
     word-break: break-all;
     margin-right: 15px;

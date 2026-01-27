@@ -546,12 +546,8 @@ function updateStaticTexts() {
     // Confirm Modal Buttons
     const btnYes   = document.getElementById('btn-confirm-yes');
     const btnNo    = document.getElementById('btn-confirm-no');
-    const btnOk    = document.getElementById('btn-confirm-ok');
-    const btnLater = document.getElementById('btn-confirm-later');
-    if (btnYes)   btnYes.innerText   = t.btn_yes   || 'Oui';
-    if (btnNo)    btnNo.innerText    = t.btn_no    || 'Non';
-    if (btnOk)    btnOk.innerText    = t.btn_ok    || 'OK';
-    if (btnLater) btnLater.innerText = t.btn_later || 'Plus tard';
+    if (btnYes)   btnYes.innerText   = t.btn_ok    || 'OK';
+    if (btnNo)    btnNo.innerText    = t.btn_later || 'Later';
 
     // Features Modal
     document.getElementById( 'features-title' ).innerText = t.features_modal_title;
@@ -1543,6 +1539,9 @@ function setupObserver() {
                     AppState.state.activeId = null;
                     if ( entry.target.id ) {
                         AppState.state.activeSection = entry.target.id;
+                        if ( entry.target.id === 'intro' ) {
+                            checkVersion();
+                        }
                     }
                     if ( AppState.state.previousId !== null && VideoManager.instances[ AppState.state.previousId ] && typeof VideoManager.instances[ AppState.state.previousId ].pauseVideo === 'function' ) {
                         VideoManager.instances[ AppState.state.previousId ].pauseVideo();
@@ -1618,6 +1617,22 @@ function setupKeyboardControls() {
             const shareModal = document.getElementById( 'share-box-modal' );
             if ( shareModal.classList.contains( 'active' ) ) {
                 closeShareModal();
+                return;
+            }
+            if ( document.getElementById('install-modal').classList.contains('active') ) {
+                PWAManager.dismiss();
+                return;
+            }
+            if ( document.getElementById('features-modal').classList.contains('active') ) {
+                closeFeaturesModal();
+                return;
+            }
+            if ( document.getElementById('about-modal').classList.contains('active') ) {
+                closeAboutModal();
+                return;
+            }
+            if ( document.getElementById('confirm-modal').classList.contains('active') ) {
+                closeConfirmModal();
                 return;
             }
             const drawers = document.querySelectorAll( '.drawer-fav-timeline.active' );
