@@ -2105,17 +2105,19 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 .main-menu-list li {
-    padding: 15px 20px;
-    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    font-weight: bold;
-    text-transform: uppercase;
-    font-size: 1rem;
-    color: #333;
-    transition: background 0.2s;
+  padding: 12px 20px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  font-weight: bold;
+  text-transform: uppercase;
+  font-size: 0.95rem;
+  color: #333;
+  transition: background 0.2s;
 }
+
+
 
 .main-menu-list li:hover {
     background: rgba(0, 0, 0, 0.03);
