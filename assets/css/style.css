@@ -82,22 +82,7 @@ body {
     transform-origin: center center;
 }
 
-/* Menu Logo */
-.logo-container {
-    /* width: 150px; */
-    height: 35px;
-    display: flex;
-    align-items: center;
-    cursor: pointer;
-    margin-right: 10px;
-}
 
-.menu-logo {
-    width: 80px;
-    height: auto;
-    aspect-ratio: 40 / 17;
-    fill: white;
-}
 
 /* Intro Logo */
 .intro-logo {
@@ -569,9 +554,9 @@ body.tag-filtering .ticketing-card {
 }
 
 .intro-note {
-    font-size: 0.85rem;
+    font-size: 1.1rem;
     opacity: 0.9;
-    font-style: italic;
+    font-style: normal;
     text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
 }
 
@@ -1381,7 +1366,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     visibility: visible;
 }
 
-/* --- HEADER & NAVIGATION --- */
+/* --- BAR TOP : HEADER & NAVIGATION --- */
+
 .bar-top {
     position: fixed;
     top: 0;
@@ -1400,13 +1386,33 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     transform: translateY(-100%);
 }
 
-.header-actions {
+/* --- BAR TOP : MENU LOGO --- */
+
+.bar-top .logo-container {
+    /* width: 150px; */
+    height: 35px;
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+    margin-right: 10px;
+}
+
+.bar-top .menu-logo {
+    width: 80px;
+    height: auto;
+    aspect-ratio: 40 / 17;
+    fill: white;
+}
+
+/* --- BAR TOP : HEADER ACTIONS --- */
+
+.bar-top .header-actions {
     display: flex;
     align-items: center;
     gap: 4px;
 }
 
-.btn-ticket {
+.bar-top .header-actions .btn-ticket {
     background: white;
     color: var(--primary-color);
     padding: 4px 8px;
@@ -1418,7 +1424,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     cursor: pointer;
 }
 
-.btn-program {
+.bar-top .header-actions .btn-program {
     background: transparent;
     color: white;
     padding: 4px 8px;
@@ -1430,7 +1436,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     cursor: pointer;
 }
 
-#btn-header-lang {
+.bar-top .header-actions #btn-header-lang {
     margin-left: 0;
     min-width: 24px;
     padding: 5px;
@@ -2330,6 +2336,10 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     #btn-header-lang {
         margin-left: 5px;
         min-width: 40px;
+    }
+
+    .intro-note {
+        font-size: 1.3rem;
     }
 
     /* --- INTRO-CARD --- */
