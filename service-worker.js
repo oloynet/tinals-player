@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v1.37';
+const CACHE_NAME = 'v1.38';
 
 const STATIC_ASSETS = [
     './',
@@ -8,6 +8,7 @@ const STATIC_ASSETS = [
     './config/config_en.json',
     './config/config_fr.json',
 
+    './data/2026/affiche-tinals.webp',
     './data/2026/data.json',
     './data/2026/images/16-horsepower.mobile.webp',
     './data/2026/images/16-horsepower.thumbnail.webp',
