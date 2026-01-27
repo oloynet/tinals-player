@@ -82,7 +82,13 @@ body {
     transform-origin: center center;
 }
 
-
+/* Menu Logo */
+.menu-logo {
+    width: 80px;
+    height: auto;
+    aspect-ratio: 40 / 17;
+    fill: white;
+}
 
 /* Intro Logo */
 .intro-logo {
@@ -1376,7 +1382,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     background: var(--primary-color);
     z-index: 100;
     display: flex;
-    justify-content: space-between;
+    /* justify-content: space-between; */
     align-items: center;
     padding: 0 12px 0 10px;
     transition: transform 0.4s ease;
@@ -1392,36 +1398,23 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     /* width: 150px; */
     height: 35px;
     display: flex;
+    flex: 0 0 content;
     align-items: center;
     cursor: pointer;
-    margin-right: 10px;
 }
 
-.menu-logo {
-    width: 80px;
-    height: auto;
-    aspect-ratio: 40 / 17;
-    fill: white;
-}
+
 
 /* --- BAR TOP : HEADER ACTIONS --- */
 
 .bar-top .header-actions {
     display: flex;
+    flex-grow: 1;
+    justify-content: flex-end;
     align-items: center;
     gap: 4px;
-}
 
-.bar-top .header-actions .btn-ticket {
-    background: white;
-    color: var(--primary-color);
-    padding: 4px 8px;
-    border-radius: 25px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 9px;
-    border: none;
-    cursor: pointer;
+    flex-basis: max-content;
 }
 
 .bar-top .header-actions .btn-program {
@@ -1433,6 +1426,18 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     font-weight: bold;
     font-size: 9px;
     border: 1px solid white;
+    cursor: pointer;
+}
+
+.bar-top .header-actions .btn-ticket {
+    background: white;
+    color: var(--primary-color);
+    padding: 4px 8px;
+    border-radius: 25px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 9px;
+    border: none;
     cursor: pointer;
 }
 
@@ -2071,8 +2076,9 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
 /* --- MAIN MENU (LEFT DRAWER) --- */
 
-.main-menu-icon {
+.bar-top .main-menu-icon {
     display: flex;
+    flex: 0 0 38px;
     align-items: center;
     justify-content: center;
     cursor: pointer;
@@ -2477,17 +2483,27 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
         margin-right: 15px;
     }
 
-    .header-actions {
+    /* --- bar-top --- */
+
+    .bar-top .main-menu-icon {
+        display: flex;
+        padding: 20px;
+        padding-left: 0;
+        flex: 0 0 content;
+    }
+
+
+    .bar-top .header-actions {
         gap: 10px;
     }
 
-    .btn-ticket {
+    .bar-top .header-actions .btn-program {
         padding: 10px 18px;
         font-size: 11px;
     }
 
-    .btn-program {
-        padding: 9px 16px;
+    .bar-top .header-actions .btn-ticket {
+        padding: 10px 18px;
         font-size: 11px;
     }
 
