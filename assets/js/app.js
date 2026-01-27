@@ -79,11 +79,11 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.43' : 'config/config_fr.json?v1.43';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.44' : 'config/config_fr.json?v1.44';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
-            fetch('config/config.json?v1.43'),
+            fetch('config/config.json?v1.44'),
             fetch(langConfigFile)
         ]);
 
@@ -225,16 +225,16 @@ async function init() {
                 };
                 const errString = e ? escapeHtml(e.toString()) : "Unknown Error";
                 const errStack  = e && e.stack ? escapeHtml(e.stack) : "";
-                jsErrorHtml = `<div style="margin-bottom: 20px;"><pre style="text-align: left; font-family: monospace; background: rgba(0,0,0,0.5); padding: 10px; overflow: auto; max-height: 50vh;">${errString}\n\n${errStack}</pre></div>`;
+                jsErrorHtml = `<div style="margin-bottom: 50px;"><pre style="text-align: left; font-family: monospace; background: rgba(0,0,0,0.5); padding: 10px; overflow: auto; max-height: 50vh; white-space: pre-wrap; word-wrap: break-word;">${errString}\n\n${errStack}</pre></div>`;
             }
 
             loader.innerHTML = `
             <div class="console-error" style="text-align: center; color: white;margin: 0 40px;">
                 <div>
-                    <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur de chargement de l'application TINALS<br />/<br />Error loading the TINALS application</h1>
-                    <p class='loader-error-msg' style="margin-bottom: 30px;">
-                    FR: Le problème trouve souvent son origine dans le système de cache du navigateur.<br>
-                    EN: The problem often originates in the browser's cache system.</p>
+                    <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur application TINALS</h1>
+                    <p class='loader-error-msg' style="margin-bottom: 50px;">Le problème trouve souvent son origine dans le système de cache du navigateur.<br>
+                    <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">TINALS application error</h1>
+                    <p class='loader-error-msg' style="margin-bottom: 50px;">The problem often originates in the browser's cache system.</p>
                 </div>
                 ${jsErrorHtml}
                 <div>
@@ -244,6 +244,8 @@ async function init() {
         }
     }
 }
+
+
 
 
 function isMobileDevice() {
