@@ -215,9 +215,11 @@ async function init() {
         if ( loader ) {
             loader.innerHTML = `
             <div style="text-align: center; color: white;">
-                <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur de chargement de TINALS</h1>
-                <p class='loader-error-msg' style="margin-bottom: 30px;">Erreur de chargement.<br>Vérifiez la console.</p>
-                <button class="intro-btn" onclick="reloadApp()">Réinitialiser</button>
+                <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur de chargement de l'application TINALS<br />Error loading the TINALS application</h1>
+                <p class='loader-error-msg' style="margin-bottom: 30px;">
+                FR: Le problème trouve souvent son origine dans le système de cache du navigateur.<br>
+                EN: The problem often originates in the browser's cache system.</p>
+                <button class="intro-btn" onclick="reloadApp()">Réinitialiser / Reload</button>
             </div>`;
         }
     }
