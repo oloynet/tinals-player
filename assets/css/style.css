@@ -1,5 +1,5 @@
 :root {
-    --primary-color: #2d91d0;   /* blue */
+    --primary-color: #ea562a;   /* green : ea562a - blue : #ea562a */
     --secondary-color: #ea562a; /* orange */
     --third-color: #feacb5;     /* pink */
     --fourth-color: #feffe0;    /* light yellow */
@@ -28,8 +28,8 @@
     --toast-bg: var(--primary-color);
     --toast-color: var(--content-color);
     --full-pass-ticket-color: var(--secondary-color); /* #fd3d00; */
-    --day-pass-ticket-1-color: #35bb05; /* var(--fifth-color);*/
-    --day-pass-ticket-2-color: #0500ff; /* var(--third-color); */
+    --day-pass-ticket-1-color: var(--primary-color); /* var(--fifth-color);*/
+    --day-pass-ticket-2-color: #ea562a; /* var(--third-color); */
 
     --status-canceled-color: var(--light-color);
     --status-canceled-bg: var(--primary-color);
