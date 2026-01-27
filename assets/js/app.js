@@ -1677,8 +1677,8 @@ function setupKeyboardControls() {
 
 function showToast( message ) {
     const toast = document.getElementById( 'toast-message' );
-    if ( toast.classList.contains( 'visible' ) && toast.innerText === message ) return;
-    toast.innerText = message;
+    if ( toast.classList.contains( 'visible' ) && toast.innerHTML === message ) return;
+    toast.innerHTML = message;
     toast.classList.add( 'visible' );
     if ( AppState.timers.toast ) clearTimeout( AppState.timers.toast );
     AppState.timers.toast = setTimeout( () => {
@@ -1694,8 +1694,20 @@ function setupScrollToasts() {
         const st = feed.scrollTop;
         const h  = feed.clientHeight;
         const sh = feed.scrollHeight;
-        if ( st <= 5 && st < lastScrollTop ) showToast( AppState.config.texts.bar_top_page );
-        else if ( st + h >= sh - 5 && st > lastScrollTop ) showToast( AppState.config.texts.bar_bottom_page );
+
+        let topMsg = AppState.config.texts.bar_top_page;
+        let bottomMsg = AppState.config.texts.bar_bottom_page;
+
+        if ( AppState.state.isPlayingFavorites ) {
+            topMsg = AppState.config.texts.bar_fav_top_page;
+            bottomMsg = AppState.config.texts.bar_fav_bottom_page;
+        } else if ( AppState.state.currentTagFilter ) {
+            topMsg = AppState.config.texts.bar_filter_top_page;
+            bottomMsg = AppState.config.texts.bar_filter_bottom_page;
+        }
+
+        if ( st <= 5 && st < lastScrollTop ) showToast( topMsg );
+        else if ( st + h >= sh - 5 && st > lastScrollTop ) showToast( bottomMsg );
         lastScrollTop = st <= 0 ? 0 : st;
     } );
 }
