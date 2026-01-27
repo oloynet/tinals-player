@@ -1,12 +1,12 @@
-const CACHE_NAME = 'v1.41';
+const CACHE_NAME = 'v1.42';
 
 const STATIC_ASSETS = [
     './',
     './index.html',
     './manifest.json',
 
-    './config/config_en.json',
-    './config/config_fr.json',
+    './config/config_en.config.json?v1.42',
+    './config/config_fr.json?v1.42',
 
     './data/2026/affiche-tinals.webp',
     './data/2026/data.json',
