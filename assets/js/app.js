@@ -1161,13 +1161,14 @@ function playFavorites() {
 
 
 function exitFavoritesMode(shouldScroll = true) {
+    const currentId = AppState.state.activeId;
     AppState.state.isMenuNavigation = true;
     AppState.state.isPlayingFavorites = false;
     document.body.classList.remove( 'favorites-mode' );
     document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
-    if ( AppState.state.activeId && shouldScroll ) {
+    if ( currentId && shouldScroll ) {
         setTimeout( () => {
-            const el = document.getElementById( `video-${AppState.state.activeId}` );
+            const el = document.getElementById( `video-${currentId}` );
             if ( el ) el.scrollIntoView( {
                 behavior: 'auto',
                 block: 'start'
@@ -1876,6 +1877,8 @@ function filterByTag( tagSlug, event ) {
         return;
     }
 
+    const currentId = AppState.state.activeId;
+
     exitFavoritesMode();
     AppState.state.currentTagFilter = tagSlug;
     document.body.classList.add( 'tag-filtering' );
@@ -1903,15 +1906,26 @@ function filterByTag( tagSlug, event ) {
     renderDrawerTimeline();
     renderDrawerFavorites();
     updateURLState();
-    const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
-    if ( firstMatch ) firstMatch.scrollIntoView( {
-        behavior: 'smooth'
-    } );
+
+    const currentCard = currentId ? document.querySelector(`.video-card[data-id="${currentId}"]`) : null;
+    const isCurrentVisible = currentCard && currentCard.classList.contains('has-matching-tag');
+
+    if ( isCurrentVisible ) {
+        currentCard.scrollIntoView({
+            behavior: 'smooth'
+        });
+    } else {
+        const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
+        if ( firstMatch ) firstMatch.scrollIntoView( {
+            behavior: 'smooth'
+        } );
+    }
 }
 
 
 function exitTagFilterMode(shouldScroll = true) {
     if ( !AppState.state.currentTagFilter ) return;
+    const currentId = AppState.state.activeId;
     AppState.state.isMenuNavigation = true;
     AppState.state.currentTagFilter = null;
     document.body.classList.remove( 'tag-filtering' );
@@ -1922,9 +1936,9 @@ function exitTagFilterMode(shouldScroll = true) {
     renderDrawerTimeline();
     renderDrawerFavorites();
     updateURLState();
-    if ( AppState.state.activeId && shouldScroll ) {
+    if ( currentId && shouldScroll ) {
         setTimeout( () => {
-            const el = document.getElementById( `video-${AppState.state.activeId}` );
+            const el = document.getElementById( `video-${currentId}` );
             if ( el ) el.scrollIntoView( {
                 behavior: 'auto',
                 block: 'start'
