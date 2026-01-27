@@ -544,10 +544,14 @@ function updateStaticTexts() {
     document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
 
     // Confirm Modal Buttons
-    const btnYes = document.getElementById('btn-confirm-yes');
-    const btnNo = document.getElementById('btn-confirm-no');
-    if (btnYes) btnYes.innerText = t.btn_yes || 'OUI';
-    if (btnNo) btnNo.innerText = t.btn_no || 'NON';
+    const btnYes   = document.getElementById('btn-confirm-yes');
+    const btnNo    = document.getElementById('btn-confirm-no');
+    const btnOk    = document.getElementById('btn-confirm-ok');
+    const btnLater = document.getElementById('btn-confirm-later');
+    if (btnYes)   btnYes.innerText   = t.btn_yes   || 'Oui';
+    if (btnNo)    btnNo.innerText    = t.btn_no    || 'Non';
+    if (btnOk)    btnOk.innerText    = t.btn_ok    || 'OK';
+    if (btnLater) btnLater.innerText = t.btn_later || 'Plus tard';
 
     // Features Modal
     document.getElementById( 'features-title' ).innerText = t.features_modal_title;
@@ -578,20 +582,17 @@ function updateStaticTexts() {
     setText('menu-version', AppState.settings.versionNumber);
 
     // About Modal
-    if(t.about_title) document.getElementById('about-title').innerText                     = t.about_title;
-    if(t.about_organized_by) document.getElementById('txt-about-organized-by').innerText   = t.about_organized_by;
+    if(t.about_title)         document.getElementById('about-title').innerText             = t.about_title;
+    if(t.about_organized_by)  document.getElementById('txt-about-organized-by').innerText  = t.about_organized_by;
     if(t.about_festival_desc) document.getElementById('txt-about-festival-desc').innerText = t.about_festival_desc;
-    if(t.about_media_inter) document.getElementById('txt-about-media-inter').innerText     = t.about_media_inter;
-    if(t.about_media_local) document.getElementById('txt-about-media-local').innerText     = t.about_media_local;
-    if(t.about_comm_manager) document.getElementById('txt-about-comm-manager').innerText   = t.about_comm_manager;
-
-    if(t.about_press_officer) {
-        document.querySelectorAll('.txt-about-press-officer').forEach(el => el.innerText  = t.about_press_officer);
-    }
-    if(t.about_developer) document.getElementById('txt-about-developer').innerText        = t.about_developer;
-    if(t.about_development) document.getElementById('txt-about-development').innerText    = t.about_development;
-    if(t.about_follow_us) document.getElementById('txt-about-follow-us').innerText        = t.about_follow_us;
-    if(t.about_close) document.getElementById('btn-close-about').innerText                = t.about_close;
+    if(t.about_media_inter)   document.getElementById('txt-about-media-inter').innerText   = t.about_media_inter;
+    if(t.about_media_local)   document.getElementById('txt-about-media-local').innerText   = t.about_media_local;
+    if(t.about_comm_manager)  document.getElementById('txt-about-comm-manager').innerText  = t.about_comm_manager;
+    if(t.about_press_officer) document.querySelectorAll('.txt-about-press-officer').forEach(el => el.innerText  = t.about_press_officer);
+    if(t.about_developer)     document.getElementById('txt-about-developer').innerText     = t.about_developer;
+    if(t.about_development)   document.getElementById('txt-about-development').innerText   = t.about_development;
+    if(t.about_follow_us)     document.getElementById('txt-about-follow-us').innerText     = t.about_follow_us;
+    if(t.about_close)         document.getElementById('btn-close-about').innerText         = t.about_close;
 
     if (AppState.state.currentTagFilter) {
         renderTagFilterBar();
@@ -1001,7 +1002,7 @@ let confirmCallback = null;
 function openConfirmModal(title, text, onYes) {
     const modal = document.getElementById('confirm-modal');
     document.getElementById('confirm-title').innerText = title;
-    document.getElementById('confirm-text').innerText = text;
+    document.getElementById('confirm-text').innerText  = text;
     confirmCallback = onYes;
     modal.classList.add('active');
 }
@@ -1220,13 +1221,13 @@ function getTicketingHtml() {
 
     for (const key in ticketing) {
         if (ticketing.hasOwnProperty(key)) {
-            const ticket = ticketing[key];
-            const isAvailable = ticket.is_available !== false;
-            const colorClass = ticket.button_color || '';
-            const title = ticket.ticket_title || '';
-            const subtitle = ticket.ticket_subtitle || '';
-            const btnText = ticket.button_text || '';
-            const url = ticket.button_url || '#';
+            const ticket      = ticketing[key];
+            const isAvailable = ticket.is_available    !== false;
+            const colorClass  = ticket.button_color    || '';
+            const title       = ticket.ticket_title    || '';
+            const subtitle    = ticket.ticket_subtitle || '';
+            const btnText     = ticket.button_text     || '';
+            const url         = ticket.button_url      || '#';
 
             let btnHtml = '';
             if (isAvailable) {
@@ -1652,7 +1653,7 @@ function setupKeyboardControls() {
         if ( activeId && VideoManager.instances[ activeId ] && typeof VideoManager.instances[ activeId ].getCurrentTime === 'function' ) {
             const p = VideoManager.instances[ activeId ];
             const current = p.getCurrentTime();
-            if ( key === 'j' || e.key === 'ArrowLeft' ) p.seekTo( current - 10, true );
+            if ( key === 'j' || e.key === 'ArrowLeft' )  p.seekTo( current - 10, true );
             if ( key === 'l' || e.key === 'ArrowRight' ) p.seekTo( current + 10, true );
         }
     } );
@@ -1678,7 +1679,7 @@ function setupScrollToasts() {
     let lastScrollTop = feed.scrollTop;
     feed.addEventListener( 'scroll', () => {
         const st = feed.scrollTop;
-        const h = feed.clientHeight;
+        const h  = feed.clientHeight;
         const sh = feed.scrollHeight;
         if ( st <= 5 && st < lastScrollTop ) showToast( AppState.config.texts.bar_top_page );
         else if ( st + h >= sh - 5 && st > lastScrollTop ) showToast( AppState.config.texts.bar_bottom_page );
@@ -1844,7 +1845,7 @@ function filterByTag( tagSlug, event ) {
     });
 
     document.querySelectorAll( '.video-card' ).forEach( card => {
-        const id = Number( card.dataset.id );
+        const id    = Number( card.dataset.id );
         const group = AppState.data.find( g => g.id === id );
         if ( group && group.event_tags && group.event_tags.some(t => slugify(t) === tagSlug) ) card.classList.add( 'has-matching-tag' );
         else card.classList.remove( 'has-matching-tag' );
@@ -1993,7 +1994,7 @@ function setupDrawerListeners() {
     const stop = () => clearTimeout( AppState.timers.close );
     drawer.addEventListener( 'touchstart', stop );
     drawer.addEventListener( 'mouseenter', stop );
-    drawer.addEventListener( 'click', stop );
+    drawer.addEventListener( 'click',      stop );
 }
 
 
@@ -2175,7 +2176,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.29' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.31' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
