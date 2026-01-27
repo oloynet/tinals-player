@@ -34,10 +34,10 @@
         "bar_top_page": "Haut de page",
         "bar_bottom_page": "Bas de page",
 
-        "bar_filter_top_page": "Vous êtes sur le premier<br />de la liste filtré par tag",
-        "bar_filter_bottom_page": "Vous êtes sur le dernier<br />de la liste filtré par tag",
-        "bar_fav_top_page": "Vous êtes sur le premier<br />de la liste de mes favoris",
-        "bar_fav_bottom_page": "Vous êtes sur le dernier<br />de la liste de mes favoris",
+        "bar_filter_top_page": "Vous avez atteint sur <strong>le premier</strong><br />de la liste filtré par tag",
+        "bar_filter_bottom_page": "Vous avez atteint <strong>le dernier</strong><br />de la liste filtré par tag",
+        "bar_fav_top_page": "Vous avez atteint <strong>le premier</strong><br />de la liste de mes favoris",
+        "bar_fav_bottom_page": "Vous avez atteint <strong>le dernier</strong><br />de la liste de mes favoris",
 
         "bar_fav_added": "Ajouté aux favoris",
         "bar_fav_removed": "Supprimé des favoris",
