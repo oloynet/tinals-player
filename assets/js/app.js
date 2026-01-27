@@ -213,6 +213,21 @@ async function init() {
         console.error( "Erreur d'initialisation :", e );
         const loader = document.getElementById( 'loader' );
         if ( loader ) {
+            let jsErrorHtml = "";
+            if ( AppState.settings.isDebugJS ) {
+                const escapeHtml = (unsafe) => {
+                    return (unsafe || "")
+                        .replace(/&/g, "&amp;")
+                        .replace(/</g, "&lt;")
+                        .replace(/>/g, "&gt;")
+                        .replace(/"/g, "&quot;")
+                        .replace(/'/g, "&#039;");
+                };
+                const errString = e ? escapeHtml(e.toString()) : "Unknown Error";
+                const errStack  = e && e.stack ? escapeHtml(e.stack) : "";
+                jsErrorHtml = `<div style="margin-bottom: 20px;"><pre style="text-align: left; font-family: monospace; background: rgba(0,0,0,0.5); padding: 10px; overflow: auto; max-height: 50vh;">${errString}\n\n${errStack}</pre></div>`;
+            }
+
             loader.innerHTML = `
             <div class="console-error" style="text-align: center; color: white;margin: 0 40px;">
                 <div>
@@ -221,9 +236,7 @@ async function init() {
                     FR: Le problème trouve souvent son origine dans le système de cache du navigateur.<br>
                     EN: The problem often originates in the browser's cache system.</p>
                 </div>
-                <div style="margin-bottom: 20px;">
-                    Message JS
-                </div>
+                ${jsErrorHtml}
                 <div>
                     <button class="intro-btn" onclick="reloadApp()">Réinitialiser / Reload</button>
                 </div>
