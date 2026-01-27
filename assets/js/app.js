@@ -212,7 +212,14 @@ async function init() {
     } catch ( e ) {
         console.error( "Erreur d'initialisation :", e );
         const loader = document.getElementById( 'loader' );
-        if ( loader ) loader.innerHTML = "<p class='loader-error-msg'>Erreur de chargement.<br>Vérifiez la console.</p>";
+        if ( loader ) {
+            loader.innerHTML = `
+            <div style="text-align: center; color: white;">
+                <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur de chargement de TINALS</h1>
+                <p class='loader-error-msg' style="margin-bottom: 30px;">Erreur de chargement.<br>Vérifiez la console.</p>
+                <button class="intro-btn" onclick="reloadApp()">Réinitialiser</button>
+            </div>`;
+        }
     }
 }
 
