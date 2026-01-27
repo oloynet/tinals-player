@@ -198,7 +198,7 @@ async function init() {
         setupKeyboardControls();
         setupHapticFeedback();
         updateFavoritesIcon();
-        updateStaticTextsxxxx();
+        updateStaticTexts();
 
         if ( AppState.settings.isAppInstall ) {
             PWAManager.init();
