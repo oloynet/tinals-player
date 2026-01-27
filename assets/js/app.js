@@ -1160,11 +1160,12 @@ function playFavorites() {
 }
 
 
-function exitFavoritesMode() {
+function exitFavoritesMode(shouldScroll = true) {
+    AppState.state.isMenuNavigation = true;
     AppState.state.isPlayingFavorites = false;
     document.body.classList.remove( 'favorites-mode' );
     document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
-    if ( AppState.state.activeId ) {
+    if ( AppState.state.activeId && shouldScroll ) {
         setTimeout( () => {
             const el = document.getElementById( `video-${AppState.state.activeId}` );
             if ( el ) el.scrollIntoView( {
@@ -1173,6 +1174,9 @@ function exitFavoritesMode() {
             } );
         }, 50 );
     }
+    setTimeout( () => {
+        AppState.state.isMenuNavigation = false;
+    }, 1000 );
     updateActionButtons( AppState.state.activeId );
     updateNavActionButtons();
 }
@@ -1320,11 +1324,16 @@ function updateTicketingStats() {
 
 
 function scrollToTicketing() {
+    AppState.state.isMenuNavigation = true;
     cancelFilters();
+    VideoManager.pauseAll();
     const ticketSection = document.getElementById( 'ticketing' );
     if ( ticketSection ) ticketSection.scrollIntoView( {
         behavior: 'smooth'
     } );
+    setTimeout( () => {
+        AppState.state.isMenuNavigation = false;
+    }, 1200 );
 }
 
 
@@ -1743,17 +1752,22 @@ function navigateScroll( direction ) {
 
 
 function cancelFilters() {
-    if ( AppState.state.isPlayingFavorites ) exitFavoritesMode();
-    if ( AppState.state.currentTagFilter ) exitTagFilterMode();
+    if ( AppState.state.isPlayingFavorites ) exitFavoritesMode(false);
+    if ( AppState.state.currentTagFilter ) exitTagFilterMode(false);
 }
 
 
 function scrollToTop() {
+    AppState.state.isMenuNavigation = true;
     cancelFilters();
+    VideoManager.pauseAll();
     document.getElementById( 'main-feed' ).scrollTo( {
         top: 0,
         behavior: 'smooth'
     } );
+    setTimeout( () => {
+        AppState.state.isMenuNavigation = false;
+    }, 1200 );
 }
 
 
@@ -1896,8 +1910,9 @@ function filterByTag( tagSlug, event ) {
 }
 
 
-function exitTagFilterMode() {
+function exitTagFilterMode(shouldScroll = true) {
     if ( !AppState.state.currentTagFilter ) return;
+    AppState.state.isMenuNavigation = true;
     AppState.state.currentTagFilter = null;
     document.body.classList.remove( 'tag-filtering' );
     document.querySelectorAll('.tag-pill').forEach(el => el.classList.remove('tag-active'));
@@ -1907,6 +1922,18 @@ function exitTagFilterMode() {
     renderDrawerTimeline();
     renderDrawerFavorites();
     updateURLState();
+    if ( AppState.state.activeId && shouldScroll ) {
+        setTimeout( () => {
+            const el = document.getElementById( `video-${AppState.state.activeId}` );
+            if ( el ) el.scrollIntoView( {
+                behavior: 'auto',
+                block: 'start'
+            } );
+        }, 50 );
+    }
+    setTimeout( () => {
+        AppState.state.isMenuNavigation = false;
+    }, 1000 );
     updateActionButtons( AppState.state.activeId );
     updateNavActionButtons();
 }
