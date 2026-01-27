@@ -1,7 +1,7 @@
 :root {
     --primary-color: #ea562a;   /* green : ea562a - blue : #ea562a */
-    --secondary-color: #ea562a; /* orange */
-    --third-color: #feacb5;     /* pink */
+    --secondary-color: #feacb5; /* orange */
+    --third-color: #2d91d0;     /* pink */
     --fourth-color: #feffe0;    /* light yellow */
     --fifth-color: #959f01;     /* green */
     --light-color:  white;
@@ -21,15 +21,15 @@
     --fav-mode-bar-color: var(--content-color);
     --social-pill-bg: var(--primary-color);
     --social-pill-color: var(--content-color);
-    --tag-mode-bar-bg: var(--secondary-color);
+    --tag-mode-bar-bg: var(--third-color);
     --tag-mode-bar-color: var(--content-color);
     --tag-pill-bg: rgba(255, 255, 255, 0.2);
     --tag-pill-color: var(--content-color);
     --toast-bg: var(--primary-color);
     --toast-color: var(--content-color);
-    --full-pass-ticket-color: var(--secondary-color); /* #fd3d00; */
-    --day-pass-ticket-1-color: var(--primary-color); /* var(--fifth-color);*/
-    --day-pass-ticket-2-color: #ea562a; /* var(--third-color); */
+    --full-pass-ticket-color: #ea562a; /* #fd3d00; */
+    --day-pass-ticket-1-color: #149114; /* var(--fifth-color);*/
+    --day-pass-ticket-2-color: #2d91d0; /* var(--third-color); */
 
     --status-canceled-color: var(--light-color);
     --status-canceled-bg: var(--primary-color);
