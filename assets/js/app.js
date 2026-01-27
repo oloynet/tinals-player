@@ -1320,6 +1320,7 @@ function updateTicketingStats() {
 
 
 function scrollToTicketing() {
+    cancelFilters();
     const ticketSection = document.getElementById( 'ticketing' );
     if ( ticketSection ) ticketSection.scrollIntoView( {
         behavior: 'smooth'
@@ -1741,7 +1742,14 @@ function navigateScroll( direction ) {
 }
 
 
+function cancelFilters() {
+    if ( AppState.state.isPlayingFavorites ) exitFavoritesMode();
+    if ( AppState.state.currentTagFilter ) exitTagFilterMode();
+}
+
+
 function scrollToTop() {
+    cancelFilters();
     document.getElementById( 'main-feed' ).scrollTo( {
         top: 0,
         behavior: 'smooth'
@@ -1750,6 +1758,7 @@ function scrollToTop() {
 
 
 function scrollToFirstVideo() {
+    cancelFilters();
     const firstVideo = document.querySelector( '.video-card[data-id]' );
     if ( firstVideo ) {
         const id = Number( firstVideo.dataset.id );
