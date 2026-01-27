@@ -844,7 +844,6 @@ function handleMenuAction(action) {
             closeMainMenu();
             break;
         case 'features':
-            closeMainMenu();
             openFeaturesModal();
             break;
         case 'install':
@@ -859,7 +858,6 @@ function handleMenuAction(action) {
             triggerReload();
             break;
         case 'about':
-            closeMainMenu();
             openAboutModal();
             break;
         default:
