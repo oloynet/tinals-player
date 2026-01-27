@@ -651,8 +651,12 @@ function getPosterHtml() {
 
     return `
         <section id="poster" class="poster-card section-snap" style="background-image: url('${posterImage}');">
-            <div class="poster-title">
-                <h2>${c.texts.poster_title}</h2>
+            <div class="poster-content-bottom">
+                <div class="intro-buttons-container">
+                    <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button>
+                    <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button>
+                </div>
+                <p class="intro-note">${c.texts.intro_footer}</p>
             </div>
         </section>`;
 }

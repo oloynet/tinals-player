@@ -587,36 +587,24 @@ body.tag-filtering .ticketing-card {
     background-size: cover;
     background-repeat: no-repeat;
     display: flex;
-    justify-content: center;
+    flex-direction: column;
+    justify-content: flex-end;
     align-items: center;
     text-align: center;
-    padding: 20px;
+    padding: 20px 20px 5vh 20px;
     overflow: hidden;
 }
 
-.poster-title {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 90%;
-    z-index: 2;
-    pointer-events: none;
-    text-shadow: 0 4px 15px rgba(0, 0, 0, 0.9);
-}
-
-.poster-title h2 {
-    color: white;
-    font-size: 2rem;
-    font-weight: 900;
-    text-transform: uppercase;
-    margin: 0;
-    display: inline-block;
-    padding: 15px 30px;
-    background-color: rgba(0, 0, 0, 0.4);
-    backdrop-filter: blur(4px);
-    border-radius: 8px;
-    border: 1px solid rgba(255, 255, 255, 0.2);
+.poster-content-bottom {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 20px;
+    width: 100%;
+    max-width: 600px;
+    opacity: 0;
+    animation: slideInUp 0.8s ease-out forwards;
+    animation-delay: 0.3s;
 }
 
 /* --- VIDEO CARD (Utilisation DVH) --- */
@@ -2378,10 +2366,6 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
     /* --- POSTER CARD --- */
 
-    .poster-title h2 {
-        font-size: 3rem;
-    }
-
     /* --- BOX TITLE --- */
 
     .box-title h2 {
@@ -2566,10 +2550,6 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     }
 
     /* --- POSTER CARD --- */
-
-    .poster-title h2 {
-        font-size: 4rem;
-    }
 
     /* --- BOX TITLE --- */
 
