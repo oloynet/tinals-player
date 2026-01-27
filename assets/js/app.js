@@ -645,6 +645,19 @@ function getIntroHtml() {
 }
 
 
+function getPosterHtml() {
+    const c = AppState.config;
+    const posterImage = "data/2026/affiche-tinals.webp";
+
+    return `
+        <section id="poster" class="poster-card section-snap" style="background-image: url('${posterImage}');">
+            <div class="poster-title">
+                <h2>${c.texts.poster_title}</h2>
+            </div>
+        </section>`;
+}
+
+
 function getVideoCardHtml( g ) {
     const s = AppState.settings;
     const tagsHtml = ( s.isDisplayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => {
@@ -748,7 +761,7 @@ function getVideoCardHtml( g ) {
 
 function renderFeed() {
     const feed = document.getElementById( 'main-feed' );
-    const htmlParts = [ getIntroHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() ];
+    const htmlParts = [ getIntroHtml(), getPosterHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() ];
     feed.innerHTML = htmlParts.join( '' );
 }
 
