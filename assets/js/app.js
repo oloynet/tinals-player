@@ -79,11 +79,11 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.42' : 'config/config_fr.json?v1.42';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.43' : 'config/config_fr.json?v1.43';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
-            fetch('config/config.json'),
+            fetch('config/config.json?v1.43'),
             fetch(langConfigFile)
         ]);
 
