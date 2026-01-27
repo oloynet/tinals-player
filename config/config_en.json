@@ -101,6 +101,8 @@
         "menu_reload": "Clear the cache and reload",
         "menu_reload_confirm_title": "Reload App",
         "menu_reload_confirm_text": "Do you really want to clear the cache and reload the application?",
+        "menu_check_version": "Check for updates",
+        "msg_up_to_date": "You are up to date",
         "update_available_title": "Update Available",
         "update_available_text": "A new version of the application is available. Click YES to update and clear the cache.",
         "btn_yes": "YES",
