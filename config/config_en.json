@@ -113,7 +113,7 @@
         "menu_check_version": "Check for updates",
         "msg_up_to_date": "You are up to date",
         "update_available_title": "Update Available",
-        "update_available_text": "A new version of the application is available. Click OK to update.",
+        "update_available_text": "A new version {new_version} of the application is available and replaces the {old_version}. Click OK to update.",
         "btn_yes": "Yes",
         "btn_no": "No",
         "btn_ok": "OK",
