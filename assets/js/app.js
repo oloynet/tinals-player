@@ -75,7 +75,53 @@ const translations = {
 
 async function init() {
     try {
-        const urlParams               = new URLSearchParams( window.location.search );
+        // --- START NEW LOGIC ---
+        const rawParams = new URLSearchParams(window.location.search);
+        const validParams = new URLSearchParams();
+        const allowed = {
+            'id': /^[0-9]+$/,
+            'tag': /^[a-z0-9-]+$/,
+            'favorites': /^[0-9,]+$/,
+            'lang': /^(fr|en)$/,
+            'share': /^[a-z0-9-]+$/,
+            'version': /^[0-9.]+$/,
+            'play': /^[a-z0-9]*$/
+        };
+
+        for (const [key, value] of rawParams.entries()) {
+            if (allowed[key] && allowed[key].test(value)) {
+                validParams.append(key, value);
+            }
+        }
+
+        // Handle Version
+        if (validParams.has('version')) {
+            validParams.delete('version');
+            const newUrl = window.location.pathname + (validParams.toString() ? '?' + validParams.toString() : '') + window.location.hash;
+            window.history.replaceState(null, '', newUrl);
+
+            // Clear cache and reload
+            if ('serviceWorker' in navigator) {
+                const registrations = await navigator.serviceWorker.getRegistrations();
+                for (let registration of registrations) await registration.unregister();
+            }
+            if ('caches' in window) {
+                const keys = await caches.keys();
+                await Promise.all(keys.map(key => caches.delete(key)));
+            }
+            window.location.reload(true);
+            return; // Stop execution
+        }
+
+        // Update URL if params were dirty (stripped)
+        if (rawParams.toString() !== validParams.toString()) {
+             const newUrl = window.location.pathname + (validParams.toString() ? '?' + validParams.toString() : '') + window.location.hash;
+             window.history.replaceState(null, '', newUrl);
+        }
+
+        const urlParams = validParams;
+        // --- END NEW LOGIC ---
+
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
