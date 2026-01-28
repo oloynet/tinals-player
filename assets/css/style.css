@@ -452,6 +452,7 @@ body.tag-filtering .ticketing-card {
 }
 
 /* --- PRESENTATION CARD (Utilisation DVH) --- */
+
 .intro-card {
     height: 100vh;
     height: 100dvh;
@@ -463,9 +464,11 @@ body.tag-filtering .ticketing-card {
     flex-direction: column;
     justify-content: space-between;
     align-items: center;
-    padding: 7vh 20px 5vh 20px;
+    padding: 7vh 20px 2vh 20px;
     text-align: center;
 }
+
+
 
 @keyframes slideInUp {
     0% {
@@ -2351,11 +2354,14 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
         font-size: 1.3rem;
     }
 
+
     /* --- INTRO-CARD --- */
 
+
     .intro-card {
-        padding: 12vh 20px 2vh 20px;
+        padding: 7vh 20px 5vh 20px;
     }
+
 
     .intro-content-top {
         margin-top: 0;
