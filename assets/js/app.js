@@ -1694,18 +1694,36 @@ function setupSwipeGestures() {
 function handleGesture( startX, startY, endX, endY ) {
     let xDiff = startX - endX;
     let yDiff = startY - endY;
+
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
         if ( Math.abs( xDiff ) > 50 ) {
-            const drawer = document.getElementById( 'fav-timeline-drawer' );
-            if ( drawer.classList.contains( 'active' ) ) {
-                 // If dragging right (startX < endX), we might want to close?
-                 // Current logic: any swipe > 50 horizontal triggers toggle.
-                 // We will maintain toggle behavior: if open, close.
-                 closeFavTimelineDrawers();
-            } else {
-                 // If closed, maybe open?
-                 // Original logic opened favorites drawer if nothing was open.
-                 toggleFavTimelineDrawer('favorites');
+            const drawer     = document.getElementById( 'fav-timeline-drawer' );
+            const isFavOpen  = drawer ? drawer.classList.contains( 'active' ) : false;
+            const isMenuOpen = AppState.state.isMainMenuOpen;
+
+            if ( !isMenuOpen && !isFavOpen ) {
+                // Case 1: No drawers open
+                if ( xDiff < 0 ) {
+                    // Swipe Left-to-Right -> Open Menu
+                    toggleMainMenu();
+                } else {
+                    // Swipe Right-to-Left -> Open Favorites
+                    toggleFavTimelineDrawer( 'favorites' );
+                }
+            } else if ( isMenuOpen ) {
+                // Case 2: Menu is open
+                if ( xDiff > 0 ) {
+                    // Swipe Right-to-Left -> Close Menu
+                    closeMainMenu();
+                }
+                // Swipe Left-to-Right -> Do nothing
+            } else if ( isFavOpen ) {
+                // Case 3: Favorites/Timeline is open
+                if ( xDiff < 0 ) {
+                    // Swipe Left-to-Right -> Close Favorites/Timeline
+                    closeFavTimelineDrawers();
+                }
+                // Swipe Right-to-Left -> Do nothing
             }
         }
     }
