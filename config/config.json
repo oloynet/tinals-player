@@ -51,7 +51,7 @@
         "is_menu_auto_hide": false,
         "is_description_auto_hide": true,
         "is_force_zoom": true,
-        "is_app_install": true,
+        "is_app_install": false,
 
         "is_auto_load_video": false,
         "is_auto_play_next": true,
