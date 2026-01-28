@@ -1068,9 +1068,16 @@ async function checkVersion(manualCheck = false) {
             if (AppState.settings.isDebugJS) {
                 console.log(`Version mismatch: server=${serverVersion}, local=${currentVersion}`);
             }
+
+            const displayServerVersion = serverVersion.replace(/^v/, '');
+            const displayCurrentVersion = currentVersion.replace(/^v/, '');
+            let updateText = AppState.config.texts.update_available_text;
+            updateText = updateText.replace('{new_version}', displayServerVersion)
+                                   .replace('{old_version}', displayCurrentVersion);
+
             openConfirmModal(
                 AppState.config.texts.update_available_title,
-                AppState.config.texts.update_available_text,
+                updateText,
                 () => {
                     reloadApp();
                 }
@@ -1090,7 +1097,7 @@ let confirmCallback = null;
 function openConfirmModal(title, text, onYes) {
     const modal = document.getElementById('confirm-modal');
     document.getElementById('confirm-title').innerText = title;
-    document.getElementById('confirm-text').innerText  = text;
+    document.getElementById('confirm-text').innerHTML  = text;
     confirmCallback = onYes;
     modal.classList.add('active');
 }
