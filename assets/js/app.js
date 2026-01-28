@@ -84,7 +84,7 @@ async function init() {
             'favorites': /^[0-9,]+$/,
             'lang': /^(fr|en)$/,
             'share': /^[a-z0-9-]+$/,
-            'version': /^[0-9.]+$/,
+            'version': /^[a-z0-9.-]+$/,
             'play': /^[a-z0-9]*$/
         };
 
