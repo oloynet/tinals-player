@@ -126,8 +126,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.51';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.51' : 'config/config_fr.json?v1.51';
+        const configFile = 'config/config.json?v1.52';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.52' : 'config/config_fr.json?v1.52';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -2029,7 +2029,7 @@ function filterByTag( tagSlug, event ) {
     renderDrawerFavorites();
     updateURLState();
 
-    const currentCard = currentId ? document.querySelector(`.video-card[data-id="${currentId}"]`) : null;
+    const currentCard      = currentId ? document.querySelector(`.video-card[data-id="${currentId}"]`) : null;
     const isCurrentVisible = currentCard && currentCard.classList.contains('has-matching-tag');
 
     if ( isCurrentVisible ) {
@@ -2050,7 +2050,10 @@ function exitTagFilterMode(shouldScroll = true) {
     const currentId = AppState.state.activeId;
     AppState.state.isMenuNavigation = true;
     AppState.state.currentTagFilter = null;
+
+    /* BUG ON MOZILLA : Make a quick move by displaying the Home card, then display the Event card again */
     document.body.classList.remove( 'tag-filtering' );
+
     document.querySelectorAll('.tag-pill').forEach(el => el.classList.remove('tag-active'));
     document.getElementById( 'tag-mode-bar' ).classList.remove( 'active' );
     document.getElementById( 'fav-filter-info' ).innerText  = '';
