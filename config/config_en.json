@@ -50,17 +50,18 @@
 
         "bar_filter_top_page":          "You've reached the <strong>first event</strong><br />filtered by <strong>\"{tag}\"</strong>.",
         "bar_filter_bottom_page":       "You've reached the <strong>last event</strong><br />filtered by <strong>\"{tag}\"</strong>.",
-        "filter_cancel_tags":           "Events filtered by <strong>\"{tag}\"</strong>.<br />Click to cancel",
+        "filter_cancel_tags":           "Filtered events by <strong>\"{tag}\"</strong>.<br />Click to cancel",
 
         "bar_fav_top_page":             "You've reached the <strong>first event</strong><br />of <strong>my favorites</strong>",
         "bar_fav_bottom_page":          "You've reached the <strong>last event</strong><br />of <strong>my favorites</strong>",
+        "filter_cancel_fav":            "Favorites events only.<br />Click to cancel",
+
         "bar_fav_added":                "Added to favorites",
         "bar_fav_removed":              "Removed from favorites",
         "fav_title":                    "My Favorites",
         "fav_empty":                    "No favorites",
         "fav_btn_play":                 "Listen my favorites",
         "fav_btn_share":                "Share my favorites",
-        "filter_cancel_fav":            "Events favorites only.<br />Click to cancel",
 
         "timeline_title":               "Timeline",
         "timeline_empty":               "No events for this filter",

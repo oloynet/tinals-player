@@ -50,18 +50,18 @@
 
         "bar_filter_top_page":          "Vous avez atteint <strong>le premier évènement</strong><br />filtré par <strong>\"{tag}\"</strong>.",
         "bar_filter_bottom_page":       "Vous avez atteint <strong>le dernier évènement</strong><br />filtré par <strong>\"{tag}\"</strong>.",
-
         "filter_cancel_tags":           "Évènements filtrés par <strong>\"{tag}\"</strong>.<br />Cliquer pour annuler.",
 
         "bar_fav_top_page":             "Vous avez atteint <strong>le premier évènement</strong><br />de <strong>mes favoris</strong>.",
         "bar_fav_bottom_page":          "Vous avez atteint <strong>le dernier évènement</strong><br />de <strong>mes favoris</strong>.",
+        "filter_cancel_fav":            "Évènements favoris.<br />Cliquer pour annuler.",
+
         "bar_fav_added":                "Ajouté aux favoris",
         "bar_fav_removed":              "Supprimé des favoris",
         "fav_title":                    "Mes favoris",
         "fav_empty":                    "Aucun favori",
         "fav_btn_play":                 "Écouter mes favoris",
         "fav_btn_share":                "Partager mes favoris",
-        "filter_cancel_fav":            "Évènements favoris.<br />Cliquer pour annuler.",
 
         "timeline_title":               "Chronologie",
         "timeline_empty":               "Aucun concert pour ce filtre",
