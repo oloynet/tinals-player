@@ -1270,13 +1270,11 @@ function exitFavoritesMode(shouldScroll = true) {
     document.body.classList.remove( 'favorites-mode' );
     document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
     if ( currentId && shouldScroll ) {
-        setTimeout( () => {
-            const el = document.getElementById( `video-${currentId}` );
-            if ( el ) el.scrollIntoView( {
-                behavior: 'auto',
-                block: 'start'
-            } );
-        }, 50 );
+        const el = document.getElementById( `video-${currentId}` );
+        if ( el ) el.scrollIntoView( {
+            behavior: 'auto',
+            block: 'start'
+        } );
     }
     setTimeout( () => {
         AppState.state.isMenuNavigation = false;
@@ -2062,13 +2060,11 @@ function exitTagFilterMode(shouldScroll = true) {
     renderDrawerFavorites();
     updateURLState();
     if ( currentId && shouldScroll ) {
-        setTimeout( () => {
-            const el = document.getElementById( `video-${currentId}` );
-            if ( el ) el.scrollIntoView( {
-                behavior: 'auto',
-                block: 'start'
-            } );
-        }, 50 );
+        const el = document.getElementById( `video-${currentId}` );
+        if ( el ) el.scrollIntoView( {
+            behavior: 'auto',
+            block: 'start'
+        } );
     }
     setTimeout( () => {
         AppState.state.isMenuNavigation = false;
