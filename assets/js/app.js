@@ -81,6 +81,7 @@ async function init() {
         const allowed = {
             'id': /^[0-9]+$/,
             'tag': /^[a-z0-9-]+$/,
+            'filter': /^[a-z0-9-]+$/,
             'favorites': /^[0-9,]+$/,
             'lang': /^(fr|en)$/,
             'share': /^[a-z0-9-]+$/,
@@ -1833,8 +1834,9 @@ function setupScrollToasts() {
             topMsg = AppState.config.texts.bar_fav_top_page;
             bottomMsg = AppState.config.texts.bar_fav_bottom_page;
         } else if ( AppState.state.currentTagFilter ) {
-            topMsg = AppState.config.texts.bar_filter_top_page;
-            bottomMsg = AppState.config.texts.bar_filter_bottom_page;
+            const tagName = getTagNameFromSlug(AppState.state.currentTagFilter);
+            topMsg = AppState.config.texts.bar_filter_top_page.replace('{tag}', tagName);
+            bottomMsg = AppState.config.texts.bar_filter_bottom_page.replace('{tag}', tagName);
         }
 
         if ( st <= 5 && st < lastScrollTop ) showToast( topMsg );
