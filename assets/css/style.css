@@ -171,15 +171,11 @@ body.menu-hidden #tag-mode-bar {
     align-items: center;
 }
 
-body.favorites-mode .video-card:not(.is-favorite),
-body.favorites-mode .intro-card,
-body.favorites-mode .ticketing-card {
+body.favorites-mode #main-feed > :not(.is-favorite) {
     display: none !important;
 }
 
-body.tag-filtering .video-card:not(.has-matching-tag),
-body.tag-filtering .intro-card,
-body.tag-filtering .ticketing-card {
+body.tag-filtering #main-feed > :not(.has-matching-tag) {
     display: none !important;
 }
 
