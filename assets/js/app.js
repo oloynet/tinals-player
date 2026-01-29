@@ -125,15 +125,16 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.49' : 'config/config_fr.json?v1.49';
+        const configFile = 'config/config.json?v1.50';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.50' : 'config/config_fr.json?v1.50';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
-            fetch('config/config.json?v1.49'),
+            fetch(configFile),
             fetch(langConfigFile)
         ]);
 
-        if ( !mainConfigResponse.ok ) throw new Error( "Erreur config/config.json" );
+        if ( !mainConfigResponse.ok ) throw new Error( "Erreur config " + configFile );
         if ( !langConfigResponse.ok ) throw new Error( "Erreur config langue " + langConfigFile );
 
         const mainConfig = await mainConfigResponse.json();
@@ -1153,7 +1154,7 @@ function toggleFavTimelineDrawer(tabName) {
     if (drawer.classList.contains('active') && AppState.state.activeTab === 'favorites') {
         icon.textContent = 'chevron_right';
     } else {
-        icon.textContent = 'bookmarks';
+        icon.textContent = 'bookmark';
         updateFavoritesIcon();
     }
 }
@@ -2219,7 +2220,7 @@ function switchDrawerTab(tabName) {
          if (tabName === 'favorites') {
              icon.textContent = 'chevron_right';
          } else {
-             icon.textContent = 'bookmarks';
+             icon.textContent = 'bookmark';
              updateFavoritesIcon();
          }
     }
@@ -2238,7 +2239,7 @@ function closeFavTimelineDrawers() {
     const btnFloat   = document.getElementById( 'btn-drawer-favorites' );
     const icon       = btnFloat.querySelector( '.material-icons:not(.btn-bg)' );
     if (icon) {
-        icon.textContent = 'bookmarks';
+        icon.textContent = 'bookmark';
         updateFavoritesIcon();
     }
 }
