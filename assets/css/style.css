@@ -84,7 +84,7 @@ body {
 
 /* Menu Logo */
 .menu-logo {
-    width: 80px;
+    width: 60px;
     height: auto;
     aspect-ratio: 40 / 17;
     fill: white;
@@ -1395,6 +1395,13 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     transform: translateY(-100%);
 }
 
+.bar-top .header-actions #btn-header-lang {
+    margin-left: 0;
+    min-width: 24px;
+    padding: 5px;
+    border: none;
+}
+
 /* --- BAR TOP : MENU LOGO --- */
 
 .bar-top .logo-container {
@@ -1423,36 +1430,40 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     flex-basis: max-content;
 }
 
+.bar-top .header-actions .btn-program,
+.bar-top .header-actions .btn-ticket,
+.bar-top .header-actions .btn-lang {
+    font-weight: bold;
+    font-size: 0.7em;
+    padding: 4px 8px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
 .bar-top .header-actions .btn-program {
     background: transparent;
     color: white;
-    padding: 4px 8px;
     border-radius: 25px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 9px;
     border: 1px solid white;
-    cursor: pointer;
+    display: none;
 }
 
 .bar-top .header-actions .btn-ticket {
     background: white;
     color: var(--primary-color);
-    padding: 4px 8px;
     border-radius: 25px;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 0.7em;
     border: none;
-    cursor: pointer;
+    display: none;
 }
 
-.bar-top .header-actions #btn-header-lang {
-    margin-left: 0;
-    min-width: 24px;
-    padding: 5px;
-    border: none;
+
+.bar-top .header-actions .btn-lang {
+    background: transparent;
+    color: white;
+    border-radius: 25px;
+    border: 1px solid white;
 }
+
 
 /* --- TICKETING CARD --- */
 
@@ -2100,7 +2111,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 .main-menu-icon .material-icons {
-    font-size: 32px;
+    font-size: 24px;
 }
 
 .menu-icon {
@@ -2326,6 +2337,40 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
    MEDIA QUERIES - MOBILE FIRST STRATEGY
    ========================================================================== */
 
+
+@media (min-width: 320px) {
+
+    .bar-top .header-actions .btn-program {
+        display: none;
+    }
+
+    .bar-top .header-actions .btn-ticket  {
+        display: block;
+    }
+
+}
+
+@media (min-width: 400px) {
+    .menu-logo {
+      width: 80px;
+    }
+
+    .main-menu-icon .material-icons {
+      font-size: 32px;
+    }
+
+
+    .bar-top .header-actions .btn-program {
+      display: block;
+    }
+
+    .bar-top .header-actions .btn-ticket  {
+        display: block;
+    }
+
+}
+
+
 /* --- TABLET (min-width: 640px) --- */
 @media (min-width: 640px) {
 
@@ -2334,7 +2379,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     }
 
     .menu-logo {
-        width: 100px;
+        width: 120px;
     }
 
     .lang-icon {
@@ -2502,15 +2547,14 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
         gap: 10px;
     }
 
-    .bar-top .header-actions .btn-program {
+
+    .bar-top .header-actions .btn-program,
+    .bar-top .header-actions .btn-ticket,
+    .bar-top .header-actions .btn-lang {
         padding: 10px 18px;
         font-size: 0.7em;
     }
 
-    .bar-top .header-actions .btn-ticket {
-        padding: 10px 18px;
-        font-size: 0.7em;
-    }
 
     /* --- video-state-icon --- */
 
