@@ -25,9 +25,22 @@
     },
     "texts":
     {
+        "status_canceled":              "Canceled",
+        "status_moved_online":          "Moved Online",
+        "status_postponed":             "Postponed",
+        "status_rescheduled":           "Rescheduled",
+        "status_scheduled":             "Scheduled",
+
         "nav_programming":              "Discover the artists",
         "nav_ticketing":                "Tickets",
         "nav_language_toggle":          "Switch to english",
+
+        "intro_title":                  "TINALS 2026 Festival",
+        "intro_subtitle":               "Beau weekend, the return of the sequel",
+        "intro_date":                   "JUNE<br />5 & 6<br />2026",
+        "intro_btn_program":            "Discover the first artists !",
+        "intro_btn_ticket":             "Ticket sales",
+        "intro_footer":                 "The festival is organized by Come On People and Paloma,<br />with the support of Nîmes Métropole.",
 
         "bar_sound_on":                 "Sound on",
         "bar_sound_off":                "Sound off",
@@ -37,32 +50,22 @@
 
         "bar_filter_top_page":          "You've reached the <strong>first event</strong><br />filtered by <strong>\"{tag}\"</strong>.",
         "bar_filter_bottom_page":       "You've reached the <strong>last event</strong><br />filtered by <strong>\"{tag}\"</strong>.",
+        "filter_cancel_tags":           "Events filtered by <strong>\"{tag}\"</strong>.<br />Click to cancel",
+
         "bar_fav_top_page":             "You've reached the <strong>first event</strong><br />of <strong>my favorites</strong>",
         "bar_fav_bottom_page":          "You've reached the <strong>last event</strong><br />of <strong>my favorites</strong>",
-
         "bar_fav_added":                "Added to favorites",
         "bar_fav_removed":              "Removed from favorites",
-
-        "bar_share":                    "Share",
-
-        "intro_title":                  "TINALS 2026 Festival",
-        "intro_subtitle":               "Beau weekend, the return of the sequel",
-        "intro_date":                   "JUNE<br />5 & 6<br />2026",
-        "intro_btn_program":            "Discover the first artists !",
-        "intro_btn_ticket":             "Ticket sales",
-        "intro_footer":                 "The festival is organized by Come On People and Paloma,<br />with the support of Nîmes Métropole.",
-
         "fav_title":                    "My Favorites",
         "fav_empty":                    "No favorites",
         "fav_btn_play":                 "Listen my favorites",
         "fav_btn_share":                "Share my favorites",
+        "filter_cancel_fav":            "Events favorites only.<br />Click to cancel",
 
         "timeline_title":               "Timeline",
         "timeline_empty":               "No events for this filter",
 
-        "filter_cancel_fav":            "Events favorites only.<br />Click to cancel",
-        "filter_cancel_tags":           "Events filtered by <strong>\"{tag}\"</strong>.<br />Click to cancel",
-
+        "bar_share":                    "Share",
         "share_title":                  "Share",
         "share_facebook":               "Facebook",
         "share_tiktok":                 "Copy link for TikTok",
@@ -79,17 +82,8 @@
         "install_modal_btn_yes":        "Install",
         "install_modal_btn_no":         "Later",
 
-        "status_canceled":              "Canceled",
-        "status_moved_online":          "Moved Online",
-        "status_postponed":             "Postponed",
-        "status_rescheduled":           "Rescheduled",
-        "status_scheduled":             "Scheduled",
-
         "ticket_likes_label":           "My favorites",
         "ticket_artists_count_label":   "{count} artists are coming to the festival",
-
-        "error_video_playback":         "Problem playing the video",
-        "error_video_suggestion":       "Please reload the page to try again",
 
         "menu_home":                    "Home",
         "menu_program":                 "Discover the program",
@@ -107,12 +101,12 @@
         "menu_install":                 "Installation / Uninstall",
         "menu_uninstall_confirm_title": "Uninstall App",
         "menu_uninstall_confirm_text":  "Do you really want to uninstall the application?",
+        "menu_check_version":           "Check for updates",
         "menu_reload":                  "Reload App",
         "menu_reload_confirm_title":    "Reload App",
         "menu_reload_confirm_text":     "Do you really want reload the application and update data ?",
         "menu_about":                   "About",
 
-        "menu_check_version":           "Check for updates",
         "msg_up_to_date":               "You are up to date",
         "update_available_title":       "Update Available",
         "update_available_text":        "A new version {new_version} of the application is available and replaces the {old_version}. Click OK to update.",
@@ -135,6 +129,9 @@
         "about_comm_manager":           "Head of Communication and Public Relations at Paloma",
         "about_developer":              "Development",
         "about_development":            "No cookies, just the essentials. We believe that your browsing experience should not be commodified. That's why our app works without any cookies and does not collect any personal data without your knowledge. We focus on what really matters: offering you the best for the TINALS festival.",
-        "about_follow_us":              "Follow us on Facebook"
+        "about_follow_us":              "Follow us on Facebook",
+
+        "error_video_playback":         "Problem playing the video",
+        "error_video_suggestion":       "Please reload the page to try again"
     }
 }

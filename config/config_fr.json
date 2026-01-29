@@ -25,9 +25,22 @@
     },
     "texts":
     {
+        "status_canceled":              "Annulé",
+        "status_moved_online":          "En ligne",
+        "status_postponed":             "Reporté",
+        "status_rescheduled":           "Reprogrammé",
+        "status_scheduled":             "Planifié",
+
         "nav_programming":              "Découvrez la programmation",
         "nav_ticketing":                "Billetterie",
         "nav_language_toggle":          "Basculer en français",
+
+        "intro_title":                  "Festival TINALS 2026",
+        "intro_subtitle":               "Beau weekend, le retour de la suite",
+        "intro_date":                   "5 & 6<br />juin<br />2026",
+        "intro_btn_program":            "Découvrez les premiers noms !",
+        "intro_btn_ticket":             "La billetterie",
+        "intro_footer":                 "Le festival est organisé par Come On People et Paloma,<br />avec le soutien de Nîmes Métropole",
 
         "bar_sound_on":                 "Son",
         "bar_sound_off":                "Son coupé",
@@ -37,31 +50,23 @@
 
         "bar_filter_top_page":          "Vous avez atteint <strong>le premier évènement</strong><br />filtré par <strong>\"{tag}\"</strong>.",
         "bar_filter_bottom_page":       "Vous avez atteint <strong>le dernier évènement</strong><br />filtré par <strong>\"{tag}\"</strong>.",
+
+        "filter_cancel_tags":           "Évènements filtrés par <strong>\"{tag}\"</strong>.<br />Cliquer pour annuler.",
+
         "bar_fav_top_page":             "Vous avez atteint <strong>le premier évènement</strong><br />de <strong>mes favoris</strong>.",
         "bar_fav_bottom_page":          "Vous avez atteint <strong>le dernier évènement</strong><br />de <strong>mes favoris</strong>.",
-
         "bar_fav_added":                "Ajouté aux favoris",
         "bar_fav_removed":              "Supprimé des favoris",
-        "bar_share":                    "Partage",
-
-        "intro_title":                  "Festival TINALS 2026",
-        "intro_subtitle":               "Beau weekend, le retour de la suite",
-        "intro_date":                   "5 & 6<br />juin<br />2026",
-        "intro_btn_program":            "Découvrez les premiers noms !",
-        "intro_btn_ticket":             "La billetterie",
-        "intro_footer":                 "Le festival est organisé par Come On People et Paloma,<br />avec le soutien de Nîmes Métropole",
-
         "fav_title":                    "Mes favoris",
         "fav_empty":                    "Aucun favori",
         "fav_btn_play":                 "Écouter mes favoris",
         "fav_btn_share":                "Partager mes favoris",
+        "filter_cancel_fav":            "Évènements favoris.<br />Cliquer pour annuler.",
 
         "timeline_title":               "Chronologie",
         "timeline_empty":               "Aucun concert pour ce filtre",
 
-        "filter_cancel_fav":            "Évènements favoris.<br />Cliquer pour annuler.",
-        "filter_cancel_tags":           "Évènements filtrés par <strong>\"{tag}\"</strong>.<br />Cliquer pour annuler.",
-
+        "bar_share":                    "Partage",
         "share_title":                  "Partager",
         "share_facebook":               "Facebook",
         "share_tiktok":                 "Copier lien pour TikTok",
@@ -78,17 +83,8 @@
         "install_modal_btn_yes":        "Installer",
         "install_modal_btn_no":         "Plus tard",
 
-        "status_canceled":              "Annulé",
-        "status_moved_online":          "En ligne",
-        "status_postponed":             "Reporté",
-        "status_rescheduled":           "Reprogrammé",
-        "status_scheduled":             "Planifié",
-
         "ticket_likes_label":           "Mes coups de coeur",
         "ticket_artists_count_label":   "{count} groupes viennent au festival",
-
-        "error_video_playback":         "Problème de lecture de la vidéo",
-        "error_video_suggestion":       "Veuillez recharger la page pour réessayer",
 
         "menu_home":                    "Accueil",
         "menu_program":                 "Découvrez la programmation",
@@ -96,20 +92,20 @@
         "menu_timeline":                "Chronologie - Timeline",
         "menu_ticketing":               "Billetterie",
         "menu_language":                "English version",
+        "menu_website":                 "https://thisisnotalovesong.fr",
         "menu_news":                    "Actualités",
         "menu_practical":               "Hébergement & Restauration",
         "menu_map":                     "Plan et itinéraire",
         "menu_pro_area":                "Espace pro",
-        "menu_website":                 "https://thisisnotalovesong.fr",
         "menu_settings":                "Paramètres",
         "menu_features":                "Fonctionnalités",
         "menu_install":                 "Installation / Désinstallation",
         "menu_uninstall_confirm_title": "Désinstaller l'application",
         "menu_uninstall_confirm_text":  "Voulez-vous vraiment désinstaller l'application ?",
+        "menu_check_version":           "Vérifier les mises à jour",
         "menu_reload":                  "Recharger l'application",
         "menu_reload_confirm_title":    "Recharger l'application",
         "menu_reload_confirm_text":     "Voulez-vous recharger l'application et mettre à jour les données ?",
-        "menu_check_version":           "Vérifier les mises à jour",
         "menu_about":                   "A propos",
 
         "msg_up_to_date":               "Votre application est à jour",
@@ -134,6 +130,9 @@
         "about_comm_manager":           "Responsable communication et relations publiques de Paloma",
         "about_developer":              "Développement",
         "about_development":            "Pas de cookies, juste l'essentiel. Nous croyons que votre navigation ne devrait pas être une marchandise. C’est pourquoi notre application fonctionne sans aucun cookie et ne collecte aucune donnée personnelle à votre insu. Nous nous concentrons sur ce qui compte vraiment : vous offrir le meilleur pour le festival TINALS.",
-        "about_follow_us":              "Suivez-nous sur Facebook"
+        "about_follow_us":              "Suivez-nous sur Facebook",
+
+        "error_video_playback":         "Problème de lecture de la vidéo",
+        "error_video_suggestion":       "Veuillez recharger la page pour réessayer"
     }
 }
