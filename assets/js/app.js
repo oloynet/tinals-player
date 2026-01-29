@@ -620,7 +620,7 @@ function updateStaticTexts() {
     document.getElementById( 'share-link-label' ).innerText  = t.share_link;
     document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
-    document.getElementById( 'fav-mode-bar' ).innerHTML      = `${t.filter_cancel_fav} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    document.getElementById( 'fav-mode-bar' ).innerHTML      = `<span>${t.filter_cancel_fav}</span> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
 
     // Confirm Modal Buttons
     const btnYes   = document.getElementById('btn-confirm-yes');
@@ -1986,7 +1986,7 @@ function renderTagFilterBar() {
     const tagName = getTagNameFromSlug(currentSlug);
     const text = t.filter_cancel_tags.replace('{tag}', tagName);
 
-    const html = `${text} <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    const html = `<span>${text}</span> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
     document.getElementById( 'tag-mode-bar' ).innerHTML = html;
 }
 
