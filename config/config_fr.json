@@ -48,12 +48,12 @@
         "bar_top_page":                 "Haut de page",
         "bar_bottom_page":              "Bas de page",
 
-        "bar_filter_top_page":          "Vous avez atteint <strong>le premier évènement</strong><br />filtré par <strong>\"{tag}\"</strong>.",
-        "bar_filter_bottom_page":       "Vous avez atteint <strong>le dernier évènement</strong><br />filtré par <strong>\"{tag}\"</strong>.",
-        "filter_cancel_tags":           "Évènements filtrés par <strong>\"{tag}\"</strong>.<br />Cliquer pour annuler.",
+        "bar_filter_top_page":          "Vous avez atteint <strong>le premier évènement</strong> <br />filtré par le tag \"<strong>{tag}</strong>\".",
+        "bar_filter_bottom_page":       "Vous avez atteint <strong>le dernier évènement</strong> <br />filtré par le tag \"<strong>{tag}</strong>\".",
+        "filter_cancel_tags":           "Évènements filtrés par le tag \"<strong>{tag}</strong>\".<br />Cliquer pour annuler.",
 
-        "bar_fav_top_page":             "Vous avez atteint <strong>le premier évènement</strong><br />de <strong>mes favoris</strong>.",
-        "bar_fav_bottom_page":          "Vous avez atteint <strong>le dernier évènement</strong><br />de <strong>mes favoris</strong>.",
+        "bar_fav_top_page":             "Vous avez atteint <strong>le premier évènement</strong> <br />de <strong>mes favoris</strong>.",
+        "bar_fav_bottom_page":          "Vous avez atteint <strong>le dernier évènement</strong> <br />de <strong>mes favoris</strong>.",
         "filter_cancel_fav":            "Évènements favoris.<br />Cliquer pour annuler.",
 
         "bar_fav_added":                "Ajouté aux favoris",

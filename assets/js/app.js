@@ -1986,7 +1986,7 @@ function renderTagFilterBar() {
     const tagName = getTagNameFromSlug(currentSlug);
     const text = t.filter_cancel_tags.replace('{tag}', tagName);
 
-    const html = `<span>${text}</span> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    const html = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
     document.getElementById( 'tag-mode-bar' ).innerHTML = html;
 }
 

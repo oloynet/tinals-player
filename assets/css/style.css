@@ -127,7 +127,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: normal;
+    font-weight: bold;
     text-transform: uppercase;
     font-size: 0.85rem;
     transform: translateY(-100%);
@@ -138,6 +138,13 @@ body {
     padding-right: 20px;
     text-align: center;
 }
+
+
+#fav-mode-bar span,
+#tag-mode-bar span {
+    font-weight: normal;
+}
+
 
 body.menu-hidden #fav-mode-bar,
 body.menu-hidden #tag-mode-bar {
@@ -291,6 +298,10 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.5);
     text-align: center;
     text-transform: uppercase;
+}
+
+#toast-message span {
+    font-weight: normal;
 }
 
 #toast-message.visible {
