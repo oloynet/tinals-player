@@ -2766,3 +2766,107 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 .about-social a:hover {
     transform: scale(1.05);
 }
+
+/* ==========================================================================
+   MOBILE FIXES (max-width: 639px)
+   ========================================================================== */
+
+@media (max-width: 639px) {
+
+    /* --- HEADER BUTTONS --- */
+
+    /* Replace long text with "PROGRAMMATION" */
+    #btn-header-prog {
+        font-size: 0 !important;
+        padding: 8px 12px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #btn-header-prog::after {
+        content: "PROGRAMMATION";
+        font-size: 9px;
+        visibility: visible;
+        font-weight: bold;
+        line-height: 1;
+    }
+
+    /* Adjust Ticket button to match */
+    #btn-header-ticket {
+        font-size: 9px;
+        padding: 8px 12px;
+    }
+
+    .bar-top .header-actions {
+        gap: 6px;
+    }
+
+    /* --- INTRO CARD LAYOUT --- */
+
+    .intro-card {
+        padding-top: calc(var(--header-height) + 15px); /* Clear fixed header */
+        padding-bottom: 20px;
+        justify-content: space-between;
+    }
+
+    .intro-content-top {
+        margin-top: 0;
+        gap: 5px;
+        flex: 0 1 auto;
+    }
+
+    .intro-logo {
+        max-width: 280px; /* Constrain width to save vertical space */
+    }
+
+    .intro-subtitle {
+        font-size: 1.1rem;
+        line-height: 1.2;
+    }
+
+    .intro-date {
+        font-size: 2rem;
+        margin: 5px 0;
+    }
+
+    .intro-content-bottom {
+        gap: 10px;
+        justify-content: flex-end;
+    }
+
+    /* --- SHARED BUTTONS & FOOTER --- */
+
+    .intro-buttons-container {
+        gap: 8px;
+        width: 100%;
+    }
+
+    .intro-btn {
+        white-space: normal; /* Allow text wrapping */
+        height: auto;
+        padding: 10px 20px;
+        min-width: unset;
+        width: 90%;
+        max-width: 320px;
+        line-height: 1.2;
+        font-size: 0.85rem;
+    }
+
+    .intro-note {
+        font-size: 0.75rem; /* Smaller footer text */
+        line-height: 1.3;
+        margin-top: 5px;
+        opacity: 0.9;
+    }
+
+    /* Ensure poster card buttons also fit */
+    .poster-card {
+        padding-bottom: 20px;
+    }
+
+    .poster-content-bottom {
+        gap: 10px;
+    }
+
+}
