@@ -54,7 +54,7 @@
 
         "bar_fav_top_page":             "First   <span>favorite event</span>",
         "bar_fav_bottom_page":          "Last    <span>favorite event</span>",
-        "filter_cancel_fav":            "{count} <span>favorite(s) event(s)</span><br />Click to cancel",
+        "filter_cancel_fav":            "{count} <span>favorite event(s)</span><br />Click to cancel",
 
         "bar_fav_added":                "Added to favorites",
         "bar_fav_removed":              "Removed from favorites",
@@ -103,11 +103,11 @@
         "menu_features":                "Features",
         "menu_install":                 "Installation / Uninstall",
         "menu_uninstall_confirm_title": "Uninstall App",
-        "menu_uninstall_confirm_text":  "Do you really want to uninstall the application ?",
+        "menu_uninstall_confirm_text":  "Do you really want to uninstall the application?",
         "menu_check_version":           "Check for updates",
         "menu_reload":                  "Reload App",
         "menu_reload_confirm_title":    "Reload App",
-        "menu_reload_confirm_text":     "Reload the application and update data ?<br />You won't lose your favourites.",
+        "menu_reload_confirm_text":     "Reload the application and update data?<br />You won't lose your favourites.",
         "menu_about":                   "About",
 
         "msg_up_to_date":               "You are up to date",
