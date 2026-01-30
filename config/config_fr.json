@@ -32,6 +32,8 @@
         "status_scheduled":             "Planifié",
 
         "nav_programming":              "Découvrez la programmation",
+        "btn_day_1":                    "Vendredi 5",
+        "btn_day_2":                    "Samedi 6",
         "nav_ticketing":                "Billetterie",
         "nav_language_toggle":          "Basculer en français",
 

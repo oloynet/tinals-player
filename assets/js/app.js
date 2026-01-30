@@ -607,8 +607,11 @@ function translateText( text, type ) {
 
 function updateStaticTexts() {
     const t = AppState.config.texts;
-    document.getElementById( 'btn-header-prog' ).innerText   = t.nav_programming;
-    document.getElementById( 'btn-header-ticket' ).innerText = t.nav_ticketing;
+    // document.getElementById( 'btn-header-prog' ).innerText   = t.nav_programming;
+    // document.getElementById( 'btn-header-ticket' ).innerText = t.nav_ticketing;
+    if(document.getElementById('txt-header-day1')) document.getElementById('txt-header-day1').innerText = t.btn_day_1;
+    if(document.getElementById('txt-header-day2')) document.getElementById('txt-header-day2').innerText = t.btn_day_2;
+
     document.getElementById( 'drawer-fav-title' ).innerText  = t.fav_title;
     document.getElementById( 'drawer-time-title' ).innerText = t.timeline_title;
     document.getElementById( 'btn-txt-play-fav' ).innerText  = t.fav_btn_play;
@@ -639,6 +642,8 @@ function updateStaticTexts() {
     };
     setText('menu-txt-home',      t.menu_home);
     setText('menu-txt-program',   t.menu_program);
+    setText('menu-txt-day1',      t.btn_day_1);
+    setText('menu-txt-day2',      t.btn_day_2);
     setText('menu-txt-favorites', t.menu_favorites);
     setText('menu-txt-timeline',  t.menu_timeline);
     setText('menu-txt-ticketing', t.menu_ticketing);
@@ -715,8 +720,10 @@ function getIntroHtml() {
             <div class="intro-date"><span>${c.texts.intro_date}</span></div>
             <div class="intro-content-bottom">
                 <div class="intro-buttons-container">
-                    <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button>
-                    <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button>
+                    <!-- <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button> -->
+                    <!-- <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button> -->
+                    <button onclick="filterByTag('day-1')" class="intro-btn"><span class="material-icons" style="vertical-align: middle; margin-right: 5px;">calendar_today</span> ${c.texts.btn_day_1}</button>
+                    <button onclick="filterByTag('day-2')" class="intro-btn"><span class="material-icons" style="vertical-align: middle; margin-right: 5px;">calendar_today</span> ${c.texts.btn_day_2}</button>
                 </div>
                 <p class="intro-note">${c.texts.intro_footer}</p>
             </div>
@@ -732,8 +739,10 @@ function getPosterHtml() {
         <section id="poster" class="poster-card section-snap" style="background-image: url('${posterImage}');">
             <div class="poster-content-bottom">
                 <div class="intro-buttons-container">
-                    <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button>
-                    <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button>
+                    <!-- <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button> -->
+                    <!-- <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button> -->
+                    <button onclick="filterByTag('day-1')" class="intro-btn"><span class="material-icons" style="vertical-align: middle; margin-right: 5px;">calendar_today</span> ${c.texts.btn_day_1}</button>
+                    <button onclick="filterByTag('day-2')" class="intro-btn"><span class="material-icons" style="vertical-align: middle; margin-right: 5px;">calendar_today</span> ${c.texts.btn_day_2}</button>
                 </div>
                 <p class="intro-note">${c.texts.intro_footer}</p>
             </div>
@@ -904,6 +913,22 @@ function handleMenuAction(action) {
             closeMainMenu();
             scrollToFirstVideo();
             break;
+        case 'day1':
+            closeMainMenu();
+            filterByTag('day-1');
+            setTimeout(() => {
+                const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
+                if ( firstMatch ) firstMatch.scrollIntoView( { behavior: 'smooth' } );
+            }, 100);
+            break;
+        case 'day2':
+            closeMainMenu();
+            filterByTag('day-2');
+            setTimeout(() => {
+                const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
+                if ( firstMatch ) firstMatch.scrollIntoView( { behavior: 'smooth' } );
+            }, 100);
+            break;
         case 'favorites':
             closeMainMenu();
             setTimeout(() => toggleFavTimelineDrawer('favorites'), 300);
@@ -1018,10 +1043,9 @@ function closeAboutModal() {
 
 /* SETTINGS */
 
-function toggleSettingsAccordion() {
-    const item = document.querySelector('.accordion-item');
-    if(item) {
-        item.classList.toggle('expanded');
+function toggleAccordion( el ) {
+    if(el && el.parentNode) {
+        el.parentNode.classList.toggle('expanded');
     }
 }
 

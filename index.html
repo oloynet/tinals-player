@@ -179,8 +179,11 @@
             </svg>
         </div>
         <div class="header-actions">
-            <button id="btn-header-prog"   class="btn-program" onclick="scrollToFirstVideo()" aria-label="La programmation du festival">PROGRAMMATION</button>
-            <button id="btn-header-ticket" class="btn-ticket"  onclick="scrollToTicketing()"  aria-label="La billetterie">BILLETTERIE</button>
+            <!-- <button id="btn-header-prog"   class="btn-program" onclick="scrollToFirstVideo()" aria-label="La programmation du festival">PROGRAMMATION</button> -->
+            <!-- <button id="btn-header-ticket" class="btn-ticket"  onclick="scrollToTicketing()"  aria-label="La billetterie">BILLETTERIE</button> -->
+            <button id="btn-header-day1" class="btn-program" onclick="filterByTag('day-1')" aria-label="Vendredi 5"><span class="material-icons">calendar_today</span> <span id="txt-header-day1">Vendredi 5</span></button>
+            <button id="btn-header-day2" class="btn-program" onclick="filterByTag('day-2')" aria-label="Samedi 6"><span class="material-icons">calendar_today</span> <span id="txt-header-day2">Samedi 6</span></button>
+
             <button id="btn-header-lang"   class="btn-lang"    onclick="toggleLanguage()"     aria-label="Changer de langue">
                 <svg class="lang-icon" viewBox="0 0 48 32">
                     <use id="lang-icon-use" href=""></use>
@@ -214,7 +217,18 @@
         <div class="main-menu-content">
             <ul class="main-menu-list">
                 <li onclick="handleMenuAction('home')"><span class="material-icons menu-icon">home</span><span class="menu-text" id="menu-txt-home">Home</span></li>
-                <li onclick="handleMenuAction('program')"><span class="material-icons menu-icon">video_library</span><span class="menu-text" id="menu-txt-program">Programmation</span></li>
+                <!-- <li onclick="handleMenuAction('program')"><span class="material-icons menu-icon">video_library</span><span class="menu-text" id="menu-txt-program">Programmation</span></li> -->
+                <li class="accordion-item expanded">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
+                        <span class="material-icons menu-icon">video_library</span>
+                        <span class="menu-text" id="menu-txt-program">Programmation</span>
+                        <span class="material-icons accordion-icon">expand_more</span>
+                    </div>
+                    <ul class="accordion-content">
+                         <li onclick="handleMenuAction('day1')"><span class="material-icons menu-icon">calendar_today</span><span class="menu-text" id="menu-txt-day1">Vendredi 5</span></li>
+                         <li onclick="handleMenuAction('day2')"><span class="material-icons menu-icon">calendar_today</span><span class="menu-text" id="menu-txt-day2">Samedi 6</span></li>
+                    </ul>
+                </li>
                 <li onclick="handleMenuAction('favorites')"><span class="material-icons menu-icon">bookmark</span><span class="menu-text" id="menu-txt-favorites">Mes favoris</span></li>
                 <li onclick="handleMenuAction('timeline')"><span class="material-icons menu-icon">event_note</span><span class="menu-text" id="menu-txt-timeline">Timeline</span></li>
                 <li onclick="handleMenuAction('ticketing')"><span class="material-icons menu-icon">confirmation_number</span><span class="menu-text" id="menu-txt-ticketing">Billetterie</span></li>
@@ -238,7 +252,7 @@
                 <li class="separator"></li>
 
                 <li class="accordion-item">
-                    <div class="accordion-header" onclick="toggleSettingsAccordion()">
+                    <div class="accordion-header" onclick="toggleAccordion(this)">
                         <span class="material-icons menu-icon">settings</span>
                         <span class="menu-text" id="menu-txt-settings">Paramètres</span>
                         <span class="material-icons accordion-icon">expand_more</span>
