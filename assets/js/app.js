@@ -126,8 +126,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.52';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.52' : 'config/config_fr.json?v1.52';
+        const configFile = 'config/config.json?v1.53';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.53' : 'config/config_fr.json?v1.53';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -620,7 +620,7 @@ function updateStaticTexts() {
     document.getElementById( 'share-link-label' ).innerText  = t.share_link;
     document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
-    document.getElementById( 'fav-mode-bar' ).innerHTML      = `<span>${t.filter_cancel_fav}</span> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    document.getElementById( 'fav-mode-bar' ).innerHTML      = `<div>${t.filter_cancel_fav}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
 
     // Confirm Modal Buttons
     const btnYes   = document.getElementById('btn-confirm-yes');
@@ -694,7 +694,7 @@ function formatDate( dateStr ) {
 }
 
 
-/* HTML TEMPLATES */
+/* GET HTML */
 
 function getSvgHtml( spriteId, cssClass ) {
     return `<svg class="${cssClass}"><use href="${AppState.config.images.sprite_path}#${spriteId}"></use></svg>`;
@@ -836,9 +836,6 @@ function getVideoCardHtml( g ) {
 
 
 
-
-
-
 /* RENDER */
 
 
@@ -859,6 +856,8 @@ function toggleLanguage() {
     window.location.href = url.href;
 }
 
+
+
 /* MAIN MENU */
 
 function toggleMainMenu() {
@@ -876,6 +875,7 @@ function toggleMainMenu() {
     }
 }
 
+
 function closeMainMenu() {
     const drawer = document.getElementById('main-menu-drawer');
     const overlay = document.getElementById('drawer-overlay');
@@ -889,6 +889,7 @@ function closeMainMenu() {
 
     AppState.state.isMainMenuOpen = false;
 }
+
 
 function handleMenuAction(action) {
     const s = AppState.settings;
@@ -961,6 +962,10 @@ function handleMenuAction(action) {
     }
 }
 
+
+
+/* FEATURES BOX */
+
 function openFeaturesModal() {
     const modal = document.getElementById('features-modal');
     const features = AppState.config.features || {};
@@ -988,20 +993,30 @@ function openFeaturesModal() {
     if(modal) modal.classList.add('active');
 }
 
+
 function closeFeaturesModal() {
     const modal = document.getElementById('features-modal');
     if(modal) modal.classList.remove('active');
 }
+
+
+
+/* MODAL BOX */
 
 function openAboutModal() {
     const modal = document.getElementById('about-modal');
     if(modal) modal.classList.add('active');
 }
 
+
 function closeAboutModal() {
     const modal = document.getElementById('about-modal');
     if(modal) modal.classList.remove('active');
 }
+
+
+
+/* SETTINGS */
 
 function toggleSettingsAccordion() {
     const item = document.querySelector('.accordion-item');
@@ -1009,6 +1024,7 @@ function toggleSettingsAccordion() {
         item.classList.toggle('expanded');
     }
 }
+
 
 function triggerInstallOrUninstall() {
     const isInstalled = localStorage.getItem('app_installed') === 'true';
@@ -1028,6 +1044,7 @@ function triggerInstallOrUninstall() {
     }
 }
 
+
 function triggerReload() {
     openConfirmModal(
         AppState.config.texts.menu_reload_confirm_title,
@@ -1037,6 +1054,7 @@ function triggerReload() {
         }
     );
 }
+
 
 async function reloadApp() {
     // Unregister SW
@@ -1058,6 +1076,7 @@ async function reloadApp() {
 
     window.location.reload(true);
 }
+
 
 async function checkVersion(manualCheck = false) {
     try {
@@ -1092,6 +1111,8 @@ async function checkVersion(manualCheck = false) {
     }
 }
 
+
+
 /* CONFIRM MODAL */
 
 let confirmCallback = null;
@@ -1103,6 +1124,7 @@ function openConfirmModal(title, text, onYes) {
     confirmCallback = onYes;
     modal.classList.add('active');
 }
+
 
 function closeConfirmModal() {
     const modal = document.getElementById('confirm-modal');
@@ -1197,93 +1219,6 @@ function toggleArtistDescription( element, event ) {
 }
 
 
-/* FAVORITES */
-
-function updateFavoritesIcon() {
-    const btn = document.getElementById( 'btn-drawer-favorites' );
-    if ( !btn ) return;
-
-    const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
-    const bg = btn.querySelector( '.btn-bg' );
-    if ( AppState.favorites.length > 0 ) {
-        if ( bg ) bg.classList.add( 'bright' );
-        if ( icon ) icon.style.color = 'var(--primary-color)';
-    } else {
-        if ( bg ) bg.classList.remove( 'bright' );
-        if ( icon ) icon.style.color = 'white';
-    }
-}
-
-
-function toggleFavCurrent() {
-    toggleFav( AppState.state.activeId );
-}
-
-
-function toggleFav( id ) {
-    const card = document.getElementById(`video-${id}`);
-    if ( AppState.favorites.includes( id ) ) {
-        AppState.favorites = AppState.favorites.filter( f => f !== id );
-        showToast( AppState.config.texts.bar_fav_removed );
-        if(card) card.classList.remove('is-favorite');
-    } else {
-        AppState.favorites.push( id );
-        showToast( AppState.config.texts.bar_fav_added );
-        if(card) card.classList.add('is-favorite');
-
-        const drawer = document.getElementById( 'fav-timeline-drawer' );
-
-        if ( !drawer.classList.contains( 'active' ) &&
-            !AppState.state.isPlayingFavorites ) {
-
-            toggleFavTimelineDrawer( 'favorites' );
-            startDrawerAutoCloseTimer();
-        }
-    }
-    localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
-    updateActionButtons( AppState.state.activeId );
-    renderDrawerFavorites();
-    renderDrawerTimeline();
-    updateFavoritesIcon();
-    updateTicketingStats();
-}
-
-
-/* PLAY FAVORITES */
-
-
-function playFavorites() {
-    if ( AppState.favorites.length === 0 ) return;
-    exitTagFilterMode();
-    AppState.state.isPlayingFavorites = true;
-    AppState.state.isMenuNavigation = true;
-    VideoManager.scrollTo( AppState.favorites[ 0 ] );
-    document.body.classList.add( 'favorites-mode' );
-    document.getElementById( 'fav-mode-bar' ).classList.add( 'active' );
-}
-
-
-function exitFavoritesMode(shouldScroll = true) {
-    const currentId = AppState.state.activeId;
-    AppState.state.isMenuNavigation = true;
-    AppState.state.isPlayingFavorites = false;
-    document.body.classList.remove( 'favorites-mode' );
-    document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
-    if ( currentId && shouldScroll ) {
-        const el = document.getElementById( `video-${currentId}` );
-        if ( el ) el.scrollIntoView( {
-            behavior: 'auto',
-            block: 'start'
-        } );
-    }
-    setTimeout( () => {
-        AppState.state.isMenuNavigation = false;
-    }, 1000 );
-    updateActionButtons( AppState.state.activeId );
-    updateNavActionButtons();
-}
-
-
 
 /* SOCIALS */
 
@@ -1308,6 +1243,7 @@ function getSocialsHtml(g) {
     if (links.length === 0) return '';
     return `<div class="social-links-container">${links.join('')}</div>`;
 }
+
 
 
 /* TICKETING */
@@ -1440,16 +1376,7 @@ function scrollToTicketing() {
 
 
 
-/* URL and SHARE */
-
-function getBaseShareUrl() {
-    const url = new URL( window.location.origin + window.location.pathname );
-    url.searchParams.set( 'share', 'web' );
-    if ( AppState.currentLang ) {
-        url.searchParams.set( 'lang', AppState.currentLang );
-    }
-    return url;
-}
+/* URL  */
 
 
 function updateURLState() {
@@ -1480,6 +1407,18 @@ function updateURLState() {
     }
 
     window.history.replaceState( null, '', url );
+}
+
+
+/* SHARE  */
+
+function getBaseShareUrl() {
+    const url = new URL( window.location.origin + window.location.pathname );
+    url.searchParams.set( 'share', 'web' );
+    if ( AppState.currentLang ) {
+        url.searchParams.set( 'lang', AppState.currentLang );
+    }
+    return url;
 }
 
 
@@ -1576,8 +1515,6 @@ async function shareFavoritesList() {
 }
 
 
-/* SHARE MODAL */
-
 function openShareModal() {
     document.getElementById( 'share-link-display' ).innerText = AppState.state.shareUrl;
     document.getElementById( 'share-box-modal' ).classList.add( 'active' );
@@ -1607,6 +1544,7 @@ function setupInteraction() {
         } );
     } );
 }
+
 
 
 /* OBSERVER */
@@ -1679,6 +1617,7 @@ function setupObserver() {
     } );
     document.querySelectorAll( '.section-snap' ).forEach( el => observer.observe( el ) );
 }
+
 
 
 /* GESTURES AND KEYBOARD */
@@ -1803,6 +1742,7 @@ function setupKeyboardControls() {
 }
 
 
+
 /* TOAST */
 
 function showToast( message ) {
@@ -1844,6 +1784,7 @@ function setupScrollToasts() {
 }
 
 
+
 /* SCROLL */
 
 function navigateScroll( direction ) {
@@ -1872,12 +1813,6 @@ function navigateScroll( direction ) {
 }
 
 
-function cancelFilters() {
-    if ( AppState.state.isPlayingFavorites ) exitFavoritesMode(false);
-    if ( AppState.state.currentTagFilter ) exitTagFilterMode(false);
-}
-
-
 function scrollToTop() {
     AppState.state.isMenuNavigation = true;
     cancelFilters();
@@ -1902,6 +1837,7 @@ function scrollToFirstVideo() {
         }
     }
 }
+
 
 
 /* ACTION BUTTONS */
@@ -1958,36 +1894,102 @@ function updateActionButtons( id ) {
 }
 
 
-/* TAG */
 
-function getTagNameFromSlug(tagSlug) {
-    if (!tagSlug) return '';
-    let tagName = tagSlug;
-    for (const group of AppState.data) {
-        if (group.event_tags) {
-            const found = group.event_tags.find(t => slugify(t) === tagSlug);
-            if (found) {
-                tagName = found;
-                break;
-            }
+/* FILTER (TAG AND FAVORITE) */
+
+function cancelFilters() {
+    if ( AppState.state.isPlayingFavorites ) exitFavoritesMode(false);
+    if ( AppState.state.currentTagFilter )   exitTagFilterMode(false);
+}
+
+
+
+/* FILTER : FAVORITES */
+
+function updateFavoritesIcon() {
+    const btn = document.getElementById( 'btn-drawer-favorites' );
+    if ( !btn ) return;
+
+    const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
+    const bg = btn.querySelector( '.btn-bg' );
+    if ( AppState.favorites.length > 0 ) {
+        if ( bg ) bg.classList.add( 'bright' );
+        if ( icon ) icon.style.color = 'var(--primary-color)';
+    } else {
+        if ( bg ) bg.classList.remove( 'bright' );
+        if ( icon ) icon.style.color = 'white';
+    }
+}
+
+
+function toggleFavCurrent() {
+    toggleFav( AppState.state.activeId );
+}
+
+
+function toggleFav( id ) {
+    const card = document.getElementById(`video-${id}`);
+    if ( AppState.favorites.includes( id ) ) {
+        AppState.favorites = AppState.favorites.filter( f => f !== id );
+        showToast( AppState.config.texts.bar_fav_removed );
+        if(card) card.classList.remove('is-favorite');
+    } else {
+        AppState.favorites.push( id );
+        showToast( AppState.config.texts.bar_fav_added );
+        if(card) card.classList.add('is-favorite');
+
+        const drawer = document.getElementById( 'fav-timeline-drawer' );
+
+        if ( !drawer.classList.contains( 'active' ) &&
+            !AppState.state.isPlayingFavorites ) {
+
+            toggleFavTimelineDrawer( 'favorites' );
+            startDrawerAutoCloseTimer();
         }
     }
-    return translateText(tagName, 'tags');
+    localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
+    updateActionButtons( AppState.state.activeId );
+    renderDrawerFavorites();
+    renderDrawerTimeline();
+    updateFavoritesIcon();
+    updateTicketingStats();
 }
 
 
-function renderTagFilterBar() {
-    const t = AppState.config.texts;
-    const currentSlug = AppState.state.currentTagFilter;
-    if (!currentSlug) return;
-
-    const tagName = getTagNameFromSlug(currentSlug);
-    const text = t.filter_cancel_tags.replace('{tag}', tagName);
-
-    const html = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
-    document.getElementById( 'tag-mode-bar' ).innerHTML = html;
+function playFavorites() {
+    if ( AppState.favorites.length === 0 ) return;
+    exitTagFilterMode();
+    AppState.state.isPlayingFavorites = true;
+    AppState.state.isMenuNavigation = true;
+    VideoManager.scrollTo( AppState.favorites[ 0 ] );
+    document.body.classList.add( 'favorites-mode' );
+    document.getElementById( 'fav-mode-bar' ).classList.add( 'active' );
 }
 
+
+function exitFavoritesMode(shouldScroll = true) {
+    const currentId = AppState.state.activeId;
+    AppState.state.isMenuNavigation = true;
+    AppState.state.isPlayingFavorites = false;
+    document.body.classList.remove( 'favorites-mode' );
+    document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
+    if ( currentId && shouldScroll ) {
+        const el = document.getElementById( `video-${currentId}` );
+        if ( el ) el.scrollIntoView( {
+            behavior: 'auto',
+            block: 'start'
+        } );
+    }
+    setTimeout( () => {
+        AppState.state.isMenuNavigation = false;
+    }, 1000 );
+    updateActionButtons( AppState.state.activeId );
+    updateNavActionButtons();
+}
+
+
+
+/* FILTER : TAGS  */
 
 function filterByTag( tagSlug, event ) {
     if ( event ) event.stopPropagation();
@@ -2043,6 +2045,35 @@ function filterByTag( tagSlug, event ) {
 }
 
 
+function getTagNameFromSlug(tagSlug) {
+    if (!tagSlug) return '';
+    let tagName = tagSlug;
+    for (const group of AppState.data) {
+        if (group.event_tags) {
+            const found = group.event_tags.find(t => slugify(t) === tagSlug);
+            if (found) {
+                tagName = found;
+                break;
+            }
+        }
+    }
+    return translateText(tagName, 'tags');
+}
+
+
+function renderTagFilterBar() {
+    const t = AppState.config.texts;
+    const currentSlug = AppState.state.currentTagFilter;
+    if (!currentSlug) return;
+
+    const tagName = getTagNameFromSlug(currentSlug);
+    const text = t.filter_cancel_tags.replace('{tag}', tagName);
+
+    const html = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    document.getElementById( 'tag-mode-bar' ).innerHTML = html;
+}
+
+
 function exitTagFilterMode(shouldScroll = true) {
     if ( !AppState.state.currentTagFilter ) return;
     const currentId = AppState.state.activeId;
@@ -2075,7 +2106,7 @@ function exitTagFilterMode(shouldScroll = true) {
 
 
 
-/* DRAWER FAVORITE - TIMELINE */
+/* DRAWER ( FAVORITE - TIMELINE ) */
 
 function startDrawerAutoCloseTimer() {
     clearTimeout( AppState.timers.close );
@@ -2083,104 +2114,6 @@ function startDrawerAutoCloseTimer() {
         const drawer = document.getElementById( 'fav-timeline-drawer' );
         if ( drawer.classList.contains( 'active' ) ) closeFavTimelineDrawers();
     }, 1000 );
-}
-
-
-function renderDrawerTimeline() {
-    const list       = document.getElementById( 'timeline-list' );
-    const s          = AppState.settings;
-    let dataToRender = AppState.data;
-
-    if ( AppState.state.currentTagFilter ) {
-        // Filter using slug comparison
-        dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
-    }
-    const sortedData = [ ...dataToRender ].sort( ( a, b ) => {
-        const tA = ( a.event_start_date || '9999-99-99' ) + 'T' + ( a.event_start_time || '00:00' );
-        const tB = ( b.event_start_date || '9999-99-99' ) + 'T' + ( b.event_start_time || '00:00' );
-        return tA.localeCompare( tB );
-    } );
-    if ( sortedData.length === 0 ) {
-        list.innerHTML = `<p class="list-empty-msg">${AppState.config.texts.timeline_empty}</p>`;
-        return;
-    }
-
-    const itemsHtml = sortedData.map( g => {
-        const dayName  = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-        const dateRaw  = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
-        let timeString = '';
-        if ( s.isDisplayTime ) {
-            timeString = g.event_start_time || '';
-            if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
-        }
-        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
-        const metaLine  = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
-
-        // Status for timeline
-        const status = g.event_status || 'scheduled';
-        const displayedStatuses = AppState.config.features.displayed_statuses || [];
-        let eventStatusBadge = '';
-
-        if (displayedStatuses.includes(status)) {
-            const statusKey = 'status_' + status;
-            const statusLabel = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
-            const statusClass = 'status-' + status.replace('_', '-');
-            eventStatusBadge = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
-        }
-
-        const tagsHtml  = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
-            const slug = slugify(t);
-            const activeClass = (slug === AppState.state.currentTagFilter) ? ' tag-active' : '';
-            return `<span class="time-tag${activeClass}" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
-        } ).join( '' ) : '';
-        const isFav = AppState.favorites.includes( g.id );
-        const thumb = g.image_thumbnail || g.image;
-        return `
-        <li class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
-            <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
-            <div class="time-info">
-                <div class="time-row-1">
-                    <h3>${g.event_name}</h3>
-                    <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav(${g.id});">${isFav ? 'favorite' : 'favorite_border'}</button>
-                </div>
-                <div class="time-row-2">${metaLine}</div>
-                <div class="time-row-3">${eventStatusBadge}${tagsHtml}</div>
-            </div>
-        </li>`;
-    } ).join( '' );
-
-    list.innerHTML = `<ul>${itemsHtml}</ul>`;
-}
-
-
-function renderDrawerFavorites() {
-    const list = document.getElementById( 'favorites-list' );
-    let favs = AppState.data.filter( g => AppState.favorites.includes( g.id ) );
-    if ( AppState.state.currentTagFilter ) {
-        // Filter using slug comparison
-        favs = favs.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
-    }
-
-    if (favs.length) {
-        const itemsHtml = favs.map( g => {
-            const thumb = g.image_thumbnail || g.image;
-            return `
-            <li class="favorite-item">
-                <img src="${thumb}" alt="${g.event_name}">
-                <div class="fav-title">${g.event_name}</div>
-                <button onclick="shareSong(${g.id})" class="material-icons btn-fav-share">share</button>
-                <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons btn-fav-play">play_arrow</button>
-                <button onclick="toggleFav(${g.id})" class="material-icons btn-fav-remove">close</button>
-            </li>`;
-        }).join('');
-        list.innerHTML = `<ul>${itemsHtml}</ul>`;
-    } else {
-        list.innerHTML = `<p class="fav-empty-msg">${AppState.config.texts.fav_empty}</p>`;
-    }
-
-    const footer = document.getElementById( 'favorites-footer' );
-    if ( favs.length > 0 ) footer.classList.add( 'visible' );
-    else footer.classList.remove( 'visible' );
 }
 
 
@@ -2256,6 +2189,110 @@ function closeDrawerIfOpen() {
 }
 
 
+
+/* DRAWER FAVORITE*/
+
+function renderDrawerFavorites() {
+    const list = document.getElementById( 'favorites-list' );
+    let favs = AppState.data.filter( g => AppState.favorites.includes( g.id ) );
+    if ( AppState.state.currentTagFilter ) {
+        // Filter using slug comparison
+        favs = favs.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
+    }
+
+    if (favs.length) {
+        const itemsHtml = favs.map( g => {
+            const thumb = g.image_thumbnail || g.image;
+            return `
+            <li class="favorite-item">
+                <img src="${thumb}" alt="${g.event_name}">
+                <div class="fav-title">${g.event_name}</div>
+                <button onclick="shareSong(${g.id})" class="material-icons btn-fav-share">share</button>
+                <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons btn-fav-play">play_arrow</button>
+                <button onclick="toggleFav(${g.id})" class="material-icons btn-fav-remove">close</button>
+            </li>`;
+        }).join('');
+        list.innerHTML = `<ul>${itemsHtml}</ul>`;
+    } else {
+        list.innerHTML = `<p class="fav-empty-msg">${AppState.config.texts.fav_empty}</p>`;
+    }
+
+    const footer = document.getElementById( 'favorites-footer' );
+    if ( favs.length > 0 ) footer.classList.add( 'visible' );
+    else footer.classList.remove( 'visible' );
+}
+
+
+/* DRAWER TIMELINE */
+
+function renderDrawerTimeline() {
+    const list       = document.getElementById( 'timeline-list' );
+    const s          = AppState.settings;
+    let dataToRender = AppState.data;
+
+    if ( AppState.state.currentTagFilter ) {
+        // Filter using slug comparison
+        dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
+    }
+    const sortedData = [ ...dataToRender ].sort( ( a, b ) => {
+        const tA = ( a.event_start_date || '9999-99-99' ) + 'T' + ( a.event_start_time || '00:00' );
+        const tB = ( b.event_start_date || '9999-99-99' ) + 'T' + ( b.event_start_time || '00:00' );
+        return tA.localeCompare( tB );
+    } );
+    if ( sortedData.length === 0 ) {
+        list.innerHTML = `<p class="list-empty-msg">${AppState.config.texts.timeline_empty}</p>`;
+        return;
+    }
+
+    const itemsHtml = sortedData.map( g => {
+        const dayName  = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
+        const dateRaw  = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
+        let timeString = '';
+        if ( s.isDisplayTime ) {
+            timeString = g.event_start_time || '';
+            if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
+        }
+        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
+        const metaLine  = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
+
+        // Status for timeline
+        const status = g.event_status || 'scheduled';
+        const displayedStatuses = AppState.config.features.displayed_statuses || [];
+        let eventStatusBadge = '';
+
+        if (displayedStatuses.includes(status)) {
+            const statusKey = 'status_' + status;
+            const statusLabel = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
+            const statusClass = 'status-' + status.replace('_', '-');
+            eventStatusBadge = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
+        }
+
+        const tagsHtml  = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
+            const slug = slugify(t);
+            const activeClass = (slug === AppState.state.currentTagFilter) ? ' tag-active' : '';
+            return `<span class="time-tag${activeClass}" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+        } ).join( '' ) : '';
+        const isFav = AppState.favorites.includes( g.id );
+        const thumb = g.image_thumbnail || g.image;
+        return `
+        <li class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
+            <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
+            <div class="time-info">
+                <div class="time-row-1">
+                    <h3>${g.event_name}</h3>
+                    <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav(${g.id});">${isFav ? 'favorite' : 'favorite_border'}</button>
+                </div>
+                <div class="time-row-2">${metaLine}</div>
+                <div class="time-row-3">${eventStatusBadge}${tagsHtml}</div>
+            </div>
+        </li>`;
+    } ).join( '' );
+
+    list.innerHTML = `<ul>${itemsHtml}</ul>`;
+}
+
+
+
 /* HAPTIC */
 
 function setupHapticFeedback() {
@@ -2279,9 +2316,7 @@ function triggerHaptic( el ) {
 }
 
 
-
-
-
+/* PWA - OBSERVER */
 
 const PWAManager = {
     deferredPrompt: null,

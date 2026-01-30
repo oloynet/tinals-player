@@ -42,19 +42,19 @@
         "intro_btn_ticket":             "La billetterie",
         "intro_footer":                 "Le festival est organisé par Come On People et Paloma,<br />avec le soutien de Nîmes Métropole",
 
-        "bar_sound_on":                 "Son",
+        "bar_sound_on":                 "Son activé",
         "bar_sound_off":                "Son coupé",
 
         "bar_top_page":                 "Haut de page",
         "bar_bottom_page":              "Bas de page",
 
-        "bar_filter_top_page":          "Vous avez atteint <strong>le premier évènement</strong> <br />filtré par le tag \"<strong>{tag}</strong>\".",
-        "bar_filter_bottom_page":       "Vous avez atteint <strong>le dernier évènement</strong> <br />filtré par le tag \"<strong>{tag}</strong>\".",
-        "filter_cancel_tags":           "Évènements filtrés par le tag \"<strong>{tag}</strong>\".<br />Cliquer pour annuler.",
+        "bar_filter_top_page":          "Premier <span>évènement</span> {tag}",
+        "bar_filter_bottom_page":       "Dernier <span>évènement</span> {tag}",
+        "filter_cancel_tags":           "{count} <span>évènement(s)</span> {tag}<br />Cliquez pour annuler",
 
-        "bar_fav_top_page":             "Vous avez atteint <strong>le premier évènement</strong> <br />de <strong>mes favoris</strong>.",
-        "bar_fav_bottom_page":          "Vous avez atteint <strong>le dernier évènement</strong> <br />de <strong>mes favoris</strong>.",
-        "filter_cancel_fav":            "Évènements favoris.<br />Cliquer pour annuler.",
+        "bar_fav_top_page":             "Premier <span>évènement favori</span>",
+        "bar_fav_bottom_page":          "Dernier <span>évènement favori</span>",
+        "filter_cancel_fav":            "{count} <span>évènement(s) favori(s)</span><br />Cliquez pour annuler",
 
         "bar_fav_added":                "Ajouté aux favoris",
         "bar_fav_removed":              "Supprimé des favoris",
@@ -107,12 +107,12 @@
         "menu_check_version":           "Vérifier les mises à jour",
         "menu_reload":                  "Recharger l'application",
         "menu_reload_confirm_title":    "Recharger l'application",
-        "menu_reload_confirm_text":     "Voulez-vous recharger l'application et mettre à jour les données ?",
+        "menu_reload_confirm_text":     "Recharger l'application et mettre à jour les données ?<br />Vous ne perdez pas vos favoris !",
         "menu_about":                   "A propos",
 
         "msg_up_to_date":               "Votre application est à jour",
         "update_available_title":       "Mise à jour disponible",
-        "update_available_text":        "Une nouvelle version {new_version} est disponible et remplace la {old_version}. Cliquez sur OK pour mettre à jour.",
+        "update_available_text":        "Une nouvelle version {new_version} est disponible.<br />Cliquez sur OK pour mettre à jour.",
         "btn_yes":                      "Oui",
         "btn_no":                       "Non",
         "btn_ok":                       "OK",

@@ -1,8 +1,8 @@
 {
     "site":
     {
-        "version":          "v1.52",
-        "version_name":     "player TINALS v1.52",
+        "version":          "v1.53",
+        "version_name":     "player TINALS v1.53",
         "title":            "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name":             "TINALS 2026",
         "short_name":       "TINALS",
@@ -19,7 +19,7 @@
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
 
-        "data_source":      "data/2026/data.json?v1.52",
+        "data_source":      "data/2026/data.json?v1.53",
         "path": "./"
     },
 
@@ -74,7 +74,7 @@
         "flag_fr_id":        "flag-fr",
         "flag_en_id":        "flag-en",
 
-        "sprite_path":       "assets/images/sprite.svg?v1.52",
+        "sprite_path":       "assets/images/sprite.svg?v1.53",
 
         "icon_16":           "assets/favicon/favicon-16x16.png",
         "icon_32_maskable":  "assets/favicon/favicon-maskable-32x32.png",
@@ -164,22 +164,22 @@
 
     "ticketing": {
         "full_pass_ticket": {
-            "start_date":   "2025-06-27",
-            "end_date":     "2025-06-28",
+            "start_date":   "2025-06-05",
+            "end_date":     "2025-06-06",
             "button_color": "full-pass-ticket",
             "button_url":   "https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747",
             "is_available": true
         },
         "day_pass_ticket_1": {
-            "start_date":   "2025-06-27",
-            "end_date":     "2025-06-27",
+            "start_date":   "2025-06-05",
+            "end_date":     "2025-06-05",
             "button_color": "day-pass-ticket-1",
             "button_url":   "https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748",
             "is_available": true
         },
         "day_pass_ticket_2": {
-            "start_date":   "2025-06-28",
-            "end_date":     "2025-06-28",
+            "start_date":   "2025-06-06",
+            "end_date":     "2025-06-06",
             "button_color": "day-pass-ticket-2",
             "button_url":   "https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749",
             "is_available": true
