@@ -1,0 +1,11 @@
+[project]
+name = "tinals-tools"
+version = "0.1.0"
+description = "Tools for TINALS project asset management"
+requires-python = ">=3.12"
+dependencies = [
+    "requests",
+    "pillow",
+    "yt-dlp",
+    "cairosvg",
+]
