@@ -126,8 +126,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.55';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.55' : 'config/config_fr.json?v1.55';
+        const configFile = 'config/config.json?v1.56';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.56' : 'config/config_fr.json?v1.56';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -609,8 +609,8 @@ function updateStaticTexts() {
     const t = AppState.config.texts;
     // document.getElementById( 'btn-header-prog' ).innerText   = t.nav_programming;
     // document.getElementById( 'btn-header-ticket' ).innerText = t.nav_ticketing;
-    if(document.getElementById('txt-header-day1')) document.getElementById('txt-header-day1').innerText = t.btn_day_1;
-    if(document.getElementById('txt-header-day2')) document.getElementById('txt-header-day2').innerText = t.btn_day_2;
+    if(document.getElementById('txt-header-day1')) document.getElementById('txt-header-day1').innerText = t.nav_day_1;
+    if(document.getElementById('txt-header-day2')) document.getElementById('txt-header-day2').innerText = t.nav_day_2;
 
     document.getElementById( 'drawer-fav-title' ).innerText  = t.fav_title;
     document.getElementById( 'drawer-time-title' ).innerText = t.timeline_title;
@@ -642,8 +642,8 @@ function updateStaticTexts() {
     };
     setText('menu-txt-home',      t.menu_home);
     setText('menu-txt-program',   t.menu_program);
-    setText('menu-txt-day1',      t.btn_day_1);
-    setText('menu-txt-day2',      t.btn_day_2);
+    setText('menu-txt-day1',      t.menu_day_1);
+    setText('menu-txt-day2',      t.menu_day_2);
     setText('menu-txt-favorites', t.menu_favorites);
     setText('menu-txt-timeline',  t.menu_timeline);
     setText('menu-txt-ticketing', t.menu_ticketing);
@@ -722,8 +722,8 @@ function getIntroHtml() {
                 <div class="intro-buttons-container">
                     <!-- <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button> -->
                     <!-- <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button> -->
-                    <button onclick="filterByTag('vendredi-5')" class="intro-btn">${c.texts.btn_day_1}</button>
-                    <button onclick="filterByTag('samedi-6')" class="intro-btn">${c.texts.btn_day_2}</button>
+                    <button onclick="filterByTag('vendredi-5')" class="intro-btn">${c.texts.intro_day_1}</button>
+                    <button onclick="filterByTag('samedi-6')" class="intro-btn">${c.texts.intro_day_2}</button>
                 </div>
                 <p class="intro-note">${c.texts.intro_footer}</p>
             </div>
@@ -741,8 +741,8 @@ function getPosterHtml() {
                 <div class="intro-buttons-container">
                     <!-- <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button> -->
                     <!-- <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button> -->
-                    <button onclick="filterByTag('vendredi-5')" class="intro-btn">${c.texts.btn_day_1}</button>
-                    <button onclick="filterByTag('samedi-6')" class="intro-btn">${c.texts.btn_day_2}</button>
+                    <button onclick="filterByTag('vendredi-5')" class="intro-btn">${c.texts.intro_day_1}</button>
+                    <button onclick="filterByTag('samedi-6')" class="intro-btn">${c.texts.intro_day_2}</button>
                 </div>
                 <p class="intro-note">${c.texts.intro_footer}</p>
             </div>
