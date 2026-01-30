@@ -75,6 +75,8 @@
         "share_qrcode":                 "QR Code",
         "share_btn_close":              "Fermer",
         "share_message_copy":           "Le lien est copié",
+        "share_song_text":              "Écoute ce morceau !",
+        "msg_link_copied":              "Lien copié !",
 
         "ticket_section_title":         "La billetterie",
 
