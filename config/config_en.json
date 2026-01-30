@@ -32,8 +32,8 @@
         "status_scheduled":             "Scheduled",
 
         "nav_programming":              "Discover the artists",
-        "nav_day_1":                    "friday 5",
-        "nav_day_2":                    "saturday 6",
+        "nav_day_1":                    "Friday 5",
+        "nav_day_2":                    "Saturday 6",
         "nav_ticketing":                "Tickets",
         "nav_language_toggle":          "Switch to english",
 
@@ -41,8 +41,8 @@
         "intro_subtitle":               "Beau weekend, the return of the sequel",
         "intro_date":                   "JUNE<br />5 & 6<br />2026",
         "intro_btn_program":            "Discover the first artists !",
-        "intro_day_1":                  "June, friday 5",
-        "intro_day_2":                  "June, saturday 6",
+        "intro_day_1":                  "Friday, June 5",
+        "intro_day_2":                  "Saturday, June 6",
         "intro_btn_ticket":             "Ticket sales",
         "intro_footer":                 "The festival is organized by Come On People and Paloma,<br />with the support of Nîmes Métropole.",
 
@@ -93,8 +93,8 @@
 
         "menu_home":                    "Home",
         "menu_program":                 "Discover the program",
-        "menu_day_1":                   "June, friday 5",
-        "menu_day_2":                   "June, saturday 6",
+        "menu_day_1":                   "Friday, June 5",
+        "menu_day_2":                   "Saturday, June 6",
         "menu_favorites":               "My Favorites",
         "menu_timeline":                "Timeline",
         "menu_ticketing":               "Ticketing",
