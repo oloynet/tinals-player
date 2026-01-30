@@ -620,7 +620,7 @@ function updateStaticTexts() {
     document.getElementById( 'share-link-label' ).innerText  = t.share_link;
     document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
     document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
-    document.getElementById( 'fav-mode-bar' ).innerHTML      = `<div>${t.filter_cancel_fav}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    renderFavFilterBar();
 
     // Confirm Modal Buttons
     const btnYes   = document.getElementById('btn-confirm-yes');
@@ -1953,12 +1953,14 @@ function toggleFav( id ) {
     renderDrawerTimeline();
     updateFavoritesIcon();
     updateTicketingStats();
+    if ( AppState.state.isPlayingFavorites ) renderFavFilterBar();
 }
 
 
 function playFavorites() {
     if ( AppState.favorites.length === 0 ) return;
     exitTagFilterMode();
+    renderFavFilterBar();
     AppState.state.isPlayingFavorites = true;
     AppState.state.isMenuNavigation = true;
     VideoManager.scrollTo( AppState.favorites[ 0 ] );
@@ -2067,10 +2069,21 @@ function renderTagFilterBar() {
     if (!currentSlug) return;
 
     const tagName = getTagNameFromSlug(currentSlug);
-    const text = t.filter_cancel_tags.replace('{tag}', tagName);
+    const count = AppState.data.filter(g => g.event_tags && g.event_tags.some(t => slugify(t) === currentSlug)).length;
+    const text = t.filter_cancel_tags.replace('{tag}', tagName).replace('{count}', count);
 
     const html = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
     document.getElementById( 'tag-mode-bar' ).innerHTML = html;
+}
+
+
+function renderFavFilterBar() {
+    const t = AppState.config.texts;
+    const count = AppState.favorites.length;
+    const text = t.filter_cancel_fav.replace('{count}', count);
+
+    const html = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    document.getElementById( 'fav-mode-bar' ).innerHTML = html;
 }
 
 
