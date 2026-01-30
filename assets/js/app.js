@@ -1522,7 +1522,7 @@ async function shareSong( id ) {
         try {
             await navigator.share( {
                 title: AppState.config.texts.share_title,
-                text: 'Écoute ce morceau !',
+                text: AppState.config.texts.share_song_text,
                 url: url
             } );
         } catch ( err ) {}
@@ -1539,7 +1539,7 @@ function shareTo( platform ) {
     else if ( platform === 'email' ) window.location.href = `mailto:?subject=${text}&body=${url}`;
     else if ( platform === 'tiktok' || platform === 'copy' ) {
         navigator.clipboard.writeText( AppState.state.shareUrl ).then( () => {
-            alert( "Lien copié !" );
+            alert( AppState.config.texts.msg_link_copied );
             if ( platform === 'tiktok' ) window.open( 'https://www.tiktok.com', '_blank' );
         } );
     } else if ( platform === 'qrcode' ) {
