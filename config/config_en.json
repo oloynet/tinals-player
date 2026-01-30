@@ -32,6 +32,8 @@
         "status_scheduled":             "Scheduled",
 
         "nav_programming":              "Discover the artists",
+        "btn_day_1":                    "Friday 5",
+        "btn_day_2":                    "Saturday 6",
         "nav_ticketing":                "Tickets",
         "nav_language_toggle":          "Switch to english",
 
