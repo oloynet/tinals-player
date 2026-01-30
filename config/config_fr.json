@@ -6,9 +6,27 @@
         "name":        "TINALS 2026",
         "description": "Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma"
     },
+    "days": {
+        "day_1": {
+            "tag":        "day-1",
+            "date":       "2026-06-05",
+            "short_name": "Vendredi 5",
+            "name":       "Vendredi 5 juin",
+            "long_name":  "Vendredi 5 juin 2026",
+            "ticketing":  "day_pass_ticket_1"
+        },
+        "day_2": {
+            "tag":        "day-2",
+            "date":       "2026-06-06",
+            "short_name": "Samedi 6",
+            "name":       "Samedi 6 juin",
+            "long_name":  "Samedi 6 juin 2026",
+            "ticketing":  "day_pass_ticket_2"
+        }
+    },
     "ticketing": {
         "full_pass_ticket": {
-            "ticket_title":    "Pass 2 jours",
+            "ticket_title":    "Pass 2 journées",
             "ticket_subtitle": "5 & 6 juin 2026",
             "button_text":     "Billet des 2 jours"
         },
@@ -124,8 +142,8 @@
         "btn_update":                   "Mettre à jour",
         "btn_later":                    "Plus tard",
 
-        "btn_day_1":                    "Friday 5",
-        "btn_day_2":                    "Saturday 6",
+        "btn_day_1":                    "Vendredi 5",
+        "btn_day_2":                    "Samedi 6",
 
         "features_modal_title":         "Fonctionnalités",
         "features_modal_close":         "Fermer",
