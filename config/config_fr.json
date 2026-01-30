@@ -32,8 +32,8 @@
         "status_scheduled":             "Planifié",
 
         "nav_programming":              "Découvrez la programmation",
-        "btn_day_1":                    "Vendredi 5",
-        "btn_day_2":                    "Samedi 6",
+        "nav_day_1":                    "Vendredi 5",
+        "nav_day_2":                    "Samedi 6",
         "nav_ticketing":                "Billetterie",
         "nav_language_toggle":          "Basculer en français",
 
@@ -41,12 +41,13 @@
         "intro_subtitle":               "Beau weekend, le retour de la suite",
         "intro_date":                   "5 & 6<br />juin<br />2026",
         "intro_btn_program":            "Découvrez les premiers noms !",
+        "intro_day_1":                  "Vendredi 5 juin",
+        "intro_day_2":                  "Samedi 6 juin",
         "intro_btn_ticket":             "La billetterie",
         "intro_footer":                 "Le festival est organisé par Come On People et Paloma,<br />avec le soutien de Nîmes Métropole",
 
         "bar_sound_on":                 "Son activé",
         "bar_sound_off":                "Son coupé",
-
         "bar_top_page":                 "Haut de page",
         "bar_bottom_page":              "Bas de page",
 
@@ -92,6 +93,8 @@
 
         "menu_home":                    "Accueil",
         "menu_program":                 "Découvrez la programmation",
+        "menu_day_1":                   "Vendredi 5 juin",
+        "menu_day_2":                   "Samedi 6 juin",
         "menu_favorites":               "Mes favoris",
         "menu_timeline":                "Chronologie - Timeline",
         "menu_ticketing":               "Billetterie",
@@ -120,6 +123,9 @@
         "btn_ok":                       "OK",
         "btn_update":                   "Mettre à jour",
         "btn_later":                    "Plus tard",
+
+        "btn_day_1":                    "Friday 5",
+        "btn_day_2":                    "Saturday 6",
 
         "features_modal_title":         "Fonctionnalités",
         "features_modal_close":         "Fermer",

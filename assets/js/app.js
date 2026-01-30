@@ -126,8 +126,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.54';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.54' : 'config/config_fr.json?v1.54';
+        const configFile = 'config/config.json?v1.55';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.55' : 'config/config_fr.json?v1.55';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -722,8 +722,8 @@ function getIntroHtml() {
                 <div class="intro-buttons-container">
                     <!-- <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button> -->
                     <!-- <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button> -->
-                    <button onclick="filterByTag('day-1')" class="intro-btn"><span class="material-icons" style="vertical-align: middle; margin-right: 5px;">calendar_today</span> ${c.texts.btn_day_1}</button>
-                    <button onclick="filterByTag('day-2')" class="intro-btn"><span class="material-icons" style="vertical-align: middle; margin-right: 5px;">calendar_today</span> ${c.texts.btn_day_2}</button>
+                    <button onclick="filterByTag('vendredi-5')" class="intro-btn">${c.texts.btn_day_1}</button>
+                    <button onclick="filterByTag('samedi-6')" class="intro-btn">${c.texts.btn_day_2}</button>
                 </div>
                 <p class="intro-note">${c.texts.intro_footer}</p>
             </div>
@@ -741,8 +741,8 @@ function getPosterHtml() {
                 <div class="intro-buttons-container">
                     <!-- <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button> -->
                     <!-- <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button> -->
-                    <button onclick="filterByTag('day-1')" class="intro-btn"><span class="material-icons" style="vertical-align: middle; margin-right: 5px;">calendar_today</span> ${c.texts.btn_day_1}</button>
-                    <button onclick="filterByTag('day-2')" class="intro-btn"><span class="material-icons" style="vertical-align: middle; margin-right: 5px;">calendar_today</span> ${c.texts.btn_day_2}</button>
+                    <button onclick="filterByTag('vendredi-5')" class="intro-btn">${c.texts.btn_day_1}</button>
+                    <button onclick="filterByTag('samedi-6')" class="intro-btn">${c.texts.btn_day_2}</button>
                 </div>
                 <p class="intro-note">${c.texts.intro_footer}</p>
             </div>
@@ -915,7 +915,7 @@ function handleMenuAction(action) {
             break;
         case 'day1':
             closeMainMenu();
-            filterByTag('day-1');
+            filterByTag('vendredi-5');
             setTimeout(() => {
                 const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
                 if ( firstMatch ) firstMatch.scrollIntoView( { behavior: 'smooth' } );
@@ -923,7 +923,7 @@ function handleMenuAction(action) {
             break;
         case 'day2':
             closeMainMenu();
-            filterByTag('day-2');
+            filterByTag('samedi-6');
             setTimeout(() => {
                 const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
                 if ( firstMatch ) firstMatch.scrollIntoView( { behavior: 'smooth' } );

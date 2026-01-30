@@ -1,8 +1,8 @@
 {
    "name":"TINALS 2026",
    "short_name":"TINALS",
-   "version":"v1.54",
-   "version_name":"TINALS 2026 v1.54",
+   "version":"v1.55",
+   "version_name":"TINALS 2026 v1.55",
    "description":"Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma.",
    "id":"tinals-player-2026",
    "start_url":"./",
@@ -94,7 +94,7 @@
       {
          "name":"TINALS day#1 - vendredi 5 juin",
          "short_name":"vendredi 5 juin",
-         "url":"./?filter=day-1",
+         "url":"./?filter=vendredi-5",
          "icons":[
             {
                "src":"assets/images/shortcuts/flag-FR.svg",
@@ -106,7 +106,7 @@
       {
          "name":"TINALS day#1 - samedi 6 juin",
          "short_name":"samedi 6 juin",
-         "url":"./?filter=day-2",
+         "url":"./?filter=samedi-6",
          "icons":[
             {
                "src":"assets/images/shortcuts/flag-FR.svg",
@@ -130,7 +130,7 @@
       {
          "name":"TINALS day #1 - friday june 5",
          "short_name":"friday june 5",
-         "url":"./?lang=en&filter=day-1",
+         "url":"./?lang=en&filter=vendredi-5",
          "icons":[
             {
                "src":"assets/images/shortcuts/flag-EN.svg",
@@ -142,7 +142,7 @@
       {
          "name":"TINALS day #2 - saturday june 6",
          "short_name":"saturday june 6",
-         "url":"./?lang=en&filter=day-2",
+         "url":"./?lang=en&filter=samedi-6",
          "icons":[
             {
                "src":"assets/images/shortcuts/flag-EN.svg",

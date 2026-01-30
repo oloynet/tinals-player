@@ -2347,7 +2347,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 @media (min-width: 320px) {
 
     .bar-top .header-actions .btn-program {
-        display: none;
+        display: block;
     }
 
     .bar-top .header-actions .btn-ticket  {

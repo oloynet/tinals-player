@@ -32,8 +32,8 @@
         "status_scheduled":             "Scheduled",
 
         "nav_programming":              "Discover the artists",
-        "btn_day_1":                    "Friday 5",
-        "btn_day_2":                    "Saturday 6",
+        "nav_day_1":                    "friday 5",
+        "nav_day_2":                    "saturday 6",
         "nav_ticketing":                "Tickets",
         "nav_language_toggle":          "Switch to english",
 
@@ -41,12 +41,13 @@
         "intro_subtitle":               "Beau weekend, the return of the sequel",
         "intro_date":                   "JUNE<br />5 & 6<br />2026",
         "intro_btn_program":            "Discover the first artists !",
+        "intro_day_1":                  "June, friday 5",
+        "intro_day_2":                  "June, saturday 6",
         "intro_btn_ticket":             "Ticket sales",
         "intro_footer":                 "The festival is organized by Come On People and Paloma,<br />with the support of Nîmes Métropole.",
 
         "bar_sound_on":                 "Sound on",
         "bar_sound_off":                "Sound off",
-
         "bar_top_page":                 "Page top",
         "bar_bottom_page":              "Page footer",
 
@@ -92,6 +93,8 @@
 
         "menu_home":                    "Home",
         "menu_program":                 "Discover the program",
+        "menu_day_1":                   "June, friday 5",
+        "menu_day_2":                   "June, saturday 6",
         "menu_favorites":               "My Favorites",
         "menu_timeline":                "Timeline",
         "menu_ticketing":               "Ticketing",
@@ -120,6 +123,8 @@
         "btn_ok":                       "OK",
         "btn_update":                   "Update",
         "btn_later":                    "Later",
+        "btn_day_1":                    "Friday 5",
+        "btn_day_2":                    "Saturday 6",
 
         "features_modal_title":         "Features",
         "features_modal_close":         "Close",
