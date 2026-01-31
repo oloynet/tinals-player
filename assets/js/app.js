@@ -68,7 +68,8 @@ const translations = {
         "samedi": "Saturday",
         "dimanche": "Sunday"
     },
-    tags: {}
+    tags: {},
+    sessions: {}
 };
 
 
@@ -183,6 +184,28 @@ async function init() {
             item.id = Number( item.id );
             return item;
         } );
+
+        // --- SESSION PROCESSING ---
+        if (AppState.config.sessions) {
+            AppState.config.sessions.forEach(session => {
+                if (session.display && session.display.compact) {
+                    translations.sessions[session.id] = session.display.compact;
+                    // Also handle slugified version just in case
+                    translations.sessions[slugify(session.id)] = session.display.compact;
+                }
+            });
+        }
+
+        AppState.data.forEach(item => {
+            if (item.event_session) {
+                if (!item.event_tags) item.event_tags = [];
+                const alreadyHas = item.event_tags.some(t => t === item.event_session);
+                if (!alreadyHas) {
+                    item.event_tags.unshift(item.event_session);
+                }
+            }
+        });
+        // -------------------------
 
         let storedFavs     = JSON.parse( localStorage.getItem( 'selected' ) ) || [];
         const validIds     = AppState.data.map( g => g.id );
@@ -311,6 +334,7 @@ function isLandscape() {
 
 
 function handleOrientationChange() {
+    updateSessionDisplay();
     const s         = AppState.settings;
     const topDrawer = document.getElementById( 'top-bar' );
     const tm        = AppState.timers;
@@ -602,8 +626,15 @@ function applyConfigs() {
 
 
 function translateText( text, type ) {
-    if ( !text || AppState.currentLang === 'fr' ) return text;
+    if ( !text ) return "";
     const lowerText = text.toLowerCase().trim();
+
+    // Special handling for sessions (always map ID -> Localized text)
+    if ( type === 'tags' && translations.sessions && translations.sessions[lowerText] ) {
+        return translations.sessions[lowerText];
+    }
+
+    if ( AppState.currentLang === 'fr' ) return text;
     if ( translations[ type ] && translations[ type ][ lowerText ] ) return translations[ type ][ lowerText ];
     return text;
 }
@@ -613,8 +644,8 @@ function updateStaticTexts() {
     const t = AppState.config.texts;
     // document.getElementById( 'btn-header-prog' ).innerText   = t.nav_programming;
     // document.getElementById( 'btn-header-ticket' ).innerText = t.nav_ticketing;
-    if(document.getElementById('txt-header-day1')) document.getElementById('txt-header-day1').innerText = t.nav_day_1;
-    if(document.getElementById('txt-header-day2')) document.getElementById('txt-header-day2').innerText = t.nav_day_2;
+    // if(document.getElementById('txt-header-day1')) document.getElementById('txt-header-day1').innerText = t.nav_day_1;
+    // if(document.getElementById('txt-header-day2')) document.getElementById('txt-header-day2').innerText = t.nav_day_2;
 
     document.getElementById( 'drawer-fav-title' ).innerText  = t.fav_title;
     document.getElementById( 'drawer-time-title' ).innerText = t.timeline_title;
@@ -646,8 +677,8 @@ function updateStaticTexts() {
     };
     setText('menu-txt-home',      t.menu_home);
     setText('menu-txt-program',   t.menu_program);
-    setText('menu-txt-day1',      t.menu_day_1);
-    setText('menu-txt-day2',      t.menu_day_2);
+    // setText('menu-txt-day1',      t.menu_day_1);
+    // setText('menu-txt-day2',      t.menu_day_2);
     setText('menu-txt-favorites', t.menu_favorites);
     setText('menu-txt-timeline',  t.menu_timeline);
     setText('menu-txt-ticketing', t.menu_ticketing);
@@ -681,6 +712,47 @@ function updateStaticTexts() {
     if (AppState.state.currentTagFilter) {
         renderTagFilterBar();
     }
+    updateSessionDisplay();
+}
+
+
+function updateSessionDisplay() {
+    if (!AppState.config.sessions) return;
+
+    const width = window.innerWidth;
+
+    AppState.config.sessions.forEach(session => {
+        // ID Mapping: day-1 -> day1
+        const domIdSuffix = session.id.replace(/-/g, '');
+        const menuId = `menu-txt-${domIdSuffix}`;
+        const headerId = `txt-header-${domIdSuffix}`;
+
+        const display = session.display || {};
+
+        // Menu Logic
+        let menuText = display.normal; // Default
+        if (width < 400) {
+            menuText = display.compact;
+        } else {
+            menuText = display.normal;
+        }
+
+        const menuEl = document.getElementById(menuId);
+        if (menuEl) menuEl.innerText = menuText;
+
+        // Header Logic
+        let headerText = display.normal; // Default
+        if (width < 400) {
+            headerText = display.compact;
+        } else if (width < 640) {
+            headerText = display.normal;
+        } else {
+            headerText = display.extended;
+        }
+
+        const headerEl = document.getElementById(headerId);
+        if (headerEl) headerEl.innerText = headerText;
+    });
 }
 
 
