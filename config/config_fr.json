@@ -6,158 +6,171 @@
         "name":        "TINALS 2026",
         "description": "Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma"
     },
-    "days": {
-        "day_1": {
-            "tag":        "day-1",
-            "date":       "2026-06-05",
-            "short_name": "Vendredi 5",
-            "name":       "Vendredi 5 juin",
-            "long_name":  "Vendredi 5 juin 2026",
-            "ticketing":  "day_pass_ticket_1"
+
+    "sessions": [
+        {
+            "id":       "day-1",
+            "iso_date": "2026-06-05",
+            "label":    "5 juin",
+            "display": {
+                "compact":  "Vendredi 5",
+                "normal":   "Vendredi 5 juin",
+                "full":     "5 juin 2026",
+                "extended": "Vendredi 5 juin 2026"
+            }
         },
-        "day_2": {
-            "tag":        "day-2",
-            "date":       "2026-06-06",
-            "short_name": "Samedi 6",
-            "name":       "Samedi 6 juin",
-            "long_name":  "Samedi 6 juin 2026",
-            "ticketing":  "day_pass_ticket_2"
+        {
+            "id":       "day-2",
+            "iso_date": "2026-06-06",
+            "label":    "6 juin",
+            "display": {
+                "compact":  "Samedi 6",
+                "normal":   "Samedi 6 juin",
+                "full":     "6 juin 2026",
+                "extended": "Samedi 6 juin 2026"
+            }
         }
-    },
-    "ticketing": {
-        "full_pass_ticket": {
+    ],
+
+    "ticketing":
+    {
+        "full_pass_ticket":
+        {
             "ticket_title":    "Pass 2 journées",
             "ticket_subtitle": "5 & 6 juin 2026",
             "button_text":     "Billet des 2 jours"
         },
-        "day_pass_ticket_1": {
+        "day_pass_ticket_1":
+        {
             "ticket_title":    "Pass vendredi",
             "ticket_subtitle": "5 juin 2026",
             "button_text":     "Billet du vendredi"
         },
-        "day_pass_ticket_2": {
+        "day_pass_ticket_2":
+        {
             "ticket_title":    "Pass samedi",
             "ticket_subtitle": "6 juin 2026",
             "button_text":     "billet du samedi"
         }
     },
+
     "texts":
     {
-        "status_canceled":              "Annulé",
-        "status_moved_online":          "En ligne",
-        "status_postponed":             "Reporté",
-        "status_rescheduled":           "Reprogrammé",
-        "status_scheduled":             "Planifié",
+        "status_canceled": "Annulé",
+        "status_moved_online": "En ligne",
+        "status_postponed": "Reporté",
+        "status_rescheduled": "Reprogrammé",
+        "status_scheduled": "Planifié",
 
-        "nav_programming":              "Découvrez la programmation",
-        "nav_day_1":                    "Vendredi 5",
-        "nav_day_2":                    "Samedi 6",
-        "nav_ticketing":                "Billetterie",
-        "nav_language_toggle":          "Basculer en français",
+        "nav_programming": "Découvrez la programmation",
+        "nav_day_1": "Vendredi 5",
+        "nav_day_2": "Samedi 6",
+        "nav_ticketing": "Billetterie",
+        "nav_language_toggle": "Basculer en français",
 
-        "intro_title":                  "Festival TINALS 2026",
-        "intro_subtitle":               "Beau weekend, le retour de la suite",
-        "intro_date":                   "5 & 6<br />juin<br />2026",
-        "intro_btn_program":            "Découvrez les premiers noms !",
-        "intro_day_1":                  "Vendredi 5 juin",
-        "intro_day_2":                  "Samedi 6 juin",
-        "intro_btn_ticket":             "La billetterie",
-        "intro_footer":                 "Le festival est organisé par Come On People et Paloma,<br />avec le soutien de Nîmes Métropole",
+        "home_title": "Festival TINALS 2026",
+        "home_subtitle": "Beau weekend, le retour de la suite",
+        "home_date": "5 & 6<br />juin<br />2026",
+        "home_btn_program": "Découvrez les premiers noms !",
+        "home_day_1": "Vendredi 5 juin",
+        "home_day_2": "Samedi 6 juin",
+        "home_btn_ticket": "La billetterie",
+        "home_footer": "Le festival est organisé par Come On People et Paloma,<br />avec le soutien de Nîmes Métropole",
 
-        "bar_sound_on":                 "Son activé",
-        "bar_sound_off":                "Son coupé",
-        "bar_top_page":                 "Haut de page",
-        "bar_bottom_page":              "Bas de page",
+        "bar_sound_on": "Son activé",
+        "bar_sound_off": "Son coupé",
+        "bar_top_page": "Haut de page",
+        "bar_bottom_page": "Bas de page",
 
-        "bar_filter_top_page":          "Premier <span>évènement</span> {tag}",
-        "bar_filter_bottom_page":       "Dernier <span>évènement</span> {tag}",
-        "filter_cancel_tags":           "{count} <span>évènement(s)</span> {tag}<br />Cliquez pour annuler",
+        "bar_filter_top_page": "Premier <span>évènement</span> {tag}",
+        "bar_filter_bottom_page": "Dernier <span>évènement</span> {tag}",
+        "filter_cancel_tags": "{count} <span>évènement(s)</span> {tag}<br />Cliquez pour annuler",
 
-        "bar_fav_top_page":             "Premier <span>évènement favori</span>",
-        "bar_fav_bottom_page":          "Dernier <span>évènement favori</span>",
-        "filter_cancel_fav":            "{count} <span>évènement(s) favori(s)</span><br />Cliquez pour annuler",
+        "bar_fav_top_page": "Premier <span>évènement favori</span>",
+        "bar_fav_bottom_page": "Dernier <span>évènement favori</span>",
+        "filter_cancel_fav": "{count} <span>évènement(s) favori(s)</span><br />Cliquez pour annuler",
 
-        "bar_fav_added":                "Ajouté aux favoris",
-        "bar_fav_removed":              "Supprimé des favoris",
-        "fav_title":                    "Mes favoris",
-        "fav_empty":                    "Aucun favori",
-        "fav_btn_play":                 "Écouter mes favoris",
-        "fav_btn_share":                "Partager mes favoris",
+        "bar_fav_added": "Ajouté aux favoris",
+        "bar_fav_removed": "Supprimé des favoris",
+        "fav_title": "Mes favoris",
+        "fav_empty": "Aucun favori",
+        "fav_btn_play": "Écouter mes favoris",
+        "fav_btn_share": "Partager mes favoris",
 
-        "timeline_title":               "Chronologie",
-        "timeline_empty":               "Aucun concert pour ce filtre",
+        "timeline_title": "Chronologie",
+        "timeline_empty": "Aucun concert pour ce filtre",
 
-        "bar_share":                    "Partage",
-        "share_title":                  "Partager",
-        "share_facebook":               "Facebook",
-        "share_tiktok":                 "Copier lien pour TikTok",
-        "share_email":                  "Email",
-        "share_link":                   "Cliquer sur le lien pour le copier",
-        "share_qrcode":                 "QR Code",
-        "share_btn_close":              "Fermer",
-        "share_message_copy":           "Le lien est copié",
-        "share_song_text":              "Écoute ce morceau !",
-        "msg_link_copied":              "Lien copié !",
+        "bar_share": "Partage",
+        "share_title": "Partager",
+        "share_facebook": "Facebook",
+        "share_tiktok": "Copier lien pour TikTok",
+        "share_email": "Email",
+        "share_link": "Cliquer sur le lien pour le copier",
+        "share_qrcode": "QR Code",
+        "share_btn_close": "Fermer",
+        "share_message_copy": "Le lien est copié",
+        "share_song_text": "Écoute ce morceau !",
+        "msg_link_copied": "Lien copié !",
 
-        "ticket_section_title":         "La billetterie",
+        "ticket_section_title": "La billetterie",
 
-        "install_modal_title":          "Installer l'application",
-        "install_modal_text":           "Installez l'application TINALS pour une meilleure expérience : accès hors ligne, plein écran et plus rapide !",
-        "install_modal_btn_yes":        "Installer",
-        "install_modal_btn_no":         "Plus tard",
+        "install_modal_title": "Installer l'application",
+        "install_modal_text": "Installez l'application TINALS pour une meilleure expérience : accès hors ligne, plein écran et plus rapide !",
+        "install_modal_btn_yes": "Installer",
+        "install_modal_btn_no": "Plus tard",
 
-        "ticket_likes_label":           "Mes coups de coeur",
-        "ticket_artists_count_label":   "{count} groupes viennent au festival",
+        "ticket_likes_label": "Mes coups de coeur",
+        "ticket_artists_count_label": "{count} groupes viennent au festival",
 
-        "menu_home":                    "Accueil",
-        "menu_program":                 "Découvrez la programmation",
-        "menu_day_1":                   "Vendredi 5 juin",
-        "menu_day_2":                   "Samedi 6 juin",
-        "menu_favorites":               "Mes favoris",
-        "menu_timeline":                "Chronologie - Timeline",
-        "menu_ticketing":               "Billetterie",
-        "menu_language":                "English version",
-        "menu_website":                 "https://thisisnotalovesong.fr",
-        "menu_news":                    "Actualités",
-        "menu_practical":               "Hébergement & Restauration",
-        "menu_map":                     "Plan et itinéraire",
-        "menu_pro_area":                "Espace pro",
-        "menu_settings":                "Paramètres",
-        "menu_features":                "Fonctionnalités",
-        "menu_install":                 "Installation / Désinstallation",
+        "menu_home": "Accueil",
+        "menu_program": "Découvrez la programmation",
+        "menu_day_1": "Vendredi 5 juin",
+        "menu_day_2": "Samedi 6 juin",
+        "menu_favorites": "Mes favoris",
+        "menu_timeline": "Chronologie - Timeline",
+        "menu_ticketing": "Billetterie",
+        "menu_language": "English version",
+        "menu_website": "https://thisisnotalovesong.fr",
+        "menu_news": "Actualités",
+        "menu_practical": "Hébergement & Restauration",
+        "menu_map": "Plan et itinéraire",
+        "menu_pro_area": "Espace pro",
+        "menu_settings": "Paramètres",
+        "menu_features": "Fonctionnalités",
+        "menu_install": "Installation / Désinstallation",
         "menu_uninstall_confirm_title": "Désinstaller l'application",
-        "menu_uninstall_confirm_text":  "Voulez-vous vraiment désinstaller l'application ?",
-        "menu_check_version":           "Vérifier les mises à jour",
-        "menu_reload":                  "Recharger l'application",
-        "menu_reload_confirm_title":    "Recharger l'application",
-        "menu_reload_confirm_text":     "Recharger l'application et mettre à jour les données ?<br />Vous ne perdez pas vos favoris !",
-        "menu_about":                   "A propos",
+        "menu_uninstall_confirm_text": "Voulez-vous vraiment désinstaller l'application ?",
+        "menu_check_version": "Vérifier les mises à jour",
+        "menu_reload": "Recharger l'application",
+        "menu_reload_confirm_title": "Recharger l'application",
+        "menu_reload_confirm_text": "Recharger l'application et mettre à jour les données ?<br />Vous ne perdez pas vos favoris !",
+        "menu_about": "A propos",
 
-        "msg_up_to_date":               "Votre application est à jour",
-        "update_available_title":       "Mise à jour disponible",
-        "update_available_text":        "Une nouvelle version {new_version} est disponible.<br />Cliquez sur OK pour mettre à jour.",
-        "btn_yes":                      "Oui",
-        "btn_no":                       "Non",
-        "btn_ok":                       "OK",
-        "btn_update":                   "Mettre à jour",
-        "btn_later":                    "Plus tard",
+        "msg_up_to_date": "Votre application est à jour",
+        "update_available_title": "Mise à jour disponible",
+        "update_available_text": "Une nouvelle version {new_version} est disponible.<br />Cliquez sur OK pour mettre à jour.",
+        "btn_yes": "Oui",
+        "btn_no": "Non",
+        "btn_ok": "OK",
+        "btn_update": "Mettre à jour",
+        "btn_later": "Plus tard",
 
-        "features_modal_title":         "Fonctionnalités",
-        "features_modal_close":         "Fermer",
+        "features_modal_title": "Fonctionnalités",
+        "features_modal_close": "Fermer",
 
-        "about_title":                  "A propos",
-        "about_close":                  "Fermer",
-        "about_festival_desc":          "Un festival indie rock à Nîmes, France",
-        "about_organized_by":           "Organisé par",
-        "about_media_inter":            "Contacts médias (inter)nationaux",
-        "about_media_local":            "Contact médias locaux",
-        "about_press_officer":          "Attachée de presse",
-        "about_comm_manager":           "Responsable communication et relations publiques de Paloma",
-        "about_developer":              "Développement",
-        "about_development":            "Pas de cookies, juste l'essentiel. Nous croyons que votre navigation ne devrait pas être une marchandise. C’est pourquoi notre application fonctionne sans aucun cookie et ne collecte aucune donnée personnelle à votre insu. Nous nous concentrons sur ce qui compte vraiment : vous offrir le meilleur pour le festival TINALS.",
-        "about_follow_us":              "Suivez-nous sur Facebook",
+        "about_title": "A propos",
+        "about_close": "Fermer",
+        "about_festival_desc": "Un festival indie rock à Nîmes, France",
+        "about_organized_by": "Organisé par",
+        "about_media_inter": "Contacts médias (inter)nationaux",
+        "about_media_local": "Contact médias locaux",
+        "about_press_officer": "Attachée de presse",
+        "about_comm_manager": "Responsable communication et relations publiques de Paloma",
+        "about_developer": "Développement",
+        "about_development": "Pas de cookies, juste l'essentiel. Nous croyons que votre navigation ne devrait pas être une marchandise. C’est pourquoi notre application fonctionne sans aucun cookie et ne collecte aucune donnée personnelle à votre insu. Nous nous concentrons sur ce qui compte vraiment : vous offrir le meilleur pour le festival TINALS.",
+        "about_follow_us": "Suivez-nous sur Facebook",
 
-        "error_video_playback":         "Problème de lecture de la vidéo",
-        "error_video_suggestion":       "Veuillez recharger la page pour réessayer"
+        "error_video_playback": "Problème de lecture de la vidéo",
+        "error_video_suggestion": "Veuillez recharger la page pour réessayer"
     }
 }

@@ -1,31 +1,108 @@
 {
     "site":
     {
-        "version":          "v1.56",
-        "version_name":     "player TINALS v1.56",
+        "version":          "v1.57",
+        "version_name":     "player TINALS v1.57",
         "title":            "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name":             "TINALS 2026",
         "short_name":       "TINALS",
         "description":      "Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma",
-        "theme_color":      "#ea562a",
+        "theme_color":      "#e9552b",
         "background_color": "#000000",
         "orientation":      "portrait-primary",
         "scope":            "./",
         "id":               "./",
         "start_url":        "./",
+        "path":             "./",
         "display":          "standalone",
         "default_locale":   "fr",
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
-
-        "data_source":      "data/2026/data.json?v1.56",
-        "path": "./"
+        "data_source":      "data/2026/data.json?v1.57"
     },
+
+    "sessions":
+    [
+        {
+            "id":         "day-1",
+            "start_date": "2026-06-05",
+            "start_time": "18:00",
+            "end_date":   "2026-06-06",
+            "end_time":   "02:00",
+            "ticketing":  ["full-pass", "day-pass-1"]
+        },
+        {
+            "id":         "day-2",
+            "start_date": "2026-06-06",
+            "start_time": "18:00",
+            "end_date":   "2026-06-07",
+            "end_time":   "02:00",
+            "ticketing":  ["full-pass", "day-pass-2"]
+        }
+    ],
+
+    "ticketing":
+    {
+        "full_pass_ticket":
+        {
+            "id":           "full-pass",
+            "session":      ["day-1", "day-2"],
+            "button_color": "full-pass-ticket",
+            "button_url":   "https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747",
+            "is_available": true,
+            "tarifs":        [ "blind-pass-full" ]
+        },
+        "day_pass_ticket_1":
+        {
+            "id":           "day-pass-1",
+            "session":      ["day-1"],
+            "button_color": "day-pass-ticket-1",
+            "button_url":   "https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748",
+            "is_available": true,
+            "tarifs":       [ "blind-pass-day", "blind-pass-day-discounted" ]
+        },
+        "day_pass_ticket_2":
+        {
+            "id":           "day-pass-2",
+            "session":      ["day-2"],
+            "button_color": "day-pass-ticket-2",
+            "button_url":   "https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749",
+            "is_available": true,
+            "tarifs":       [ "blind-pass-day", "blind-pass-day-discounted" ]
+        }
+    },
+
+    "tarifs": [
+        {
+            "id":    "blind-pass-full",
+            "label": "Blind Pass - Tarif unique",
+            "price": "70",
+            "is_available": true,
+            "ticketing": ["full-pass"]
+        },
+        {
+            "id":    "blind-pass-day",
+            "label": "Blind Pass - Tarif plein",
+            "price": "42",
+            "is_available": true,
+            "ticketing": ["day-pass-1", "day-pass-2"]
+        },
+        {
+            "id":    "blind-pass-day-discounted",
+            "label": "Blind Pass - Tarif réduit",
+            "price": "38",
+            "is_available": true,
+            "ticketing": ["day-pass-1", "day-pass-2"]
+        }
+
+    ],
 
     "features":
     {
         "is_debug_js": false,
+        "//is_debug_js":  "Is enable JAVASCRIPT debug",
+
         "is_display_version": false,
 
         "is_display_box_title": false,
@@ -48,7 +125,7 @@
         "is_display_group_description": true,
         "is_display_image_video_pause": true,
         "is_display_image_video_end": true,
-        "is_display_all_events": true,
+        "is_display_by_session": true,
 
         "is_menu_auto_hide": false,
         "is_description_auto_hide": true,
@@ -68,127 +145,98 @@
 
     "images":
     {
-        "menu_id":           "logo-menu",
-        "presentation_id":   "logo-intro",
-        "loader_id":         "logo-loader",
-        "flag_fr_id":        "flag-fr",
-        "flag_en_id":        "flag-en",
+        "menu_id":         "logo-menu",
+        "presentation_id": "logo-home",
+        "loader_id":       "logo-loader",
+        "flag_fr_id":      "flag-fr",
+        "flag_en_id":      "flag-en",
 
-        "sprite_path":       "assets/images/sprite.svg?v1.56",
+        "sprite_path": "assets/images/sprite.svg?v1.57",
 
-        "icon_16":           "assets/favicon/favicon-16x16.png",
-        "icon_32_maskable":  "assets/favicon/favicon-maskable-32x32.png",
-        "icon_48_maskable":  "assets/favicon/favicon-maskable-48x48.png",
-        "favicon":           "assets/favicon/favicon.ico",
-        "apple_touch_icon":  "assets/favicon/apple-touch-icon.png",
-        "icon_192":          "assets/favicon/android-chrome-192x192.png",
+        "icon_16": "assets/favicon/favicon-16x16.png",
+        "icon_32_maskable": "assets/favicon/favicon-maskable-32x32.png",
+        "icon_48_maskable": "assets/favicon/favicon-maskable-48x48.png",
+        "favicon": "assets/favicon/favicon.ico",
+        "apple_touch_icon": "assets/favicon/apple-touch-icon.png",
+        "icon_192": "assets/favicon/android-chrome-192x192.png",
         "icon_192_maskable": "assets/favicon/favicon-maskable-192x192.png",
-        "icon_512":          "assets/favicon/android-chrome-512x512.png",
+        "icon_512": "assets/favicon/android-chrome-512x512.png",
         "icon_512_maskable": "assets/favicon/favicon-maskable-512x512.png",
-        "icon_svg":          "assets/favicon/favicon.svg"
+        "icon_svg": "assets/favicon/favicon.svg"
     },
 
     "external_links":
     {
-        "home":              "https://thisisnotalovesong.fr/",
-        "news":              "https://thisisnotalovesong.fr/actualites/",
-        "practical":         "https://thisisnotalovesong.fr/infos-pratiques/",
-        "contact":           "https://thisisnotalovesong.fr/infos-pratiques/",
-        "ticketing":         "https://billetterie.paloma-nimes.fr/agenda?id_categ=2&search=this+is+not+a+love+song",
+        "home": "https://thisisnotalovesong.fr/",
+        "news": "https://thisisnotalovesong.fr/actualites/",
+        "practical": "https://thisisnotalovesong.fr/infos-pratiques/",
+        "contact": "https://thisisnotalovesong.fr/infos-pratiques/",
+        "ticketing": "https://billetterie.paloma-nimes.fr/agenda?id_categ=2&search=this+is+not+a+love+song",
         "professional_area": "https://thisisnotalovesong.fr/espace-pro-presse/",
         "google_maps_place": "https://www.google.com/maps/place/SMAC+Paloma/@43.8559795,4.4022731,792m/",
-        "google_maps_dir":   "https://www.google.com/maps/dir//SMAC+Paloma,+250+Chem.+de+l'A%C3%A9rodrome,+30000+N%C3%AEmes+France/@43.8561514,4.4049709,13z"
+        "google_maps_dir": "https://www.google.com/maps/dir//SMAC+Paloma,+250+Chem.+de+l'A%C3%A9rodrome,+30000+N%C3%AEmes+France/@43.8561514,4.4049709,13z"
     },
 
     "icons": [
     {
         "purpose": "maskable",
-        "sizes":   "1024x1024",
-        "src":     "assets/favicon/maskable_icon.png",
-        "type":    "image/png"
+        "sizes": "1024x1024",
+        "src": "assets/favicon/maskable_icon.png",
+        "type": "image/png"
     },
     {
         "purpose": "maskable",
-        "sizes":   "48x48",
-        "src":     "assets/favicon/maskable_icon_x48.png",
-        "type":    "image/png"
+        "sizes": "48x48",
+        "src": "assets/favicon/maskable_icon_x48.png",
+        "type": "image/png"
     },
     {
         "purpose": "maskable",
-        "sizes":   "72x72",
-        "src":     "assets/favicon/maskable_icon_x72.png",
-        "type":    "image/png"
+        "sizes": "72x72",
+        "src": "assets/favicon/maskable_icon_x72.png",
+        "type": "image/png"
     },
     {
         "purpose": "maskable",
-        "sizes":   "96x96",
-        "src":     "assets/favicon/maskable_icon_x96.png",
-        "type":    "image/png"
+        "sizes": "96x96",
+        "src": "assets/favicon/maskable_icon_x96.png",
+        "type": "image/png"
     },
     {
         "purpose": "maskable",
-        "sizes":   "128x128",
-        "src":     "assets/favicon/maskable_icon_x128.png",
-        "type":    "image/png"
+        "sizes": "128x128",
+        "src": "assets/favicon/maskable_icon_x128.png",
+        "type": "image/png"
     },
     {
         "purpose": "maskable",
-        "sizes":   "192x192",
-        "src":     "assets/favicon/maskable_icon_x192.png",
-        "type":    "image/png"
+        "sizes": "192x192",
+        "src": "assets/favicon/maskable_icon_x192.png",
+        "type": "image/png"
     },
     {
         "purpose": "maskable",
-        "sizes":   "384x384",
-        "src":     "assets/favicon/maskable_icon_x384.png",
-        "type":    "image/png"
+        "sizes": "384x384",
+        "src": "assets/favicon/maskable_icon_x384.png",
+        "type": "image/png"
     },
     {
         "purpose": "maskable",
-        "sizes":   "512x512",
-        "src":     "assets/favicon/maskable_icon_x512.png",
-        "type":    "image/png"
+        "sizes": "512x512",
+        "src": "assets/favicon/maskable_icon_x512.png",
+        "type": "image/png"
     },
     {
-        "src":     "assets/favicon/android-chrome-192x192.png",
-        "sizes":   "192x192",
-        "type":    "image/png",
+        "src": "assets/favicon/android-chrome-192x192.png",
+        "sizes": "192x192",
+        "type": "image/png",
         "purpose": "any"
     },
     {
-        "src":     "assets/favicon/android-chrome-512x512.png",
-        "sizes":   "512x512",
-        "type":    "image/png",
+        "src": "assets/favicon/android-chrome-512x512.png",
+        "sizes": "512x512",
+        "type": "image/png",
         "purpose": "any"
-    }],
+    }]
 
-    "ticketing": {
-        "full_pass_ticket": {
-            "start_date":   "2025-06-05",
-            "start_time":   "18:00",
-            "end_date":     "2025-06-06",
-            "end_time":     "02:00",
-            "button_color": "full-pass-ticket",
-            "button_url":   "https://billetterie.paloma-nimes.fr/agenda/747-Pass-2-jours-This-Is-Not-A-Love-Song?session=747",
-            "is_available": true
-        },
-        "day_pass_ticket_1": {
-            "start_date":   "2025-06-05",
-            "start_time":   "18:00",
-            "end_date":     "2025-06-05",
-            "end_time":     "02:00",
-            "button_color": "day-pass-ticket-1",
-            "button_url":   "https://billetterie.paloma-nimes.fr/agenda/748-Pass-1-jour-vendredi-This-Is-Not-A-Love-Song?session=748",
-            "is_available": true
-        },
-        "day_pass_ticket_2": {
-            "start_date":   "2025-06-06",
-            "start_time":   "18:00",
-            "end_date":     "2025-06-06",
-            "end_time":     "02:00",
-            "button_color": "day-pass-ticket-2",
-            "button_url":   "https://billetterie.paloma-nimes.fr/agenda/749-Pass-1-jour-samedi-This-Is-Not-A-Love-Song?session=749",
-            "is_available": true
-        }
-    }
 }

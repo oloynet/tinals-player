@@ -71,6 +71,7 @@ const translations = {
     tags: {}
 };
 
+
 /* INIT */
 
 async function init() {
@@ -126,8 +127,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.56';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.56' : 'config/config_fr.json?v1.56';
+        const configFile = 'config/config.json?v1.57';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.57' : 'config/config_fr.json?v1.57';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -273,27 +274,30 @@ async function init() {
                 };
                 const errString = e ? escapeHtml(e.toString()) : "Unknown Error";
                 const errStack  = e && e.stack ? escapeHtml(e.stack) : "";
-                jsErrorHtml = `<div style="margin-bottom: 50px;"><pre style="text-align: left; font-family: monospace; background: rgba(0,0,0,0.5); padding: 10px; overflow: auto; max-height: 50vh; white-space: pre-wrap; word-wrap: break-word;">${errString}\n\n${errStack}</pre></div>`;
+                jsErrorHtml = `
+                <div style="margin-bottom: 50px;">
+                    <pre style="text-align: left; font-family: monospace; background: rgba(0,0,0,0.5); padding: 10px; overflow: auto; max-height: 50vh; white-space: pre-wrap; word-wrap: break-word;">
+                        ${errString}\n\n${errStack}
+                    </pre>
+                </div>`;
             }
 
             loader.innerHTML = `
             <div class="console-error" style="text-align: center; color: white;margin: 0 40px;">
                 <div>
                     <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur application TINALS</h1>
-                    <p class='loader-error-msg' style="margin-bottom: 50px;">Le problème trouve souvent son origine dans le système de cache du navigateur.<br>
+                    <p class='loader-error-msg' style="margin-bottom: 50px;">Le problème trouve souvent son origine dans le système de cache du navigateur ou a une erreur javascript<br>
                     <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">TINALS application error</h1>
-                    <p class='loader-error-msg' style="margin-bottom: 50px;">The problem often originates in the browser's cache system.</p>
+                    <p class='loader-error-msg' style="margin-bottom: 50px;">The problem often originates in the browser's cache system or a javascript error</p>
                 </div>
                 ${jsErrorHtml}
                 <div>
-                    <button class="intro-btn" onclick="reloadApp()">Réinitialiser / Reload</button>
+                    <button class="reload-btn" onclick="reloadApp()">Réinitialiser / Try reload</button>
                 </div>
             </div>`;
         }
     }
 }
-
-
 
 
 function isMobileDevice() {
@@ -706,45 +710,26 @@ function getSvgHtml( spriteId, cssClass ) {
 }
 
 
-function getIntroHtml() {
+function getHomeHtml() {
     const c = AppState.config;
-    const s = AppState.settings;
-    const logoHtml = getSvgHtml( c.images.presentation_id, "intro-logo" );
-
-    return `
-        <section id="intro" class="intro-card section-snap">
-            <div class="intro-content-top">
-                <h1>${logoHtml}</h1>
-                <h2 class="intro-subtitle">${c.texts.intro_subtitle}</h2>
-            </div>
-            <div class="intro-date"><span>${c.texts.intro_date}</span></div>
-            <div class="intro-content-bottom">
-                <div class="intro-buttons-container">
-                    <!-- <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button> -->
-                    <!-- <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button> -->
-                    <button onclick="filterByTag('vendredi-5')" class="intro-btn">${c.texts.intro_day_1}</button>
-                    <button onclick="filterByTag('samedi-6')" class="intro-btn">${c.texts.intro_day_2}</button>
-                </div>
-                <p class="intro-note">${c.texts.intro_footer}</p>
-            </div>
-        </section>`;
-}
-
-
-function getPosterHtml() {
-    const c = AppState.config;
+    //const s = AppState.settings;
+    const logoHtml    = getSvgHtml( c.images.presentation_id, "home-logo" );
     const posterImage = "data/2026/affiche-tinals.webp";
 
     return `
-        <section id="poster" class="poster-card section-snap" style="background-image: url('${posterImage}');">
-            <div class="poster-content-bottom">
-                <div class="intro-buttons-container">
-                    <!-- <button onclick="scrollToFirstVideo()" class="intro-btn">${c.texts.intro_btn_program}</button> -->
-                    <!-- <button onclick="scrollToTicketing()" class="intro-btn">${c.texts.intro_btn_ticket}</button> -->
-                    <button onclick="filterByTag('vendredi-5')" class="intro-btn">${c.texts.intro_day_1}</button>
-                    <button onclick="filterByTag('samedi-6')" class="intro-btn">${c.texts.intro_day_2}</button>
+        <section id="home" class="home-card section-snap" style="background-image: url('${posterImage}');">
+
+            <div class="home-content-top">
+            </div>
+
+            <div class="home-content-bottom">
+                <div class="home-buttons-container">
+                    <!-- <button onclick="scrollToFirstVideo()" class="home-btn">${c.texts.home_btn_program}</button> -->
+                    <button onclick="filterByTag('day-1')" class="home-btn">${c.texts.home_day_1}</button>
+                    <button onclick="filterByTag('day-2')"   class="home-btn">${c.texts.home_day_2}</button>
+                    <button onclick="scrollToTicketing()"       class="home-btn home-ticket-btn">${c.texts.home_btn_ticket}</button>
                 </div>
-                <p class="intro-note">${c.texts.intro_footer}</p>
+                <p class="home-organizer">${c.texts.home_footer}</p>
             </div>
         </section>`;
 }
@@ -844,16 +829,14 @@ function getVideoCardHtml( g ) {
 }
 
 
-
-/* RENDER */
+/* RENDER MAIN FEED */
 
 
 function renderFeed() {
-    const feed = document.getElementById( 'main-feed' );
-    const htmlParts = [ getIntroHtml(), getPosterHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() ];
+    const feed      = document.getElementById( 'main-feed' );
+    const htmlParts = [ getHomeHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() ];
     feed.innerHTML = htmlParts.join( '' );
 }
-
 
 
 /* TOGGLE */
@@ -864,7 +847,6 @@ function toggleLanguage() {
     url.searchParams.set( 'lang', newLang );
     window.location.href = url.href;
 }
-
 
 
 /* MAIN MENU */
@@ -915,7 +897,7 @@ function handleMenuAction(action) {
             break;
         case 'day1':
             closeMainMenu();
-            filterByTag('vendredi-5');
+            filterByTag('day-1');
             setTimeout(() => {
                 const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
                 if ( firstMatch ) firstMatch.scrollIntoView( { behavior: 'smooth' } );
@@ -923,7 +905,7 @@ function handleMenuAction(action) {
             break;
         case 'day2':
             closeMainMenu();
-            filterByTag('samedi-6');
+            filterByTag('day-2');
             setTimeout(() => {
                 const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
                 if ( firstMatch ) firstMatch.scrollIntoView( { behavior: 'smooth' } );
@@ -988,7 +970,6 @@ function handleMenuAction(action) {
 }
 
 
-
 /* FEATURES BOX */
 
 function openFeaturesModal() {
@@ -1025,7 +1006,6 @@ function closeFeaturesModal() {
 }
 
 
-
 /* MODAL BOX */
 
 function openAboutModal() {
@@ -1038,7 +1018,6 @@ function closeAboutModal() {
     const modal = document.getElementById('about-modal');
     if(modal) modal.classList.remove('active');
 }
-
 
 
 /* SETTINGS */
@@ -1136,7 +1115,6 @@ async function checkVersion(manualCheck = false) {
 }
 
 
-
 /* CONFIRM MODAL */
 
 let confirmCallback = null;
@@ -1167,6 +1145,8 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 });
 
+
+/* TOGGLE */
 
 function toggleMute() {
     VideoManager.toggleMute();
@@ -1243,7 +1223,6 @@ function toggleArtistDescription( element, event ) {
 }
 
 
-
 /* SOCIALS */
 
 function getSocialsHtml(g) {
@@ -1267,7 +1246,6 @@ function getSocialsHtml(g) {
     if (links.length === 0) return '';
     return `<div class="social-links-container">${links.join('')}</div>`;
 }
-
 
 
 /* TICKETING */
@@ -1399,9 +1377,7 @@ function scrollToTicketing() {
 }
 
 
-
 /* URL  */
-
 
 function updateURLState() {
     const url = new URL( window.location );
@@ -1570,7 +1546,6 @@ function setupInteraction() {
 }
 
 
-
 /* OBSERVER */
 
 function setupObserver() {
@@ -1611,7 +1586,7 @@ function setupObserver() {
                     AppState.state.activeId = null;
                     if ( entry.target.id ) {
                         AppState.state.activeSection = entry.target.id;
-                        if ( entry.target.id === 'intro' ) {
+                        if ( entry.target.id === 'home' ) {
                             checkVersion();
                         }
                     }
@@ -1641,7 +1616,6 @@ function setupObserver() {
     } );
     document.querySelectorAll( '.section-snap' ).forEach( el => observer.observe( el ) );
 }
-
 
 
 /* GESTURES AND KEYBOARD */
@@ -1766,7 +1740,6 @@ function setupKeyboardControls() {
 }
 
 
-
 /* TOAST */
 
 function showToast( message ) {
@@ -1806,7 +1779,6 @@ function setupScrollToasts() {
         lastScrollTop = st <= 0 ? 0 : st;
     } );
 }
-
 
 
 /* SCROLL */
@@ -1863,7 +1835,6 @@ function scrollToFirstVideo() {
 }
 
 
-
 /* ACTION BUTTONS */
 
 function updateNavActionButtons() {
@@ -1918,14 +1889,12 @@ function updateActionButtons( id ) {
 }
 
 
-
 /* FILTER (TAG AND FAVORITE) */
 
 function cancelFilters() {
     if ( AppState.state.isPlayingFavorites ) exitFavoritesMode(false);
     if ( AppState.state.currentTagFilter )   exitTagFilterMode(false);
 }
-
 
 
 /* FILTER : FAVORITES */
@@ -2012,7 +1981,6 @@ function exitFavoritesMode(shouldScroll = true) {
     updateActionButtons( AppState.state.activeId );
     updateNavActionButtons();
 }
-
 
 
 /* FILTER : TAGS  */
@@ -2142,7 +2110,6 @@ function exitTagFilterMode(shouldScroll = true) {
 }
 
 
-
 /* DRAWER ( FAVORITE - TIMELINE ) */
 
 function startDrawerAutoCloseTimer() {
@@ -2224,7 +2191,6 @@ function closeDrawerIfOpen() {
     }
     return false;
 }
-
 
 
 /* DRAWER FAVORITE*/
@@ -2329,11 +2295,10 @@ function renderDrawerTimeline() {
 }
 
 
-
-/* HAPTIC */
+/* HAPTIC ON BUTTONS */
 
 function setupHapticFeedback() {
-    const buttons = document.querySelectorAll( '.btn-fav-float, .btn-drawer-action, .btn-program, .btn-ticket, .intro-btn, .ticket-btn' );
+    const buttons = document.querySelectorAll( '.btn-fav-float, .btn-drawer-action, .btn-program, .btn-ticket, .home-btn, .ticket-btn' );
     buttons.forEach( btn => {
         btn.addEventListener( 'touchstart', () => triggerHaptic( btn ), {
             passive: true

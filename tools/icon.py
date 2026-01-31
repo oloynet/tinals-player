@@ -14,7 +14,7 @@ except ImportError:
     sys.exit(1)
 
 # Constants
-THEME_COLOR = "#ea562a" # Default, will try to read from config
+THEME_COLOR = "#e9552b" # Default, will try to read from config
 BACKGROUND_COLOR = "#000000"
 
 ICONS_CONFIG = [

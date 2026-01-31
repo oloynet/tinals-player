@@ -1,9 +1,9 @@
 :root {
-    --primary-color: #ea562a;   /* green : ea562a - blue : #ea562a */
-    --secondary-color: #feacb5; /* orange */
+    --primary-color: #e9552b;   /* rgb(255, 65, 4) */
+    --secondary-color: #ffa7b5; /* orange */
     --third-color: #2d91d0;     /* pink */
-    --fourth-color: #feffe0;    /* light yellow */
-    --fifth-color: #959f01;     /* green */
+    --fourth-color: #f8f8d8;    /* light yellow */
+    --fifth-color: #96a002;     /* green */
     --light-color:  white;
     --light-grey-color:  #d3d3d3;
     --light-grey-transparent-color:  #d3d3d37f;
@@ -29,9 +29,9 @@
     --tag-pill-active-color: var(--dark-color);
     --toast-bg: var(--primary-color);
     --toast-color: var(--content-color);
-    --full-pass-ticket-color: #ea562a; /* #fd3d00; */
-    --day-pass-ticket-1-color: #149114; /* var(--fifth-color);*/
-    --day-pass-ticket-2-color: #2d91d0; /* var(--third-color); */
+    --full-pass-ticket-color: var(--primary-color);
+    --day-pass-ticket-1-color: var(--fifth-color);
+    --day-pass-ticket-2-color: var(--third-color);
 
     --status-canceled-color: var(--light-color);
     --status-canceled-bg: var(--primary-color);
@@ -66,6 +66,7 @@ body {
 }
 
 /* --- SVG LOGOS --- */
+
 .svg-icon {
     display: inline-block;
     width: 100%;
@@ -73,7 +74,8 @@ body {
     fill: currentColor;
 }
 
-/* Loader Logo */
+/* --- LOADER LOGO --- */
+
 .loader-logo {
     display: block;
     width: 42vh;
@@ -84,7 +86,8 @@ body {
     transform-origin: center center;
 }
 
-/* Menu Logo */
+/* --- MENU LOGO --- */
+
 .menu-logo {
     width: 60px;
     height: auto;
@@ -92,16 +95,8 @@ body {
     fill: white;
 }
 
-/* Intro Logo */
-.intro-logo {
-    width: 800px;
-    max-width: 100%;
-    height: auto;
-    aspect-ratio: 58 / 6;
-    fill: white;
-}
-
 /* --- DRAPEAUX --- */
+
 .lang-icon {
     width: 24px;
     height: auto;
@@ -114,7 +109,8 @@ body {
     max-width: 30%;
 }
 
-/* --- BARRES DE NOTIFICATION (Mobile Safe Area) --- */
+/* --- NOTIFICATION BAR --- */
+
 #fav-mode-bar,
 #tag-mode-bar {
     position: fixed;
@@ -186,7 +182,8 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     display: none !important;
 }
 
-/* --- CONTROL BAR (Mobile Safe Area) --- */
+/* --- CONTROL BAR --- */
+
 #control-bar {
     position: fixed;
     bottom: 0;
@@ -240,7 +237,8 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     height: 4px;
 }
 
-/* --- LOADER CONTAINER --- */
+/* --- LOADER --- */
+
 #loader {
     position: fixed;
     top: 0;
@@ -279,6 +277,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
 }
 
 /* --- TOAST --- */
+
 #toast-message {
     position: fixed;
     top: 30%;
@@ -310,6 +309,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
 }
 
 /* --- SHARE MODAL --- */
+
 #share-box-modal {
     position: fixed;
     top: 0;
@@ -444,7 +444,8 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     opacity: 0.8;
 }
 
-/* --- MAIN FEED (Utilisation DVH) --- */
+/* --- MAIN FEED --- */
+
 #main-feed {
     height: 100vh;
     height: 100dvh;
@@ -460,15 +461,18 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     display: none;
 }
 
-/* --- PRESENTATION CARD (Utilisation DVH) --- */
+/* --- HOME CARD --- */
 
-.intro-card {
+.home-card {
     height: 100vh;
     height: 100dvh;
     width: 100%;
     scroll-snap-align: center;
     position: relative;
-    background: linear-gradient(rgba(0, 0, 0, 0.3), rgba(0, 0, 0, 0.6)), url('../images/photos/tinals-2025-par-dorian-meyrieux.webp') center/cover no-repeat;
+    background-color: var(--secondary-color);
+    background-position: center;
+    background-size: cover;
+    background-repeat: no-repeat;
     display: flex;
     flex-direction: column;
     justify-content: space-between;
@@ -477,7 +481,15 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     text-align: center;
 }
 
+/* --- HOME LOGO --- */
 
+.home-logo {
+    width: 800px;
+    max-width: 100%;
+    height: auto;
+    aspect-ratio: 58 / 6;
+    fill: white;
+}
 
 @keyframes slideInUp {
     0% {
@@ -491,7 +503,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     }
 }
 
-.intro-content-top {
+.home-content-top {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -503,7 +515,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     margin-top: 28px;
 }
 
-.intro-subtitle {
+.home-subtitle {
     font-size: 1.4rem;
     text-transform: uppercase;
     font-weight: 700;
@@ -512,7 +524,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     max-width: 75%;
 }
 
-.intro-date {
+.home-date {
     display: flex;
     flex-direction: column;
     font-size: 2.2rem;
@@ -527,7 +539,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     animation-delay: 0.6s;
 }
 
-.intro-content-bottom {
+.home-content-bottom {
     display: flex;
     flex-direction: column;
     align-items: center;
@@ -539,7 +551,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     animation-delay: 0.9s;
 }
 
-.intro-buttons-container {
+.home-buttons-container {
     display: flex;
     gap: 15px;
     width: 100%;
@@ -548,9 +560,9 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     align-items: center;
 }
 
-.intro-btn {
-    background-color: var(--primary-color);
-    color: white;
+.home-btn {
+    background-color: var(--fifth-color);
+    color: var(--light-color);
     padding: 10px 25px;
     border-radius: 50px;
     text-decoration: none;
@@ -559,58 +571,58 @@ body.tag-filtering #main-feed > :not(.has-matching-tag) {
     text-transform: uppercase;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
     transition: transform 0.2s;
     flex: unset;
     width: auto;
     min-width: 200px;
     white-space: nowrap;
+    /*
+    -webkit-box-shadow: 0px 15px 50px 15px rgba(255, 176, 186, 0.8);
+    box-shadow: 0px 15px 50px 15px rgba(255, 176, 186, 0.8);
+    */
+
 }
 
-.intro-btn:hover {
+.home-ticket-btn {
+    background-color: var(--fourth-color);
+    color: var(--dark-color);
+}
+
+.home-buttons-container .home-btn,
+.home-buttons-container .home-ticket-btn {
+    border: 2px solid var(--dark-color);
+}
+
+
+
+
+.home-btn:hover {
     transform: scale(1.05);
 }
 
-.intro-note {
-    font-size: 1.1rem;
-    opacity: 0.9;
-    font-style: normal;
-    text-shadow: 0 1px 5px rgba(0, 0, 0, 0.5);
-}
+.home-organizer {
 
-/* --- POSTER CARD --- */
-.poster-card {
-    height: 100vh;
-    height: 100dvh;
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 10px 25px;
+    border: 2px solid var(--dark-color);
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: normal;
+    font-size: 0.8rem;
+    text-transform: normal;
+    cursor: pointer;
+    transition: transform 0.2s;
+    flex: unset;
+    width: auto;
     width: 100%;
-    scroll-snap-align: center;
-    position: relative;
-    background-color: #000;
-    background-position: center;
-    background-size: cover;
-    background-repeat: no-repeat;
-    display: flex;
-    flex-direction: column;
-    justify-content: flex-end;
-    align-items: center;
-    text-align: center;
-    padding: 20px 20px 5vh 20px;
-    overflow: hidden;
+
+    /* text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.9); */
+
 }
 
-.poster-content-bottom {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 20px;
-    width: 100%;
-    max-width: 600px;
-    opacity: 0;
-    animation: slideInUp 0.8s ease-out forwards;
-    animation-delay: 0.3s;
-}
+/* --- VIDEO CARD --- */
 
-/* --- VIDEO CARD (Utilisation DVH) --- */
 .video-card {
     height: 100vh;
     height: 100dvh;
@@ -683,6 +695,7 @@ iframe {
     pointer-events: none;
 }
 
+
 /* --- BOX TITLE --- */
 
 .box-title {
@@ -740,8 +753,7 @@ iframe {
     opacity: 0.9;
 }
 
-
-/* --- video-state-icon --- */
+/* --- VIDEO-STATE-ICON --- */
 
 .video-state-icon {
     position: absolute;
@@ -854,9 +866,6 @@ iframe {
     margin: 0 0 8px 0;
 }
 
-
-
-
 /* --- ARTIST DESCRIPTION --- */
 
 .artist-info .artist-description {
@@ -908,7 +917,6 @@ iframe {
     overflow: visible;
 }
 
-
 .artist-info .artist-description .desc-state-icon {
     color: var(--primary-color);
     font-weight: normal;
@@ -916,14 +924,6 @@ iframe {
     line-height: 2.4rem;
     flex-shrink: 0;
 }
-
-
-
-
-
-
-
-
 
 /* --- ARTIST DATE, PLACE --- */
 
@@ -1265,6 +1265,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 /* --- TIMELINE --- */
+
 .timeline-item {
     display: flex;
     padding: 10px;
@@ -1425,8 +1426,6 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     margin-right: 10px;
 }
 
-
-
 /* --- BAR TOP : HEADER ACTIONS --- */
 
 .bar-top .header-actions {
@@ -1465,11 +1464,9 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     display: none;
 }
 
-
 .bar-top .header-actions .btn-lang {
     background: transparent;
 }
-
 
 /* --- TICKETING CARD --- */
 
@@ -1677,6 +1674,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 /* --- FEATURES MODAL --- */
+
 #features-modal {
     position: fixed;
     top: 0;
@@ -1861,24 +1859,29 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     background-color: var(--status-canceled-bg);
     color: var(--status-canceled-color);
 }
+
 .status-badge.status-moved-online {
     background-color: var(--status-moved-online-bg);
     color: var(--status-moved-online-color);
 }
+
 .status-badge.status-postponed {
     background-color: var(--status-postponed-bg);
     color: var(--status-postponed-color);
 }
+
 .status-badge.status-rescheduled {
     background-color: var(--status-rescheduled-bg);
     color: var(--status-rescheduled-color);
 }
+
 .status-badge.status-scheduled {
     background-color: var(--status-scheduled-bg);
     color: var(--status-scheduled-color);
 }
 
 /* Position in video card */
+
 .video-container .status-badge {
     margin-top: 15px;
     font-size: 1.5rem;
@@ -1887,6 +1890,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 /* Position in timeline */
+
 .timeline-item .status-badge {
     font-size: 0.65rem;
     padding: 2px 6px;
@@ -1908,6 +1912,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 .ticket-block.full-pass-ticket {
     background-color: var(--full-pass-ticket-color);
 }
+
 .ticket-btn.full-pass-ticket {
     color: var(--full-pass-ticket-color);
 }
@@ -1915,6 +1920,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 .ticket-block.day-pass-ticket-1 {
     background-color: var(--day-pass-ticket-1-color);
 }
+
 .ticket-btn.day-pass-ticket-1 {
     color: var(--day-pass-ticket-1-color);
 }
@@ -1922,6 +1928,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 .ticket-block.day-pass-ticket-2 {
     background-color: var(--day-pass-ticket-2-color);
 }
+
 .ticket-btn.day-pass-ticket-2 {
     color: var(--day-pass-ticket-2-color);
 }
@@ -1938,7 +1945,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     100% { transform: translate(-50%, -50%) rotate(360deg); }
 }
 
-/* Loading State (Video) */
+/* LOADING STATE (VIDEO) */
 
 .video-card.loading .video-state-icon {
     opacity: 1 !important;
@@ -1946,7 +1953,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     transition: none;
 }
 
-/* Audio Mode Overrides */
+/* AUDIO MODE OVERRIDES */
+
 .video-card.playing.audio-mode .video-background {
     opacity: 1 !important;
     pointer-events: none; /* Keep background non-interactive so clicks go through if needed, though overlay handles it */
@@ -2184,8 +2192,6 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
   transition: background 0.2s;
 }
 
-
-
 .main-menu-list li:hover {
     background: rgba(0, 0, 0, 0.03);
 }
@@ -2213,7 +2219,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     margin-left: 10px;
 }
 
-/* Accordion */
+/* ACCORDION */
+
 .accordion-item {
     display: block !important; /* Override flex */
     padding: 0 !important;
@@ -2266,6 +2273,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 /* --- CONFIRM MODAL --- */
+
 #confirm-modal {
     position: fixed;
     top: 0;
@@ -2338,360 +2346,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     color: #333;
 }
 
-
-/* ==========================================================================
-   MEDIA QUERIES - MOBILE FIRST STRATEGY
-   ========================================================================== */
-
-
-@media (min-width: 320px) {
-
-    .bar-top .header-actions .btn-program {
-        display: block;
-    }
-
-    .bar-top .header-actions .btn-ticket  {
-        display: block;
-    }
-
-}
-
-@media (min-width: 400px) {
-    .menu-logo {
-      width: 80px;
-    }
-
-    .main-menu-icon .material-icons {
-      font-size: 32px;
-    }
-
-
-    .bar-top .header-actions .btn-program {
-      display: block;
-    }
-
-    .bar-top .header-actions .btn-ticket  {
-        display: block;
-    }
-
-}
-
-
-/* --- TABLET (min-width: 640px) --- */
-@media (min-width: 640px) {
-
-    .bar-top {
-        padding: 0 20px;
-    }
-
-    .menu-logo {
-        width: 120px;
-    }
-
-    .lang-icon {
-        width: 32px;
-    }
-
-    .logo {
-        max-width: 100%;
-    }
-
-    #btn-header-lang {
-        margin-left: 5px;
-        min-width: 40px;
-    }
-
-    .intro-note {
-        font-size: 1.3rem;
-    }
-
-
-    /* --- INTRO-CARD --- */
-
-
-    .intro-card {
-        padding: 12vh 20px 5vh 20px;
-    }
-
-
-    .intro-content-top {
-        margin-top: 0;
-    }
-
-    .intro-subtitle {
-        font-size: 1.5rem;
-    }
-
-    .intro-date {
-        font-size: 3.5rem;
-    }
-
-    .intro-buttons-container {
-        gap: 20px;
-        flex-direction: row;
-        align-items: stretch;
-    }
-
-    .intro-btn {
-        padding: 15px 20px;
-        font-size: 0.95rem;
-        flex: 1;
-        width: auto;
-        min-width: auto;
-    }
-
-    /* --- POSTER CARD --- */
-
-    /* --- BOX TITLE --- */
-
-    .box-title h2 {
-        font-size: 2.5rem;
-    }
-
-    .box-meta-place {
-        font-size: 1.3rem;
-        margin-bottom: 4px;
-    }
-
-    .box-meta-date {
-        font-size: 1.3rem;
-    }
-
-
-    /* --- ARTIST OVERLAY --- */
-
-    .artist-overlay {
-        padding: 25px;
-        padding-bottom: calc(35px + env(safe-area-inset-bottom));
-    }
-
-    .artist-info .artist-avatar-container {
-        width: 80px;
-        height: 80px;
-    }
-
-    .artist-info h2 {
-        font-size: 1.7rem;
-    }
-
-    .artist-info .artist-date-place {
-        font-size: 1.1rem;
-    }
-
-    .artist-info .artist-description .desc-text {
-        font-size: 1.15rem;
-        margin-bottom: 8px;
-    }
-
-    .artist-info .tag-pill {
-        font-size: 0.90rem;
-        padding: 4px 10px;
-    }
-
-    .artist-info .tags-container {
-        margin-bottom: 4px;
-    }
-
-    .artist-info .social-pill {
-        font-size: 0.90rem;
-    }
-
-
-    /* --- ACTION BAR --- */
-
-    .action-bar {
-        right: 20px;
-        gap: 20px;
-        padding-bottom: 0;
-    }
-
-    .btn-fav-float {
-        width: 50px;
-        height: 50px;
-    }
-
-    .drawer-fav-timeline {
-        width: 85%;
-        max-width: 420px;
-    }
-
-    .main-menu-drawer {
-        width: 85%;
-        max-width: 350px;
-    }
-
-    .drawer-header {
-        padding: 15px 20px;
-    }
-
-    .favorite-item {
-        padding: 15px 25px;
-    }
-
-    .favorite-item img {
-        width: 55px;
-        height: 55px;
-    }
-
-    .timeline-item {
-        padding: 15px;
-    }
-
-    .time-thumb {
-        width: 80px;
-        height: 80px;
-        margin-right: 15px;
-    }
-
-    /* --- bar-top --- */
-
-    .bar-top .main-menu-icon {
-    }
-
-
-    .bar-top .header-actions {
-        gap: 10px;
-    }
-
-
-    .bar-top .header-actions .btn-program,
-    .bar-top .header-actions .btn-ticket,
-    .bar-top .header-actions .btn-lang {
-        padding: 10px 18px;
-        font-size: 0.7em;
-    }
-
-
-    /* --- video-state-icon --- */
-
-    .video-state-icon {
-        font-size: 76px;
-    }
-
-    /* --- TICKETING --- */
-
-    .ticketing-card {
-        /* min-height was auto in mobile, keep it? or restore 100vh behavior if lost */
-    }
-
-    .ticket-container {
-        flex-direction: row;
-        gap: 20px;
-        padding: 20px;
-    }
-
-    .ticket-block {
-        padding: 20px;
-        margin: 10px;
-    }
-
-    .ticket-block:hover {
-        flex: 1.6;
-    }
-
-    .ticket-block h2 {
-        font-size: 2rem;
-        transition: transform 0.3s ease;
-    }
-
-    .ticket-block h3 {
-        font-size: 1.5rem;
-        transition: transform 0.3s ease;
-    }
-
-    .ticket-btn {
-        padding: 15px 30px;
-        font-size: 1rem;
-        transition: transform 0.2s, box-shadow 0.2s, transform 0.3s ease;
-    }
-
-    .ticket-block:hover h2,
-    .ticket-block:hover h3,
-    .ticket-block:hover .ticket-btn {
-        transform: scale(1.2);
-        margin-bottom: 15px;
-    }
-
-    .ticket-artists-list {
-        display: block;
-    }
-
-    .ticket-stats {
-        margin-top: 20px;
-    }
-
-
-}
-
-/* --- DESKTOP (min-width: 1024px) --- */
-@media (min-width: 1024px) {
-
-    .bar-top {
-        padding: 0 30px;
-    }
-
-    /* --- POSTER CARD --- */
-
-    /* --- BOX TITLE --- */
-
-    .box-title h2 {
-        font-size: 3.5rem;
-    }
-
-    .box-meta-place {
-        font-size: 1.7rem;
-    }
-
-    .box-meta-date {
-        font-size: 1.7rem;
-    }
-
-    /* --- ARTIST OVERLAY --- */
-
-    .artist-overlay {
-        padding-bottom: calc(35px + env(safe-area-inset-bottom));
-    }
-
-    .artist-info .artist-avatar-container {
-        width: 96px;
-        height: 96px;
-    }
-
-    .artist-info h2 {
-        font-size: 2.0rem;
-    }
-
-    .artist-info .artist-date-place {
-        font-size: 1.25rem;
-    }
-
-    .artist-info .artist-description .desc-text {
-        font-size: 1.4rem;
-    }
-
-    .artist-info .tag-pill {
-        font-size: 1.0rem;
-        padding: 4px 10px;
-    }
-
-    .artist-info .tags-container {
-        margin-bottom: 4px;
-    }
-
-    .artist-info .social-pill {
-        font-size: 1.0rem;
-        padding: 4px 10px;
-    }
-
-    /* --- video-state-icon --- */
-
-    .video-state-icon {
-        font-size: 96px;
-    }
-
-}
-
 /* --- ABOUT MODAL --- */
+
 #about-modal {
     position: fixed;
     top: 0;
@@ -2815,4 +2471,378 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
 .about-social a:hover {
     transform: scale(1.05);
+}
+
+
+.reload-btn {
+    background-color: var(--primary-color);
+    color: var(--light-color);
+    padding: 10px 25px;
+    border-radius: 50px;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+    transition: transform 0.2s;
+    flex: unset;
+    width: auto;
+    min-width: 200px;
+    white-space: nowrap;
+}
+
+/* ==========================================================================
+   MEDIA QUERIES - MOBILE FIRST STRATEGY
+   ========================================================================== */
+
+
+/* --- SMARTPHONE (min-width: 320px) --- */
+
+@media (min-width: 320px) {
+
+    .bar-top .header-actions .btn-program {
+        display: block;
+    }
+
+    .bar-top .header-actions .btn-ticket  {
+        display: none;
+    }
+}
+
+
+/* --- BIG SMARTPHONE (min-width: 400px) --- */
+
+@media (min-width: 400px) {
+    .menu-logo {
+      width: 80px;
+    }
+
+    .main-menu-icon .material-icons {
+      font-size: 32px;
+    }
+
+
+    .bar-top .header-actions .btn-program {
+      display: block;
+    }
+
+    .bar-top .header-actions .btn-ticket  {
+        display: block;
+    }
+
+    .drawer-fav-timeline {
+        max-width: 380px;
+    }
+}
+
+
+/* --- TABLET (min-width: 640px) --- */
+
+@media (min-width: 640px) {
+
+    .bar-top {
+        padding: 0 20px;
+    }
+
+    .menu-logo {
+        width: 120px;
+    }
+
+    .lang-icon {
+        width: 32px;
+    }
+
+    .logo {
+        max-width: 100%;
+    }
+
+    #btn-header-lang {
+        margin-left: 5px;
+        min-width: 40px;
+    }
+
+    /* --- HOME-CARD --- */
+
+    .home-organizer {
+        font-size: 1.0rem;
+    }
+
+    .home-card {
+        padding: 12vh 20px 5vh 20px;
+    }
+
+    .home-content-top {
+        margin-top: 0;
+    }
+
+    .home-subtitle {
+        font-size: 1.5rem;
+    }
+
+    .home-date {
+        font-size: 3.5rem;
+    }
+
+    .home-buttons-container {
+        gap: 20px;
+        flex-direction: row;
+        align-items: stretch;
+    }
+
+    .home-btn {
+        padding: 15px 20px;
+        font-size: 0.95rem;
+        flex: 1;
+        width: auto;
+        min-width: auto;
+    }
+
+    /* --- BOX TITLE --- */
+
+    .box-title h2 {
+        font-size: 2.5rem;
+    }
+
+    .box-meta-place {
+        font-size: 1.3rem;
+        margin-bottom: 4px;
+    }
+
+    .box-meta-date {
+        font-size: 1.3rem;
+    }
+
+
+    /* --- ARTIST OVERLAY --- */
+
+    .artist-overlay {
+        padding: 25px;
+        padding-bottom: calc(35px + env(safe-area-inset-bottom));
+    }
+
+    .artist-info .artist-avatar-container {
+        width: 80px;
+        height: 80px;
+    }
+
+    .artist-info h2 {
+        font-size: 1.7rem;
+    }
+
+    .artist-info .artist-date-place {
+        font-size: 1.1rem;
+    }
+
+    .artist-info .artist-description .desc-text {
+        font-size: 1.15rem;
+        margin-bottom: 8px;
+    }
+
+    .artist-info .tag-pill {
+        font-size: 0.90rem;
+        padding: 4px 10px;
+    }
+
+    .artist-info .tags-container {
+        margin-bottom: 4px;
+    }
+
+    .artist-info .social-pill {
+        font-size: 0.90rem;
+    }
+
+
+    /* --- ACTION BAR --- */
+
+    .action-bar {
+        right: 20px;
+        gap: 20px;
+        padding-bottom: 0;
+    }
+
+    .btn-fav-float {
+        width: 50px;
+        height: 50px;
+    }
+
+    .main-menu-drawer {
+        width: 85%;
+        max-width: 350px;
+    }
+
+    .drawer-header {
+        padding: 15px 20px;
+    }
+
+    .favorite-item {
+        padding: 15px 25px;
+    }
+
+    .favorite-item img {
+        width: 55px;
+        height: 55px;
+    }
+
+    .timeline-item {
+        padding: 15px;
+    }
+
+    .time-thumb {
+        width: 80px;
+        height: 80px;
+        margin-right: 15px;
+    }
+
+    /* --- bar-top --- */
+
+    .bar-top .main-menu-icon {
+    }
+
+
+    .bar-top .header-actions {
+        gap: 10px;
+    }
+
+
+    .bar-top .header-actions .btn-program,
+    .bar-top .header-actions .btn-ticket,
+    .bar-top .header-actions .btn-lang {
+        padding: 10px 18px;
+        font-size: 0.7em;
+    }
+
+
+    /* --- video-state-icon --- */
+
+    .video-state-icon {
+        font-size: 76px;
+    }
+
+    /* --- TICKETING --- */
+
+    .ticketing-card {
+        /* min-height was auto in mobile, keep it? or restore 100vh behavior if lost */
+    }
+
+    .ticket-container {
+        flex-direction: row;
+        gap: 20px;
+        padding: 20px;
+    }
+
+    .ticket-block {
+        padding: 20px;
+        margin: 10px;
+    }
+
+    .ticket-block:hover {
+        flex: 1.6;
+    }
+
+    .ticket-block h2 {
+        font-size: 2rem;
+        transition: transform 0.3s ease;
+    }
+
+    .ticket-block h3 {
+        font-size: 1.5rem;
+        transition: transform 0.3s ease;
+    }
+
+    .ticket-btn {
+        padding: 15px 30px;
+        font-size: 1rem;
+        transition: transform 0.2s, box-shadow 0.2s, transform 0.3s ease;
+    }
+
+    .ticket-block:hover h2,
+    .ticket-block:hover h3,
+    .ticket-block:hover .ticket-btn {
+        transform: scale(1.2);
+        margin-bottom: 15px;
+    }
+
+    .ticket-artists-list {
+        display: block;
+    }
+
+    .ticket-stats {
+        margin-top: 20px;
+    }
+}
+
+
+/* --- DESKTOP (min-width: 1024px) --- */
+@media (min-width: 1024px) {
+
+    .bar-top {
+        padding: 0 30px;
+    }
+
+    /* --- POSTER CARD --- */
+
+    /* --- BOX TITLE --- */
+
+    .box-title h2 {
+        font-size: 3.5rem;
+    }
+
+    .box-meta-place {
+        font-size: 1.7rem;
+    }
+
+    .box-meta-date {
+        font-size: 1.7rem;
+    }
+
+    /* --- ARTIST OVERLAY --- */
+
+    .artist-overlay {
+        padding-bottom: calc(35px + env(safe-area-inset-bottom));
+    }
+
+    .artist-info .artist-avatar-container {
+        width: 96px;
+        height: 96px;
+    }
+
+    .artist-info h2 {
+        font-size: 2.0rem;
+    }
+
+    .artist-info .artist-date-place {
+        font-size: 1.25rem;
+    }
+
+    .artist-info .artist-description .desc-text {
+        font-size: 1.4rem;
+    }
+
+    .artist-info .tag-pill {
+        font-size: 1.0rem;
+        padding: 4px 10px;
+    }
+
+    .artist-info .tags-container {
+        margin-bottom: 4px;
+    }
+
+    .artist-info .social-pill {
+        font-size: 1.0rem;
+        padding: 4px 10px;
+    }
+
+    /* --- video-state-icon --- */
+
+    .video-state-icon {
+        font-size: 96px;
+    }
+
+
+    .home-organizer {
+        font-size: 1.3rem;
+    }
+
 }
