@@ -839,7 +839,7 @@ function getSummaryHtml() {
 
         return `
         <div class="summary-item ${favClass}" data-id="${g.id}" onclick="VideoManager.scrollTo(${g.id})">
-            <button class="summary-like-btn" onclick="toggleFav(${g.id}); event.stopPropagation();">
+            <button class="summary-like-btn" onclick="toggleFav(${g.id}, false); event.stopPropagation();">
                 ${favIconHtml}
             </button>
             <div class="summary-image-container">
@@ -2060,7 +2060,7 @@ function toggleFavCurrent() {
 }
 
 
-function toggleFav( id ) {
+function toggleFav( id, openDrawer = true ) {
     const card = document.getElementById(`video-${id}`);
     const summaryItem = document.querySelector(`.summary-item[data-id="${id}"]`);
     const summaryBtn = summaryItem ? summaryItem.querySelector('.summary-like-btn') : null;
@@ -2080,7 +2080,7 @@ function toggleFav( id ) {
 
         const drawer = document.getElementById( 'fav-timeline-drawer' );
 
-        if ( !drawer.classList.contains( 'active' ) &&
+        if ( openDrawer && !drawer.classList.contains( 'active' ) &&
             !AppState.state.isPlayingFavorites ) {
 
             toggleFavTimelineDrawer( 'favorites' );
