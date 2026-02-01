@@ -2498,7 +2498,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
    ========================================================================== */
 
 
-/* --- SMARTPHONE (min-width: 320px) --- */
+/* --- BASE (min-width: 320px) --- */
 
 @media (min-width: 320px) {
 
@@ -2512,7 +2512,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 
-/* --- BIG SMARTPHONE (min-width: 400px) --- */
+/* --- MOBILE "xs" (min-width: 400px) --- */
 
 @media (min-width: 400px) {
     .menu-logo {
@@ -2538,7 +2538,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 
-/* --- TABLET (min-width: 640px) --- */
+/* --- LARGE MOBILE "sm" (min-width: 640px) --- */
 
 @media (min-width: 640px) {
 
@@ -2774,7 +2774,11 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 
-/* --- DESKTOP (min-width: 1024px) --- */
+
+
+
+/* --- LAPTOP "lg" (min-width: 1024px) --- */
+
 @media (min-width: 1024px) {
 
     .bar-top {
@@ -2842,7 +2846,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
 
     .home-organizer {
-        font-size: 1.3rem;
+        font-size: 1.15rem
     }
 
 }

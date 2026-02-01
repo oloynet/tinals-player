@@ -19,7 +19,9 @@
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
-        "data_source":      "data/2026/data.json?v1.57"
+        "data_source":      "data/2026/data.json?v1.57",
+
+        "status":           "full_program"
     },
 
     "sessions":
@@ -105,6 +107,10 @@
 
         "is_display_version": false,
 
+        "is_display_day": true,
+        "is_display_date": true,
+        "is_display_time": true,
+
         "is_display_box_title": false,
         "is_display_artist": true,
         "is_display_action_bar": true,
@@ -115,9 +121,7 @@
         "is_button_prev_next_enable": false,
         "is_fullscreen_enable": true,
 
-        "is_display_day": true,
-        "is_display_date": true,
-        "is_display_time": true,
+
         "is_display_year": false,
         "is_display_tag": true,
         "is_display_place": true,
@@ -125,7 +129,6 @@
         "is_display_group_description": true,
         "is_display_image_video_pause": true,
         "is_display_image_video_end": true,
-        "is_display_by_session": true,
 
         "is_menu_auto_hide": false,
         "is_description_auto_hide": true,
