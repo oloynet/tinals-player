@@ -643,7 +643,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary-card) {
     font-weight: 900;
     text-transform: uppercase;
     margin-bottom: 20px;
-    color: var(--primary-color);
+    color: var(--light-color);
 }
 
 .summary-grid {
@@ -2656,9 +2656,9 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 
-/* --- MOBILE "xs" (min-width: 400px) --- */
+/* --- MOBILE "xs" (min-width: 480px) --- */
 
-@media (min-width: 400px) {
+@media (min-width: 480px) {
     .menu-logo {
       width: 80px;
     }
@@ -2918,7 +2918,10 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 
+/* --- TABLET "md" (min-width: 768px) --- */
 
+@media (min-width: 768px) {
+}
 
 
 /* --- LAPTOP "lg" (min-width: 1024px) --- */
@@ -2992,5 +2995,16 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     .home-organizer {
         font-size: 1.15rem
     }
+}
 
+
+/* --- TABLET "xl" (min-width: 1280px) --- */
+
+@media (min-width: 1280px) {
+}
+
+
+/* --- TABLET "2xl" (min-width: 1536px) --- */
+
+@media (min-width: 1536px) {
 }

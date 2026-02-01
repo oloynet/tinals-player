@@ -68,7 +68,6 @@
         "nav_ticketing": "Billetterie",
         "nav_language_toggle": "Basculer en français",
 
-        "summary_title": "En un coup d'oeil",
 
         "home_title": "Festival TINALS 2026",
         "home_subtitle": "Beau weekend, le retour de la suite",
@@ -78,6 +77,8 @@
         "home_day_2": "Samedi 6 juin",
         "home_btn_ticket": "La billetterie",
         "home_footer": "Le festival est organisé par Come On People et Paloma,<br />avec le soutien de Nîmes Métropole",
+
+        "summary_title": "En un coup d'oeil",
 
         "bar_sound_on": "Son activé",
         "bar_sound_off": "Son coupé",
