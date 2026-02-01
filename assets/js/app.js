@@ -1915,21 +1915,19 @@ function setupScrollToasts() {
         const st = feed.scrollTop;
         const h  = feed.clientHeight;
         const sh = feed.scrollHeight;
+        let topMsg = "";
+        let bottomMsg = "";
 
         if ( AppState.state.isPlayingFavorites ) {
 
-            console.log( 'AppState.state.isToastScrollFavorite = ' + AppState.state.isToastScrollFavorite );
-
-            if ( AppState.state.isToastScrollFavorite === false ) return;
+            if ( AppState.settings.isToastScrollFavorite === false ) return;
 
             topMsg    = AppState.config.texts.bar_fav_top_page;
             bottomMsg = AppState.config.texts.bar_fav_bottom_page;
 
         } else if ( AppState.state.currentTagFilter ) {
 
-            console.log( 'AppState.state.isToastScrollFilter = ' + AppState.state.isToastScrollFilter );
-
-            if ( AppState.state.isToastScrollFilter === false ) return;
+            if ( AppState.settings.isToastScrollFilter === false ) return;
 
             const tagName = getTagNameFromSlug(AppState.state.currentTagFilter);
             topMsg    = AppState.config.texts.bar_filter_top_page.replace('{tag}', tagName);
@@ -1937,12 +1935,10 @@ function setupScrollToasts() {
 
         } else {
 
-            console.log( 'AppState.state.isToastScrollPage = ' + AppState.state.isToastScrollPage );
+            if ( AppState.settings.isToastScrollPage === false) return;
 
-            if ( AppState.state.isToastScrollPage === false) return;
-
-            let topMsg    = AppState.config.texts.bar_top_page;
-            let bottomMsg = AppState.config.texts.bar_bottom_page;
+            topMsg    = AppState.config.texts.bar_top_page;
+            bottomMsg = AppState.config.texts.bar_bottom_page;
         }
 
         if ( st <= 5 && st < lastScrollTop ) showToast( topMsg );
