@@ -246,6 +246,7 @@ async function init() {
             }, 100 );
         } else if ( idParam && validIds.includes( Number( idParam ) ) ) {
             AppState.state.activeId = Number( idParam );
+            updateSummaryPlayingState( AppState.state.activeId );
             setTimeout( () => {
                 const target = document.getElementById( `video-${AppState.state.activeId}` );
                 if ( target ) target.scrollIntoView( {
@@ -860,7 +861,14 @@ function getSummaryHtml() {
                 <img src="${thumb}" class="summary-image" loading="lazy" alt="${g.event_name}">
             </div>
             <div class="summary-content">
-                <div class="summary-title">${g.event_name}</div>
+                <div class="summary-title-row">
+                    <div class="summary-title">${g.event_name}</div>
+                    <div class="playing-indicator">
+                        <div class="playing-bar"></div>
+                        <div class="playing-bar"></div>
+                        <div class="playing-bar"></div>
+                    </div>
+                </div>
                 <div class="summary-date-place">${metaHtml}</div>
             </div>
         </div>`;
@@ -1729,6 +1737,7 @@ function setupObserver() {
                     }
                     AppState.state.previousId = AppState.state.activeId = id;
                     updateActionButtons( id );
+                    updateSummaryPlayingState( id );
                     updateURLState();
 
                     if ( AppState.settings.isDisplayControlBar ) {
@@ -2042,6 +2051,20 @@ function updateSummaryButtonState() {
     } else {
         if ( icon ) icon.style.color = 'var(--light-color)';
         if ( bg ) bg.classList.remove( 'bright' );
+    }
+}
+
+
+function updateSummaryPlayingState( activeId ) {
+    document.querySelectorAll( '.summary-item' ).forEach( item => {
+        item.classList.remove( 'is-playing' );
+    } );
+
+    if ( activeId !== null && !isNaN( activeId ) ) {
+        const activeItem = document.querySelector( `.summary-item[data-id="${activeId}"]` );
+        if ( activeItem ) {
+            activeItem.classList.add( 'is-playing' );
+        }
     }
 }
 
