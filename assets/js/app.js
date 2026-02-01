@@ -1496,9 +1496,9 @@ function updateTicketingStats() {
 }
 
 
-function scrollToSummary() {
+function scrollToSummary(shouldPause = true) {
     AppState.state.isMenuNavigation = true;
-    VideoManager.pauseAll();
+    if (shouldPause) VideoManager.pauseAll();
     const summarySection = document.getElementById( 'summary-card' );
     if ( summarySection ) summarySection.scrollIntoView( {
         behavior: 'smooth'
@@ -2024,6 +2024,24 @@ function updateNavActionButtons() {
     } else {
         btnDown.classList.remove( 'disabled' );
         btnBottom.classList.remove( 'disabled' );
+    }
+    updateSummaryButtonState();
+}
+
+
+function updateSummaryButtonState() {
+    const btn = document.getElementById( 'btn-nav-summary' );
+    if ( !btn ) return;
+    const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
+    const bg = btn.querySelector( '.btn-bg' );
+    const isSummary = AppState.state.activeSection === 'summary-card';
+
+    if ( isSummary ) {
+        if ( icon ) icon.style.color = 'var(--primary-color)';
+        if ( bg ) bg.classList.add( 'bright' );
+    } else {
+        if ( icon ) icon.style.color = 'var(--light-color)';
+        if ( bg ) bg.classList.remove( 'bright' );
     }
 }
 
