@@ -792,6 +792,49 @@ body.tag-filtering .summary-item:not(.has-matching-tag) {
     color: var(--primary-color);
 }
 
+/* --- SUMMARY PLAYING INDICATOR --- */
+
+.summary-title-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 10px;
+}
+
+.summary-title-row .summary-title {
+    flex: 1;
+}
+
+.playing-indicator {
+    display: none;
+    align-items: flex-end;
+    height: 16px;
+    gap: 2px;
+    margin-top: 2px;
+}
+
+.summary-item.is-playing .playing-indicator {
+    display: flex;
+}
+
+.playing-bar {
+    width: 4px;
+    background-color: var(--primary-color);
+    animation: bounce-bars 1s infinite ease-in-out;
+    border-radius: 1px;
+    transform-origin: bottom;
+}
+
+.playing-bar:nth-child(1) { height: 10px; animation-delay: 0.0s; }
+.playing-bar:nth-child(2) { height: 16px; animation-delay: 0.2s; }
+.playing-bar:nth-child(3) { height: 12px; animation-delay: 0.4s; }
+
+@keyframes bounce-bars {
+    0%, 100% { transform: scaleY(1); }
+    50% { transform: scaleY(0.4); }
+}
+
+
 /* --- VIDEO CARD --- */
 
 .video-card {
