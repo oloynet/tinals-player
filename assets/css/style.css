@@ -666,16 +666,16 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary-card) {
     .summary-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (min-width: 768px) {
-    .summary-grid { grid-template-columns: repeat(4, 1fr); }
+    .summary-grid { grid-template-columns: repeat(3, 1fr); }
 }
 @media (min-width: 1024px) {
-    .summary-grid { grid-template-columns: repeat(5, 1fr); }
+    .summary-grid { grid-template-columns: repeat(4, 1fr); }
 }
 @media (min-width: 1280px) {
-    .summary-grid { grid-template-columns: repeat(6, 1fr); }
+    .summary-grid { grid-template-columns: repeat(5, 1fr); }
 }
 @media (min-width: 1536px) {
-    .summary-grid { grid-template-columns: repeat(7, 1fr); }
+    .summary-grid { grid-template-columns: repeat(6, 1fr); }
 }
 
 .summary-item {
