@@ -128,8 +128,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.57';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.57' : 'config/config_fr.json?v1.57';
+        const configFile = 'config/config.json?v1.58';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.58' : 'config/config_fr.json?v1.58';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -652,6 +652,7 @@ function updateStaticTexts() {
     document.getElementById( 'btn-txt-play-fav' ).innerText  = t.fav_btn_play;
     document.getElementById( 'btn-txt-share-fav' ).innerText = t.fav_btn_share;
     document.getElementById( 'share-title-text' ).innerText  = t.share_title;
+    if(t.summary_title) document.getElementById('summary-title').innerText = t.summary_title;
     document.getElementById( 'txt-share-fb' ).innerText      = t.share_facebook;
     document.getElementById( 'txt-share-tiktok' ).innerText  = t.share_tiktok;
     document.getElementById( 'txt-share-email' ).innerText   = t.share_email;
@@ -797,13 +798,60 @@ function getHomeHtml() {
             <div class="home-content-bottom">
                 <div class="home-buttons-container">
                     <!-- <button onclick="scrollToFirstVideo()" class="home-btn">${c.texts.home_btn_program}</button> -->
-                    <button onclick="filterByTag('day-1')" class="home-btn">${c.texts.home_day_1}</button>
-                    <button onclick="filterByTag('day-2')"   class="home-btn">${c.texts.home_day_2}</button>
+                    <button onclick="openProgramSession('day-1')" class="home-btn">${c.texts.home_day_1}</button>
+                    <button onclick="openProgramSession('day-2')"   class="home-btn">${c.texts.home_day_2}</button>
                     <button onclick="scrollToTicketing()"       class="home-btn home-ticket-btn">${c.texts.home_btn_ticket}</button>
                 </div>
                 <p class="home-organizer">${c.texts.home_footer}</p>
             </div>
         </section>`;
+}
+
+
+function getSummaryHtml() {
+    const t = AppState.config.texts;
+    const s = AppState.settings;
+
+    const itemsHtml = AppState.data.map(g => {
+        const dayName  = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
+        const dateRaw  = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
+        let timeString = '';
+        if ( s.isDisplayTime ) {
+            timeString = g.event_start_time || '';
+        }
+        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
+
+        // Construct date/place html parts
+        let metaHtml = '';
+        if (dayName)   metaHtml += `<span class="summary-date">${dayName}</span>`;
+        if (dateRaw)   metaHtml += `<span class="summary-date">${dateRaw}</span>`;
+        if (timeString) metaHtml += `<span class="summary-time">${timeString}</span>`;
+        if (placeName) metaHtml += `<span class="summary-place">${placeName}</span>`;
+
+        const isFav = AppState.favorites.includes(g.id);
+        const thumb = g.image_thumbnail || g.image;
+
+        const favClass = isFav ? 'is-favorite' : '';
+
+        return `
+        <div class="summary-item ${favClass}" data-id="${g.id}" onclick="VideoManager.scrollTo(${g.id})">
+            <div class="summary-image-container">
+                <img src="${thumb}" class="summary-image" loading="lazy" alt="${g.event_name}">
+            </div>
+            <div class="summary-content">
+                <div class="summary-title">${g.event_name}</div>
+                <div class="summary-date-place">${metaHtml}</div>
+            </div>
+        </div>`;
+    }).join('');
+
+    return `
+    <section id="summary-card" class="section-snap">
+        <h2 id="summary-title">${t.summary_title || 'En un coup d\'oeil'}</h2>
+        <div class="summary-grid">
+            ${itemsHtml}
+        </div>
+    </section>`;
 }
 
 
@@ -906,7 +954,7 @@ function getVideoCardHtml( g ) {
 
 function renderFeed() {
     const feed      = document.getElementById( 'main-feed' );
-    const htmlParts = [ getHomeHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() ];
+    const htmlParts = [ getHomeHtml(), getSummaryHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() ];
     feed.innerHTML = htmlParts.join( '' );
 }
 
@@ -969,19 +1017,11 @@ function handleMenuAction(action) {
             break;
         case 'day1':
             closeMainMenu();
-            filterByTag('day-1');
-            setTimeout(() => {
-                const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
-                if ( firstMatch ) firstMatch.scrollIntoView( { behavior: 'smooth' } );
-            }, 100);
+            openProgramSession('day-1');
             break;
         case 'day2':
             closeMainMenu();
-            filterByTag('day-2');
-            setTimeout(() => {
-                const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
-                if ( firstMatch ) firstMatch.scrollIntoView( { behavior: 'smooth' } );
-            }, 100);
+            openProgramSession('day-2');
             break;
         case 'favorites':
             closeMainMenu();
@@ -1432,6 +1472,27 @@ function updateTicketingStats() {
              }
         }
     }
+}
+
+
+function scrollToSummary() {
+    AppState.state.isMenuNavigation = true;
+    VideoManager.pauseAll();
+    const summarySection = document.getElementById( 'summary-card' );
+    if ( summarySection ) summarySection.scrollIntoView( {
+        behavior: 'smooth'
+    } );
+    setTimeout( () => {
+        AppState.state.isMenuNavigation = false;
+    }, 1200 );
+}
+
+
+function openProgramSession(sessionId) {
+    filterByTag(sessionId, null, false);
+    setTimeout(() => {
+        scrollToSummary();
+    }, 100);
 }
 
 
@@ -1994,14 +2055,17 @@ function toggleFavCurrent() {
 
 function toggleFav( id ) {
     const card = document.getElementById(`video-${id}`);
+    const summaryItem = document.querySelector(`.summary-item[data-id="${id}"]`);
     if ( AppState.favorites.includes( id ) ) {
         AppState.favorites = AppState.favorites.filter( f => f !== id );
         showToast( AppState.config.texts.bar_fav_removed );
         if(card) card.classList.remove('is-favorite');
+        if(summaryItem) summaryItem.classList.remove('is-favorite');
     } else {
         AppState.favorites.push( id );
         showToast( AppState.config.texts.bar_fav_added );
         if(card) card.classList.add('is-favorite');
+        if(summaryItem) summaryItem.classList.add('is-favorite');
 
         const drawer = document.getElementById( 'fav-timeline-drawer' );
 
@@ -2057,7 +2121,7 @@ function exitFavoritesMode(shouldScroll = true) {
 
 /* FILTER : TAGS  */
 
-function filterByTag( tagSlug, event ) {
+function filterByTag( tagSlug, event, shouldScroll = true ) {
     if ( event ) event.stopPropagation();
 
     if ( AppState.state.currentTagFilter === tagSlug ) {
@@ -2089,24 +2153,34 @@ function filterByTag( tagSlug, event ) {
         if ( group && group.event_tags && group.event_tags.some(t => slugify(t) === tagSlug) ) card.classList.add( 'has-matching-tag' );
         else card.classList.remove( 'has-matching-tag' );
     } );
+
+    document.querySelectorAll( '.summary-item' ).forEach( item => {
+        const id    = Number( item.dataset.id );
+        const group = AppState.data.find( g => g.id === id );
+        if ( group && group.event_tags && group.event_tags.some(t => slugify(t) === tagSlug) ) item.classList.add( 'has-matching-tag' );
+        else item.classList.remove( 'has-matching-tag' );
+    });
+
     document.getElementById( 'fav-filter-info' ).innerText  = `(${tagName})`;
     document.getElementById( 'time-filter-info' ).innerText = `(${tagName})`;
     renderDrawerTimeline();
     renderDrawerFavorites();
     updateURLState();
 
-    const currentCard      = currentId ? document.querySelector(`.video-card[data-id="${currentId}"]`) : null;
-    const isCurrentVisible = currentCard && currentCard.classList.contains('has-matching-tag');
+    if (shouldScroll) {
+        const currentCard      = currentId ? document.querySelector(`.video-card[data-id="${currentId}"]`) : null;
+        const isCurrentVisible = currentCard && currentCard.classList.contains('has-matching-tag');
 
-    if ( isCurrentVisible ) {
-        currentCard.scrollIntoView({
-            behavior: 'smooth'
-        });
-    } else {
-        const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
-        if ( firstMatch ) firstMatch.scrollIntoView( {
-            behavior: 'smooth'
-        } );
+        if ( isCurrentVisible ) {
+            currentCard.scrollIntoView({
+                behavior: 'smooth'
+            });
+        } else {
+            const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
+            if ( firstMatch ) firstMatch.scrollIntoView( {
+                behavior: 'smooth'
+            } );
+        }
     }
 }
 
