@@ -29,16 +29,16 @@
 
     <link rel="icon"                 href="assets/favicon/favicon.ico">
     <link rel="apple-touch-icon"     href="assets/favicon/apple-touch-icon.png">
-    <link rel="manifest"             href="manifest.json?v1.57">
+    <link rel="manifest"             href="manifest.json?v1.58">
     <link rel="stylesheet"           href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap">
     <link rel="stylesheet"           href="https://fonts.googleapis.com/icon?family=Material+Icons" >
-    <link rel="stylesheet"           href="assets/css/style.css?v1.57" >
+    <link rel="stylesheet"           href="assets/css/style.css?v1.58" >
 </head>
 
 <body>
     <div id="loader">
         <svg class="loader-logo">
-            <use href="assets/images/sprite.svg?v1.57#logo-loader"></use>
+            <use href="assets/images/sprite.svg?v1.58#logo-loader"></use>
         </svg>
     </div>
     <div id="toast-message">
@@ -177,17 +177,17 @@
         </div>
         <div class="logo-container" onclick="scrollToTop()">
             <svg class="menu-logo">
-                <use href="assets/images/sprite.svg?v1.57#logo-menu"></use>
+                <use href="assets/images/sprite.svg?v1.58#logo-menu"></use>
             </svg>
         </div>
         <div class="header-actions">
             <!-- <button id="btn-header-prog"   class="btn-program" onclick="scrollToFirstVideo()" aria-label="La programmation du festival">PROGRAMMATION</button> -->
 
-            <button id="btn-header-day1"   class="btn-program" onclick="filterByTag('day-1')" aria-label="Vendredi 5">
+            <button id="btn-header-day1"   class="btn-program" onclick="openProgramSession('day-1')" aria-label="Vendredi 5">
                 <span id="txt-header-day1">Programmation du vendredi 5</span>
             </button>
 
-            <button id="btn-header-day2"   class="btn-program" onclick="filterByTag('day-2')" aria-label="Samedi 6">
+            <button id="btn-header-day2"   class="btn-program" onclick="openProgramSession('day-2')" aria-label="Samedi 6">
                 <span id="txt-header-day2">Programmation du samedi 6</span>
             </button>
 
@@ -223,7 +223,7 @@
         <div class="drawer-header">
             <span class="drawer-title" onclick="handleMenuAction('home')">
                 <svg class="menu-logo">
-                    <use href="assets/images/sprite.svg?v1.57#logo-menu"></use>
+                    <use href="assets/images/sprite.svg?v1.58#logo-menu"></use>
                 </svg>
             </span>
             <button class="material-icons btn-close-drawer" onclick="closeMainMenu()" aria-label="Fermer le menu">close</button>
@@ -348,10 +348,10 @@
     </div>
 
     <script src="https://www.youtube.com/iframe_api"></script>
-    <script src="assets/js/app.js?v1.57"></script>
-    <script src="assets/js/simple-audio-player.js?v1.57"></script>
-    <script src="assets/js/control-bar.js?v1.57"></script>
-    <script src="assets/js/video-manager.js?v1.57"></script>
+    <script src="assets/js/app.js?v1.58"></script>
+    <script src="assets/js/simple-audio-player.js?v1.58"></script>
+    <script src="assets/js/control-bar.js?v1.58"></script>
+    <script src="assets/js/video-manager.js?v1.58"></script>
 </body>
 
 </html>
