@@ -833,8 +833,15 @@ function getSummaryHtml() {
 
         const favClass = isFav ? 'is-favorite' : '';
 
+        const favIconHtml = isFav
+            ? '<span class="material-icons" style="color: var(--primary-color);">favorite</span>'
+            : '<span class="material-icons" style="color: var(--light-color);">favorite_border</span>';
+
         return `
         <div class="summary-item ${favClass}" data-id="${g.id}" onclick="VideoManager.scrollTo(${g.id})">
+            <button class="summary-like-btn" onclick="toggleFav(${g.id}); event.stopPropagation();">
+                ${favIconHtml}
+            </button>
             <div class="summary-image-container">
                 <img src="${thumb}" class="summary-image" loading="lazy" alt="${g.event_name}">
             </div>
@@ -2056,16 +2063,20 @@ function toggleFavCurrent() {
 function toggleFav( id ) {
     const card = document.getElementById(`video-${id}`);
     const summaryItem = document.querySelector(`.summary-item[data-id="${id}"]`);
+    const summaryBtn = summaryItem ? summaryItem.querySelector('.summary-like-btn') : null;
+
     if ( AppState.favorites.includes( id ) ) {
         AppState.favorites = AppState.favorites.filter( f => f !== id );
         showToast( AppState.config.texts.bar_fav_removed );
         if(card) card.classList.remove('is-favorite');
         if(summaryItem) summaryItem.classList.remove('is-favorite');
+        if(summaryBtn) summaryBtn.innerHTML = '<span class="material-icons" style="color: var(--light-color);">favorite_border</span>';
     } else {
         AppState.favorites.push( id );
         showToast( AppState.config.texts.bar_fav_added );
         if(card) card.classList.add('is-favorite');
         if(summaryItem) summaryItem.classList.add('is-favorite');
+        if(summaryBtn) summaryBtn.innerHTML = '<span class="material-icons" style="color: var(--primary-color);">favorite</span>';
 
         const drawer = document.getElementById( 'fav-timeline-drawer' );
 
