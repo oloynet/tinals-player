@@ -512,7 +512,7 @@ function applyConfigs() {
 
     if ( AppState.settings.isDebugJS ) {
         //console.log( 's.isDisplayVersion = ' + s.isDisplayVersion );
-        console.log( 's.versionNumber = ' + s.versionNumber );
+        // console.log( 's.versionNumber = ' + s.versionNumber );
     }
 
 
@@ -1737,7 +1737,7 @@ function setupObserver() {
                     }
                     AppState.state.previousId = AppState.state.activeId = id;
                     updateActionButtons( id );
-                    updateSummaryPlayingState( id );
+                    // updateSummaryPlayingState moved to VideoManager
                     updateURLState();
 
                     if ( AppState.settings.isDisplayControlBar ) {
@@ -1753,7 +1753,7 @@ function setupObserver() {
                             checkVersion();
                         }
                     }
-                    if ( AppState.state.previousId !== null && VideoManager.instances[ AppState.state.previousId ] && typeof VideoManager.instances[ AppState.state.previousId ].pauseVideo === 'function' ) {
+                    if ( !AppState.state.isMenuNavigation && AppState.state.previousId !== null && VideoManager.instances[ AppState.state.previousId ] && typeof VideoManager.instances[ AppState.state.previousId ].pauseVideo === 'function' ) {
                         VideoManager.instances[ AppState.state.previousId ].pauseVideo();
                     }
                     updateActionButtons( null );
@@ -2055,15 +2055,17 @@ function updateSummaryButtonState() {
 }
 
 
-function updateSummaryPlayingState( activeId ) {
+function updateSummaryPlayingState( activeId, isPaused = false ) {
     document.querySelectorAll( '.summary-item' ).forEach( item => {
         item.classList.remove( 'is-playing' );
+        item.classList.remove( 'is-paused' );
     } );
 
     if ( activeId !== null && !isNaN( activeId ) ) {
         const activeItem = document.querySelector( `.summary-item[data-id="${activeId}"]` );
         if ( activeItem ) {
             activeItem.classList.add( 'is-playing' );
+            if (isPaused) activeItem.classList.add( 'is-paused' );
         }
     }
 }

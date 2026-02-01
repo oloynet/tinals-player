@@ -834,6 +834,11 @@ body.tag-filtering .summary-item:not(.has-matching-tag) {
     50% { transform: scaleY(0.4); }
 }
 
+.summary-item.is-playing.is-paused .playing-bar {
+    animation-play-state: paused;
+    opacity: 0.5;
+}
+
 
 /* --- VIDEO CARD --- */
 
