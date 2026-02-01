@@ -162,6 +162,7 @@ const VideoManager = {
                 }, 3000 );
             }
             if ( s.isAutoLoadVideo ) this.preloadNext( id );
+            if ( typeof updateSummaryPlayingState === 'function' ) updateSummaryPlayingState( id, false );
         } else if ( e.data === 2 || e.data === 0 ) {
             card.classList.remove( 'loading' );
             card.classList.remove( 'audio-playing' );
@@ -172,6 +173,7 @@ const VideoManager = {
             ControlBar.updatePlayPauseIcon( false );
 
             if ( e.data === 2 ) {
+                if ( typeof updateSummaryPlayingState === 'function' ) updateSummaryPlayingState( id, true );
                 if ( s.isDisplayImageVideoPause ) card.classList.remove( 'playing' );
                 else card.classList.add( 'playing' );
 
@@ -180,6 +182,7 @@ const VideoManager = {
                     icon.textContent = 'play_arrow';
                 }
             } else {
+                if ( typeof updateSummaryPlayingState === 'function' ) updateSummaryPlayingState( null );
                 ControlBar.stopTracking();
                 card.classList.remove( 'playing' );
 
