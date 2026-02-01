@@ -2056,6 +2056,15 @@ function updateSummaryButtonState() {
 
 
 function updateSummaryPlayingState( activeId, isPaused = false ) {
+    const summaryGrid = document.querySelector('.summary-grid');
+    if (summaryGrid) {
+        if (activeId !== null && !isNaN(activeId)) {
+            summaryGrid.classList.add('is-playing');
+        } else {
+            summaryGrid.classList.remove('is-playing');
+        }
+    }
+
     document.querySelectorAll( '.summary-item' ).forEach( item => {
         item.classList.remove( 'is-playing' );
         item.classList.remove( 'is-paused' );

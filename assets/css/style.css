@@ -839,6 +839,15 @@ body.tag-filtering .summary-item:not(.has-matching-tag) {
     opacity: 0.5;
 }
 
+.summary-grid.is-playing .summary-item,
+.summary-grid.is-playing .summary-item.is-playing.is-paused {
+    opacity: 0.6;
+}
+
+.summary-grid.is-playing .summary-item.is-playing:not(.is-paused) {
+    opacity: 1.0;
+}
+
 
 /* --- VIDEO CARD --- */
 
