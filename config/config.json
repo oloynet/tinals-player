@@ -116,6 +116,10 @@
         "is_display_action_bar": true,
         "is_display_control_bar": true,
 
+        "is_toast_scroll_favorite": false,
+        "is_toast_scroll_filter": false,
+        "is_toast_scroll_page": false,
+
         "is_button_sound_enable": true,
         "is_button_top_bottom_enable": false,
         "is_button_prev_next_enable": false,

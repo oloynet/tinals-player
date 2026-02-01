@@ -26,18 +26,25 @@ const AppState = {
         isDebugJS: false,
         isDisplayVersion: false,
         versionNumber: "",
-        isMenuAutoHide: false,
-        isDisplayControlBar: true,
-        isButtonSoundEnable: true,
-        isButtonTopBottomEnable: false,
-        isButtonPrevNextEnable: true,
-        isFullscreenEnable: true,
+
         isDisplayDay: true,
         isDisplayDate: true,
         isDisplayTime: true,
         isDisplayYear: false,
         isDisplayTag: true,
         isDisplayPlace: true,
+
+        isToastScrollFavorite: false,
+        isToastScrollFilter: false,
+        isToastScrollPage: false,
+
+        isButtonSoundEnable: true,
+        isButtonTopBottomEnable: false,
+        isButtonPrevNextEnable: true,
+        isFullscreenEnable: true,
+
+        isMenuAutoHide: false,
+        isDisplayControlBar: true,
         isDisplayRecordName: false,
         isDisplayGroupDescription: true,
         isDescriptionAutoHide: true,
@@ -435,20 +442,27 @@ function applyConfigs() {
     s.isDebugJS                     = f.is_debug_js                       ?? false;
     s.isDisplayVersion              = f.is_display_version                ?? false;
     s.versionNumber                 = c.site.version || "";
-    s.isDisplayBoxTitle             = f.is_display_box_title              ?? false;
-    s.isDisplayArtist               = f.is_display_artist                 ?? true;
-    s.isDisplayActionBar            = f.is_display_action_bar             ?? true;
-    s.isDisplayControlBar           = f.is_display_control_bar            ?? true;
-    s.isButtonSoundEnable           = f.is_button_sound_enable            ?? true;
-    s.isButtonTopBottomEnable       = f.is_button_top_bottom_enable       ?? false;
-    s.isButtonPrevNextEnable        = f.is_button_prev_next_enable        ?? true;
-    s.isFullscreenEnable            = f.is_fullscreen_enable              ?? true;
-    s.isMenuAutoHide                = f.is_menu_auto_hide                 ?? false;
+
     s.isDisplayDay                  = f.is_display_day                    ?? true;
     s.isDisplayDate                 = f.is_display_date                   ?? true;
     s.isDisplayTime                 = f.is_display_time                   ?? true;
     s.isDisplayTag                  = f.is_display_tag                    ?? true;
     s.isDisplayPlace                = f.is_display_place                  ?? true;
+
+    s.isToastScrollFavorite         = f.is_toast_scroll_favorite          ?? false;
+    s.isToastScrollFilter           = f.is_toast_scroll_filter            ?? false;
+    s.isToastScrollPage             = f.is_toast_scroll_page              ?? false;
+
+    s.isButtonSoundEnable           = f.is_button_sound_enable            ?? true;
+    s.isButtonTopBottomEnable       = f.is_button_top_bottom_enable       ?? false;
+    s.isButtonPrevNextEnable        = f.is_button_prev_next_enable        ?? true;
+    s.isFullscreenEnable            = f.is_fullscreen_enable              ?? true;
+
+    s.isDisplayBoxTitle             = f.is_display_box_title              ?? false;
+    s.isDisplayArtist               = f.is_display_artist                 ?? true;
+    s.isDisplayActionBar            = f.is_display_action_bar             ?? true;
+    s.isDisplayControlBar           = f.is_display_control_bar            ?? true;
+    s.isMenuAutoHide                = f.is_menu_auto_hide                 ?? false;
     s.isDisplayRecordName           = f.is_display_record_name            ?? false;
     s.isDisplayGroupDescription     = f.is_display_group_description      ?? true;
     s.isDescriptionAutoHide         = f.is_description_auto_hide          ?? true;
@@ -1902,16 +1916,33 @@ function setupScrollToasts() {
         const h  = feed.clientHeight;
         const sh = feed.scrollHeight;
 
-        let topMsg = AppState.config.texts.bar_top_page;
-        let bottomMsg = AppState.config.texts.bar_bottom_page;
-
         if ( AppState.state.isPlayingFavorites ) {
-            topMsg = AppState.config.texts.bar_fav_top_page;
+
+            console.log( 'AppState.state.isToastScrollFavorite = ' + AppState.state.isToastScrollFavorite );
+
+            if ( AppState.state.isToastScrollFavorite === false ) return;
+
+            topMsg    = AppState.config.texts.bar_fav_top_page;
             bottomMsg = AppState.config.texts.bar_fav_bottom_page;
+
         } else if ( AppState.state.currentTagFilter ) {
+
+            console.log( 'AppState.state.isToastScrollFilter = ' + AppState.state.isToastScrollFilter );
+
+            if ( AppState.state.isToastScrollFilter === false ) return;
+
             const tagName = getTagNameFromSlug(AppState.state.currentTagFilter);
-            topMsg = AppState.config.texts.bar_filter_top_page.replace('{tag}', tagName);
+            topMsg    = AppState.config.texts.bar_filter_top_page.replace('{tag}', tagName);
             bottomMsg = AppState.config.texts.bar_filter_bottom_page.replace('{tag}', tagName);
+
+        } else {
+
+            console.log( 'AppState.state.isToastScrollPage = ' + AppState.state.isToastScrollPage );
+
+            if ( AppState.state.isToastScrollPage === false) return;
+
+            let topMsg    = AppState.config.texts.bar_top_page;
+            let bottomMsg = AppState.config.texts.bar_bottom_page;
         }
 
         if ( st <= 5 && st < lastScrollTop ) showToast( topMsg );
