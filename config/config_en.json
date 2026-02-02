@@ -87,7 +87,7 @@
         "bar_filter_top_page": "First   <span>event</span> {tag}",
         "bar_filter_bottom_page": "Last    <span>event</span> {tag}",
         "filter_cancel_tags": "{count} <span>event(s)</span> {tag}<br />Click to cancel",
-        "filter_warning_text": "The list is incomplete because the {tag} filter is active",
+        "filter_warning_text": "The list is incomplete.<br /><span>The</span> {tag} <span>filter is active</span>",
 
         "bar_fav_top_page": "First   <span>favorite event</span>",
         "bar_fav_bottom_page": "Last    <span>favorite event</span>",

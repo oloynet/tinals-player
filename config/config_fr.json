@@ -88,7 +88,7 @@
         "bar_filter_top_page": "Premier <span>évènement</span> {tag}",
         "bar_filter_bottom_page": "Dernier <span>évènement</span> {tag}",
         "filter_cancel_tags": "{count} <span>évènement(s)</span> {tag}<br />Cliquez pour annuler",
-        "filter_warning_text": "La liste n'est pas complète car le filtre {tag} est actif",
+        "filter_warning_text": "La liste est incomplète.<br /><span>Le filtre</span> {tag} <span>est actif</span>",
 
         "bar_fav_top_page": "Premier <span>évènement favori</span>",
         "bar_fav_bottom_page": "Dernier <span>évènement favori</span>",
