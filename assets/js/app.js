@@ -2331,7 +2331,7 @@ function updateDrawerFilterWarning(tagName) {
     const t = AppState.config.texts;
     const warningText = t.filter_warning_text ? t.filter_warning_text.replace('{tag}', tagName) : `Filter active: ${tagName}`;
 
-    const html = `<span>${warningText}</span> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+    const html = `<div>${warningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
 
     const favWarning = document.getElementById('fav-filter-warning');
     if (favWarning) {
