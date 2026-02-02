@@ -2261,8 +2261,10 @@ function filterByTag( tagSlug, event, shouldScroll = true ) {
         else item.classList.remove( 'has-matching-tag' );
     });
 
-    document.getElementById( 'fav-filter-info' ).innerText  = `(${tagName})`;
-    document.getElementById( 'time-filter-info' ).innerText = `(${tagName})`;
+    // document.getElementById( 'fav-filter-info' ).innerText  = `(${tagName})`;
+    // document.getElementById( 'time-filter-info' ).innerText = `(${tagName})`;
+    updateDrawerFilterWarning(tagName);
+
     renderDrawerTimeline();
     renderDrawerFavorites();
     updateURLState();
@@ -2325,6 +2327,35 @@ function renderFavFilterBar() {
 }
 
 
+function updateDrawerFilterWarning(tagName) {
+    const t = AppState.config.texts;
+    const warningText = t.filter_warning_text ? t.filter_warning_text.replace('{tag}', tagName) : `Filter active: ${tagName}`;
+
+    const html = `<span>${warningText}</span> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+
+    const favWarning = document.getElementById('fav-filter-warning');
+    if (favWarning) {
+        favWarning.innerHTML = html;
+        favWarning.classList.remove('hidden');
+    }
+
+    const timeWarning = document.getElementById('timeline-filter-warning');
+    if (timeWarning) {
+        timeWarning.innerHTML = html;
+        timeWarning.classList.remove('hidden');
+    }
+}
+
+
+function hideDrawerFilterWarning() {
+    const favWarning = document.getElementById('fav-filter-warning');
+    if (favWarning) favWarning.classList.add('hidden');
+
+    const timeWarning = document.getElementById('timeline-filter-warning');
+    if (timeWarning) timeWarning.classList.add('hidden');
+}
+
+
 function exitTagFilterMode(shouldScroll = true) {
     if ( !AppState.state.currentTagFilter ) return;
     const currentId = AppState.state.activeId;
@@ -2336,8 +2367,10 @@ function exitTagFilterMode(shouldScroll = true) {
 
     document.querySelectorAll('.tag-pill').forEach(el => el.classList.remove('tag-active'));
     document.getElementById( 'tag-mode-bar' ).classList.remove( 'active' );
-    document.getElementById( 'fav-filter-info' ).innerText  = '';
-    document.getElementById( 'time-filter-info' ).innerText = '';
+    // document.getElementById( 'fav-filter-info' ).innerText  = '';
+    // document.getElementById( 'time-filter-info' ).innerText = '';
+    hideDrawerFilterWarning();
+
     renderDrawerTimeline();
     renderDrawerFavorites();
     updateURLState();

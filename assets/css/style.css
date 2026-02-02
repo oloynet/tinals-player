@@ -1548,7 +1548,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     flex: 1;
     display: flex;
     flex-direction: column;
-    justify-content: center;
+    justify-content: flex-start;
     gap: 4px;
 }
 
@@ -1619,8 +1619,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 .time-tag.tag-active {
-    background-color: var(--secondary-color);
-    color: white;
+    background-color: var(--primary-color);
+    color: var(--light-color);
 }
 
 #drawer-overlay {
@@ -3138,4 +3138,36 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 /* --- TABLET "2xl" (min-width: 1536px) --- */
 
 @media (min-width: 1536px) {
+}
+
+
+/* --- FILTER WARNING FOOTER --- */
+
+.filter-warning-area {
+    background-color: var(--fourth-color);
+    color: var(--dark-color);
+    padding: 10px;
+    text-align: center;
+    font-weight: bold;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    z-index: 10;
+    text-transform: uppercase;
+}
+
+.filter-warning-area.hidden {
+    display: none !important;
+}
+
+.filter-warning-area button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
 }
