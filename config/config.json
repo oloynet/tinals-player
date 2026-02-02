@@ -1,8 +1,8 @@
 {
     "site":
     {
-        "version":          "v1.60",
-        "version_name":     "player TINALS v1.60",
+        "version":          "v1.61",
+        "version_name":     "player TINALS v1.61",
         "title":            "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name":             "TINALS 2026",
         "short_name":       "TINALS",
@@ -19,7 +19,7 @@
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
-        "data_source":      "data/2026/data.json?v1.60",
+        "data_source":      "data/2026/data.json?v1.61",
 
         "status":           "full_program"
     },
@@ -152,13 +152,13 @@
 
     "images":
     {
-        "menu_id":         "logo-menu",
+        "menu_id":         "logo-tinals-2026",
         "presentation_id": "logo-home",
         "loader_id":       "logo-loader",
         "flag_fr_id":      "flag-fr",
         "flag_en_id":      "flag-en",
 
-        "sprite_path": "assets/images/sprite.svg?v1.60",
+        "sprite_path": "assets/images/sprite.svg?v1.61",
 
         "icon_16": "assets/favicon/favicon-16x16.png",
         "icon_32_maskable": "assets/favicon/favicon-maskable-32x32.png",
