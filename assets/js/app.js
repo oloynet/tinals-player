@@ -817,7 +817,17 @@ function getHomeHtml() {
                     <button onclick="openProgramSession('day-2')"   class="home-btn">${c.texts.home_day_2}</button>
                     <button onclick="scrollToTicketing()"       class="home-btn home-ticket-btn">${c.texts.home_btn_ticket}</button>
                 </div>
-                <p class="home-organizer">${c.texts.home_footer}</p>
+                <div class="home-organizer">
+                    <div class="organizer-col-fixed">
+                        <svg class="come-on-people"><use href="${c.images.sprite_path}#logo-come-on-people"></use></svg>
+                    </div>
+                    <div class="organizer-col-fluid">
+                        ${c.texts.home_footer}
+                    </div>
+                    <div class="organizer-col-fixed">
+                        <svg class="paloma"><use href="${c.images.sprite_path}#logo-paloma-2022"></use></svg>
+                    </div>
+                </div>
             </div>
         </section>`;
 }

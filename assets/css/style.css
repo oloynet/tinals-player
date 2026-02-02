@@ -617,8 +617,33 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary-card) {
     width: auto;
     width: 100%;
 
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
     /* text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.9); */
 
+}
+
+.organizer-col-fixed {
+    width: 60px;
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.organizer-col-fluid {
+    flex-grow: 1;
+    padding: 0 10px;
+    text-align: center;
+}
+
+.home-organizer svg {
+    width: 100%;
+    height: auto;
+    fill: currentColor;
+    display: block;
 }
 
 /* --- SUMMARY CARD --- */
