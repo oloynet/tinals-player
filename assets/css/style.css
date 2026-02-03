@@ -1542,8 +1542,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 .time-thumb {
-    width: 55px;
-    height: 55px;
+    width: 64px;
+    height: 64px;
     object-fit: cover;
     border-radius: 6px;
     margin-right: 10px;
@@ -1559,13 +1559,15 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     gap: 4px;
 }
 
-.time-row-1 {
+.time-row-title {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    margin-top: -10px;
+    margin-bottom: -4px
 }
 
-.time-row-1 h3 {
+.time-row-title h3 {
     font-size: 1rem;
     margin: 0;
     font-weight: bold;
@@ -1595,14 +1597,14 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     transform: scale(1.2);
 }
 
-.time-row-2 {
+.time-row-date-place {
     font-size: 0.8rem;
     font-weight: bold;
     color: #555;
     text-transform: uppercase;
 }
 
-.time-row-3 {
+.time-row-tag {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;

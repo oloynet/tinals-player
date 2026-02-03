@@ -2639,12 +2639,12 @@ function renderDrawerTimeline() {
         <li class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
             <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
             <div class="time-info">
-                <div class="time-row-1">
+                <div class="time-row-title">
                     <h3>${g.event_name}</h3>
                     <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav(${g.id});">${isFav ? 'favorite' : 'favorite_border'}</button>
                 </div>
-                <div class="time-row-2">${metaLine}</div>
-                <div class="time-row-3">${eventStatusBadge}${tagsHtml}</div>
+                <div class="time-row-date-place">${metaLine}</div>
+                <div class="time-row-tag">${eventStatusBadge}${tagsHtml}</div>
             </div>
         </li>`;
     } ).join( '' );
