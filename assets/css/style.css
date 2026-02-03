@@ -540,9 +540,6 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary-card) {
     gap: 20px;
     width: 100%;
     max-width: 600px;
-    opacity: 0;
-    animation: slideInUp 0.8s ease-out forwards;
-    animation-delay: 0.9s;
 }
 
 .home-buttons-container {
@@ -552,6 +549,9 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary-card) {
     justify-content: center;
     flex-direction: column;
     align-items: center;
+    opacity: 0;
+    animation: slideInUp 0.8s ease-out forwards;
+    animation-delay: 1.5s;
 }
 
 .home-btn {
@@ -615,6 +615,9 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary-card) {
     display: flex;
     justify-content: space-between;
     align-items: center;
+    opacity: 0;
+    animation: slideInUp 0.8s ease-out forwards;
+    animation-delay: 0.8s;
 
     /* text-shadow: 1px 1px 8px rgba(0, 0, 0, 0.9); */
 
