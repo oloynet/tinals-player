@@ -205,10 +205,19 @@ async function init() {
 
         AppState.data.forEach(item => {
             if (item.event_session) {
+                // Add tag if not present
                 if (!item.event_tags) item.event_tags = [];
                 const alreadyHas = item.event_tags.some(t => t === item.event_session);
                 if (!alreadyHas) {
                     item.event_tags.unshift(item.event_session);
+                }
+
+                // Fallback for missing date using session reference
+                if (!item.event_start_date && AppState.config.sessions) {
+                    const session = AppState.config.sessions.find(s => s.id === item.event_session && (s.start_date || s.iso_date));
+                    if (session) {
+                        item.event_start_date = session.start_date || session.iso_date;
+                    }
                 }
             }
         });
