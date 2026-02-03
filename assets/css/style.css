@@ -123,7 +123,7 @@ body {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-weight: bold;
+    font-weight: normal;
     text-transform: uppercase;
     font-size: 0.85rem;
     transform: translateY(-100%);
@@ -133,12 +133,6 @@ body {
     padding-left: 20px;
     padding-right: 20px;
     text-align: center;
-}
-
-
-#fav-mode-bar span,
-#tag-mode-bar span {
-    font-weight: normal;
 }
 
 
@@ -2749,6 +2743,40 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     white-space: nowrap;
 }
 
+/* --- FILTER WARNING --- */
+
+.filter-warning-area {
+    background-color: var(--fourth-color);
+    color: var(--dark-color);
+    padding: 10px 17px 10px 20px;
+    text-align: left;
+    font-weight: normal;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    font-size: 0.8rem;
+    border-top: 1px solid rgba(0,0,0,0.1);
+    z-index: 10;
+    text-transform: uppercase;
+}
+
+
+.filter-warning-area.hidden {
+    display: none !important;
+}
+
+.filter-warning-area button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    padding: 5px;
+    color: var(--dark-color);
+    display: flex;
+    align-items: center;
+}
+
+
+
 /* ==========================================================================
    MEDIA QUERIES - MOBILE FIRST STRATEGY
    ========================================================================== */
@@ -3123,9 +3151,6 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     .home-organizer .organizer-col-fixed {
         width: 80px;
     }
-
-
-
 }
 
 
@@ -3141,33 +3166,3 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 }
 
 
-/* --- FILTER WARNING HEADER --- */
-
-.filter-warning-area {
-    background-color: var(--fourth-color);
-    color: var(--dark-color);
-    padding: 10px;
-    text-align: center;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 0.8rem;
-    border-bottom: 1px solid rgba(0,0,0,0.1);
-    z-index: 10;
-    text-transform: uppercase;
-}
-
-.filter-warning-area.hidden {
-    display: none !important;
-}
-
-.filter-warning-area button {
-    background: none;
-    border: none;
-    cursor: pointer;
-    padding: 5px;
-    color: var(--dark-color);
-    display: flex;
-    align-items: center;
-}

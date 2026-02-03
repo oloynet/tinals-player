@@ -2328,31 +2328,30 @@ function renderFavFilterBar() {
 
 
 function updateDrawerFilterWarning(tagName) {
-    const t = AppState.config.texts;
-    const warningText = t.filter_warning_text ? t.filter_warning_text.replace('{tag}', tagName) : `Filter active: ${tagName}`;
+    const t = AppState.config.texts
 
-    const html = `<div>${warningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+    const favoriteWarningText = t.favorite_warning_text ? t.favorite_warning_text.replace('{tag}', tagName) : `Filter active: ${tagName}`;
+    const favWarning = document.getElementById('fav-filter-warning');
+    if (favWarning) {
+        favWarning.innerHTML =  `<div>${favoriteWarningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        favWarning.classList.remove('hidden');
+    }
 
-    document.querySelectorAll('.js-fav-filter-warning').forEach(el => {
-        el.innerHTML = html;
-        el.classList.remove('hidden');
-    });
-
-    document.querySelectorAll('.js-timeline-filter-warning').forEach(el => {
-        el.innerHTML = html;
-        el.classList.remove('hidden');
-    });
+    const timelineWarningText = t.timeline_warning_text ? t.timeline_warning_text.replace('{tag}', tagName) : `Filter active: ${tagName}`;
+    const timeWarning = document.getElementById('timeline-filter-warning');
+    if (timeWarning) {
+        timeWarning.innerHTML = `<div>${timelineWarningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        timeWarning.classList.remove('hidden');
+    }
 }
 
 
 function hideDrawerFilterWarning() {
-    document.querySelectorAll('.js-fav-filter-warning').forEach(el => {
-        el.classList.add('hidden');
-    });
+    const favWarning = document.getElementById('fav-filter-warning');
+    if (favWarning) favWarning.classList.add('hidden');
 
-    document.querySelectorAll('.js-timeline-filter-warning').forEach(el => {
-        el.classList.add('hidden');
-    });
+    const timeWarning = document.getElementById('timeline-filter-warning');
+    if (timeWarning) timeWarning.classList.add('hidden');
 }
 
 
