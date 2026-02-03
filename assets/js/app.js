@@ -2333,26 +2333,26 @@ function updateDrawerFilterWarning(tagName) {
 
     const html = `<div>${warningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
 
-    const favWarning = document.getElementById('fav-filter-warning');
-    if (favWarning) {
-        favWarning.innerHTML = html;
-        favWarning.classList.remove('hidden');
-    }
+    document.querySelectorAll('.js-fav-filter-warning').forEach(el => {
+        el.innerHTML = html;
+        el.classList.remove('hidden');
+    });
 
-    const timeWarning = document.getElementById('timeline-filter-warning');
-    if (timeWarning) {
-        timeWarning.innerHTML = html;
-        timeWarning.classList.remove('hidden');
-    }
+    document.querySelectorAll('.js-timeline-filter-warning').forEach(el => {
+        el.innerHTML = html;
+        el.classList.remove('hidden');
+    });
 }
 
 
 function hideDrawerFilterWarning() {
-    const favWarning = document.getElementById('fav-filter-warning');
-    if (favWarning) favWarning.classList.add('hidden');
+    document.querySelectorAll('.js-fav-filter-warning').forEach(el => {
+        el.classList.add('hidden');
+    });
 
-    const timeWarning = document.getElementById('timeline-filter-warning');
-    if (timeWarning) timeWarning.classList.add('hidden');
+    document.querySelectorAll('.js-timeline-filter-warning').forEach(el => {
+        el.classList.add('hidden');
+    });
 }
 
 
