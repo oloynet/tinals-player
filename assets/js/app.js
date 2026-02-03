@@ -469,7 +469,6 @@ function applyConfigs() {
     s.isDescriptionAutoHide         = f.is_description_auto_hide          ?? true;
     s.isDisplayImageVideoEnd        = f.is_display_image_video_end        ?? true;
     s.isDisplayImageVideoPause      = f.is_display_image_video_pause      ?? true;
-    s.isDisplayYear                 = f.is_display_year                   ?? false;
     s.isAutoLoadVideo               = f.is_auto_load_video                ?? false;
     s.isAutoPlayNext                = f.is_auto_play_next                 ?? true;
     s.isAutoPlayLoop                = f.is_auto_play_loop                 ?? true;
@@ -732,6 +731,22 @@ function updateStaticTexts() {
 }
 
 
+function getSessionDisplay(dateStr) {
+    if (!AppState.config.sessions) return null;
+    return AppState.config.sessions.find(s => s.iso_date === dateStr && s.display) || null;
+}
+
+
+function getFormattedDateHtml(dateStr, context) {
+    const session = getSessionDisplay(dateStr);
+    if (!session) {
+        return formatDate(dateStr);
+    }
+    // Default text is normal, will be updated by updateDynamicDates
+    return `<span class="js-dynamic-date" data-date="${dateStr}" data-context="${context}">${session.display.normal}</span>`;
+}
+
+
 function updateSessionDisplay() {
     if (!AppState.config.sessions) return;
 
@@ -769,6 +784,43 @@ function updateSessionDisplay() {
         const headerEl = document.getElementById(headerId);
         if (headerEl) headerEl.innerText = headerText;
     });
+
+    updateDynamicDates();
+}
+
+
+function updateDynamicDates() {
+    const width = window.innerWidth;
+    document.querySelectorAll('.js-dynamic-date').forEach(el => {
+        const dateStr = el.dataset.date;
+        const context = el.dataset.context;
+        const session = getSessionDisplay(dateStr);
+
+        if (!session) return;
+
+        let newText = session.display.normal;
+
+        if (context === 'box-title') {
+            // < 640 compact, >= 640 normal
+            if (width < 640) newText = session.display.compact;
+            else newText = session.display.normal;
+        } else if (context === 'artist') {
+            // < 320 compact, >= 320 normal
+            if (width < 320) newText = session.display.compact;
+            else newText = session.display.normal;
+        } else if (context === 'summary') {
+            // < 320 compact, >= 320 normal
+            if (width < 320) newText = session.display.compact;
+            else newText = session.display.normal;
+        } else if (context === 'timeline') {
+            // Always compact
+            newText = session.display.compact;
+        }
+
+        if (el.innerText !== newText) {
+            el.innerText = newText;
+        }
+    });
 }
 
 
@@ -777,16 +829,13 @@ function formatDate( dateStr ) {
     const parts = dateStr.split( '-' );
     if ( parts.length !== 3 ) return dateStr;
     const day = parseInt( parts[ 2 ] );
-    const yearShort = parts[ 0 ].slice( 2 );
     const monthIndex = parseInt( parts[ 1 ] ) - 1;
-    const yearDisplay = AppState.settings.isDisplayYear ? ` ${yearShort}` : '';
     if ( AppState.currentLang === 'en' ) {
         const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
-        const suffix = AppState.settings.isDisplayYear ? `, ${yearShort}` : '';
-        return `${months[monthIndex]} ${day}${suffix}`;
+        return `${months[monthIndex]} ${day}`;
     } else {
         const months = [ "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre" ];
-        return `${day} ${months[monthIndex]}${yearDisplay}`;
+        return `${day} ${months[monthIndex]}`;
     }
 }
 
@@ -842,8 +891,11 @@ function getSummaryHtml() {
     const s = AppState.settings;
 
     const itemsHtml = AppState.data.map(g => {
-        const dayName  = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-        const dateRaw  = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
+        let summaryDateHtml = '';
+        if ( s.isDisplayDate && g.event_start_date ) {
+             summaryDateHtml = `<span class="summary-date">${getFormattedDateHtml(g.event_start_date, 'summary')}</span>`;
+        }
+
         let timeString = '';
         if ( s.isDisplayTime ) {
             timeString = g.event_start_time || '';
@@ -852,8 +904,7 @@ function getSummaryHtml() {
 
         // Construct date/place html parts
         let metaHtml = '';
-        if (dayName)   metaHtml += `<span class="summary-date">${dayName}</span>`;
-        if (dateRaw)   metaHtml += `<span class="summary-date">${dateRaw}</span>`;
+        if (summaryDateHtml) metaHtml += summaryDateHtml;
         if (timeString) metaHtml += `<span class="summary-time">${timeString}</span>`;
         if (placeName) metaHtml += `<span class="summary-place">${placeName}</span>`;
 
@@ -907,8 +958,6 @@ function getVideoCardHtml( g ) {
 
     const artistSongTitle = ( s.isDisplayRecordName && g.video_title ) ? `<h3 class="artist-song-title" onclick="toggleArtistDescription(this.parentNode.querySelector('.artist-description'), event)">"${g.video_title}"</h3>` : '';
     const boxSongTitle    = ( s.isDisplayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
-    const dayName         = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-    const dateRaw         = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
 
     let timeString = '';
     if ( s.isDisplayTime ) {
@@ -917,16 +966,22 @@ function getVideoCardHtml( g ) {
     }
 
     const placeName       = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
-    const artistDatePlace = [ placeName, dayName, dateRaw, timeString ].filter( Boolean ).join( ' • ' );
+
+    let artistDateHtml = '';
+    if ( s.isDisplayDate && g.event_start_date ) {
+        artistDateHtml = getFormattedDateHtml(g.event_start_date, 'artist');
+    }
+    const artistDatePlace = [ placeName, artistDateHtml, timeString ].filter( Boolean ).join( ' • ' );
 
     let boxSplashHtml = '';
     if ( s.isDisplayPlace && g.event_place ) boxSplashHtml += `<span class="box-meta-place">${g.event_place}</span>`;
 
-    let dateTimeParts = [];
-    if ( dayName ) dateTimeParts.push( dayName );
-    if ( dateRaw ) dateTimeParts.push( dateRaw );
+    let boxDateHtml = '';
+    if ( s.isDisplayDate && g.event_start_date ) {
+        boxDateHtml = getFormattedDateHtml(g.event_start_date, 'box-title');
+    }
 
-    let dateTimeStr = dateTimeParts.join( ' ' );
+    let dateTimeStr = boxDateHtml;
     if ( dateTimeStr && timeString ) dateTimeStr += ' • ' + timeString;
     else if ( !dateTimeStr && timeString ) dateTimeStr = timeString;
 
@@ -2530,15 +2585,18 @@ function renderDrawerTimeline() {
     }
 
     const itemsHtml = sortedData.map( g => {
-        const dayName  = ( s.isDisplayDay && g.event_day ) ? translateText( g.event_day, 'days' ).toUpperCase() : '';
-        const dateRaw  = ( s.isDisplayDate && g.event_start_date ) ? formatDate( g.event_start_date ) : '';
+        let timelineDateHtml = '';
+        if ( s.isDisplayDate && g.event_start_date ) {
+            timelineDateHtml = getFormattedDateHtml(g.event_start_date, 'timeline');
+        }
+
         let timeString = '';
         if ( s.isDisplayTime ) {
             timeString = g.event_start_time || '';
             if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
         }
         const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
-        const metaLine  = [ dayName, dateRaw, timeString, placeName ].filter( Boolean ).join( ' • ' );
+        const metaLine  = [ timelineDateHtml, timeString, placeName ].filter( Boolean ).join( ' • ' );
 
         // Status for timeline
         const status = g.event_status || 'scheduled';
@@ -2574,6 +2632,7 @@ function renderDrawerTimeline() {
     } ).join( '' );
 
     list.innerHTML = `<ul>${itemsHtml}</ul>`;
+    updateDynamicDates();
 }
 
 

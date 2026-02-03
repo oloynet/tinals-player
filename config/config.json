@@ -113,7 +113,7 @@
         "is_display_record_name": false,
         "is_display_group_description": true,
 
-        "is_display_box_title": false,
+        "is_display_box_title": true,
         "is_display_artist": true,
         "is_display_action_bar": true,
         "is_display_control_bar": true,
