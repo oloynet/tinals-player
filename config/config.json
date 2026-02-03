@@ -181,7 +181,9 @@
         "ticketing": "https://billetterie.paloma-nimes.fr/agenda?id_categ=2&search=this+is+not+a+love+song",
         "professional_area": "https://thisisnotalovesong.fr/espace-pro-presse/",
         "google_maps_place": "https://www.google.com/maps/place/SMAC+Paloma/@43.8559795,4.4022731,792m/",
-        "google_maps_dir": "https://www.google.com/maps/dir//SMAC+Paloma,+250+Chem.+de+l'A%C3%A9rodrome,+30000+N%C3%AEmes+France/@43.8561514,4.4049709,13z"
+        "google_maps_dir": "https://www.google.com/maps/dir//SMAC+Paloma,+250+Chem.+de+l'A%C3%A9rodrome,+30000+N%C3%AEmes+France/@43.8561514,4.4049709,13z",
+        "paloma": "https://paloma-nimes.fr/",
+        "comeonpeople": "https://www.comeonpeople.fr/"
     },
 
     "icons": [

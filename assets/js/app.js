@@ -819,7 +819,7 @@ function getHomeHtml() {
                 </div>
                 <div class="home-organizer">
                     <div class="organizer-col-fixed">
-                        <a href="https://www.comeonpeople.fr/" target="_blank" rel="noopener noreferrer" class="organizer-logo-link">
+                        <a href="${c.external_links.comeonpeople}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link">
                             <svg class="come-on-people"><use href="${c.images.sprite_path}#logo-come-on-people"></use></svg>
                         </a>
                     </div>
@@ -827,7 +827,7 @@ function getHomeHtml() {
                         ${c.texts.home_footer}
                     </div>
                     <div class="organizer-col-fixed">
-                        <a href="https://paloma-nimes.fr/" target="_blank" rel="noopener noreferrer" class="organizer-logo-link">
+                        <a href="${c.external_links.paloma}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link">
                             <svg class="paloma"><use href="${c.images.sprite_path}#logo-paloma-2022"></use></svg>
                         </a>
                     </div>
