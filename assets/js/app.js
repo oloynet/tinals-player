@@ -23,6 +23,7 @@ const AppState = {
         toast: null
     },
     settings: {
+        isAppInstall: false,
         isDebugJS: false,
         isDisplayVersion: false,
         versionNumber: "",
@@ -30,37 +31,39 @@ const AppState = {
         isDisplayDay: true,
         isDisplayDate: true,
         isDisplayTime: true,
-        isDisplayYear: false,
         isDisplayTag: true,
         isDisplayPlace: true,
+        isDisplayRecordName: false,
+        isDisplayGroupDescription: true,
+
+        isDisplayBoxTitle: false,
+        isDisplayArtist: true,
+        isDisplayActionBar: true,
+        isDisplayControlBar: true,
+        isDisplayImageVideoPause: true,
+        isDisplayImageVideoEnd: true,
+
+        isButtonSoundEnable: true,
+        isButtonTopBottomEnable: false,
+        isButtonPrevNextEnable: false,
+
+        isAutoLoadVideo: false,
+        isAutoPlayNext: true,
+        isAutoPlayLoop: true,
 
         isToastScrollFavorite: false,
         isToastScrollFilter: false,
         isToastScrollPage: false,
 
-        isButtonSoundEnable: true,
-        isButtonTopBottomEnable: false,
-        isButtonPrevNextEnable: true,
-        isFullscreenEnable: true,
-
         isMenuAutoHide: false,
-        isDisplayControlBar: true,
-        isDisplayRecordName: false,
-        isDisplayGroupDescription: true,
         isDescriptionAutoHide: true,
-        isDisplayImageVideoPause: true,
-        isDisplayImageVideoEnd: true,
-        isAutoLoadVideo: false,
-        isAutoPlayNext: true,
-        isAutoPlayLoop: true,
-        isAppInstall: false,
+
+        isFullscreenEnable: true,
         isForceZoom: false,
+
         isTicketingDisplayLike: false,
         isTicketingDisplayCount: false,
-        isTicketingDisplayArtistsName: false,
-        isDisplayBoxTitle: false,
-        isDisplayArtist: true,
-        isDisplayActionBar: true
+        isTicketingDisplayArtistsName: false
     }
 };
 
@@ -449,6 +452,7 @@ function applyConfigs() {
     const f = c.features || {};
     const s = AppState.settings;
 
+    s.isAppInstall                  = f.is_app_install                    ?? true;
     s.isDebugJS                     = f.is_debug_js                       ?? false;
     s.isDisplayVersion              = f.is_display_version                ?? false;
     s.versionNumber                 = c.site.version || "";
@@ -458,31 +462,33 @@ function applyConfigs() {
     s.isDisplayTime                 = f.is_display_time                   ?? true;
     s.isDisplayTag                  = f.is_display_tag                    ?? true;
     s.isDisplayPlace                = f.is_display_place                  ?? true;
-
-    s.isToastScrollFavorite         = f.is_toast_scroll_favorite          ?? false;
-    s.isToastScrollFilter           = f.is_toast_scroll_filter            ?? false;
-    s.isToastScrollPage             = f.is_toast_scroll_page              ?? false;
-
-    s.isButtonSoundEnable           = f.is_button_sound_enable            ?? true;
-    s.isButtonTopBottomEnable       = f.is_button_top_bottom_enable       ?? false;
-    s.isButtonPrevNextEnable        = f.is_button_prev_next_enable        ?? true;
-    s.isFullscreenEnable            = f.is_fullscreen_enable              ?? true;
+    s.isDisplayRecordName           = f.is_display_record_name            ?? false;
+    s.isDisplayGroupDescription     = f.is_display_group_description      ?? true;
 
     s.isDisplayBoxTitle             = f.is_display_box_title              ?? false;
     s.isDisplayArtist               = f.is_display_artist                 ?? true;
     s.isDisplayActionBar            = f.is_display_action_bar             ?? true;
     s.isDisplayControlBar           = f.is_display_control_bar            ?? true;
-    s.isMenuAutoHide                = f.is_menu_auto_hide                 ?? false;
-    s.isDisplayRecordName           = f.is_display_record_name            ?? false;
-    s.isDisplayGroupDescription     = f.is_display_group_description      ?? true;
-    s.isDescriptionAutoHide         = f.is_description_auto_hide          ?? true;
     s.isDisplayImageVideoEnd        = f.is_display_image_video_end        ?? true;
     s.isDisplayImageVideoPause      = f.is_display_image_video_pause      ?? true;
+
+    s.isButtonSoundEnable           = f.is_button_sound_enable            ?? true;
+    s.isButtonTopBottomEnable       = f.is_button_top_bottom_enable       ?? false;
+    s.isButtonPrevNextEnable        = f.is_button_prev_next_enable        ?? false;
+
     s.isAutoLoadVideo               = f.is_auto_load_video                ?? false;
     s.isAutoPlayNext                = f.is_auto_play_next                 ?? true;
     s.isAutoPlayLoop                = f.is_auto_play_loop                 ?? true;
-    s.isAppInstall                  = f.is_app_install                    ?? true;
+
+    s.isToastScrollFavorite         = f.is_toast_scroll_favorite          ?? false;
+    s.isToastScrollFilter           = f.is_toast_scroll_filter            ?? false;
+    s.isToastScrollPage             = f.is_toast_scroll_page              ?? false;
+
+    s.isMenuAutoHide                = f.is_menu_auto_hide                 ?? false;
+    s.isDescriptionAutoHide         = f.is_description_auto_hide          ?? true;
+    s.isFullscreenEnable            = f.is_fullscreen_enable              ?? true;
     s.isForceZoom                   = f.is_force_zoom                     ?? false;
+
     s.isTicketingDisplayLike        = f.is_ticketing_display_like         ?? false;
     s.isTicketingDisplayCount       = f.is_ticketing_display_count        ?? false;
     s.isTicketingDisplayArtistsName = f.is_ticketing_display_artists_name ?? false;
@@ -701,8 +707,8 @@ function updateStaticTexts() {
     };
     setText('menu-txt-home',      t.menu_home);
     setText('menu-txt-program',   t.menu_program);
-    // setText('menu-txt-day1',      t.menu_day_1);
-    // setText('menu-txt-day2',      t.menu_day_2);
+    // setText('menu-txt-day1',   t.menu_day_1);
+    // setText('menu-txt-day2',   t.menu_day_2);
     setText('menu-txt-favorites', t.menu_favorites);
     setText('menu-txt-timeline',  t.menu_timeline);
     setText('menu-txt-ticketing', t.menu_ticketing);
@@ -1389,7 +1395,7 @@ function toggleFavTimelineDrawer(tabName) {
     } else {
         // Open drawer and select tab
         switchDrawerTab(tabName);
-        drawer.classList.add('active');
+        drawer.classList.add( 'active');
         overlay.classList.add('active');
     }
 
@@ -1680,8 +1686,8 @@ async function shareCurrent() {
         try {
             await navigator.share( {
                 title: document.title,
-                text: AppState.config.texts.share_title,
-                url: url
+                text:  AppState.config.texts.share_title,
+                url:   url
             } );
         } catch ( err ) {}
     } else {
@@ -1701,8 +1707,8 @@ async function shareSong( id ) {
         try {
             await navigator.share( {
                 title: AppState.config.texts.share_title,
-                text: AppState.config.texts.share_song_text,
-                url: url
+                text:  AppState.config.texts.share_song_text,
+                url:   url
             } );
         } catch ( err ) {}
     } else {
@@ -1714,8 +1720,9 @@ async function shareSong( id ) {
 function shareTo( platform ) {
     const url = encodeURIComponent( AppState.state.shareUrl );
     const text = encodeURIComponent( AppState.config.texts.share_title );
-    if ( platform === 'facebook' ) window.open( `https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank' );
-    else if ( platform === 'email' ) window.location.href = `mailto:?subject=${text}&body=${url}`;
+
+    if      ( platform === 'facebook' ) window.open( `https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank' );
+    else if ( platform === 'email' )   window.location.href = `mailto:?subject=${text}&body=${url}`;
     else if ( platform === 'tiktok' || platform === 'copy' ) {
         navigator.clipboard.writeText( AppState.state.shareUrl ).then( () => {
             alert( AppState.config.texts.msg_link_copied );
@@ -1999,10 +2006,10 @@ function setupScrollToasts() {
     const feed = document.getElementById( 'main-feed' );
     let lastScrollTop = feed.scrollTop;
     feed.addEventListener( 'scroll', () => {
-        const st = feed.scrollTop;
-        const h  = feed.clientHeight;
-        const sh = feed.scrollHeight;
-        let topMsg = "";
+        const st      = feed.scrollTop;
+        const h       = feed.clientHeight;
+        const sh      = feed.scrollHeight;
+        let topMsg    = "";
         let bottomMsg = "";
 
         if ( AppState.state.isPlayingFavorites ) {
@@ -2017,8 +2024,8 @@ function setupScrollToasts() {
             if ( AppState.settings.isToastScrollFilter === false ) return;
 
             const tagName = getTagNameFromSlug(AppState.state.currentTagFilter);
-            topMsg    = AppState.config.texts.bar_filter_top_page.replace('{tag}', tagName);
-            bottomMsg = AppState.config.texts.bar_filter_bottom_page.replace('{tag}', tagName);
+            topMsg        = AppState.config.texts.bar_filter_top_page.replace('{tag}', tagName);
+            bottomMsg     = AppState.config.texts.bar_filter_bottom_page.replace('{tag}', tagName);
 
         } else {
 
@@ -2098,18 +2105,20 @@ function updateNavActionButtons() {
     const btnUp        = document.getElementById( 'btn-nav-previous-card' );
     const btnDown      = document.getElementById( 'btn-nav-next-card' );
     const btnBottom    = document.getElementById( 'btn-nav-bottom' );
+
     if ( currentIndex <= 0 ) {
         btnTop.classList.add( 'disabled' );
-        btnUp.classList.add( 'disabled' );
+        btnUp.classList.add(  'disabled' );
     } else {
         btnTop.classList.remove( 'disabled' );
-        btnUp.classList.remove( 'disabled' );
+        btnUp.classList.remove(  'disabled' );
     }
+
     if ( currentIndex >= sections.length - 1 ) {
-        btnDown.classList.add( 'disabled' );
+        btnDown.classList.add(   'disabled' );
         btnBottom.classList.add( 'disabled' );
     } else {
-        btnDown.classList.remove( 'disabled' );
+        btnDown.classList.remove(   'disabled' );
         btnBottom.classList.remove( 'disabled' );
     }
     updateSummaryButtonState();
@@ -2203,10 +2212,10 @@ function updateFavoritesIcon() {
     const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
     const bg = btn.querySelector( '.btn-bg' );
     if ( AppState.favorites.length > 0 ) {
-        if ( bg ) bg.classList.add( 'bright' );
+        if ( bg )   bg.classList.add( 'bright' );
         if ( icon ) icon.style.color = 'var(--primary-color)';
     } else {
-        if ( bg ) bg.classList.remove( 'bright' );
+        if ( bg )   bg.classList.remove( 'bright' );
         if ( icon ) icon.style.color = 'white';
     }
 }
@@ -2372,25 +2381,25 @@ function getTagNameFromSlug(tagSlug) {
 
 
 function renderTagFilterBar() {
-    const t = AppState.config.texts;
+    const t           = AppState.config.texts;
     const currentSlug = AppState.state.currentTagFilter;
     if (!currentSlug) return;
 
     const tagName = getTagNameFromSlug(currentSlug);
-    const count = AppState.data.filter(g => g.event_tags && g.event_tags.some(t => slugify(t) === currentSlug)).length;
-    const text = t.filter_cancel_tags.replace('{tag}', tagName).replace('{count}', count);
+    const count   = AppState.data.filter(g => g.event_tags && g.event_tags.some(t => slugify(t) === currentSlug)).length;
+    const text    = t.filter_cancel_tags.replace('{tag}', tagName).replace('{count}', count);
 
-    const html = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    const html    = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
     document.getElementById( 'tag-mode-bar' ).innerHTML = html;
 }
 
 
 function renderFavFilterBar() {
-    const t = AppState.config.texts;
+    const t     = AppState.config.texts;
     const count = AppState.favorites.length;
-    const text = t.filter_cancel_fav.replace('{count}', count);
+    const text  = t.filter_cancel_fav.replace('{count}', count);
 
-    const html = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
+    const html  = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
     document.getElementById( 'fav-mode-bar' ).innerHTML = html;
 }
 
@@ -2401,7 +2410,7 @@ function updateDrawerFilterWarning(tagName) {
     const favoriteWarningText = t.favorite_warning_text ? t.favorite_warning_text.replace('{tag}', tagName) : `Filter active: ${tagName}`;
     const favWarning = document.getElementById('fav-filter-warning');
     if (favWarning) {
-        favWarning.innerHTML =  `<div>${favoriteWarningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        favWarning.innerHTML = `<div>${favoriteWarningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
         favWarning.classList.remove('hidden');
     }
 
@@ -2445,7 +2454,7 @@ function exitTagFilterMode(shouldScroll = true) {
         const el = document.getElementById( `video-${currentId}` );
         if ( el ) el.scrollIntoView( {
             behavior: 'auto',
-            block: 'start'
+            block:    'start'
         } );
     }
     setTimeout( () => {
@@ -2613,14 +2622,14 @@ function renderDrawerTimeline() {
         let eventStatusBadge = '';
 
         if (displayedStatuses.includes(status)) {
-            const statusKey = 'status_' + status;
+            const statusKey   = 'status_' + status;
             const statusLabel = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
             const statusClass = 'status-' + status.replace('_', '-');
-            eventStatusBadge = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
+            eventStatusBadge  = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
         }
 
         const tagsHtml  = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
-            const slug = slugify(t);
+            const slug        = slugify(t);
             const activeClass = (slug === AppState.state.currentTagFilter) ? ' tag-active' : '';
             return `<span class="time-tag${activeClass}" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
         } ).join( '' ) : '';
@@ -2692,9 +2701,9 @@ const PWAManager = {
 
         // Setup buttons
         const btnInstall = document.getElementById('btn-pwa-install');
-        const btnLater = document.getElementById('btn-pwa-later');
+        const btnLater   = document.getElementById('btn-pwa-later');
         if(btnInstall) btnInstall.addEventListener('click', () => this.install());
-        if(btnLater) btnLater.addEventListener('click', () => this.dismiss());
+        if(btnLater)   btnLater.addEventListener('click', () => this.dismiss());
     },
     checkAndShow: function() {
         const dismissed = sessionStorage.getItem('app_install_dismissed');
@@ -2712,10 +2721,10 @@ const PWAManager = {
             // Update texts
             const t = AppState.config.texts;
             if(t) {
-                if(t.install_modal_title) document.getElementById('pwa-title').innerText = t.install_modal_title;
-                if(t.install_modal_text) document.getElementById('pwa-text').innerText = t.install_modal_text;
+                if(t.install_modal_title)   document.getElementById('pwa-title').innerText       = t.install_modal_title;
+                if(t.install_modal_text)    document.getElementById('pwa-text').innerText        = t.install_modal_text;
                 if(t.install_modal_btn_yes) document.getElementById('btn-pwa-install').innerText = t.install_modal_btn_yes;
-                if(t.install_modal_btn_no) document.getElementById('btn-pwa-later').innerText = t.install_modal_btn_no;
+                if(t.install_modal_btn_no)   document.getElementById('btn-pwa-later').innerText  = t.install_modal_btn_no;
             }
             modal.classList.add('active');
         }

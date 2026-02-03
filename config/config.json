@@ -102,6 +102,7 @@
 
     "features":
     {
+        "is_app_install": true,
         "is_debug_js": false,
         "is_display_version": false,
 
@@ -120,23 +121,22 @@
         "is_display_image_video_pause": true,
         "is_display_image_video_end": true,
 
-        "is_toast_scroll_favorite": false,
-        "is_toast_scroll_filter": false,
-        "is_toast_scroll_page": false,
-
         "is_button_sound_enable": true,
         "is_button_top_bottom_enable": false,
         "is_button_prev_next_enable": false,
 
-        "is_fullscreen_enable": true,
-        "is_menu_auto_hide": false,
-        "is_description_auto_hide": true,
-        "is_force_zoom": true,
-        "is_app_install": true,
-
         "is_auto_load_video": false,
         "is_auto_play_next": true,
         "is_auto_play_loop": true,
+
+        "is_toast_scroll_favorite": false,
+        "is_toast_scroll_filter": false,
+        "is_toast_scroll_page": false,
+
+        "is_menu_auto_hide": false,
+        "is_description_auto_hide": true,
+        "is_fullscreen_enable": true,
+        "is_force_zoom": false,
 
         "is_ticketing_display_like": false,
         "is_ticketing_display_count": false,
