@@ -16,7 +16,8 @@
                 "compact":  "Friday 5",
                 "normal":   "Friday, June 5",
                 "full":     "June 5, 2026",
-                "extended": "Friday, June 5, 2026"
+                "extended": "Friday, June 5, 2026",
+                "tag":      "Day #1"
             }
         },
         {
@@ -27,7 +28,8 @@
                 "compact":  "Saturday 6",
                 "normal":   "Saturday, June 6",
                 "full":     "June 6, 2026",
-                "extended": "Saturday, June 6, 2026"
+                "extended": "Saturday, June 6, 2026",
+                "tag":      "Day #2"
             }
         }
     ],

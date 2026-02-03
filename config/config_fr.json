@@ -16,7 +16,8 @@
                 "compact":  "Vendredi 5",
                 "normal":   "Vendredi 5 juin",
                 "full":     "5 juin 2026",
-                "extended": "Vendredi 5 juin 2026"
+                "extended": "Vendredi 5 juin 2026",
+                "tag":      "Day #1"
             }
         },
         {
@@ -27,7 +28,8 @@
                 "compact":  "Samedi 6",
                 "normal":   "Samedi 6 juin",
                 "full":     "6 juin 2026",
-                "extended": "Samedi 6 juin 2026"
+                "extended": "Samedi 6 juin 2026",
+                "tag":      "Day #2"
             }
         }
     ],
