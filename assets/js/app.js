@@ -2211,7 +2211,23 @@ function updateFavoritesIcon() {
 
     const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
     const bg = btn.querySelector( '.btn-bg' );
-    if ( AppState.favorites.length > 0 ) {
+    const count = AppState.favorites.length;
+
+    let badge = btn.querySelector( '.fav-count-badge' );
+    if ( count > 0 ) {
+        if ( !badge ) {
+            badge = document.createElement( 'span' );
+            badge.className = 'fav-count-badge';
+            btn.appendChild( badge );
+        }
+        badge.innerText = count;
+    } else {
+        if ( badge ) {
+            badge.remove();
+        }
+    }
+
+    if ( count > 0 ) {
         if ( bg )   bg.classList.add( 'bright' );
         if ( icon ) icon.style.color = 'var(--primary-color)';
     } else {
