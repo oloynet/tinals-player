@@ -87,13 +87,13 @@
         "bar_top_page":    "Haut de page",
         "bar_bottom_page": "Bas de page",
 
-        "bar_fav_top_page":       "<b>Premier</b> évènement favori",
-        "bar_fav_bottom_page":    "<b>Dernier</b> évènement favori",
-        "filter_cancel_fav":      "<b>{count}évènement(s)</b>  favori(s)<br />Cliquez pour annuler",
+        "bar_fav_top_page":       "Premier évènement <b>favori</b>",
+        "bar_fav_bottom_page":    "Dernier évènement <b>favori</b>",
+        "filter_cancel_fav":      "{count} évènement(s) <b>favori(s)</b><br />Cliquez pour annuler",
 
         "bar_filter_top_page":    "<b>Premier</b> évènement <b>\"{tag}\"</b>",
         "bar_filter_bottom_page": "<b>Dernier</b> évènement <b>\"{tag}\"</b>",
-        "filter_cancel_tags":     "<b>{count}</b> évènement(s) <b>\"{tag}\"</b><br />Cliquez pour annuler",
+        "filter_cancel_tags":     "{count} évènement(s) <b>\"{tag}\"</b><br />Cliquez pour annuler",
 
         "filter_warning_text":    "<b>La liste</b> est incomplète<br />le tag <b>\"{tag}\"</b> est actif",
         "favorite_warning_text":  "<b>Mes favoris</b> sont incomplets<br />le tag <b>\"{tag}\"</b> est actif",
