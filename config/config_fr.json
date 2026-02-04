@@ -95,9 +95,9 @@
         "bar_filter_bottom_page": "<b>Dernier</b> évènement <b>\"{tag}\"</b>",
         "filter_cancel_tags":     "{count} évènement(s) <b>\"{tag}\"</b><br />Cliquez pour annuler",
 
-        "filter_warning_text":    "<b>La liste</b> est incomplète<br />le tag <b>\"{tag}\"</b> est actif",
-        "favorite_warning_text":  "<b>Mes favoris</b> sont incomplets<br />le tag <b>\"{tag}\"</b> est actif",
-        "timeline_warning_text":  "Le <b>planning</b> est incomplet<br />le tag <b>\"{tag}\"</b> est actif",
+        "filter_warning_text":    "Toute <b>la liste</b> avec le tag <b>\"{tag}\"</b>",
+        "favorite_warning_text":  "Tous <b>mes favoris</b> avec le tag <b>\"{tag}\"</b>",
+        "timeline_warning_text":  "Tout <b>le planning</b> avec le tag <b>\"{tag}\"</b>",
 
         "bar_fav_added":   "Ajouté aux favoris",
         "bar_fav_removed": "Supprimé des favoris",
