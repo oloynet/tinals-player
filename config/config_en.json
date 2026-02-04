@@ -94,9 +94,9 @@
         "bar_filter_bottom_page": "Last  <b>\"{tag}\"</b>",
         "filter_cancel_tags":     "<b>\"{tag}\"</b>, {count} event(s)<br />Click to cancel",
 
-        "filter_warning_text":    "All <b>The List</b> is incomplete<br />with the active <b>\"{tag}\"</b> tag ",
-        "favorite_warning_text":  "All <b>My Favorites</b><br />with the active <b>\"{tag}\"</b> tag",
-        "timeline_warning_text":  "The <b>Timeline</b> is incomplete<br />with the active <b>\"{tag}\"</b> tag",
+        "filter_warning_text":    "<b>The List</b><br />with the active <b>\"{tag}\"</b> tag ",
+        "favorite_warning_text":  "<b>My Favorites</b><br />with the active <b>\"{tag}\"</b> tag",
+        "timeline_warning_text":  "<b>Timeline</b><br />with the active <b>\"{tag}\"</b> tag",
 
         "bar_fav_added":   "Added to favorites",
         "bar_fav_removed": "Removed from favorites",
