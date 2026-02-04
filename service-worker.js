@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v1.73';
+const CACHE_NAME = 'v1.74';
 
 const STATIC_ASSETS = [
     './',
@@ -48,8 +48,8 @@ const STATIC_ASSETS = [
 
     './assets/favicon/android-chrome-192x192.png',
     './assets/favicon/android-chrome-512x512.png',
-    './assets/favicon/maskable_icon_x192.png',
-    './assets/favicon/maskable_icon_x512.png',
+    './assets/favicon/favicon-maskable-192x192.png',
+    './assets/favicon/favicon-maskable-512x512.png',
     './assets/favicon/apple-touch-icon.png',
     './assets/favicon/favicon.ico',
     './assets/favicon/favicon.svg',

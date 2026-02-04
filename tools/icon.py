@@ -22,8 +22,8 @@ ICONS_CONFIG = [
     {"name": "apple-touch-icon.png", "size": (180, 180), "type": "png"},
     {"name": "android-chrome-192x192.png", "size": (192, 192), "type": "png"},
     {"name": "android-chrome-512x512.png", "size": (512, 512), "type": "png"},
-    {"name": "maskable_icon_x192.png", "size": (192, 192), "type": "maskable"},
-    {"name": "maskable_icon_x512.png", "size": (512, 512), "type": "maskable"},
+    {"name": "favicon-maskable-192x192.png", "size": (192, 192), "type": "maskable"},
+    {"name": "favicon-maskable-512x512.png", "size": (512, 512), "type": "maskable"},
     {"name": "favicon.svg", "size": (512, 512), "type": "svg_copy"},
 ]
 
@@ -105,8 +105,8 @@ def update_manifest_json(root):
     icons = [
         {"src": "assets/favicon/android-chrome-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "any"},
         {"src": "assets/favicon/android-chrome-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "any"},
-        {"src": "assets/favicon/maskable_icon_x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
-        {"src": "assets/favicon/maskable_icon_x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
+        {"src": "assets/favicon/favicon-maskable-192x192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable"},
+        {"src": "assets/favicon/favicon-maskable-512x512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable"},
         {"src": "assets/favicon/favicon.svg", "sizes": "512x512", "type": "image/svg+xml", "purpose": "any maskable"}
     ]
 
@@ -128,8 +128,8 @@ def update_service_worker(root):
         "    './assets/favicon/apple-touch-icon.png',",
         "    './assets/favicon/android-chrome-192x192.png',",
         "    './assets/favicon/android-chrome-512x512.png',",
-        "    './assets/favicon/maskable_icon_x192.png',",
-        "    './assets/favicon/maskable_icon_x512.png',",
+        "    './assets/favicon/favicon-maskable-192x192.png',",
+        "    './assets/favicon/favicon-maskable-512x512.png',",
         "    './assets/favicon/favicon.svg',"
     ]
 
@@ -194,13 +194,13 @@ def update_app_js(root):
                     purpose: "any"
                 },
                 {
-                    src: "assets/favicon/maskable_icon_x192.png",
+                    src: "assets/favicon/favicon-maskable-192x192.png",
                     sizes: "192x192",
                     type: "image/png",
                     purpose: "maskable"
                 },
                 {
-                    src: "assets/favicon/maskable_icon_x512.png",
+                    src: "assets/favicon/favicon-maskable-512x512.png",
                     sizes: "512x512",
                     type: "image/png",
                     purpose: "maskable"

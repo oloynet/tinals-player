@@ -1,8 +1,8 @@
 {
     "site":
     {
-        "version":          "v1.73",
-        "version_name":     "player TINALS v1.73",
+        "version":          "v1.74",
+        "version_name":     "player TINALS v1.74",
         "title":            "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name":             "TINALS 2026",
         "short_name":       "TINALS",
@@ -19,7 +19,7 @@
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
-        "data_source":      "data/2026/data.json?v1.73",
+        "data_source":      "data/2026/data.json?v1.74",
 
         "status":           "full_program"
     },
@@ -153,12 +153,12 @@
         "flag_fr_id":        "flag-fr",
         "flag_en_id":        "flag-en",
 
-        "sprite_path":       "assets/images/sprite.svg?v1.73",
+        "sprite_path":       "assets/images/sprite.svg?v1.74",
 
         "icon_192":          "assets/favicon/android-chrome-192x192.png",
         "icon_512":          "assets/favicon/android-chrome-512x512.png",
-        "icon_192_maskable": "assets/favicon/maskable_icon_x192.png",
-        "icon_512_maskable": "assets/favicon/maskable_icon_x512.png",
+        "icon_192_maskable": "assets/favicon/favicon-maskable-192x192.png",
+        "icon_512_maskable": "assets/favicon/favicon-maskable-512x512.png",
         "apple_touch_icon":  "assets/favicon/apple-touch-icon.png",
         "favicon":           "assets/favicon/favicon.ico",
         "icon_svg":          "assets/favicon/favicon.svg"
@@ -179,13 +179,13 @@
       },
       {
         "sizes":   "192x192",
-        "src":     "assets/favicon/maskable_icon_x192.png",
+        "src":     "assets/favicon/favicon-maskable-192x192.png",
         "type":    "image/png",
         "purpose": "maskable"
       },
       {
         "sizes":   "512x512",
-        "src":     "assets/favicon/maskable_icon_x512.png",
+        "src":     "assets/favicon/favicon-maskable-512x512.png",
         "type":    "image/png",
         "purpose": "maskable"
       },
