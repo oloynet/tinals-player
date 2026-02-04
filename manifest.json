@@ -1,8 +1,8 @@
 {
    "name":"TINALS 2026",
    "short_name":"TINALS",
-   "version":"v1.70",
-   "version_name":"TINALS 2026 v1.70",
+   "version":"v1.71",
+   "version_name":"TINALS 2026 v1.71",
    "description":"Festival This Is Not A Love Song BEAU WEEKEND du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma.",
    "id":"tinals-player-2026",
    "start_url":"./",
@@ -20,42 +20,42 @@
    "icons": [
       {
         "sizes":   "192x192",
-        "src":     "assets/favicon/android-chrome-192x192.png",
+        "src":     "assets/favicon/android-chrome-192x192.png?v2",
         "type":    "image/png",
         "purpose": "any"
       },
       {
         "sizes":   "512x512",
-        "src":     "assets/favicon/android-chrome-512x512.png",
+        "src":     "assets/favicon/android-chrome-512x512.png?v2",
         "type":    "image/png",
         "purpose": "any"
       },
       {
         "sizes":   "192x192",
-        "src":     "assets/favicon/maskable_icon_x192.png",
+        "src":     "assets/favicon/maskable_icon_x192.png?v2",
         "type":    "image/png",
         "purpose": "maskable"
       },
       {
         "sizes":   "512x512",
-        "src":     "assets/favicon/maskable_icon_x512.png",
+        "src":     "assets/favicon/maskable_icon_x512.png?v2",
         "type":    "image/png",
         "purpose": "maskable"
       },
       {
         "sizes":   "180x180",
-        "src":     "assets/favicon/apple-touch-icon.png",
+        "src":     "assets/favicon/apple-touch-icon.png?v2",
         "type":    "image/png",
         "purpose": "any"
       },
       {
         "sizes":   "48x48",
-        "src":     "assets/favicon/favicon.ico",
+        "src":     "assets/favicon/favicon.ico?v2",
         "type":    "image/x-icon",
         "purpose": "any"
       },
       {
-        "src":     "assets/favicon/favicon.svg",
+        "src":     "assets/favicon/favicon.svg?v2",
         "sizes":   "512x512",
         "type":    "image/svg+xml",
         "purpose": "any maskable"
