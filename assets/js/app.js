@@ -138,8 +138,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.667';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.667' : 'config/config_fr.json?v1.667';
+        const configFile = 'config/config.json?v1.70';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.70' : 'config/config_fr.json?v1.70';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -576,38 +576,23 @@ function applyConfigs() {
                 service_worker: "service-worker.js"
             },
             icons: [
+
+
+
                 {
-                    src: c.images.icon_32_maskable,
-                    sizes: "32x32",
-                    type: "image/png",
-                    purpose: "maskable"
-                },
-                {
-                    src: c.images.icon_48_maskable,
-                    sizes: "48x48",
-                    type: "image/png",
-                    purpose: "maskable"
-                },
-                {
-                    src: c.images.favicon,
-                    sizes: "48x48",
-                    type: "image/vnd.microsoft.icon",
-                    purpose: "any"
-                },
-                {
-                    src: c.images.apple_touch_icon,
-                    sizes: "180x180",
-                    type: "image/png",
-                    purpose: "any"
-                },
-                {
-                    src: c.images.icon_maskable_192,
+                    src: c.images.icon_192,
                     sizes: "192x192",
                     type: "image/png",
                     purpose: "maskable"
                 },
                 {
-                    src: c.images.icon_192,
+                    src: c.images.icon_512,
+                    sizes: "512x512",
+                    type: "image/png",
+                    purpose: "maskable"
+                },
+                {
+                    src: c.images.icon_192_maskable,
                     sizes: "192x192",
                     type: "image/png",
                     purpose: "any"
@@ -616,12 +601,18 @@ function applyConfigs() {
                     src: c.images.icon_512_maskable,
                     sizes: "512x512",
                     type: "image/png",
+                    purpose: "any"
+                },
+                {
+                    src: c.images.apple_touch_icon,
+                    sizes: "180x180",
+                    type: "image/png",
                     purpose: "maskable"
                 },
                 {
-                    src: c.images.icon_512,
-                    sizes: "512x512",
-                    type: "image/png",
+                    src: c.images.favicon,
+                    sizes: "48x48",
+                    type: "image/vnd.microsoft.icon",
                     purpose: "any"
                 },
                 {
@@ -2784,7 +2775,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.667' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.70' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }

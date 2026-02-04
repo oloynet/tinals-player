@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v1.667';
+const CACHE_NAME = 'v1.70';
 
 const STATIC_ASSETS = [
     './',
@@ -46,14 +46,13 @@ const STATIC_ASSETS = [
     './assets/js/simple-audio-player.js',
     './assets/js/video-manager.js',
 
-    // './assets/favicon/favicon.ico',
-    // './assets/favicon/favicon-16x16.png',
-    // './assets/favicon/favicon-32x32.png',
-    // './assets/favicon/apple-touch-icon.png'
-    // './assets/favicon/android-chrome-192x192.png',
-    // './assets/favicon/android-chrome-512x512.png',
-    // './assets/favicon/favicon.svg',
-
+    './assets/favicon/android-chrome-192x192.png',
+    './assets/favicon/android-chrome-512x512.png',
+    './assets/favicon/maskable_icon_x192.png',
+    './assets/favicon/maskable_icon_x512.png',
+    './assets/favicon/apple-touch-icon.png',
+    './assets/favicon/favicon.ico',
+    './assets/favicon/favicon.svg',
 ];
 
 self.addEventListener( 'install', ( evt ) => {

@@ -1,8 +1,8 @@
 {
     "site":
     {
-        "version":          "v1.667",
-        "version_name":     "player TINALS v1.667",
+        "version":          "v1.70",
+        "version_name":     "player TINALS v1.70",
         "title":            "Playlist du festival TINALS - Beau Weekend 2026 à Nîmes",
         "name":             "TINALS 2026",
         "short_name":       "TINALS",
@@ -19,7 +19,7 @@
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
-        "data_source":      "data/2026/data.json?v1.667",
+        "data_source":      "data/2026/data.json?v1.70",
 
         "status":           "full_program"
     },
@@ -147,25 +147,67 @@
 
     "images":
     {
-        "menu_id":         "logo-tinals-2026",
-        "presentation_id": "logo-home",
-        "loader_id":       "tinals-2026-loader-rotate",
-        "flag_fr_id":      "flag-fr",
-        "flag_en_id":      "flag-en",
+        "menu_id":           "logo-tinals-2026",
+        "presentation_id":   "logo-home",
+        "loader_id":         "tinals-2026-loader-rotate",
+        "flag_fr_id":        "flag-fr",
+        "flag_en_id":        "flag-en",
 
-        "sprite_path": "assets/images/sprite.svg?v1.667",
+        "sprite_path":       "assets/images/sprite.svg?v1.70",
 
-        "icon_16": "assets/favicon/favicon-16x16.png",
-        "icon_32_maskable": "assets/favicon/favicon-maskable-32x32.png",
-        "icon_48_maskable": "assets/favicon/favicon-maskable-48x48.png",
-        "favicon": "assets/favicon/favicon.ico",
-        "apple_touch_icon": "assets/favicon/apple-touch-icon.png",
-        "icon_192": "assets/favicon/android-chrome-192x192.png",
-        "icon_192_maskable": "assets/favicon/favicon-maskable-192x192.png",
-        "icon_512": "assets/favicon/android-chrome-512x512.png",
-        "icon_512_maskable": "assets/favicon/favicon-maskable-512x512.png",
-        "icon_svg": "assets/favicon/favicon.svg"
+        "icon_192":          "assets/favicon/android-chrome-192x192.png",
+        "icon_512":          "assets/favicon/android-chrome-512x512.png",
+        "icon_192_maskable": "assets/favicon/maskable_icon_x192.png",
+        "icon_512_maskable": "assets/favicon/maskable_icon_x512.png",
+        "apple_touch_icon":  "assets/favicon/apple-touch-icon.png",
+        "favicon":           "assets/favicon/favicon.ico",
+        "icon_svg":          "assets/favicon/favicon.svg"
     },
+
+    "icons": [
+      {
+        "sizes":   "192x192",
+        "src":     "assets/favicon/android-chrome-192x192.png",
+        "type":    "image/png",
+        "purpose": "any"
+      },
+      {
+        "sizes":   "512x512",
+        "src":     "assets/favicon/android-chrome-512x512.png",
+        "type":    "image/png",
+        "purpose": "any"
+      },
+      {
+        "sizes":   "192x192",
+        "src":     "assets/favicon/maskable_icon_x192.png",
+        "type":    "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "sizes":   "512x512",
+        "src":     "assets/favicon/maskable_icon_x512.png",
+        "type":    "image/png",
+        "purpose": "maskable"
+      },
+      {
+        "sizes":   "180x180",
+        "src":     "assets/favicon/apple-touch-icon.png",
+        "type":    "image/png",
+        "purpose": "any"
+      },
+      {
+        "sizes":   "48x48",
+        "src":     "assets/favicon/favicon.ico",
+        "type":    "image/x-icon",
+        "purpose": "any"
+      },
+      {
+        "src":     "assets/favicon/favicon.svg",
+        "sizes":   "512x512",
+        "type":    "image/svg+xml",
+        "purpose": "any maskable"
+      }
+    ],
 
     "external_links":
     {
@@ -179,68 +221,5 @@
         "google_maps_dir": "https://www.google.com/maps/dir//SMAC+Paloma,+250+Chem.+de+l'A%C3%A9rodrome,+30000+N%C3%AEmes+France/@43.8561514,4.4049709,13z",
         "paloma": "https://paloma-nimes.fr/",
         "comeonpeople": "https://www.comeonpeople.fr/"
-    },
-
-    "icons": [
-    {
-        "purpose": "maskable",
-        "sizes": "1024x1024",
-        "src": "assets/favicon/maskable_icon.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "48x48",
-        "src": "assets/favicon/maskable_icon_x48.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "72x72",
-        "src": "assets/favicon/maskable_icon_x72.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "96x96",
-        "src": "assets/favicon/maskable_icon_x96.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "128x128",
-        "src": "assets/favicon/maskable_icon_x128.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "192x192",
-        "src": "assets/favicon/maskable_icon_x192.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "384x384",
-        "src": "assets/favicon/maskable_icon_x384.png",
-        "type": "image/png"
-    },
-    {
-        "purpose": "maskable",
-        "sizes": "512x512",
-        "src": "assets/favicon/maskable_icon_x512.png",
-        "type": "image/png"
-    },
-    {
-        "src": "assets/favicon/android-chrome-192x192.png",
-        "sizes": "192x192",
-        "type": "image/png",
-        "purpose": "any"
-    },
-    {
-        "src": "assets/favicon/android-chrome-512x512.png",
-        "sizes": "512x512",
-        "type": "image/png",
-        "purpose": "any"
-    }]
-
+    }
 }
