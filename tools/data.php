@@ -4,8 +4,10 @@
     SET VARIABLES
     =============================================================== */
 
-    $limit              = 0;
-    $is_return_json     = true;
+    $is_debug           = true;
+
+    $limit              = 1;
+    $is_return_json     = false;
     $festival_year      = "2026";
     $post_type          = array( 'event' );
     $post_status        = array( 'publish', 'private' );
@@ -128,7 +130,9 @@
     //_log( '$query   = ' . print_r( $query, true ) );
     //_log( '$results = ' . print_r( $results, true ) );
 
-    _log( '$wpdb->last_error = ' . print_r( $wpdb->last_error, true ) );
+    if ( ! empty( $wpdb->last_error ) ) {
+        _log( '$wpdb->last_error = ' . print_r( $wpdb->last_error, true ) );
+    }
 
 
 /*  ===============================================================
@@ -143,166 +147,196 @@
     foreach ( $results as $row ) {
 
         $num_total++;
-        // _log( '$num_total = ' . print_r( $num_total, true ) );
+        // $is_debug && _log( '$num_total = ' . print_r( $num_total, true ) );
 
-        $post_id               = $row->ID;
-        $post_title            = strtoupper( sanitize_title_custom( strip_tags( $row->post_title ) ) );
-        $post_content          = strtoupper( sanitize_title_custom( strip_tags( $row->post_content, $allowed_text_tags ) ) );
-        //$post_year           = $row->post_year;
-        //$post_start_unixtime = $row->post_start_unixtime;
-        //$post_start_datetime = $row->post_start_datetime;
-        //$post_start_date     = $row->post_start_date;
-        $post_playlist_file    = $row->post_playlist_file;
+        $id = $row->ID;
 
         // ----- GET POST
 
-        $post = get_post( $post_id );
+        $post = get_post( $id );
         do_action_ref_array( 'the_post', array( &$post ) );
 
         // ----- GET CUSTOM FIELDS
 
-        $videos               = get_field( 'videos',          $post_id );
-        $playlist_file        = get_field( 'playlist_file',   $post_id );
-        $start_date           = get_field( 'start_date',      $post_id );
-        $end_date             = get_field( 'end_date',        $post_id );
-        $year                 = get_field( 'year',            $post_id );
+        $event_name             = strtoupper( strip_tags( $row->post_title ) );
+        $event_status           = 'scheduled';
 
-        $performer_website    = get_field( 'website',         $post_id );
-        $performer_youtube    = get_field( 'youtube_link',    $post_id );
-        $performer_facebook   = get_field( 'facebook',        $post_id );
-        $performer_instagram  = get_field( 'instagram_link',  $post_id );
-        $performer_tiktok     = get_field( 'tiktok_link',     $post_id );
-        $performer_deezer     = get_field( 'deezer_link',     $post_id );
-        $performer_spotify    = get_field( 'spotify_link',    $post_id );
-        $performer_soundcloud = get_field( 'soundcloud_link', $post_id );
+        // $post_year           = $row->post_year;
+        // $post_start_unixtime = $row->post_start_unixtime;
+        // $post_start_datetime = $row->post_start_datetime;
+        // $post_start_date     = $row->post_start_date;
+        // $start_date          = get_field( 'start_date',      $id );
+        // $end_date            = get_field( 'end_date',        $id );
 
-        $description          = strip_tags( get_field( 'description',     $post_id ), $allowed_text_tags);
-        $descriptionEN        = strip_tags( get_field( 'description_EN',  $post_id ), $allowed_text_tags);
-        $artist               = strip_tags( get_field( 'artist',          $post_id ) );
-        $country              = strip_tags( get_field( 'country',         $post_id ) );
+        $year                   = get_field( 'year',            $id );
 
-        // _log( '$post               = ' . print_r( $post, true ) );
-        // _log( '$post_id            = ' . print_r( $post_id, true ) );
-        // _log( '$artist             = ' . print_r( $artist    , true ) );
-        // _log( '$start_date         = ' . print_r( $start_date, true ) );
-        // _log( '$end_date           = ' . print_r( $end_date  , true ) );
-        // _log( '$year               = ' . print_r( $year      , true ) );
-        // _log( '$country            = ' . print_r( $country   , true ) );
+        $event_start_date       = $post->start_date_Ymd;
+        $event_start_time       = $post->start_date_Hi;
 
-        // _log( '$post_title         = ' . print_r( $post_title, true ) );
-        // _log( '$post_year          = ' . print_r( $post_year, true ) );
-        // _log( '$videos             = ' . print_r( $videos, true ) );
-        // _log( '$playlist_file      = ' . print_r( $playlist_file, true ) );
-        // _log( '$post_playlist_file = ' . print_r( $post_playlist_file, true ) );
+        $event_end_date         = $post->end_date_Ymd;
+        $event_end_time         = $post->end_date_Hi;
+
+        $event_duration         = '';
+
+        if ( !empty($event_start_date) && !empty($event_start_time) && !empty($event_end_date) && !empty($event_end_time) ) {
+
+            $full_start       = $event_start_date . ' ' . $event_start_time . ':00';
+            $full_end         = $event_end_date   . ' ' . $event_end_time   . ':00';
+
+            $timestamp_start  = strtotime( $full_start );
+            $timestamp_end    = strtotime( $full_end );
+
+            $event_duration   = ( $timestamp_end - $timestamp_start ) / 60;
+        }
 
 
+        $post_content           = strtoupper( sanitize_title_custom( strip_tags( $row->post_content, $allowed_text_tags ) ) );
+        $description            = strip_tags( get_field( 'description',    $id ), $allowed_text_tags);
+        $descriptionEN          = strip_tags( get_field( 'description_EN', $id ), $allowed_text_tags);
 
-        $id                   = $post_id;
-        $event_name           = $event_name;
-
-        $event_status         = 'scheduled';
+        $artist                 = strip_tags( get_field( 'artist',  $id ) );
+        $country                = strip_tags( get_field( 'country', $id ) );
 
 
         // ----- TAXONOMY event_time
 
-        $event_time_terms_all = wp_get_post_terms( $post_id, 'event_time',  array( 'fields' => 'all' ) );
-        $event_slug           = wp_list_pluck( $event_time_terms_all, 'slug' );
-        $event_description    = wp_list_pluck( $event_time_terms_all, 'description' );
+        $event_time_terms_all   = wp_get_post_terms( $id, 'event_time',  array( 'fields' => 'all' ) );
+        $event_slug             = wp_list_pluck( $event_time_terms_all, 'slug' );
+        $event_description      = wp_list_pluck( $event_time_terms_all, 'description' );
 
-        $event_session        = sanitize_title( !empty( $event_description ) ? $event_description[0] : '' );
-        $event_day            = sanitize_title( !empty( $event_slug )        ? $event_slug[0]        : '' );
-
-
-        $event_start_date     = ''; // $start_date,
-        $event_start_time     = ''; // $end_date,
-        $event_end_date       = '';
-        $event_end_time       = '';
-        $event_duration       = '';
+        $event_session          = sanitize_title( !empty( $event_description ) ? $event_description[0] : '' );
+        $event_day              = sanitize_title( !empty( $event_slug )        ? $event_slug[0]        : '' );
 
 
         // ----- TAXONOMY event_place
 
-        $event_place_terms    = wp_get_post_terms( $post_id, 'event_place', array( 'fields' => 'names' ) );
-        $event_place          = !empty( $event_place_terms )        ? $event_place_terms[0]        : 'Paloma Nîmes';
+        $event_place_terms      = wp_get_post_terms( $id, 'event_place', array( 'fields' => 'names' ) );
+        $event_place            = !empty( $event_place_terms ) ? $event_place_terms[0] : 'Paloma Nîmes';
 
 
         // ----- EVENT TAGS
 
-        $event_feel_terms     = wp_get_post_terms( $post_id, 'event_feel',  array( 'fields' => 'names' ) );
-        $event_genre_terms    = wp_get_post_terms( $post_id, 'event_genre', array( 'fields' => 'names' ) );
+        $event_feel_terms       = wp_get_post_terms( $id, 'event_feel',  array( 'fields' => 'names' ) );
+        $event_genre_terms      = wp_get_post_terms( $id, 'event_genre', array( 'fields' => 'names' ) );
 
-        $event_tags           = array();
-        $event_tags           = array_merge( $event_tags, $event_feel_terms );
-        $event_tags           = array_merge( $event_tags, $event_genre_terms );
+        $event_tags             = array();
+        $event_tags             = array_merge( $event_tags, $event_feel_terms );
+        $event_tags             = array_merge( $event_tags, $event_genre_terms );
 
         // ----- OTHER TAGS
 
-        $event_type_terms     = wp_get_post_terms( $post_id, 'event_type',  array( 'fields' => 'names' ) );
+        $event_type_terms       = wp_get_post_terms( $id, 'event_type',  array( 'fields' => 'names' ) );
 
-        $other_tags           = array();
-        $other_tags           = array_merge( $other_tags, $event_type_terms );
-
-        if( $year )    { $other_tags      = array_merge( $other_tags, $year ); }
-        if( $country ) { $other_tags      = array_merge( $other_tags, $country ); }
+        $other_tags             = array();
+        $other_tags             = array_merge( $other_tags, $event_type_terms );
+        $other_tags             = array_merge( $other_tags, $year );
+        $other_tags             = array_merge( $other_tags, $country );
 
         // ----- VIDEO
 
-
-        $video_url  = !empty( $videos ) ? $videos[0]['url'] : '';
+        $videos                 = get_field( 'videos', $id );
+        $video_url              = !empty( $videos ) ? $videos[0]['url'] : '';
+        $video_title            = '';
+        $video_timestart        = '0';
+        $video_zoom             = '100%';
 
         // ----- AUDIO
 
-        $audio_metas = get_media_info( $post_playlist_file );
+        // $playlist_file       = get_field( 'playlist_file',   $id );
+        $post_playlist_file     = $row->post_playlist_file;
 
-        $audio       =  isset( $audio_metas['url'] )      ? $audio_metas['url']      : '';
-        $audio_title =  isset( $audio_metas['title'] )    ? $audio_metas['title']    : '';
+        $audio_metas            = get_media_info( $post_playlist_file );
+        $audio                  = isset( $audio_metas['url'] )    ? $audio_metas['url']      : '';
+        $audio_title            = isset( $audio_metas['title'] )  ? $audio_metas['title']    : '';
 
         // ----- IMAGES
 
-        // $sizes = get_intermediate_image_sizes();
+        // $sizes               = get_intermediate_image_sizes();
+        $images                 = array();
+        $images                 = array_merge( $images, get_image_thumbnail() );
+        $images                 = array_merge( $images, get_images_to_array( 'thumbnail' ) );
+        $images                 = array_merge( $images, get_images_to_array( 'portfolio' ) );
 
-        $images = array();
+        $image                  = isset( $images[1] )            ? $images[1]['image']      : '';
+        $image_thumbnail        = isset( $post->thumbnail_src )  ? $post->thumbnail_src[0]  : '';
+        $image_mobile           = isset( $images[0] )            ? $images[0]['image']      : '';
 
-        $images = array_merge( $images, get_image_thumbnail() );
-        $images = array_merge( $images, get_images_to_array( 'thumbnail' ) );
-        $images = array_merge( $images, get_images_to_array( 'portfolio' ) );
+        // ----- SOCIAL NETWORKS
 
-        $image           = isset( $images[1] )            ? $images[1]['image']      : '';
-        $image_thumbnail = isset( $post->thumbnail_src )  ? $post->thumbnail_src[0]  : '';
-        $image_mobile    = isset( $images[0] )            ? $images[0]['image']      : '';
-
-
-        _log( "" );
-        _log( "---------------------------------------------------------------------" );
-        _log( "" );
-
-
-        // _log( '$event_time_terms_all         = ' . print_r( $event_time_terms_all, true ) );
-        // _log( '$event_time_terms_description = ' . print_r( $event_time_terms_description, true ) );
-        _log( '$event_day                       = ' . print_r( $event_day, true ) );
-        _log( '$event_session                   = ' . print_r( $event_session, true ) );
-
-        // _log( '$event_feel_terms                = ' . print_r( $event_feel_terms, true ) );
-        // _log( '$event_genre_terms               = ' . print_r( $event_genre_terms, true ) );
-        // _log( '$event_type_terms                = ' . print_r( $event_type_terms, true ) );
-        _log( '$event_tags                      = ' . print_r( $event_tags, true ) );
-        _log( '$other_tags                      = ' . print_r( $other_tags, true ) );
+        $performer_website      = get_field( 'website',         $id );
+        $performer_youtube      = get_field( 'youtube_link',    $id );
+        $performer_facebook     = get_field( 'facebook',        $id );
+        $performer_instagram    = get_field( 'instagram_link',  $id );
+        $performer_tiktok       = get_field( 'tiktok_link',     $id );
+        $performer_deezer       = get_field( 'deezer_link',     $id );
+        $performer_spotify      = get_field( 'spotify_link',    $id );
+        $performer_soundcloud   = get_field( 'soundcloud_link', $id );
 
 
-        // _log( '$event_place_terms            = ' . print_r( $event_place_terms, true ) );
-        _log( '$event_place                     = ' . print_r( $event_place, true ) );
+        if( 1 ) {
+            $is_debug && _log( "" );
+            $is_debug && _log( "---------------------------------------------------------------------" );
+            $is_debug && _log( "" );
+
+            // $is_debug && _log( '$post                         = ' . print_r( $post, true ) );
+            // $is_debug && _log( '$id                           = ' . print_r( $id, true ) );
+            // $is_debug && _log( '$artist                       = ' . print_r( $artist    , true ) );
+            $is_debug && _log( '$event_name                      = ' . print_r( $event_name    , true ) );
+
+            $is_debug && _log( '');
+
+            $is_debug && _log( '$event_start_date                = ' . print_r( $event_start_date, true ) );
+            $is_debug && _log( '$event_start_time                = ' . print_r( $event_start_time, true ) );
+            $is_debug && _log( '$event_end_date                  = ' . print_r( $event_end_date, true ) );
+            $is_debug && _log( '$event_end_time                  = ' . print_r( $event_end_time, true ) );
+
+            $is_debug && _log( '');
+
+            $is_debug && _log( '$full_start                     = ' . print_r( $full_start, true ) );
+            $is_debug && _log( '$full_end                       = ' . print_r( $full_end, true ) );
+            $is_debug && _log( '$timestamp_start                = ' . print_r( $timestamp_start, true ) );
+            $is_debug && _log( '$timestamp_end                  = ' . print_r( $timestamp_end, true ) );
+            $is_debug && _log( '$event_duration                 = ' . print_r( $event_duration, true ) );
+
+            $is_debug && _log( '');
+
+            // $is_debug && _log( '$event_time_terms_all         = ' . print_r( $event_time_terms_all, true ) );
+            // $is_debug && _log( '$event_time_terms_description = ' . print_r( $event_time_terms_description, true ) );
+            $is_debug && _log( '$event_day                       = ' . print_r( $event_day, true ) );
+            $is_debug && _log( '$event_session                   = ' . print_r( $event_session, true ) );
+
+            $is_debug && _log( '');
+
+            // $is_debug && _log( '$event_feel_terms             = ' . print_r( $event_feel_terms, true ) );
+            // $is_debug && _log( '$event_genre_terms            = ' . print_r( $event_genre_terms, true ) );
+            // $is_debug && _log( '$event_type_terms             = ' . print_r( $event_type_terms, true ) );
+            $is_debug && _log( '$event_tags                      = ' . print_r( $event_tags, true ) );
+            $is_debug && _log( '$other_tags                      = ' . print_r( $other_tags, true ) );
+
+            $is_debug && _log( '');
+
+            // $is_debug && _log( '$event_place_terms            = ' . print_r( $event_place_terms, true ) );
+            $is_debug && _log( '$event_place                     = ' . print_r( $event_place, true ) );
 
 
+            // $is_debug && _log( '$post_title                   = ' . print_r( $post_title, true ) );
+            // $is_debug && _log( '$post_year                    = ' . print_r( $post_year, true ) );
 
-        _log( '$video_url                       = ' . print_r( $video_url, true ) );
+            // $is_debug && _log( '$country                      = ' . print_r( $country   , true ) );
 
-        //_log( '$audio_metas                   = ' . print_r( $audio_metas, true ) );
-        _log( '$audio                           = ' . print_r( $audio, true ) );
-        _log( '$audio_title                     = ' . print_r( $audio_title, true ) );
+            // $is_debug && _log( '$videos                       = ' . print_r( $videos, true ) );
+            $is_debug && _log( '$video_url                       = ' . print_r( $video_url, true ) );
 
-        _log( '$image                           = ' . print_r( $image, true ) );
-        _log( '$image_thumbnail                 = ' . print_r( $image_thumbnail, true ) );
-        _log( '$image_mobile                    = ' . print_r( $image_mobile, true ) );
+            // $is_debug && _log( '$playlist_file                = ' . print_r( $playlist_file, true ) );
+            // $is_debug && _log( '$post_playlist_file           = ' . print_r( $post_playlist_file, true ) );
+            // $is_debug && _log( '$audio_metas                  = ' . print_r( $audio_metas, true ) );
+            $is_debug && _log( '$audio                           = ' . print_r( $audio, true ) );
+            $is_debug && _log( '$audio_title                     = ' . print_r( $audio_title, true ) );
+
+            $is_debug && _log( '$image                           = ' . print_r( $image, true ) );
+            $is_debug && _log( '$image_thumbnail                 = ' . print_r( $image_thumbnail, true ) );
+            $is_debug && _log( '$image_mobile                    = ' . print_r( $image_mobile, true ) );
+        }
 
 
         // ----- JSON DATA
@@ -324,18 +358,24 @@
             'event_place'               => $event_place,
             'event_tags'                => $event_tags,
 
+            'artist'                    => $artist,
+            'other_tags'                => $other_tags,
+
             'video_url'                 => $video_url,
-            'video_title'               => '',
-            'video_timestart'           => '0',
-            'video_zoom'                => '100%',
+            '//video_title'             => $video_title,
+            '//video_timestart'         => $video_timestart,
+            '//video_zoom'              => $video_zoom,
+
             'audio'                     => $audio,
-            'audio_title'               => $audio,
+            'audio_title'               => $audio_title,
+
             'image'                     => $image,
             'image_thumbnail'           => $image_thumbnail,
             'image_mobile'              => $image_mobile,
+
             'description'               => $description,
             'descriptionEN'             => $descriptionEN,
-            'other_tags'                => $other_tags,
+
             'performer_website'         => $performer_website,
             'performer_youtube_channel' => $performer_youtube,
             'performer_facebook'        => $performer_facebook,
@@ -351,16 +391,16 @@
     RETURN JSON DATA
     =============================================================== */
 
+    exit;
 
-exit;
+    if( $is_debug && true ) {
+        _log( '$json_data = ' . print_r( $json_data, true ) );
+        _log( sprintf( "%d item(s) \n", $num_total ) );
 
-
-    if( $is_return_json ) {
-        header('Content-Type: application/json; charset=utf-8');
-        echo json_encode($json_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES);
+    } else {
+        header( 'Content-Type: application/json; charset=utf-8' );
+        echo json_encode( $json_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
         echo "\n";
-        exit();
     }
+    exit();
 
-    _log( '$json_data = ' . print_r( $json_data, true ) );
-    _log( sprintf( "%d item(s) \n", $num_total ) );
