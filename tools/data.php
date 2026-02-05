@@ -4,25 +4,25 @@
     SET VARIABLES
     =============================================================== */
 
-    $is_display_date    = true;
-    $is_display_time    = false;
-    $is_display_place   = false;
+    $is_display_date   = true;                          // is date_start, date_end    in results
+    $is_display_time   = false;                         // is time_start, time_end    in results
+    $is_display_place  = false;                         // is time_start, event_place in results
 
-    $is_debug           = false;
-    $is_return_json     = true; // if return data (json OR debug) at the end of script
+    $is_debug          = false;
+    $is_return_json    = true;                          // if return data (json OR debug) at the end of script
 
-    $limit              = 0;    // 0 = all
+    $festival_year     = '2026';                        // year festival
+    $default_place     = 'Paloma Nîmes';                // default place name
 
-    $festival_year      = '2026';
-    $default_place      = 'Paloma Nîmes';
+    $limit             = 0;                             // 0 = all
+    $post_type         = array( 'event' );              // post_type   = 'event'
+    $post_status       = array( 'publish', 'private' ); // post_status = 'publish' or 'private'
 
-    $post_type          = array( 'event' );
-    $post_status        = array( 'publish', 'private' );
+    $is_new_audio      = false;
+    $is_generate_mp3   = false;
 
-    $is_new_audio       = false;
-    $is_generate_mp3    = false;
+    $allowed_text_tags = '<b><strong><i><em><p><br>';
 
-    $allowed_text_tags  = '<b><strong><i><em><p><br>';
 
 
 /*  ===============================================================
@@ -93,49 +93,103 @@
     }
 
 
+
+/*  ===============================================================
+    QUERY ORDER
+    =============================================================== */
+
+    $order = 'year';
+
+    if( $order == 'id' ) {
+        $meta_key  = '';
+        $meta_key2 = '';
+        $order_by  = 'wp_posts.ID ASC';
+
+    } elseif( $order == 'title' ) {
+        $meta_key  = '';
+        $meta_key2 = '';
+        $order_by  = 'wp_posts.post_title ASC, wp_posts.ID ASC';
+
+    } elseif( $order == 'menu_order' ) {
+        $meta_key  = '';
+        $meta_key2 = '';
+        $order_by  = 'wp_posts.menu_order ASC, wp_posts.ID ASC';
+
+    } elseif( $order == 'is_teasing' ) { // meta_value_num
+        $meta_key  = 'is_teasing';
+        $meta_key2 = $meta_key;
+        $order_by  = 'wp_meta_' . $meta_key2 . '.meta_key ASC';
+
+    } elseif( $order == 'showing_date' ) { // meta_value_num
+        $meta_key  = 'showing_date';
+        $meta_key2 = $meta_key;
+        $order_by  = 'wp_meta_' . $meta_key2 . '.meta_key ASC';
+
+    } elseif( $order == 'start_date' ) { // meta_value_num
+        $meta_key  = 'start_date';
+        $meta_key2 = $meta_key;
+        $order_by  = 'wp_meta_' . $meta_key2 . '.meta_key ASC';
+
+    } elseif( $order == 'end_date' ) { // meta_value_num
+        $meta_key  = 'end_date';
+        $meta_key2 = $meta_key;
+        $order_by  = 'wp_meta_' . $meta_key2 . '.meta_key ASC';
+
+    } elseif( $order == 'year' ) { // meta_value_num
+        $meta_key  = '';
+        $meta_key2 = 'year';
+        $order_by  = 'wp_meta_' . $meta_key2 . '.meta_key ASC';
+
+    } elseif( $order == 'notoriety' ) { // meta_value_num
+        $meta_key  = 'notoriety';
+        $meta_key2 = $meta_key;
+        $order_by  = 'wp_meta_' . $meta_key2 . '.meta_key ASC';
+
+    } else {
+        $meta_key  = '';
+        $meta_key2 = '';
+        $order_by  = '';
+    }
+
 /*  ===============================================================
     QUERY WITH WPDB (WORDPRESS)
     =============================================================== */
 
     global $wpdb;
 
-    $query   = '
-        SELECT ID
-            , post_title
-            , wp_postmeta_year.meta_value                                       AS post_year
-            #, wp_postmeta_start_date.meta_value                                AS post_start_unixtime
-            #, FROM_UNIXTIME( wp_postmeta_start_date.meta_value )               AS post_start_datetime
-            #, CAST(FROM_UNIXTIME( wp_postmeta_start_date.meta_value ) AS date) AS post_start_date
-            , wp_posts.post_status                                              AS post_status
-            , wp_postmeta_videos.meta_value                                     AS post_nb_videos
-            , wp_postmeta_playlist_file.meta_value                              AS post_playlist_file
+    $query = "\n" .
+    ' SELECT wp_posts.ID                  AS  post_id'            . "\n" .
+    ' , wp_posts.post_title               AS  post_title'         . "\n" .
+    ' , wp_posts.post_status              AS  post_status'        . "\n" .
+    ' , wp_meta_year.meta_value           AS  post_year'          . "\n" .
+    ' , wp_meta_playlist_file.meta_value  AS  post_playlist_file' . "\n" .
+    ' , wp_meta_videos.meta_value         AS  post_nb_videos'     . "\n" .
 
-        FROM wp_posts
+    ' FROM wp_posts' . "\n" .
 
-        INNER JOIN wp_postmeta AS wp_postmeta_year          ON (wp_postmeta_year.post_id          = wp_posts.id  AND  wp_postmeta_year.meta_key          = \'year\')
-        # LEFT  JOIN wp_postmeta AS wp_postmeta_start_date  ON (wp_postmeta_start_date.post_id    = wp_posts.id  AND  wp_postmeta_start_date.meta_key    = \'start_date\')
-        # LEFT  JOIN wp_postmeta AS wp_postmeta_end_date    ON (wp_postmeta_end_date.post_id      = wp_posts.id  AND  wp_postmeta_end_date.meta_key      = \'end_date\')
-        LEFT  JOIN wp_postmeta AS wp_postmeta_videos        ON (wp_postmeta_videos.post_id        = wp_posts.id  AND  wp_postmeta_videos.meta_key        = \'videos\')
-        LEFT  JOIN wp_postmeta AS wp_postmeta_playlist_file ON (wp_postmeta_playlist_file.post_id = wp_posts.id  AND  wp_postmeta_playlist_file.meta_key = \'playlist_file\')
+    '  INNER JOIN wp_postmeta  AS  wp_meta_year           ON ( wp_meta_year.post_id          = wp_posts.ID  AND  wp_meta_year.meta_key          = "year" )' .          "\n" .
+    '  LEFT  JOIN wp_postmeta  AS  wp_meta_playlist_file  ON ( wp_meta_playlist_file.post_id = wp_posts.ID  AND  wp_meta_playlist_file.meta_key = "playlist_file" )' . "\n" .
+    '  LEFT  JOIN wp_postmeta  AS  wp_meta_videos         ON ( wp_meta_videos.post_id        = wp_posts.ID  AND  wp_meta_videos.meta_key        = "videos" )' .        "\n" .
 
-        WHERE 1' .
-            ( !empty( $post_type )   ? ' AND wp_posts.post_type                   IN ( \'' . implode( '\', \'', $post_type ) . '\')' : '' ) .
-            ( !empty( $post_status ) ? ' AND wp_posts.post_status                 IN ( \'' . implode( '\', \'', $post_status ) . '\')' : '' ) .
-            ( $festival_year         ? ' AND wp_postmeta_year.meta_value          =  \'' . $festival_year . '\'' : '' ) .
-            ( $is_new_audio          ? ' AND wp_postmeta_playlist_file.meta_value IS NULL' : '' ) .
-        ' ORDER BY wp_posts.menu_order' .
-        ( $limit > 0 ? ' LIMIT ' . $limit : '' )
-        ;
+    ( $meta_key ? '  LEFT  JOIN wp_postmeta  AS  wp_meta_' . $meta_key . '     ON ( wp_meta_' . $meta_key . '.post_id    = wp_posts.ID' . '  AND  wp_meta_' . $meta_key . '.meta_key    = "' . $meta_key . '" )' ."\n" : '' ) .
+    ' WHERE 1' . "\n" .
+        ( !empty( $post_type )   ? '  AND wp_posts.post_type       IN ( "' . implode( '", "', $post_type ) .   '" )' : '' ) . "\n" .
+        ( !empty( $post_status ) ? '  AND wp_posts.post_status     IN ( "' . implode( '", "', $post_status ) . '" )' : '' ) . "\n" .
+        ( $festival_year         ? '  AND wp_meta_year.meta_value  =  "' . $festival_year . '"'                      : '' ) . "\n" .
+
+    ( $order_by  ? ' ORDER BY ' . $order_by : '' ) . "\n" .
+    ( $limit > 0 ? ' LIMIT '    . $limit    : '' ) .
+
+    '';
+
+    $is_debug && _log( '$query   = ' . print_r( $query, true ) );
 
     $results = $wpdb->get_results( $query, OBJECT );
 
-    //_log( '$query   = ' . print_r( $query, true ) );
-    //_log( '$results = ' . print_r( $results, true ) );
-
     if ( ! empty( $wpdb->last_error ) ) {
         _log( '$wpdb->last_error = ' . print_r( $wpdb->last_error, true ) );
+        exit();
     }
-
 
 /*  ===============================================================
     PARSE RESULTS
@@ -151,7 +205,8 @@
         $num_total++;
         // $is_debug && _log( '$num_total = ' . print_r( $num_total, true ) );
 
-        $id = $row->ID;
+        $id = $row->post_id;
+
 
         // ----- GET POST
 
@@ -162,7 +217,8 @@
         // ----- NAME & LINK
 
         $event_name = strtoupper( strip_tags( $row->post_title ) );
-        $event_link = $post->link;
+        $event_link = str_replace( '.local', '.fr', $post->link );
+
 
         // ----- STATUS
 
@@ -255,8 +311,8 @@
         $event_place          = $default_place;
 
         if( $is_display_place ) {
-        $event_place_terms    = wp_get_post_terms( $id, 'event_place', array( 'fields' => 'names' ) );
-        $event_place          = !empty( $event_place_terms ) ? $event_place_terms[0] : $default_place ;
+            $event_place_terms    = wp_get_post_terms( $id, 'event_place', array( 'fields' => 'names' ) );
+            $event_place          = !empty( $event_place_terms ) ? $event_place_terms[0] : $default_place ;
         }
 
 
@@ -268,10 +324,12 @@
         $year                 = strip_tags( get_field( 'year',    $id ) );
         $country              = strtoupper( get_field( 'country', $id ) );
 
+
         // ----- EVENT TAGS
 
         $event_tags           = array_merge( array(), $event_feel_terms, $event_genre_terms, array( $country ) );
         $event_tags           = array_map( 'ucfirst', $event_tags );
+
 
         // ----- OTHER TAGS
 
@@ -323,13 +381,13 @@
         $performer_spotify    = get_field( 'spotify_link',    $id ) ? get_field( 'spotify_link',    $id ) : '';
         $performer_soundcloud = get_field( 'soundcloud_link', $id ) ? get_field( 'soundcloud_link', $id ) : '';
 
-        if( 1 ) {
+        if( 0 ) {
             $is_debug && _log( "" );
             $is_debug && _log( "---------------------------------------------------------------------" );
             $is_debug && _log( "" );
 
-            $is_debug && _log( '$post                         = ' . print_r( $post, true ) );
-            // $is_debug && _log( '$id                           = ' . print_r( $id, true ) );
+            $is_debug && _log( '$post                            = ' . print_r( $post, true ) );
+            $is_debug && _log( '$id                              = ' . print_r( $id, true ) );
             // $is_debug && _log( '$artist                       = ' . print_r( $artist    , true ) );
             $is_debug && _log( '$event_name                      = ' . print_r( $event_name    , true ) );
 
@@ -370,8 +428,6 @@
 
             // $is_debug && _log( '$event_place_terms            = ' . print_r( $event_place_terms, true ) );
             // $is_debug && _log( '$event_place                  = ' . print_r( $event_place, true ) );
-
-
 
             // $is_debug && _log( '$videos                       = ' . print_r( $videos, true ) );
             // $is_debug && _log( '$video_url                    = ' . print_r( $video_url, true ) );
@@ -454,5 +510,3 @@
         _log( '$json_data = ' . print_r( $json_data, true ) );
         _log( sprintf( "%d item(s) \n", $num_total ) );
     }
-
-    exit();
