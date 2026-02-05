@@ -76,7 +76,7 @@ These files handle general settings, feature flags, and internationalization (i1
     *   `is_auto_play_loop`: If the first video plays automatically at the end of the last one.
 *   **`texts`**: All UI text strings for localization (Buttons, Headers, Error messages).
 
-### Content Data (`data/2025/data.json`)
+### Content Data (`data/2026/data.json`)
 
 This file contains the playlist and artist information. It is an array of objects, where each object represents a track/artist.
 

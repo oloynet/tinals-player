@@ -14,14 +14,15 @@ Image.MAX_IMAGE_PIXELS = None
 # Configuration
 YEAR               = "2026"
 REMOTE_DATA_SOURCE = "https://thisisnotalovesong.fr/wp-content/themes/tinals/cli/tools/data.json"
-LOCAL_DATA_SOURCE = f"../data/{YEAR}/data.json"
-COMPRESS_WEBP = 80
+LOCAL_DATA_SOURCE  = f"../data/{YEAR}/data.json"
+COMPRESS_WEBP      = 80
+
 # Use environment variables or defaults for binaries to allow overriding in tests
-YT_DLP_BIN = os.getenv("YT_DLP_BIN", "yt-dlp")
-WGET_BIN = os.getenv("WGET_BIN", "/usr/bin/wget")
-MP3_DIR = f"../data/{YEAR}/mp3/"
-IMAGES_DIR = f"../data/{YEAR}/images/"
-TMP_DIR = "tmp/"
+YT_DLP_BIN         = os.getenv( "YT_DLP_BIN", "yt-dlp" )
+WGET_BIN           = os.getenv( "WGET_BIN", "/usr/bin/wget" )
+MP3_DIR            = f"../data/{YEAR}/mp3/"
+IMAGES_DIR         = f"../data/{YEAR}/images/"
+TMP_DIR            = "tmp/"
 
 def load_json(filepath):
     try:
@@ -65,21 +66,21 @@ def sanitize_filename(name):
     return name
 
 def ensure_dirs():
-    os.makedirs(MP3_DIR, exist_ok=True)
+    os.makedirs(MP3_DIR,    exist_ok=True)
     os.makedirs(IMAGES_DIR, exist_ok=True)
-    os.makedirs(TMP_DIR, exist_ok=True)
+    os.makedirs(TMP_DIR,    exist_ok=True)
 
 def main():
     parser = argparse.ArgumentParser(description="TINALS Asset Import Tool")
-    parser.add_argument("--yt-to-mp3", action="store_true", help="Extract and import mp3 files from YouTube")
-    parser.add_argument("--mp3", action="store_true", help="Import mp3 files locally from external server")
-    parser.add_argument("--image", action="store_true", help="Import image files locally and convert to WebP")
-    parser.add_argument("--limit", type=int, help="Limit the number of items processed from the data file")
-    parser.add_argument("--reset", choices=['image', 'mp3', 'all'], help="Reset fields and delete files")
-    parser.add_argument("--force", action="store_true", help="Force overwrite existing values")
-    parser.add_argument("--check", nargs='?', const='all', choices=['image', 'mp3', 'all'], help="Check file existence and clean data")
-    parser.add_argument("--max-width", type=int, help="Limit the width of the image")
-    parser.add_argument("--compress", type=int, help="Set compression quality percentage")
+    parser.add_argument("--yt-to-mp3", action="store_true",                                     help="Extract and import mp3 files from YouTube")
+    parser.add_argument("--mp3",       action="store_true",                                     help="Import mp3 files locally from external server")
+    parser.add_argument("--image",     action="store_true",                                     help="Import image files locally and convert to WebP")
+    parser.add_argument("--limit",     type=int,                                                help="Limit the number of items processed from the data file")
+    parser.add_argument("--reset",     choices=['image', 'mp3', 'all'],                         help="Reset fields and delete files")
+    parser.add_argument("--force",     action="store_true",                                     help="Force overwrite existing values")
+    parser.add_argument("--check",     nargs='?', const='all', choices=['image', 'mp3', 'all'], help="Check file existence and clean data")
+    parser.add_argument("--max-width", type=int,                                                help="Limit the width of the image")
+    parser.add_argument("--compress",  type=int,                                                help="Set compression quality percentage")
 
     args = parser.parse_args()
 
