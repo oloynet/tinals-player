@@ -298,14 +298,6 @@ def process_local_image(local_data, remote_data, force=False, override_max_width
             remote_item = remote_map[item['id']]
             event_name = sanitize_filename(item.get('event_name', 'unknown'))
 
-            # Identify the master image URL (usually 'image' field from remote)
-            remote_url = remote_item.get('image')
-
-            if not remote_url or not isinstance(remote_url, str) or not remote_url.startswith(('http://', 'https://')):
-                # Fallback: try to find any image url if main 'image' is missing
-                print(f"No master image found for {item.get('event_name')}, skipping.")
-                continue
-
             # Check if we need to process this item (if any target field is missing or force is True)
             needs_processing = force
             if not needs_processing:
@@ -319,148 +311,183 @@ def process_local_image(local_data, remote_data, force=False, override_max_width
 
             print(f"Processing images for {item.get('event_name', 'Unknown')}...")
 
-            # Download master image to tmp
-            ext = os.path.splitext(remote_url.split("?")[0])[1]
-            if not ext: ext = ".jpg" # fallback
+            # Identify the master image URL (default fallback)
+            master_url = remote_item.get('image')
 
-            master_tmp_path = os.path.join(TMP_DIR, f"master_{item['id']}{ext}")
+            # To avoid downloading the same file multiple times, we can cache downloaded files by URL
+            # Key: URL, Value: local path in TMP_DIR
+            downloaded_files = {}
 
-            try:
-                subprocess.run([WGET_BIN, "-O", master_tmp_path, remote_url], check=True)
+            # Generate each size
+            for size_conf in sizes_config:
 
-                if os.path.exists(master_tmp_path):
+                # Determine source URL for this specific size variant
+                # Priority:
+                # 1. remote_item[size_conf['id']] (e.g. 'image_thumbnail')
+                # 2. master_url ('image')
 
-                    # Generate each size
-                    for size_conf in sizes_config:
-                        # Determine compression
-                        quality = int(size_conf.get('compress', COMPRESS_WEBP))
-                        if override_quality:
-                            quality = override_quality
+                source_url = remote_item.get(size_conf['id'])
+                if not source_url or not isinstance(source_url, str) or not source_url.startswith(('http://', 'https://')):
+                    source_url = master_url
 
-                        # Determine suffix
-                        suffix = ""
-                        if size_conf['id'] == 'image':
-                            suffix = ".webp"
+                if not source_url or not isinstance(source_url, str) or not source_url.startswith(('http://', 'https://')):
+                    # No source available for this variant
+                    print(f"  No source image found for {size_conf['id']}, skipping.")
+                    continue
+
+                # Download logic (with caching per item)
+                if source_url not in downloaded_files:
+                    ext = os.path.splitext(source_url.split("?")[0])[1]
+                    if not ext: ext = ".jpg" # fallback
+
+                    # Create a unique temp name hash or just use counter to avoid collisions if URLs are different but same ext
+                    # Simple approach: use hash of URL
+                    import hashlib
+                    url_hash = hashlib.md5(source_url.encode('utf-8')).hexdigest()
+                    tmp_path = os.path.join(TMP_DIR, f"src_{item['id']}_{url_hash}{ext}")
+
+                    try:
+                        subprocess.run([WGET_BIN, "-O", tmp_path, source_url], check=True)
+                        if os.path.exists(tmp_path):
+                            downloaded_files[source_url] = tmp_path
                         else:
-                            # e.g. image_thumbnail -> .thumbnail.webp
-                            suffix = "." + size_conf['id'].replace("image_", "") + ".webp"
+                            print(f"  Failed to download {source_url}")
+                            continue
+                    except subprocess.CalledProcessError as e:
+                        print(f"  Failed to download {source_url}: {e}")
+                        continue
 
-                        dest_filename = f"{event_name}{suffix}"
-                        dest_path = os.path.join(IMAGES_DIR, dest_filename)
+                source_tmp_path = downloaded_files.get(source_url)
+                if not source_tmp_path:
+                    continue
 
-                        try:
-                            with Image.open(master_tmp_path) as img:
-                                # Apply Actions
-                                actions = size_conf.get('action', [])
+                # Determine compression
+                quality = int(size_conf.get('compress', COMPRESS_WEBP))
+                if override_quality:
+                    quality = override_quality
 
-                                # 1. Resize
-                                if 'resize' in actions:
-                                    target_width = size_conf.get('width')
-                                    target_height = size_conf.get('height')
-                                    max_width_conf = size_conf.get('max-width')
-                                    max_height_conf = size_conf.get('max-height')
+                # Determine suffix
+                suffix = ""
+                if size_conf['id'] == 'image':
+                    suffix = ".webp"
+                else:
+                    # e.g. image_thumbnail -> .thumbnail.webp
+                    suffix = "." + size_conf['id'].replace("image_", "") + ".webp"
 
-                                    # Override logic
-                                    if override_max_width:
-                                        max_width_conf = override_max_width
+                dest_filename = f"{event_name}{suffix}"
+                dest_path = os.path.join(IMAGES_DIR, dest_filename)
 
-                                    # Convert strings to int/float if necessary, handle "auto"
-                                    # Logic:
-                                    # If 'crop' is NOT in action, we just resize to fit within max boundaries (thumbnail behavior usually implies crop, but here we separate)
-                                    # If 'crop' IS in action, we usually resize to cover the target dimensions first.
+                try:
+                    with Image.open(source_tmp_path) as img:
+                        # Apply Actions
+                        actions = size_conf.get('action', [])
 
-                                    new_w, new_h = img.width, img.height
+                        # 1. Resize
+                        if 'resize' in actions:
+                            target_width = size_conf.get('width')
+                            target_height = size_conf.get('height')
+                            max_width_conf = size_conf.get('max-width')
+                            max_height_conf = size_conf.get('max-height')
 
-                                    if 'crop' in actions:
-                                        # Resize for Crop (Cover strategy)
-                                        # We need to ensure the image covers the target width/height
-                                        # Assuming width/height are set for crop
-                                        req_w = int(size_conf.get('width', 0))
-                                        req_h = int(size_conf.get('height', 0))
+                            # Override logic
+                            if override_max_width:
+                                max_width_conf = override_max_width
 
-                                        if req_w > 0 and req_h > 0:
-                                            ratio_img = img.width / img.height
-                                            ratio_req = req_w / req_h
+                            # Convert strings to int/float if necessary, handle "auto"
+                            # Logic:
+                            # If 'crop' is NOT in action, we just resize to fit within max boundaries (thumbnail behavior usually implies crop, but here we separate)
+                            # If 'crop' IS in action, we usually resize to cover the target dimensions first.
 
-                                            # If image is wider than target ratio, height is the constraint
-                                            if ratio_img > ratio_req:
-                                                resize_h = req_h
-                                                resize_w = int(resize_h * ratio_img)
-                                            else:
-                                                resize_w = req_w
-                                                resize_h = int(resize_w / ratio_img)
+                            new_w, new_h = img.width, img.height
 
-                                            img = img.resize((resize_w, resize_h), Image.Resampling.LANCZOS)
-                                            # print(f"  Resized for crop to {resize_w}x{resize_h}")
+                            if 'crop' in actions:
+                                # Resize for Crop (Cover strategy)
+                                # We need to ensure the image covers the target width/height
+                                # Assuming width/height are set for crop
+                                req_w = int(size_conf.get('width', 0))
+                                req_h = int(size_conf.get('height', 0))
 
+                                if req_w > 0 and req_h > 0:
+                                    ratio_img = img.width / img.height
+                                    ratio_req = req_w / req_h
+
+                                    # If image is wider than target ratio, height is the constraint
+                                    if ratio_img > ratio_req:
+                                        resize_h = req_h
+                                        resize_w = int(resize_h * ratio_img)
                                     else:
-                                        # Standard Resize (Contain strategy)
-                                        # Respect max-width / max-height
+                                        resize_w = req_w
+                                        resize_h = int(resize_w / ratio_img)
 
-                                        # Max Width
-                                        mw = None
-                                        if max_width_conf and str(max_width_conf).lower() != 'auto':
-                                            mw = int(max_width_conf)
+                                    img = img.resize((resize_w, resize_h), Image.Resampling.LANCZOS)
+                                    # print(f"  Resized for crop to {resize_w}x{resize_h}")
 
-                                        # Max Height
-                                        mh = None
-                                        if max_height_conf and str(max_height_conf).lower() != 'auto':
-                                            mh = int(max_height_conf)
+                            else:
+                                # Standard Resize (Contain strategy)
+                                # Respect max-width / max-height
 
-                                        # Exact Width/Height (if provided instead of max)
-                                        ew = None
-                                        if 'width' in size_conf and str(size_conf['width']).lower() != 'auto':
-                                            ew = int(size_conf['width'])
+                                # Max Width
+                                mw = None
+                                if max_width_conf and str(max_width_conf).lower() != 'auto':
+                                    mw = int(max_width_conf)
 
-                                        # Logic: mostly we use max-width.
+                                # Max Height
+                                mh = None
+                                if max_height_conf and str(max_height_conf).lower() != 'auto':
+                                    mh = int(max_height_conf)
 
-                                        if mw and img.width > mw:
-                                            ratio = img.height / img.width
-                                            new_h = int(mw * ratio)
-                                            img = img.resize((mw, new_h), Image.Resampling.LANCZOS)
-                                            # print(f"  Resized (max-width) to {mw}x{new_h}")
-                                        elif ew and img.width != ew:
-                                             ratio = img.height / img.width
-                                             new_h = int(ew * ratio)
-                                             img = img.resize((ew, new_h), Image.Resampling.LANCZOS)
+                                # Exact Width/Height (if provided instead of max)
+                                ew = None
+                                if 'width' in size_conf and str(size_conf['width']).lower() != 'auto':
+                                    ew = int(size_conf['width'])
+
+                                # Logic: mostly we use max-width.
+
+                                if mw and img.width > mw:
+                                    ratio = img.height / img.width
+                                    new_h = int(mw * ratio)
+                                    img = img.resize((mw, new_h), Image.Resampling.LANCZOS)
+                                    # print(f"  Resized (max-width) to {mw}x{new_h}")
+                                elif ew and img.width != ew:
+                                        ratio = img.height / img.width
+                                        new_h = int(ew * ratio)
+                                        img = img.resize((ew, new_h), Image.Resampling.LANCZOS)
 
 
-                                # 2. Crop
-                                if 'crop' in actions:
-                                    req_w = int(size_conf.get('width', 0))
-                                    req_h = int(size_conf.get('height', 0))
+                        # 2. Crop
+                        if 'crop' in actions:
+                            req_w = int(size_conf.get('width', 0))
+                            req_h = int(size_conf.get('height', 0))
 
-                                    if req_w > 0 and req_h > 0:
-                                        # Center crop by default (or read crop_x, crop_y)
-                                        # Current config says "center", "center"
-                                        # We can assume center for now as logic for custom x/y percentages is complex without data
+                            if req_w > 0 and req_h > 0:
+                                # Center crop by default (or read crop_x, crop_y)
+                                # Current config says "center", "center"
+                                # We can assume center for now as logic for custom x/y percentages is complex without data
 
-                                        curr_w, curr_h = img.width, img.height
+                                curr_w, curr_h = img.width, img.height
 
-                                        left = (curr_w - req_w) / 2
-                                        top = (curr_h - req_h) / 2
-                                        right = (curr_w + req_w) / 2
-                                        bottom = (curr_h + req_h) / 2
+                                left = (curr_w - req_w) / 2
+                                top = (curr_h - req_h) / 2
+                                right = (curr_w + req_w) / 2
+                                bottom = (curr_h + req_h) / 2
 
-                                        img = img.crop((left, top, right, bottom))
-                                        # print(f"  Cropped to {req_w}x{req_h}")
+                                img = img.crop((left, top, right, bottom))
+                                # print(f"  Cropped to {req_w}x{req_h}")
 
-                                img.save(dest_path, "WEBP", quality=quality)
+                        img.save(dest_path, "WEBP", quality=quality)
 
-                            # Update local data
-                            item[size_conf['id']] = f"data/{YEAR}/images/{dest_filename}"
-                            # print(f"  Saved {dest_filename} ({quality}%)")
+                    # Update local data
+                    item[size_conf['id']] = f"data/{YEAR}/images/{dest_filename}"
+                    # print(f"  Saved {dest_filename} ({quality}%)")
 
-                        except Exception as e:
-                            print(f"  Failed to process {size_conf['id']}: {e}")
+                except Exception as e:
+                    print(f"  Failed to process {size_conf['id']}: {e}")
 
-            except subprocess.CalledProcessError as e:
-                print(f"Failed to download master image {remote_url}: {e}")
-            except FileNotFoundError:
-                print(f"wget binary not found at {WGET_BIN}")
-            finally:
-                if os.path.exists(master_tmp_path):
-                    os.remove(master_tmp_path)
+            # Cleanup downloaded files for this item
+            for tmp_path in downloaded_files.values():
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
+
 
 if __name__ == "__main__":
     main()
