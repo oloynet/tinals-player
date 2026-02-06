@@ -932,7 +932,7 @@ function getSummaryHtml() {
         if (placeName) metaHtml += `<span class="summary-place">${placeName}</span>`;
 
         const isFav = AppState.favorites.includes(g.id);
-        const thumb = g.image_thumbnail || g.image;
+        const thumb = g.image_artist || g.image_thumbnail || g.image;
 
         const favClass = isFav ? 'is-favorite' : '';
 
