@@ -151,6 +151,44 @@
         "displayed_statuses": ["canceled", "moved_online", "postponed", "rescheduled"]
     },
 
+    "sizes": [
+        {
+            "id":         "image",
+            "max-width":  "1920",
+            "max-height": "auto",
+            "action":     ["resize"],
+            "format":     "webp",
+            "compress":   "80"
+        },
+        {
+            "id":         "image_thumbnail",
+            "ratio":      "1x1",
+            "width":      "128",
+            "height":     "128",
+            "action":     ["resize", "crop"],
+            "crop_x":     "center",
+            "crop_y":     "center",
+            "format":     "webp",
+            "compress":   "80"
+        },
+        {
+            "id":         "image_artist",
+            "max-width":  "320",
+            "height":     "auto",
+            "action":     ["resize"],
+            "format":     "webp",
+            "compress":   "80"
+        },
+        {
+            "id":         "image_mobile",
+            "max-width":  "768",
+            "max-height": "auto",
+            "action":     ["resize"],
+            "format":     "webp",
+            "compress":   "80"
+        }
+    ],
+
     "images":
     {
         "menu_id":           "logo-tinals-2026",
