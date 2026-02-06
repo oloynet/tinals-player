@@ -905,8 +905,9 @@ function getSummaryHtml() {
         if (isDisplaySummaryHead && g.event_session && g.event_session !== lastSession) {
              const session = AppState.config.sessions.find(s => s.id === g.event_session && s.display);
              if (session && session.display) {
+                  const sId = slugify(session.id);
                   itemsHtml += `
-                  <div class="summary-separator">
+                  <div class="summary-separator" data-slug="${sId}" onclick="filterByTag('${sId}', event, false)">
                       <h2>${session.display.tag || ''}</h2>
                       <h2 class="session-date">${session.display.normal || ''}</h2>
                   </div>`;
@@ -2334,7 +2335,7 @@ function filterByTag( tagSlug, event, shouldScroll = true ) {
     if ( event ) event.stopPropagation();
 
     if ( AppState.state.currentTagFilter === tagSlug ) {
-        exitTagFilterMode();
+        exitTagFilterMode(shouldScroll);
         return;
     }
 
@@ -2368,6 +2369,12 @@ function filterByTag( tagSlug, event, shouldScroll = true ) {
         const group = AppState.data.find( g => g.id === id );
         if ( group && group.event_tags && group.event_tags.some(t => slugify(t) === tagSlug) ) item.classList.add( 'has-matching-tag' );
         else item.classList.remove( 'has-matching-tag' );
+    });
+
+    document.querySelectorAll( '.summary-separator' ).forEach( sep => {
+        const slug = sep.dataset.slug;
+        if ( slug === tagSlug ) sep.classList.add( 'has-matching-tag' );
+        else sep.classList.remove( 'has-matching-tag' );
     });
 
     // document.getElementById( 'fav-filter-info' ).innerText  = `(${tagName})`;
@@ -2474,6 +2481,7 @@ function exitTagFilterMode(shouldScroll = true) {
     document.body.classList.remove( 'tag-filtering' );
 
     document.querySelectorAll('.tag-pill').forEach(el => el.classList.remove('tag-active'));
+    document.querySelectorAll('.summary-separator').forEach(el => el.classList.remove('has-matching-tag'));
     document.getElementById( 'tag-mode-bar' ).classList.remove( 'active' );
     // document.getElementById( 'fav-filter-info' ).innerText  = '';
     // document.getElementById( 'time-filter-info' ).innerText = '';

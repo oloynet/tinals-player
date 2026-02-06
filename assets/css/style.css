@@ -3272,6 +3272,16 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     text-align: center;
     margin-top: 10px;
     margin-bottom: 10px;
+    cursor: pointer;
+    transition: transform 0.2s;
+}
+
+.summary-separator:hover {
+    transform: scale(1.02);
+}
+
+body.tag-filtering .summary-separator:not(.has-matching-tag) {
+    display: none !important;
 }
 
 .summary-separator h2 {
