@@ -143,6 +143,9 @@
         "is_ticketing_display_count": false,
         "is_ticketing_display_artists_name": false,
 
+        "image_x": 50,
+        "image_y": 25,
+
         "displayed_statuses": ["canceled", "moved_online", "postponed", "rescheduled"]
     },
 
