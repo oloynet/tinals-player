@@ -184,15 +184,16 @@
                 "width":      "128",
                 "height":     "128",
                 "action":     ["resize", "crop"],
+                "crop_x":     "center",
+                "crop_y":     "center",
                 "format":     "webp",
                 "compress":   "80"
                 },
             {
                 "id":         "image_artist",
-                "ratio":      "16x9",
-                "width":      "320",
-                "height":     "180",
-                "action":     ["resize", "crop"],
+                "max-width":  "320",
+                "height":     "auto",
+                "action":     ["resize"],
                 "format":     "webp",
                 "compress":   "80"
             },
@@ -200,11 +201,12 @@
                 "id":         "image_mobile",
                 "max-width":  "768",
                 "max-height": "auto",
-                "action":     ["resize", "crop"],
+                "action":     ["resize"],
                 "format":     "webp",
                 "compress":   "80"
             }
         ]
+
     },
 
     "icons": [
