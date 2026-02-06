@@ -1669,7 +1669,29 @@ function updateURLState() {
         url.hash = AppState.state.activeSection;
     }
 
+    updateHreflangTags(url);
+
     window.history.replaceState( null, '', url );
+}
+
+
+function updateHreflangTags(currentUrlObj) {
+    const base = 'https://thisisnotalovesong.fr/player/';
+    // Create a copy of search params to not mutate the original url object if we used it directly,
+    // though here we construct new strings anyway.
+    const params = new URLSearchParams(currentUrlObj.search);
+
+    // Update French Tag
+    params.set('lang', 'fr');
+    const frUrl = base + '?' + params.toString() + currentUrlObj.hash;
+    const frLink = document.querySelector('link[hreflang="fr"]');
+    if (frLink) frLink.href = frUrl;
+
+    // Update English Tag
+    params.set('lang', 'en');
+    const enUrl = base + '?' + params.toString() + currentUrlObj.hash;
+    const enLink = document.querySelector('link[hreflang="en"]');
+    if (enLink) enLink.href = enUrl;
 }
 
 
