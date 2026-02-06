@@ -4,13 +4,20 @@
     SET VARIABLES
     =============================================================== */
 
-    $is_display_date   = true;                          // is date_start, date_end    in results
-    $is_display_time   = false;                         // is time_start, time_end    in results
-    $is_display_place  = false;                         // is time_start, event_place in results
+    $is_display_date   = true;                          // PROD = true  | date_start, date_end, event_session, in results
+    $is_display_time   = false;                         // PROD = true  | time_start, time_end in results
+    $is_display_place  = false;                         // PROD = true  | event_place in results
 
-    $is_debug          = true;
-    $is_return_data    = false;                         // if return data at the end of script
-    $is_return_json    = false;                          // if return (json data OR debug) at the end of script
+    if( 1 ) {
+        $is_debug          = false;                     // PROD = false |
+        $is_return_data    = true;                      // PROD = true  | if return data at the end of script
+        $is_return_json    = true;                      // PROD = true  | if return (json data OR debug) at the end of script
+
+    } else {
+        $is_debug          = true;                      // DEV = true   |
+        $is_return_data    = false;                     // DEV = false  | if return data at the end of script
+        $is_return_json    = true;                      // DEV = true   | if return (json data OR debug) at the end of script
+    }
 
     $festival_year     = '2026';                        // year festival
     $default_place     = 'Paloma Nîmes';                // default place name
@@ -95,24 +102,24 @@
    CONFIGURE ORDER SQL QUERY
    =============================================================== */
 
-    $order_by_sql     = '';
+    $sql_order     = '';
     $meta_key_to_join = null;
 
     switch ( $query_order ) {
         case 'id':
-            $order_by_sql = "wp_posts.ID ASC";
+            $sql_order = "wp_posts.ID ASC";
             break;
 
         case 'title':
-            $order_by_sql = "wp_posts.post_title ASC";
+            $sql_order = "wp_posts.post_title ASC";
             break;
 
         case 'menu_order':
-            $order_by_sql = "wp_posts.menu_order ASC";
+            $sql_order = "wp_posts.menu_order ASC";
             break;
 
         case 'year':
-            $order_by_sql = "wp_meta_year.meta_value ASC";
+            $sql_order = "wp_meta_year.meta_value ASC";
             break;
 
         case 'is_teasing':
@@ -121,11 +128,11 @@
         case 'end_date':
         case 'notoriety':
             $meta_key_to_join = $query_order;
-            $order_by_sql     = "wp_meta_{$query_order}.meta_value ASC, wp_posts.post_title ASC";
+            $sql_order     = "wp_meta_{$query_order}.meta_value ASC, wp_posts.post_title ASC";
             break;
 
         default:
-            $order_by_sql = "";
+            $sql_order = "";
             break;
     }
 
@@ -172,16 +179,15 @@
     }
 
 
-    $query_parts = array_merge( $sql_select, $sql_from, $sql_where );
-    $query_string = implode( "\n", $query_parts );
+    $sql = implode( "\n", array_merge( $sql_select, $sql_from, $sql_where ) );
 
 
-    if ( $order_by_sql ) {
-        $query_string .= "\n ORDER BY " . $order_by_sql;
+    if ( $sql_order ) {
+        $sql .= "\n ORDER BY " . $sql_order;
     }
 
     if ( $limit > 0 ) {
-        $query_string .= "\n LIMIT " . (int) $limit;
+        $sql .= "\n LIMIT " . (int) $limit;
     }
 
 
@@ -189,9 +195,9 @@
    EXECUTE SQL QUERY
    =============================================================== */
 
-    // $is_debug && _log( '$query_string   = ' . print_r( $query_string, true ) );
+    // $is_debug && _log( '$sql   = ' . print_r( $sql, true ) );
 
-    $results = $wpdb->get_results( $query_string, OBJECT );
+    $results = $wpdb->get_results( $sql, OBJECT );
 
     if ( ! empty( $wpdb->last_error ) ) {
         _log( '$wpdb->last_error = ' . print_r( $wpdb->last_error, true ) );
@@ -200,7 +206,7 @@
 
 
 /*  ===============================================================
-    PREPARE DATA
+    FETCH & PREPARE DATA
     =============================================================== */
 
     $json_data = array();
@@ -373,8 +379,8 @@
         $image                = isset( $images[1] )            ? $images[1]['image']      : '';
         $image_thumbnail      = isset( $post->thumbnail_src )  ? $post->thumbnail_src[0]  : '';
         $image_mobile         = isset( $images[0] )            ? $images[0]['image']      : '';
-        $image_x              = '50%';
-        $image_y              = '50%';
+        $image_x              = '50';
+        $image_y              = get_field( 'portfolio_position_y', $id ) ? get_field( 'portfolio_position_y', $id ) : '25';
 
 
         // ----- PERFORMER & SOCIAL NETWORKS
@@ -506,7 +512,7 @@
     }
 
 /*  ===============================================================
-    RETURN JSON DATA
+    RETURN DATA (JSON or DEBUG)
     =============================================================== */
 
     if( $is_return_data ) {
