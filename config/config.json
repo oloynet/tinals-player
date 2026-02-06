@@ -167,7 +167,44 @@
         "icon_512_maskable": "assets/favicon/favicon-maskable-512x512.png",
         "apple_touch_icon":  "assets/favicon/apple-touch-icon.png",
         "favicon":           "assets/favicon/favicon.ico",
-        "icon_svg":          "assets/favicon/favicon.svg"
+        "icon_svg":          "assets/favicon/favicon.svg",
+
+        "sizes": [
+            {
+                "id":         "image",
+                "max-width":  "1920",
+                "max-height": "auto",
+                "action":     ["resize"],
+                "format":     "webp",
+                "compress":   "80"
+            },
+            {
+                "id":         "image_thumbnail",
+                "ratio":      "1x1",
+                "width":      "128",
+                "height":     "128",
+                "action":     ["resize", "crop"],
+                "format":     "webp",
+                "compress":   "80"
+                },
+            {
+                "id":         "image_artist",
+                "ratio":      "16x9",
+                "width":      "320",
+                "height":     "180",
+                "action":     ["resize", "crop"],
+                "format":     "webp",
+                "compress":   "80"
+            },
+            {
+                "id":         "image_mobile",
+                "max-width":  "768",
+                "max-height": "auto",
+                "action":     ["resize", "crop"],
+                "format":     "webp",
+                "compress":   "80"
+            }
+        ]
     },
 
     "icons": [
