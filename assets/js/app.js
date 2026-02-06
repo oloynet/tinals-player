@@ -1007,6 +1007,10 @@ function getVideoCardHtml( g ) {
     const isMobile = isMobileDevice();
     const bgImage  = ( isMobile && g.image_mobile ) ? g.image_mobile : g.image;
 
+    const imageX = (g.image_x !== undefined && g.image_x !== null) ? g.image_x : 50;
+    const imageY = (g.image_y !== undefined && g.image_y !== null) ? g.image_y : 50;
+    const bgPosition = `${imageX}% ${imageY}%`;
+
     // Status logic
     const status = g.event_status || 'scheduled';
     const displayedStatuses = AppState.config.features.displayed_statuses || [];
@@ -1043,7 +1047,7 @@ function getVideoCardHtml( g ) {
     <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
         <div class="video-container">
             ${boxTitleHtml}
-            <div class="video-background" style="background-image: url('${bgImage}');"></div>
+            <div class="video-background" style="background-image: url('${bgImage}'); background-position: ${bgPosition};"></div>
             <div id="player-${g.id}" class="yt-placeholder"></div>
             <div class="video-click-layer"></div>
             <div class="video-state-icon material-icons">play_arrow</div>
