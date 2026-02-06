@@ -106,7 +106,7 @@
     {
         "is_app_install": true,
         "is_debug_js": false,
-        "is_display_version": true,
+        "is_display_version": false,
 
         "is_display_day": true,
         "is_display_date": true,
