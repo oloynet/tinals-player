@@ -12,11 +12,13 @@
         $is_debug          = false;                     // PROD = false |
         $is_return_data    = true;                      // PROD = true  | if return data at the end of script
         $is_return_json    = true;                      // PROD = true  | if return (json data OR debug) at the end of script
+        $is_json_compress  = true;                      // PROD = true  | if compress json
 
     } else {
         $is_debug          = true;                      // DEV = true   |
         $is_return_data    = false;                     // DEV = false  | if return data at the end of script
         $is_return_json    = true;                      // DEV = true   | if return (json data OR debug) at the end of script
+        $is_json_compress  = false;                     // DEV = false  | if compress json
     }
 
     $festival_year     = '2026';                        // year festival
@@ -519,7 +521,15 @@
 
         if( $is_return_json ) {
             header( 'Content-Type: application/json; charset=utf-8' );
-            echo json_encode( $json_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+
+            if( $is_json_compress ) {
+                echo json_encode( $json_data, JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+
+            } else {
+                echo json_encode( $json_data, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE | JSON_UNESCAPED_SLASHES );
+
+            }
+
             echo "\n";
 
         } else {
