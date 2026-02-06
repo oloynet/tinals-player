@@ -967,7 +967,7 @@ function getSummaryHtml() {
     });
 
     return `
-    <section id="summary-card" class="section-snap">
+    <section id="summary" class="section-snap">
         <h2 id="summary-title">${t.summary_title || 'En un coup d\'oeil'}</h2>
         <div class="summary-grid">
             ${itemsHtml}
@@ -1607,7 +1607,7 @@ function updateTicketingStats() {
 function scrollToSummary(shouldPause = true) {
     AppState.state.isMenuNavigation = true;
     if (shouldPause) VideoManager.pauseAll();
-    const summarySection = document.getElementById( 'summary-card' );
+    const summarySection = document.getElementById( 'summary' );
     if ( summarySection ) summarySection.scrollIntoView( {
         behavior: 'smooth'
     } );
@@ -2168,7 +2168,7 @@ function updateSummaryButtonState() {
     if ( !btn ) return;
     const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
     const bg = btn.querySelector( '.btn-bg' );
-    const isSummary = AppState.state.activeSection === 'summary-card';
+    const isSummary = AppState.state.activeSection === 'summary';
 
     if ( isSummary ) {
         if ( icon ) icon.style.color = 'var(--primary-color)';

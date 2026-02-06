@@ -15,16 +15,16 @@
     --black-a30-color:  #0000004d;
     --black-a40-color:  #00000066;
     --black-a50-color:  #0000007f;
-    --black-a60-color:  #00000099;
+    --black-a60-color:  #0009;
     --black-a70-color:  #000000b3;
     --black-a80-color:  #000000cc;
     --black-a85-color:  #000000da;
     --black-a90-color:  #000000e5;
     --black-a95-color:  #000000f3;
 
-    --grey5-a20-color:  #0d0d0d33;
+    --grey5-color:      #0d0d0d;
     --grey10-color:     #1a1a1a;
-    --grey10-a95-color: #1a1a1af3;
+    --grey15-color:     #262626;
     --grey20-color:     #333;
     --grey30-color:     #4d4d4d;
     --grey35-color:     #5a5a5a;
@@ -35,8 +35,13 @@
     --grey65-color:     #aaa;
     --grey70-color:     #b3b3b3;
     --grey80-color:     #ccc;
-    --grey80-a50-color: #cccccc7f;
     --grey90-color:     #e5e5e5;
+
+    --grey5-a20-color:  #0d0d0d33;
+    --grey80-a50-color: #cccccc7f;
+    --grey10-a95-color: #1a1a1af3;
+
+
 
     --white-color:      #fff;
     --white-a0-color:   #fff0;
@@ -208,11 +213,11 @@ body.menu-hidden #tag-mode-bar {
     align-items: center;
 }
 
-body.favorites-mode #main-feed > :not(.is-favorite):not(#summary-card) {
+body.favorites-mode #main-feed > :not(.is-favorite):not(#summary) {
     display: none !important;
 }
 
-body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary-card) {
+body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary) {
     display: none !important;
 }
 
@@ -693,7 +698,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary-card) {
 
 /* --- SUMMARY CARD --- */
 
-#summary-card {
+#summary {
     height: 100vh;
     height: 100dvh;
     width: 100%;
@@ -745,13 +750,16 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary-card) {
     .summary-grid { grid-template-columns: repeat(5, 1fr); }
 }
 @media (min-width: 1536px) {
+    .summary-grid { grid-template-columns: repeat(6, 1fr); }
+}
+@media (min-width: 1920px) {
     .summary-grid { grid-template-columns: repeat(7, 1fr); }
 }
 
 .summary-item {
     display: flex;
     flex-direction: column;
-    background-color: var(--grey10-color);
+    background-color: var(--grey15-color);
     border-radius: 8px;
     overflow: hidden;
     cursor: pointer;
