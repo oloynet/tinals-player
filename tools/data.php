@@ -353,11 +353,11 @@
 
         // ----- VIDEO
 
-        $videos               = get_field( 'videos', $id );
+        $videos               = get_field( 'videos',          $id );
         $video_url            = !empty( $videos ) ? $videos[0]['url'] : '';
-        $video_title          = '';
-        $video_timestart      = '0';
-        $video_zoom           = '100%';
+        $video_title          = get_field( 'video_title',     $id );
+        $video_timestart      = get_field( 'video_timestart', $id );
+        $video_zoom           = get_field( 'video_zoom',      $id );
 
 
         // ----- AUDIO
@@ -379,8 +379,9 @@
         $images               = array_merge( $images, get_images_to_array( 'portfolio' ) );
 
         $image                = isset( $images[1] )            ? $images[1]['image']      : '';
+        $image_mobile         = isset( $images[1] )            ? $images[1]['image']      : '';
+        $image_artist         = isset( $images[1] )            ? $images[1]['image']      : '';
         $image_thumbnail      = isset( $post->thumbnail_src )  ? $post->thumbnail_src[0]  : '';
-        $image_mobile         = isset( $images[0] )            ? $images[0]['image']      : '';
         $image_x              = '50';
         $image_y              = get_field( 'portfolio_position_y', $id ) ? get_field( 'portfolio_position_y', $id ) : '25';
 
@@ -447,6 +448,9 @@
 
             // _log( '$videos                       = ' . print_r( $videos, true ) );
             // _log( '$video_url                    = ' . print_r( $video_url, true ) );
+            // _log( '$video_title                  = ' . print_r( $video_title, true ) );
+            // _log( '$video_timestart              = ' . print_r( $video_timestart, true ) );
+            // _log( '$video_zoom                   = ' . print_r( $video_zoom, true ) );
 
             // _log( '$playlist_file                = ' . print_r( $playlist_file, true ) );
             // _log( '$post_playlist_file           = ' . print_r( $post_playlist_file, true ) );
@@ -455,8 +459,9 @@
             // _log( '$audio_title                  = ' . print_r( $audio_title, true ) );
 
             // _log( '$image                        = ' . print_r( $image, true ) );
-            // _log( '$image_thumbnail              = ' . print_r( $image_thumbnail, true ) );
+            // _log( '$image_artist                 = ' . print_r( $image_artist, true ) );
             // _log( '$image_mobile                 = ' . print_r( $image_mobile, true ) );
+            // _log( '$image_thumbnail              = ' . print_r( $image_thumbnail, true ) );
             _log( '$image_x                         = ' . print_r( $image_x, true ) );
             _log( '$image_y                         = ' . print_r( $image_y, true ) );
         }
@@ -485,16 +490,17 @@
             'other_tags'           => $other_tags,
 
             'video_url'            => $video_url,
-            '//video_title'        => $video_title,
-            '//video_timestart'    => $video_timestart,
-            '//video_zoom'         => $video_zoom,
+            'video_title'          => $video_title,
+            'video_timestart'      => $video_timestart,
+            'video_zoom'           => $video_zoom,
 
             'audio'                => $audio,
             'audio_title'          => $audio_title,
 
             'image'                => $image,
-            'image_thumbnail'      => $image_thumbnail,
+            'image_artist'         => $image_artist,
             'image_mobile'         => $image_mobile,
+            'image_thumbnail'      => $image_thumbnail,
             'image_x'              => $image_x,
             'image_y'              => $image_y,
 
