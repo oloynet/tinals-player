@@ -3258,3 +3258,53 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     font-size: 0.9rem;
     line-height: 1.2;
 }
+
+/* --- SUMMARY SEPARATOR --- */
+
+.summary-separator {
+    grid-column: 1 / -1;
+    background-color: var(--dark-color);
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.summary-separator h2 {
+    color: var(--primary-color);
+    font-size: 2rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.summary-separator h2.session-date {
+    color: var(--light-color);
+    font-size: 1.5rem;
+    font-weight: bold;
+    margin-top: 5px;
+}
+
+/* Media Queries for Summary Separator */
+@media (min-width: 640px) {
+    .summary-separator {
+        flex-direction: row;
+        gap: 20px;
+        padding: 30px;
+    }
+
+    .summary-separator h2.session-date {
+        margin-top: 0;
+    }
+
+    .summary-separator h2::after {
+        content: "—";
+        margin-left: 20px;
+        color: var(--dark-grey-color);
+    }
+}
