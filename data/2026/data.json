@@ -42,7 +42,8 @@
         "performer_tiktok": "",
         "performer_deezer": "https://www.deezer.com/fr/artist/1414",
         "performer_spotify": "https://open.spotify.com/intl-fr/artist/188gwh9RnRT58ZQPwqwHE3",
-        "performer_soundcloud": ""
+        "performer_soundcloud": "",
+        "image_artist": "data/2026/images/16-horsepower.artist.webp"
     },
     {
         "id": "94912",

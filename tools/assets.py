@@ -15,6 +15,7 @@ Image.MAX_IMAGE_PIXELS = None
 YEAR               = "2026"
 REMOTE_DATA_SOURCE = f"https://thisisnotalovesong.fr/data-2026-02-04.json"
 LOCAL_DATA_SOURCE  = f"../data/{YEAR}/data.json"
+LOCAL_CONFIG_PATH  = "../config/config.json"
 COMPRESS_WEBP      = 80
 
 # Use environment variables or defaults for binaries to allow overriding in tests
@@ -70,6 +71,17 @@ def ensure_dirs():
     os.makedirs(IMAGES_DIR, exist_ok=True)
     os.makedirs(TMP_DIR,    exist_ok=True)
 
+def get_image_sizes_config():
+    config = load_json(LOCAL_CONFIG_PATH)
+    if not config or 'sizes' not in config:
+        # Fallback default if config is missing
+        return [
+            {"id": "image", "max-width": "1920", "action": ["resize"], "format": "webp", "compress": "80"},
+            {"id": "image_mobile", "max-width": "768", "action": ["resize"], "format": "webp", "compress": "80"},
+            {"id": "image_thumbnail", "max-width": "128", "action": ["resize"], "format": "webp", "compress": "80"}
+        ]
+    return config['sizes']
+
 def main():
     parser = argparse.ArgumentParser(description="TINALS Asset Import Tool")
     parser.add_argument("--yt-to-mp3", action="store_true",                                     help="Extract and import mp3 files from YouTube")
@@ -79,8 +91,8 @@ def main():
     parser.add_argument("--reset",     choices=['image', 'mp3', 'all'],                         help="Reset fields and delete files")
     parser.add_argument("--force",     action="store_true",                                     help="Force overwrite existing values")
     parser.add_argument("--check",     nargs='?', const='all', choices=['image', 'mp3', 'all'], help="Check file existence and clean data")
-    parser.add_argument("--max-width", type=int,                                                help="Limit the width of the image")
-    parser.add_argument("--compress",  type=int,                                                help="Set compression quality percentage")
+    parser.add_argument("--max-width", type=int,                                                help="Limit the width of the image (Override config)")
+    parser.add_argument("--compress",  type=int,                                                help="Set compression quality percentage (Override config)")
 
     args = parser.parse_args()
 
@@ -109,9 +121,6 @@ def main():
         save_json(LOCAL_DATA_SOURCE, local_data)
 
     remote_data = fetch_remote_data(REMOTE_DATA_SOURCE)
-    # We might only need remote data if we actually look things up,
-    # but simplest is to fetch it once if any operation needs it.
-    # However, if remote fetch fails, we should handle it gracefully depending on if the operation needs it.
 
     if args.yt_to_mp3:
         process_yt_to_mp3(items_to_process, remote_data, args.force)
@@ -127,16 +136,12 @@ def main():
 
     # Cleanup tmp
     if os.path.exists(TMP_DIR):
-        # Optional: remove tmp dir.
-        # The prompt says "output tmp/..." for yt-dlp, maybe we should keep it or clean it?
-        # Usually tools clean up. I'll leave it for now or clean it.
-        # I'll chose to leave it as a cache or clean it?
-        # Let's clean it to be tidy.
         shutil.rmtree(TMP_DIR)
 
 def process_reset(local_data, target):
     print(f"Resetting {target}...")
-    image_fields = ['image', 'image_mobile', 'image_thumbnail']
+    sizes_config = get_image_sizes_config()
+    image_fields = [size['id'] for size in sizes_config]
 
     for item in local_data:
         if target in ['mp3', 'all']:
@@ -159,7 +164,8 @@ def process_reset(local_data, target):
 
 def process_check(local_data, target):
     print(f"Checking {target}...")
-    image_fields = ['image', 'image_mobile', 'image_thumbnail']
+    sizes_config = get_image_sizes_config()
+    image_fields = [size['id'] for size in sizes_config]
 
     for item in local_data:
         if target in ['mp3', 'all']:
@@ -282,73 +288,206 @@ def process_local_mp3(local_data, remote_data, force=False):
                 except FileNotFoundError:
                     print(f"wget binary not found at {WGET_BIN}")
 
-def process_local_image(local_data, remote_data, force=False, max_width=None, quality=None):
+def process_local_image(local_data, remote_data, force=False, override_max_width=None, override_quality=None):
     print("Processing Local Images...")
     remote_map = {item['id']: item for item in remote_data if 'id' in item}
-
-    # Use default quality if not provided
-    if quality is None:
-        quality = COMPRESS_WEBP
-
-    image_fields = {
-        'image': '.webp',
-        'image_mobile': '.mobile.webp',
-        'image_thumbnail': '.thumbnail.webp'
-    }
+    sizes_config = get_image_sizes_config()
 
     for item in local_data:
         if item.get('id') in remote_map:
             remote_item = remote_map[item['id']]
             event_name = sanitize_filename(item.get('event_name', 'unknown'))
 
-            for field, suffix in image_fields.items():
-                # Check if local is empty or force is True
-                if not item.get(field) or force:
-                    remote_url = remote_item.get(field)
+            # Check if we need to process this item (if any target field is missing or force is True)
+            needs_processing = force
+            if not needs_processing:
+                for size_conf in sizes_config:
+                    if not item.get(size_conf['id']):
+                        needs_processing = True
+                        break
 
-                    if remote_url and isinstance(remote_url, str) and remote_url.startswith(('http://', 'https://')):
-                         print(f"Processing {field} for {item.get('event_name', 'Unknown')}...")
+            if not needs_processing:
+                continue
 
-                         # Download to tmp
-                         ext = os.path.splitext(remote_url.split("?")[0])[1]
-                         if not ext: ext = ".jpg" # fallback
+            print(f"Processing images for {item.get('event_name', 'Unknown')}...")
 
-                         tmp_download_path = os.path.join(TMP_DIR, f"temp_{item['id']}_{field}{ext}")
+            # Identify the master image URL (default fallback)
+            master_url = remote_item.get('image')
 
-                         try:
-                            subprocess.run([WGET_BIN, "-O", tmp_download_path, remote_url], check=True)
+            # To avoid downloading the same file multiple times, we can cache downloaded files by URL
+            # Key: URL, Value: local path in TMP_DIR
+            downloaded_files = {}
 
-                            if os.path.exists(tmp_download_path):
-                                # Convert to WebP
-                                dest_filename = f"{event_name}{suffix}"
-                                dest_path = os.path.join(IMAGES_DIR, dest_filename)
+            # Generate each size
+            for size_conf in sizes_config:
 
-                                try:
-                                    with Image.open(tmp_download_path) as img:
-                                        if max_width and img.width > max_width:
-                                            # Calculate new height maintaining aspect ratio
-                                            aspect_ratio = img.height / img.width
-                                            new_height = int(max_width * aspect_ratio)
-                                            img = img.resize((max_width, new_height), Image.Resampling.LANCZOS)
-                                            print(f"Resized image to {max_width}x{new_height}")
+                # Determine source URL for this specific size variant
+                # Priority:
+                # 1. remote_item[size_conf['id']] (e.g. 'image_thumbnail')
+                # 2. master_url ('image')
 
-                                        img.save(dest_path, "WEBP", quality=quality)
+                source_url = remote_item.get(size_conf['id'])
+                if not source_url or not isinstance(source_url, str) or not source_url.startswith(('http://', 'https://')):
+                    source_url = master_url
 
-                                    print(f"Converted and saved to {dest_path} (Quality: {quality}%)")
-                                    # Update with relative path
-                                    item[field] = f"data/{YEAR}/images/{dest_filename}"
+                if not source_url or not isinstance(source_url, str) or not source_url.startswith(('http://', 'https://')):
+                    # No source available for this variant
+                    print(f"  No source image found for {size_conf['id']}, skipping.")
+                    continue
 
-                                except Exception as e:
-                                    print(f"Failed to convert image {tmp_download_path}: {e}")
-                                finally:
-                                    # cleanup temp file
-                                    if os.path.exists(tmp_download_path):
-                                        os.remove(tmp_download_path)
+                # Download logic (with caching per item)
+                if source_url not in downloaded_files:
+                    ext = os.path.splitext(source_url.split("?")[0])[1]
+                    if not ext: ext = ".jpg" # fallback
 
-                         except subprocess.CalledProcessError as e:
-                            print(f"Failed to download image {remote_url}: {e}")
-                         except FileNotFoundError:
-                            print(f"wget binary not found at {WGET_BIN}")
+                    # Create a unique temp name hash or just use counter to avoid collisions if URLs are different but same ext
+                    # Simple approach: use hash of URL
+                    import hashlib
+                    url_hash = hashlib.md5(source_url.encode('utf-8')).hexdigest()
+                    tmp_path = os.path.join(TMP_DIR, f"src_{item['id']}_{url_hash}{ext}")
+
+                    try:
+                        subprocess.run([WGET_BIN, "-O", tmp_path, source_url], check=True)
+                        if os.path.exists(tmp_path):
+                            downloaded_files[source_url] = tmp_path
+                        else:
+                            print(f"  Failed to download {source_url}")
+                            continue
+                    except subprocess.CalledProcessError as e:
+                        print(f"  Failed to download {source_url}: {e}")
+                        continue
+
+                source_tmp_path = downloaded_files.get(source_url)
+                if not source_tmp_path:
+                    continue
+
+                # Determine compression
+                quality = int(size_conf.get('compress', COMPRESS_WEBP))
+                if override_quality:
+                    quality = override_quality
+
+                # Determine suffix
+                suffix = ""
+                if size_conf['id'] == 'image':
+                    suffix = ".webp"
+                else:
+                    # e.g. image_thumbnail -> .thumbnail.webp
+                    suffix = "." + size_conf['id'].replace("image_", "") + ".webp"
+
+                dest_filename = f"{event_name}{suffix}"
+                dest_path = os.path.join(IMAGES_DIR, dest_filename)
+
+                try:
+                    with Image.open(source_tmp_path) as img:
+                        # Apply Actions
+                        actions = size_conf.get('action', [])
+
+                        # 1. Resize
+                        if 'resize' in actions:
+                            target_width = size_conf.get('width')
+                            target_height = size_conf.get('height')
+                            max_width_conf = size_conf.get('max-width')
+                            max_height_conf = size_conf.get('max-height')
+
+                            # Override logic
+                            if override_max_width:
+                                max_width_conf = override_max_width
+
+                            # Convert strings to int/float if necessary, handle "auto"
+                            # Logic:
+                            # If 'crop' is NOT in action, we just resize to fit within max boundaries (thumbnail behavior usually implies crop, but here we separate)
+                            # If 'crop' IS in action, we usually resize to cover the target dimensions first.
+
+                            new_w, new_h = img.width, img.height
+
+                            if 'crop' in actions:
+                                # Resize for Crop (Cover strategy)
+                                # We need to ensure the image covers the target width/height
+                                # Assuming width/height are set for crop
+                                req_w = int(size_conf.get('width', 0))
+                                req_h = int(size_conf.get('height', 0))
+
+                                if req_w > 0 and req_h > 0:
+                                    ratio_img = img.width / img.height
+                                    ratio_req = req_w / req_h
+
+                                    # If image is wider than target ratio, height is the constraint
+                                    if ratio_img > ratio_req:
+                                        resize_h = req_h
+                                        resize_w = int(resize_h * ratio_img)
+                                    else:
+                                        resize_w = req_w
+                                        resize_h = int(resize_w / ratio_img)
+
+                                    img = img.resize((resize_w, resize_h), Image.Resampling.LANCZOS)
+                                    # print(f"  Resized for crop to {resize_w}x{resize_h}")
+
+                            else:
+                                # Standard Resize (Contain strategy)
+                                # Respect max-width / max-height
+
+                                # Max Width
+                                mw = None
+                                if max_width_conf and str(max_width_conf).lower() != 'auto':
+                                    mw = int(max_width_conf)
+
+                                # Max Height
+                                mh = None
+                                if max_height_conf and str(max_height_conf).lower() != 'auto':
+                                    mh = int(max_height_conf)
+
+                                # Exact Width/Height (if provided instead of max)
+                                ew = None
+                                if 'width' in size_conf and str(size_conf['width']).lower() != 'auto':
+                                    ew = int(size_conf['width'])
+
+                                # Logic: mostly we use max-width.
+
+                                if mw and img.width > mw:
+                                    ratio = img.height / img.width
+                                    new_h = int(mw * ratio)
+                                    img = img.resize((mw, new_h), Image.Resampling.LANCZOS)
+                                    # print(f"  Resized (max-width) to {mw}x{new_h}")
+                                elif ew and img.width != ew:
+                                        ratio = img.height / img.width
+                                        new_h = int(ew * ratio)
+                                        img = img.resize((ew, new_h), Image.Resampling.LANCZOS)
+
+
+                        # 2. Crop
+                        if 'crop' in actions:
+                            req_w = int(size_conf.get('width', 0))
+                            req_h = int(size_conf.get('height', 0))
+
+                            if req_w > 0 and req_h > 0:
+                                # Center crop by default (or read crop_x, crop_y)
+                                # Current config says "center", "center"
+                                # We can assume center for now as logic for custom x/y percentages is complex without data
+
+                                curr_w, curr_h = img.width, img.height
+
+                                left = (curr_w - req_w) / 2
+                                top = (curr_h - req_h) / 2
+                                right = (curr_w + req_w) / 2
+                                bottom = (curr_h + req_h) / 2
+
+                                img = img.crop((left, top, right, bottom))
+                                # print(f"  Cropped to {req_w}x{req_h}")
+
+                        img.save(dest_path, "WEBP", quality=quality)
+
+                    # Update local data
+                    item[size_conf['id']] = f"data/{YEAR}/images/{dest_filename}"
+                    # print(f"  Saved {dest_filename} ({quality}%)")
+
+                except Exception as e:
+                    print(f"  Failed to process {size_conf['id']}: {e}")
+
+            # Cleanup downloaded files for this item
+            for tmp_path in downloaded_files.values():
+                if os.path.exists(tmp_path):
+                    os.remove(tmp_path)
+
 
 if __name__ == "__main__":
     main()
