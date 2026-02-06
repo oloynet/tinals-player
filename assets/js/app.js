@@ -138,8 +138,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.76';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.76' : 'config/config_fr.json?v1.76';
+        const configFile = 'config/config.json?v1.77';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.77' : 'config/config_fr.json?v1.77';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -319,14 +319,14 @@ async function init() {
                 const errStack  = e && e.stack ? escapeHtml(e.stack) : "";
                 jsErrorHtml = `
                 <div style="margin-bottom: 50px;">
-                    <pre style="text-align: left; font-family: monospace; background: rgba(0,0,0,0.5); padding: 10px; overflow: auto; max-height: 50vh; white-space: pre-wrap; word-wrap: break-word;">
+                    <pre style="text-align: left; font-family: monospace; background: var(--black-a5-color); padding: 10px; overflow: auto; max-height: 50vh; var(--white-color)-space: pre-wrap; word-wrap: break-word;">
                         ${errString}\n\n${errStack}
                     </pre>
                 </div>`;
             }
 
             loader.innerHTML = `
-            <div class="console-error" style="text-align: center; color: white;margin: 0 40px;">
+            <div class="console-error" style="text-align: center; color: var(--white-color);margin: 0 40px;">
                 <div>
                     <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur application TINALS</h1>
                     <p class='loader-error-msg' style="margin-bottom: 50px;">Le problème trouve souvent son origine dans le système de cache du navigateur ou a une erreur javascript<br>
@@ -908,8 +908,7 @@ function getSummaryHtml() {
                   const sId = slugify(session.id);
                   itemsHtml += `
                   <div class="summary-separator" data-slug="${sId}" onclick="filterByTag('${sId}', event, false)">
-                      <h2>${session.display.tag || ''}</h2>
-                      <h2 class="session-date">${session.display.normal || ''}</h2>
+                      <h3><span>${session.display.tag || ''}</span><span class="session-date">${session.display.normal || ''}</span></h3>
                   </div>`;
              }
              lastSession = g.event_session;
@@ -939,7 +938,7 @@ function getSummaryHtml() {
 
         const favIconHtml = isFav
             ? '<span class="material-icons" style="color: var(--primary-color);">favorite</span>'
-            : '<span class="material-icons" style="color: var(--light-color);">favorite_border</span>';
+            : '<span class="material-icons" style="color: var(--white-color);">favorite_border</span>';
 
         const imageX = (g.image_x !== undefined && g.image_x !== null) ? g.image_x : (AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50);
         const imageY = (g.image_y !== undefined && g.image_y !== null) ? g.image_y : (AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25);
@@ -2175,7 +2174,7 @@ function updateSummaryButtonState() {
         if ( icon ) icon.style.color = 'var(--primary-color)';
         if ( bg ) bg.classList.add( 'bright' );
     } else {
-        if ( icon ) icon.style.color = 'var(--light-color)';
+        if ( icon ) icon.style.color = 'var(--white-color)';
         if ( bg ) bg.classList.remove( 'bright' );
     }
 }
@@ -2226,7 +2225,7 @@ function updateActionButtons( id ) {
         } else {
             if ( icon ) {
                 icon.innerHTML = 'favorite_border';
-                icon.style.color = 'white';
+                icon.style.color = 'var(--white-color)';
             }
             if ( bg ) bg.classList.remove( 'bright' );
         }
@@ -2271,7 +2270,7 @@ function updateFavoritesIcon() {
         if ( icon ) icon.style.color = 'var(--primary-color)';
     } else {
         if ( bg )   bg.classList.remove( 'bright' );
-        if ( icon ) icon.style.color = 'white';
+        if ( icon ) icon.style.color = 'var(--white-color)';
     }
 }
 
@@ -2291,7 +2290,7 @@ function toggleFav( id, openDrawer = true ) {
         showToast( AppState.config.texts.bar_fav_removed );
         if(card) card.classList.remove('is-favorite');
         if(summaryItem) summaryItem.classList.remove('is-favorite');
-        if(summaryBtn) summaryBtn.innerHTML = '<span class="material-icons" style="color: var(--light-color);">favorite_border</span>';
+        if(summaryBtn) summaryBtn.innerHTML = '<span class="material-icons" style="color: var(--white-color);">favorite_border</span>';
     } else {
         AppState.favorites.push( id );
         showToast( AppState.config.texts.bar_fav_added );
@@ -2826,7 +2825,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.76' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.77' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
