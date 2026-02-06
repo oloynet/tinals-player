@@ -2599,11 +2599,7 @@ function renderDrawerTimeline() {
         // Filter using slug comparison
         dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
     }
-    const sortedData = [ ...dataToRender ].sort( ( a, b ) => {
-        const tA = ( a.event_start_date || '9999-99-99' ) + 'T' + ( a.event_start_time || '00:00' );
-        const tB = ( b.event_start_date || '9999-99-99' ) + 'T' + ( b.event_start_time || '00:00' );
-        return tA.localeCompare( tB );
-    } );
+    const sortedData = [ ...dataToRender ];
     if ( sortedData.length === 0 ) {
         list.innerHTML = `<p class="list-empty-msg">${AppState.config.texts.timeline_empty}</p>`;
         return;
