@@ -138,8 +138,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.75';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.75' : 'config/config_fr.json?v1.75';
+        const configFile = 'config/config.json?v1.76';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.76' : 'config/config_fr.json?v1.76';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -895,8 +895,25 @@ function getHomeHtml() {
 function getSummaryHtml() {
     const t = AppState.config.texts;
     const s = AppState.settings;
+    const isDisplaySummaryHead = AppState.config.features.is_display_summary_head;
 
-    const itemsHtml = AppState.data.map(g => {
+    let itemsHtml = '';
+    let lastSession = null;
+
+    AppState.data.forEach(g => {
+        // --- Separator Logic ---
+        if (isDisplaySummaryHead && g.event_session && g.event_session !== lastSession) {
+             const session = AppState.config.sessions.find(s => s.id === g.event_session && s.display);
+             if (session && session.display) {
+                  itemsHtml += `
+                  <div class="summary-separator">
+                      <h2>${session.display.tag || ''}</h2>
+                      <h2 class="session-date">${session.display.normal || ''}</h2>
+                  </div>`;
+             }
+             lastSession = g.event_session;
+        }
+
         let summaryDateHtml = '';
         if ( s.isDisplayDate && g.event_start_date ) {
              summaryDateHtml = `<span class="summary-date">${getFormattedDateHtml(g.event_start_date, 'summary')}</span>`;
@@ -923,13 +940,17 @@ function getSummaryHtml() {
             ? '<span class="material-icons" style="color: var(--primary-color);">favorite</span>'
             : '<span class="material-icons" style="color: var(--light-color);">favorite_border</span>';
 
-        return `
+        const imageX = (g.image_x !== undefined && g.image_x !== null) ? g.image_x : (AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50);
+        const imageY = (g.image_y !== undefined && g.image_y !== null) ? g.image_y : (AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25);
+        const objectPosStyle = `object-position: ${imageX}% ${imageY}%;`;
+
+        itemsHtml += `
         <div class="summary-item ${favClass}" data-id="${g.id}" onclick="VideoManager.scrollTo(${g.id})">
             <button class="summary-like-btn" onclick="toggleFav(${g.id}, false); event.stopPropagation();">
                 ${favIconHtml}
             </button>
             <div class="summary-image-container">
-                <img src="${thumb}" class="summary-image" loading="lazy" alt="${g.event_name}">
+                <img src="${thumb}" class="summary-image" style="${objectPosStyle}" loading="lazy" alt="${g.event_name}">
             </div>
             <div class="summary-content">
                 <div class="summary-title-row">
@@ -943,7 +964,7 @@ function getSummaryHtml() {
                 <div class="summary-date-place">${metaHtml}</div>
             </div>
         </div>`;
-    }).join('');
+    });
 
     return `
     <section id="summary-card" class="section-snap">
@@ -1007,8 +1028,8 @@ function getVideoCardHtml( g ) {
     const isMobile = isMobileDevice();
     const bgImage  = ( isMobile && g.image_mobile ) ? g.image_mobile : g.image;
 
-    const imageX = (g.image_x !== undefined && g.image_x !== null) ? g.image_x : 50;
-    const imageY = (g.image_y !== undefined && g.image_y !== null) ? g.image_y : 50;
+    const imageX = (g.image_x !== undefined && g.image_x !== null) ? g.image_x : (AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50);
+    const imageY = (g.image_y !== undefined && g.image_y !== null) ? g.image_y : (AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25);
     const bgPosition = `${imageX}% ${imageY}%`;
 
     // Status logic
@@ -2775,7 +2796,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.75' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.76' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
