@@ -120,6 +120,7 @@
         "is_display_control_bar": true,
         "is_display_image_video_pause": true,
         "is_display_image_video_end": true,
+        "is_display_summary_head": true,
 
         "is_button_sound_enable": true,
         "is_button_top_bottom_enable": false,
