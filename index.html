@@ -88,7 +88,10 @@
     </div>
     <div id="about-modal">
         <div class="about-box">
-            <h3 id="about-title">A propos</h3>
+            <div class="about-header">
+                <h3 id="about-title">A propos</h3>
+                <button class="material-icons btn-close-drawer" onclick="closeAboutModal()" aria-label="Fermer">close</button>
+            </div>
             <div class="about-content">
 
                 <p id="txt-about-development" class="about-desc"></p>
@@ -98,7 +101,6 @@
                 <p id="txt-about-festival-desc" class="about-desc">Un festival indie rock à Nîmes en France. TINALS est organisé par</p>
                 <ul class="about-list">
                     <li>
-                    <span id="txt-about-organized-by"></span>
                     <ul class="about-sublist about-organizer-list">
                         <li>
                             <a href="https://www.comeonpeople.fr/" target="_blank" class="about-organizer-link">
@@ -117,7 +119,7 @@
                 </ul>
 
                 <h4 class="about-section-title" id="txt-about-media-inter">Contacts médias (inter)nationaux</h4>
-                <ul class="about-list">
+                <ul class="about-list about-press-list">
                     <li>
                         Lara ORSAL - <span class="txt-about-press-officer">Attachée de presse</span>
                         <ul class="about-sublist">
@@ -157,7 +159,6 @@
                     <a href="https://www.facebook.com/thisisnotalovesongfestival/" target="_blank" id="txt-about-follow-us">Suivez-nous sur Facebook</a>
                 </div>
             </div>
-            <button id="btn-close-about" class="close-features" onclick="closeAboutModal()">Fermer</button>
         </div>
     </div>
     <div id="share-box-modal">

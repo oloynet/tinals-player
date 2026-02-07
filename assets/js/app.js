@@ -719,7 +719,6 @@ function updateStaticTexts() {
 
     // About Modal
     if(t.about_title)         document.getElementById('about-title').innerText             = t.about_title;
-    if(t.about_organized_by)  document.getElementById('txt-about-organized-by').innerText  = t.about_organized_by;
     if(t.about_festival_desc) document.getElementById('txt-about-festival-desc').innerText = t.about_festival_desc;
     if(t.about_media_inter)   document.getElementById('txt-about-media-inter').innerText   = t.about_media_inter;
     if(t.about_media_local)   document.getElementById('txt-about-media-local').innerText   = t.about_media_local;
@@ -728,7 +727,6 @@ function updateStaticTexts() {
     if(t.about_developer)     document.getElementById('txt-about-developer').innerText     = t.about_developer;
     if(t.about_development)   document.getElementById('txt-about-development').innerText   = t.about_development;
     if(t.about_follow_us)     document.getElementById('txt-about-follow-us').innerText     = t.about_follow_us;
-    if(t.about_close)         document.getElementById('btn-close-about').innerText         = t.about_close;
 
     if (AppState.state.currentTagFilter) {
         renderTagFilterBar();

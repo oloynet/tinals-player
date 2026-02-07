@@ -2722,20 +2722,33 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     box-shadow: 0 10px 30px var(--black-a50-color);
 }
 
-.about-box h3 {
-    margin-top: 0;
+.about-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
     margin-bottom: 20px;
+    flex-shrink: 0;
+    width: 100%;
+}
+
+.about-box h3 {
+    margin: 0;
     font-size: 1.2rem;
     text-transform: uppercase;
-    flex-shrink: 0;
 }
 
 .about-content {
     flex: 1;
     overflow-y: auto;
     text-align: left;
-    margin-bottom: 20px;
+    margin-bottom: 0;
     padding-right: 10px;
+}
+
+.about-press-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
 }
 
 .about-section-title {
@@ -2768,6 +2781,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     color: var(--grey20-color);
     text-decoration: none;
     transition: color 0.2s;
+    overflow-wrap: anywhere;
 }
 
 .about-list a:hover {
