@@ -123,6 +123,7 @@
         "is_display_image_video_pause": true,
         "is_display_image_video_end": true,
         "is_display_summary_head": true,
+        "is_display_menu_icon": false,
 
         "is_button_sound_enable": true,
         "is_button_top_bottom_enable": false,
@@ -137,6 +138,9 @@
         "is_toast_scroll_page": false,
 
         "is_menu_auto_hide": false,
+
+
+
         "is_description_auto_hide": true,
         "is_fullscreen_enable": true,
         "is_force_zoom": false,
