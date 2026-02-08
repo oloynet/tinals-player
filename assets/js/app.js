@@ -285,6 +285,7 @@ async function init() {
         setupInteraction();
         setupMenuObserver();
         setupDrawerListeners();
+        setupModalListeners();
         setupSwipeGestures();
         setupScrollToasts();
         setupKeyboardControls();
@@ -1256,6 +1257,18 @@ function openAboutModal() {
 function closeAboutModal() {
     const modal = document.getElementById('about-modal');
     if(modal) modal.classList.remove('active');
+}
+
+
+function setupModalListeners() {
+    const aboutModal = document.getElementById('about-modal');
+    if (aboutModal) {
+        aboutModal.addEventListener('click', (e) => {
+            if (e.target === aboutModal) {
+                closeAboutModal();
+            }
+        });
+    }
 }
 
 
