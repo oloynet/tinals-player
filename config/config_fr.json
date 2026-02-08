@@ -100,8 +100,8 @@
         "favorite_warning_text":  "<b>Mes favoris</b> avec le tag <b>\"{tag}\"</b>",
         "timeline_warning_text":  "<b>Le planning</b> avec le tag <b>\"{tag}\"</b>",
 
-        "at_a_glance_favorite_warning_text":  "<b>Coup d'oeil</b> de mes favoris",
-        "at_a_glance_timeline_warning_text":  "<b>Coup d'oeil</b> avec le tag <b>\"{tag}\"</b>",
+        "at_a_glance_favorite_warning_text":  "Mes <b>évènements</b> favoris",
+        "at_a_glance_timeline_warning_text":  "Les <b>évènements</b> filtrés avec le tag <b>\"{tag}\"</b>",
 
         "bar_fav_added":   "Ajouté aux favoris",
         "bar_fav_removed": "Supprimé des favoris",

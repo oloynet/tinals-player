@@ -139,8 +139,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.83';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.83' : 'config/config_fr.json?v1.83';
+        const configFile = 'config/config.json?v1.84';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.84' : 'config/config_fr.json?v1.84';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -680,19 +680,19 @@ function updateStaticTexts() {
     // if(document.getElementById('txt-header-day1')) document.getElementById('txt-header-day1').innerText = t.nav_day_1;
     // if(document.getElementById('txt-header-day2')) document.getElementById('txt-header-day2').innerText = t.nav_day_2;
 
-    document.getElementById( 'drawer-fav-title' ).innerText  = t.fav_title;
-    document.getElementById( 'drawer-time-title' ).innerText = t.timeline_title;
-    document.getElementById( 'at-a-glance-title' ).innerText = t.at_a_glance_title;
-    document.getElementById( 'btn-txt-play-fav' ).innerText  = t.fav_btn_play;
-    document.getElementById( 'btn-txt-share-fav' ).innerText = t.fav_btn_share;
-    document.getElementById( 'share-title-text' ).innerText  = t.share_title;
-    if(t.summary_title) document.getElementById('summary-title').innerText = t.summary_title;
-    document.getElementById( 'txt-share-fb' ).innerText      = t.share_facebook;
-    document.getElementById( 'txt-share-tiktok' ).innerText  = t.share_tiktok;
-    document.getElementById( 'txt-share-email' ).innerText   = t.share_email;
-    document.getElementById( 'share-link-label' ).innerText  = t.share_link;
-    document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
-    document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
+    if(t.fav_title)         document.getElementById( 'drawer-fav-title' ).innerText  = t.fav_title;
+    if(t.timeline_title)    document.getElementById( 'drawer-time-title' ).innerText = t.timeline_title;
+    if(t.at_a_glance_title) document.getElementById( 'at-a-glance-title' ).innerText = t.at_a_glance_title;
+    if(t.fav_btn_play)      document.getElementById( 'btn-txt-play-fav' ).innerText  = t.fav_btn_play;
+    if(t.fav_btn_share)     document.getElementById( 'btn-txt-share-fav' ).innerText = t.fav_btn_share;
+    if(t.share_title)       document.getElementById( 'share-title-text' ).innerText  = t.share_title;
+    if(t.summary_title)     document.getElementById( 'summary-title' ).innerText     = t.summary_title;
+    if(t.share_facebook)    document.getElementById( 'txt-share-fb' ).innerText      = t.share_facebook;
+    if(t.share_tiktok)      document.getElementById( 'txt-share-tiktok' ).innerText  = t.share_tiktok;
+    if(t.share_email)       document.getElementById( 'txt-share-email' ).innerText   = t.share_email;
+    if(t.share_link)        document.getElementById( 'share-link-label' ).innerText  = t.share_link;
+    if(t.share_qrcode)      document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
+    if(t.share_btn_close)   document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
     renderFavFilterBar();
 
     // Confirm Modal Buttons
@@ -1491,16 +1491,20 @@ function updateAtAGlanceFilterWarning() {
     let warningHtml = '';
 
     if (AppState.state.isPlayingFavorites) {
+        warningEl.classList.add('favorites');
+
         const text = t.at_a_glance_favorite_warning_text || "Favorites at a glance";
         warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
         warningEl.innerHTML = warningHtml;
         warningEl.classList.remove('hidden');
+
     } else if (AppState.state.currentTagFilter) {
         const tagName = getTagNameFromSlug(AppState.state.currentTagFilter);
         const text = (t.at_a_glance_timeline_warning_text || "Filtered at a glance").replace('{tag}', tagName);
         warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
         warningEl.innerHTML = warningHtml;
         warningEl.classList.remove('hidden');
+
     } else {
         warningEl.classList.add('hidden');
     }
@@ -2945,7 +2949,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.83' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.84' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }

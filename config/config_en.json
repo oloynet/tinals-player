@@ -99,8 +99,8 @@
         "favorite_warning_text":  "<b>My Favorites</b><br />with <b>\"{tag}\"</b> tag",
         "timeline_warning_text":  "<b>Timeline</b><br />with <b>\"{tag}\"</b> tag",
 
-        "at_a_glance_favorite_warning_text":  "Favorites <b>at a glance</b>",
-        "at_a_glance_timeline_warning_text":  "Filtered <b>at a glance(s)</b> with <b>\"{tag}\"</b> tag",
+        "at_a_glance_favorite_warning_text":  "Favorite(s) <b>event(s)</b>",
+        "at_a_glance_timeline_warning_text":  "Filtered <b>event(s)</b> with <b>\"{tag}\"</b> tag",
 
         "bar_fav_added":   "Added to favorites",
         "bar_fav_removed": "Removed from favorites",
