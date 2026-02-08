@@ -145,6 +145,8 @@
         "is_fullscreen_enable": true,
         "is_force_zoom": false,
 
+        "is_test_display": false,
+
         "is_ticketing_display_like": true,
         "is_ticketing_display_count": true,
         "is_ticketing_display_artists_name": true,

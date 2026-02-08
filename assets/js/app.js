@@ -62,6 +62,8 @@ const AppState = {
         isFullscreenEnable: true,
         isForceZoom: false,
 
+        isTestDisplay: false,
+
         isTicketingDisplayLike: false,
         isTicketingDisplayCount: false,
         isTicketingDisplayArtistsName: false
@@ -301,6 +303,11 @@ async function init() {
 
         window.addEventListener('resize', handleOrientationChange);
 
+        if ( AppState.settings.isTestDisplay ) {
+            window.addEventListener('resize', updateTestMetrics);
+            window.addEventListener('orientationchange', () => setTimeout(updateTestMetrics, 200));
+        }
+
         const loader = document.getElementById( 'loader' );
         if ( loader ) loader.classList.add( 'hidden' );
 
@@ -492,6 +499,8 @@ function applyConfigs() {
     s.isDescriptionAutoHide         = f.is_description_auto_hide          ?? true;
     s.isFullscreenEnable            = f.is_fullscreen_enable              ?? true;
     s.isForceZoom                   = f.is_force_zoom                     ?? false;
+
+    s.isTestDisplay                 = f.is_test_display                   ?? false;
 
     s.isTicketingDisplayLike        = f.is_ticketing_display_like         ?? false;
     s.isTicketingDisplayCount       = f.is_ticketing_display_count        ?? false;
@@ -1104,8 +1113,18 @@ function getVideoCardHtml( g ) {
 
 function renderFeed() {
     const feed      = document.getElementById( 'main-feed' );
-    const htmlParts = [ getHomeHtml(), getSummaryHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() ];
+    const htmlParts = [];
+
+    if ( AppState.settings.isTestDisplay ) {
+        htmlParts.push( getTestCardHtml() );
+    }
+
+    htmlParts.push( getHomeHtml(), getSummaryHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() );
     feed.innerHTML = htmlParts.join( '' );
+
+    if ( AppState.settings.isTestDisplay ) {
+        setTimeout( updateTestMetrics, 100 );
+    }
 }
 
 
@@ -2952,4 +2971,51 @@ if ( 'serviceWorker' in navigator ) {
     navigator.serviceWorker.register( 'service-worker.js?v1.84' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
+}
+/* TEST METRICS */
+
+function getMobileMetrics() {
+    // Nécessite que vous ayez défini --sat: env(safe-area-inset-top); etc. dans le :root CSS
+
+    const styles = getComputedStyle(document.documentElement);
+
+    return {
+        screen: {
+            width:      window.screen.width,
+            height:     window.screen.height,
+            pixelRatio: window.devicePixelRatio
+        },
+        viewport: {
+            width:  window.innerWidth,
+            height: window.innerHeight
+        },
+        safeArea: {
+            top:    styles.getPropertyValue("--sat").trim(), // Supposé défini en CSS
+            bottom: styles.getPropertyValue("--sab").trim(),
+            left:   styles.getPropertyValue("--sal").trim(),
+            right:  styles.getPropertyValue("--sar").trim()
+        },
+        status: {
+            isPWA:       window.matchMedia('(display-mode: standalone)').matches,
+            isDarkMode:  window.matchMedia('(prefers-color-scheme: dark)').matches,
+            orientation: window.screen.orientation ? window.screen.orientation.type : 'unknown'
+        }
+    };
+}
+
+
+function getTestCardHtml() {
+    return `
+    <section id="test_display" class="test-card section-snap">
+        <pre id="test-metrics-content" class="test-metrics-content">Loading metrics...</pre>
+    </section>`;
+}
+
+
+function updateTestMetrics() {
+    const el = document.getElementById('test-metrics-content');
+    if (el) {
+        const metrics = getMobileMetrics();
+        el.textContent = JSON.stringify(metrics, null, 4);
+    }
 }
