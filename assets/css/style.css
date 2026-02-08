@@ -633,7 +633,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary) {
 
 
 .home-btn:hover {
-    transform: scale(1.05);
+    transform: scale(1.1);
 }
 
 
@@ -1773,6 +1773,11 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     padding: 0;
     margin: 0;
     margin-right: 10px;
+    transition: transform 0.2s;
+}
+
+.bar-top .logo-container:hover {
+    transform: scale(1.1);
 }
 
 /* --- BAR TOP : HEADER ACTIONS --- */
@@ -1795,6 +1800,13 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     padding: 4px 8px;
     cursor: pointer;
     text-decoration: none;
+    transition: transform 0.2s;
+}
+
+.bar-top .header-actions .btn-program:hover,
+.bar-top .header-actions .btn-ticket:hover,
+.bar-top .header-actions .btn-lang:hover {
+    transform: scale(1.1);
 }
 
 .bar-top .header-actions .btn-program {
@@ -2467,6 +2479,10 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     margin-right: 10px;
     color: var(--white-color);
     transition: transform 0.2s;
+}
+
+.bar-top .main-menu-icon:hover {
+    transform: scale(1.1);
 }
 
 .main-menu-icon:active {
