@@ -727,6 +727,7 @@ function updateStaticTexts() {
     setText('menu-txt-check-version', t.menu_check_version);
     setText('menu-txt-reload',    t.menu_reload);
     setText('menu-txt-about',     t.menu_about);
+    setText('menu-txt-share',     t.menu_share);
     setText('menu-version', AppState.settings.versionNumber);
 
     // About Modal
@@ -1214,6 +1215,10 @@ function handleMenuAction(action) {
             break;
         case 'about':
             openAboutModal();
+            break;
+        case 'share':
+            closeMainMenu();
+            shareCurrent();
             break;
         default:
             break;
