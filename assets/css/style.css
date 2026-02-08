@@ -2365,7 +2365,7 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     }
 }
 
-.video-card.paused-manual:not(.ended) .video-state-icon {
+.video-card:not(.playing) .video-state-icon {
     animation: pulse-paused 1.5s ease-in-out infinite;
     transition: none;
 }
