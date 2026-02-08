@@ -1,8 +1,8 @@
 {
     "site":
     {
-        "version":          "v1.81",
-        "version_name":     "TINALS v1.81",
+        "version":          "v1.82",
+        "version_name":     "TINALS v1.82",
         "title":            "Playlist du festival TINALS 2026 à Nîmes",
         "name":             "TINALS 2026",
         "short_name":       "TINALS",
@@ -19,7 +19,7 @@
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
-        "data_source":      "data/2026/data.json?v1.81",
+        "data_source":      "data/2026/data.json?v1.82",
 
         "step":             "full_program"
     },
@@ -145,9 +145,9 @@
         "is_fullscreen_enable": true,
         "is_force_zoom": false,
 
-        "is_ticketing_display_like": false,
-        "is_ticketing_display_count": false,
-        "is_ticketing_display_artists_name": false,
+        "is_ticketing_display_like": true,
+        "is_ticketing_display_count": true,
+        "is_ticketing_display_artists_name": true,
 
         "image_x": 50,
         "image_y": 25,
@@ -201,7 +201,7 @@
         "flag_fr_id":        "flag-fr",
         "flag_en_id":        "flag-en",
 
-        "sprite_path":       "assets/images/sprite.svg?v1.81",
+        "sprite_path":       "assets/images/sprite.svg?v1.82",
 
         "icon_192":          "assets/favicon/android-chrome-192x192.png",
         "icon_512":          "assets/favicon/android-chrome-512x512.png",

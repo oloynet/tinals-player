@@ -81,6 +81,7 @@
         "home_footer": "Le festival est organisé par Come&nbsp;On&nbsp;People&nbsp;et&nbsp;Paloma,<br />avec le soutien de Nîmes&nbsp;Métropole",
 
         "summary_title": "En un coup d'oeil",
+        "at_a_glance_title": "En un coup d'oeil",
 
         "bar_sound_on":    "Son activé",
         "bar_sound_off":   "Son coupé",
@@ -95,9 +96,12 @@
         "bar_filter_bottom_page": "<b>Dernier</b> évènement <b>\"{tag}\"</b>",
         "filter_cancel_tags":     "{count} évènement(s) <b>\"{tag}\"</b><br />Cliquez pour annuler",
 
-        "filter_warning_text":    "<b>La liste</b> avec le tag <b>\"{tag}\"</b> actif",
-        "favorite_warning_text":  "<b>Mes favoris</b> avec le tag <b>\"{tag}\"</b> actif",
-        "timeline_warning_text":  "<b>Le planning</b> avec le tag <b>\"{tag}\"</b> actif",
+        "filter_warning_text":    "<b>La liste</b> avec le tag <b>\"{tag}\"</b>",
+        "favorite_warning_text":  "<b>Mes favoris</b> avec le tag <b>\"{tag}\"</b>",
+        "timeline_warning_text":  "<b>Le planning</b> avec le tag <b>\"{tag}\"</b>",
+
+        "at_a_glance_favorite_warning_text":  "<b>Coup d'oeil</b> de mes favoris",
+        "at_a_glance_timeline_warning_text":  "<b>Coup d'oeil</b> avec le tag <b>\"{tag}\"</b>",
 
         "bar_fav_added":   "Ajouté aux favoris",
         "bar_fav_removed": "Supprimé des favoris",

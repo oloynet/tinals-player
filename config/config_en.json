@@ -79,7 +79,8 @@
         "home_btn_ticket": "Ticket sales",
         "home_footer": "The festival is organized by Come&nbsp;On&nbsp;People&nbsp;and&nbsp;Paloma,<br />with the support of Nîmes&nbsp;Métropole.",
 
-        "summary_title": "Events at a glance",
+        "summary_title": "At a glance",
+        "at_a_glance_title": "At a glance",
 
         "bar_sound_on":    "Sound on",
         "bar_sound_off":   "Sound off",
@@ -94,9 +95,12 @@
         "bar_filter_bottom_page": "Last  <b>\"{tag}\"</b>",
         "filter_cancel_tags":     "<b>\"{tag}\"</b>, {count} event(s)<br />Click to cancel",
 
-        "filter_warning_text":    "<b>The List</b><br />with the active <b>\"{tag}\"</b> tag ",
-        "favorite_warning_text":  "<b>My Favorites</b><br />with the active <b>\"{tag}\"</b> tag",
-        "timeline_warning_text":  "<b>Timeline</b><br />with the active <b>\"{tag}\"</b> tag",
+        "filter_warning_text":    "<b>The List</b><br />with <b>\"{tag}\"</b> tag ",
+        "favorite_warning_text":  "<b>My Favorites</b><br />with <b>\"{tag}\"</b> tag",
+        "timeline_warning_text":  "<b>Timeline</b><br />with <b>\"{tag}\"</b> tag",
+
+        "at_a_glance_favorite_warning_text":  "Favorites <b>at a glance</b>",
+        "at_a_glance_timeline_warning_text":  "Filtered <b>at a glance(s)</b> with <b>\"{tag}\"</b> tag",
 
         "bar_fav_added":   "Added to favorites",
         "bar_fav_removed": "Removed from favorites",
