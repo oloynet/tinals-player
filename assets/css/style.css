@@ -372,15 +372,15 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary) {
 }
 
 .share-box {
-    background: var(--grey10-color);
+    background: var(--white-color);
     padding: 30px;
     border-radius: 15px;
     width: 90%;
     max-width: 400px;
     text-align: center;
-    color: var(--white-color);
+    color: var(--grey20-color);
     box-shadow: 0 10px 30px var(--black-a50-color);
-    border: 1px solid var(--white-a10-color);
+    border: 1px solid var(--black-a10-color);
 }
 
 .share-box h3 {
@@ -443,8 +443,8 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary) {
 }
 
 .close-share {
-    background: transparent;
-    border: 1px solid var(--white-color);
+    background: var(--primary-color);
+    border: none;
     color: var(--white-color);
     padding: 8px 20px;
     border-radius: 20px;
@@ -477,7 +477,7 @@ body.tag-filtering #main-feed > :not(.has-matching-tag):not(#summary) {
 }
 
 #share-link-label {
-    color: var(--white-color);
+    color: var(--grey20-color);
     text-align: center;
     font-size: 0.8rem;
     margin-bottom: 20px;
