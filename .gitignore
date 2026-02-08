@@ -3,4 +3,5 @@
 *-nogit/
 .DS_Store
 *.log
+*.mp3
 *.nogit.*

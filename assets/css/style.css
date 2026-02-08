@@ -2791,9 +2791,11 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
 .about-sublist {
     list-style: none;
-    padding-left: 20px;
     margin-top: 5px;
+    /*
+    padding-left: 20px;
     border-left: 2px solid var(--black-a10-color);
+    */
 }
 
 .about-sublist li {
