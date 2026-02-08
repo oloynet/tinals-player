@@ -360,8 +360,16 @@
             <div id="timeline-list" class="scrollable-list"></div>
         </div>
     </aside>
+    <aside id="at-a-glance-drawer" class="drawer-at-a-glance">
+        <div class="drawer-header">
+            <span id="at-a-glance-title" class="drawer-title"></span>
+            <button class="material-icons btn-close-drawer" onclick="closeAtAGlanceDrawer()" aria-label="Fermer">close</button>
+        </div>
+        <div id="at-a-glance-filter-warning" class="filter-warning-area hidden"></div>
+        <div id="at-a-glance-list" class="scrollable-list"></div>
+    </aside>
     <div class="action-bar">
-        <button id="btn-nav-summary"       class="btn-fav-float material-icons" onclick="scrollToSummary(false)" aria-label="Aller au sommaire">
+        <button id="btn-at-a-glance"       class="btn-fav-float material-icons" onclick="toggleAtAGlanceDrawer()" aria-label="Aller au sommaire">
             <span class="btn-bg"></span><span class="material-icons">visibility</span>
         </button>
         <button id="btn-mute"              class="btn-fav-float material-icons" onclick="toggleMute()" aria-label="Couper le son">

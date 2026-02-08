@@ -239,6 +239,7 @@ async function init() {
         renderFeed();
         renderDrawerFavorites();
         renderDrawerTimeline();
+        renderAtAGlance();
 
         if ( favsParam ) {
             const urlFavs = favsParam.split( ',' ).map( Number ).filter( id => validIds.includes( id ) );
@@ -681,6 +682,7 @@ function updateStaticTexts() {
 
     document.getElementById( 'drawer-fav-title' ).innerText  = t.fav_title;
     document.getElementById( 'drawer-time-title' ).innerText = t.timeline_title;
+    document.getElementById( 'at-a-glance-title' ).innerText = t.at_a_glance_title;
     document.getElementById( 'btn-txt-play-fav' ).innerText  = t.fav_btn_play;
     document.getElementById( 'btn-txt-share-fav' ).innerText = t.fav_btn_share;
     document.getElementById( 'share-title-text' ).innerText  = t.share_title;
@@ -904,8 +906,7 @@ function getHomeHtml() {
 }
 
 
-function getSummaryHtml() {
-    const t = AppState.config.texts;
+function getSummaryItemsHtml() {
     const s = AppState.settings;
     const isDisplaySummaryHead = AppState.config.features.is_display_summary_head;
 
@@ -977,6 +978,14 @@ function getSummaryHtml() {
             </div>
         </div>`;
     });
+
+    return itemsHtml;
+}
+
+
+function getSummaryHtml() {
+    const t = AppState.config.texts;
+    const itemsHtml = getSummaryItemsHtml();
 
     return `
     <section id="summary" class="section-snap">
@@ -1429,6 +1438,83 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function toggleMute() {
     VideoManager.toggleMute();
+}
+
+
+function toggleAtAGlanceDrawer() {
+    const drawer = document.getElementById('at-a-glance-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    if (!drawer) return;
+
+    if (drawer.classList.contains('active')) {
+        closeAtAGlanceDrawer();
+    } else {
+        closeFavTimelineDrawers(); // Close other drawers
+        closeMainMenu();
+        drawer.classList.add('active');
+        overlay.classList.add('active');
+        updateAtAGlanceFilterWarning(); // Update warning when opening
+
+        // Scroll to active item if any
+        if (AppState.state.activeId) {
+             setTimeout(() => {
+                 scrollToAtAGlanceItem(AppState.state.activeId);
+             }, 300);
+        }
+    }
+}
+
+
+function closeAtAGlanceDrawer() {
+    const drawer = document.getElementById('at-a-glance-drawer');
+    const overlay = document.getElementById('drawer-overlay');
+    if (drawer) drawer.classList.remove('active');
+    if (overlay) overlay.classList.remove('active');
+}
+
+
+function renderAtAGlance() {
+    const list = document.getElementById('at-a-glance-list');
+    if (list) {
+        const itemsHtml = getSummaryItemsHtml();
+        list.innerHTML = `<div class="summary-grid">${itemsHtml}</div>`;
+    }
+    updateAtAGlanceFilterWarning();
+}
+
+
+function updateAtAGlanceFilterWarning() {
+    const warningEl = document.getElementById('at-a-glance-filter-warning');
+    if (!warningEl) return;
+
+    const t = AppState.config.texts;
+    let warningHtml = '';
+
+    if (AppState.state.isPlayingFavorites) {
+        const text = t.at_a_glance_favorite_warning_text || "Favorites at a glance";
+        warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        warningEl.innerHTML = warningHtml;
+        warningEl.classList.remove('hidden');
+    } else if (AppState.state.currentTagFilter) {
+        const tagName = getTagNameFromSlug(AppState.state.currentTagFilter);
+        const text = (t.at_a_glance_timeline_warning_text || "Filtered at a glance").replace('{tag}', tagName);
+        warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        warningEl.innerHTML = warningHtml;
+        warningEl.classList.remove('hidden');
+    } else {
+        warningEl.classList.add('hidden');
+    }
+}
+
+
+function scrollToAtAGlanceItem(id) {
+    const drawer = document.getElementById('at-a-glance-drawer');
+    if (!drawer || !drawer.classList.contains('active')) return;
+
+    const item = drawer.querySelector(`.summary-item[data-id="${id}"]`);
+    if (item) {
+        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
 }
 
 
@@ -1975,8 +2061,8 @@ function handleGesture( startX, startY, endX, endY ) {
                     // Swipe Left-to-Right -> Open Menu
                     toggleMainMenu();
                 } else {
-                    // Swipe Right-to-Left -> Open Favorites
-                    toggleFavTimelineDrawer( 'favorites' );
+                    // Swipe Right-to-Left -> Open At-A-Glance (Replacing Favorites)
+                    toggleAtAGlanceDrawer();
                 }
             } else if ( isMenuOpen ) {
                 // Case 2: Menu is open
@@ -2012,7 +2098,7 @@ function setupKeyboardControls() {
                 }
             }
 
-            const drawers = document.querySelectorAll( '.drawer-fav-timeline.active' );
+            const drawers = document.querySelectorAll( '.drawer-fav-timeline.active, .drawer-at-a-glance.active' );
             if ( drawers.length > 0 || AppState.state.isMainMenuOpen ) {
                 closeFavTimelineDrawers();
                 return;
@@ -2190,31 +2276,28 @@ function updateNavActionButtons() {
 
 
 function updateSummaryButtonState() {
-    const btn = document.getElementById( 'btn-nav-summary' );
+    const btn = document.getElementById( 'btn-at-a-glance' );
     if ( !btn ) return;
     const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
     const bg = btn.querySelector( '.btn-bg' );
-    const isSummary = AppState.state.activeSection === 'summary';
 
-    if ( isSummary ) {
-        if ( icon ) icon.style.color = 'var(--primary-color)';
-        if ( bg ) bg.classList.add( 'bright' );
-    } else {
-        if ( icon ) icon.style.color = 'var(--white-color)';
-        if ( bg ) bg.classList.remove( 'bright' );
-    }
+    // Removed specific highlighting for btn-at-a-glance based on scroll, as it is now a drawer toggle.
+    // We could highlight if drawer is open, but that's handled by drawer active state logic if we want.
+    // For now, resetting to default state to avoid "stuck" highlight if we remove the logic.
+
+    if ( icon ) icon.style.color = 'var(--white-color)';
+    if ( bg ) bg.classList.remove( 'bright' );
 }
 
 
 function updateSummaryPlayingState( activeId, isPaused = false ) {
-    const summaryGrid = document.querySelector('.summary-grid');
-    if (summaryGrid) {
-        if (activeId !== null && !isNaN(activeId)) {
-            summaryGrid.classList.add('is-playing');
+    document.querySelectorAll('.summary-grid').forEach(grid => {
+         if (activeId !== null && !isNaN(activeId)) {
+            grid.classList.add('is-playing');
         } else {
-            summaryGrid.classList.remove('is-playing');
+            grid.classList.remove('is-playing');
         }
-    }
+    });
 
     document.querySelectorAll( '.summary-item' ).forEach( item => {
         item.classList.remove( 'is-playing' );
@@ -2222,11 +2305,11 @@ function updateSummaryPlayingState( activeId, isPaused = false ) {
     } );
 
     if ( activeId !== null && !isNaN( activeId ) ) {
-        const activeItem = document.querySelector( `.summary-item[data-id="${activeId}"]` );
-        if ( activeItem ) {
+        document.querySelectorAll( `.summary-item[data-id="${activeId}"]` ).forEach( activeItem => {
             activeItem.classList.add( 'is-playing' );
             if (isPaused) activeItem.classList.add( 'is-paused' );
-        }
+        });
+        scrollToAtAGlanceItem(activeId);
     }
 }
 
@@ -2308,21 +2391,26 @@ function toggleFavCurrent() {
 
 function toggleFav( id, openDrawer = true ) {
     const card = document.getElementById(`video-${id}`);
-    const summaryItem = document.querySelector(`.summary-item[data-id="${id}"]`);
-    const summaryBtn = summaryItem ? summaryItem.querySelector('.summary-like-btn') : null;
+    const summaryItems = document.querySelectorAll(`.summary-item[data-id="${id}"]`);
 
     if ( AppState.favorites.includes( id ) ) {
         AppState.favorites = AppState.favorites.filter( f => f !== id );
         showToast( AppState.config.texts.bar_fav_removed );
         if(card) card.classList.remove('is-favorite');
-        if(summaryItem) summaryItem.classList.remove('is-favorite');
-        if(summaryBtn) summaryBtn.innerHTML = '<span class="material-icons" style="color: var(--white-color);">favorite_border</span>';
+        summaryItems.forEach(item => {
+            item.classList.remove('is-favorite');
+            const btn = item.querySelector('.summary-like-btn');
+            if(btn) btn.innerHTML = '<span class="material-icons" style="color: var(--white-color);">favorite_border</span>';
+        });
     } else {
         AppState.favorites.push( id );
         showToast( AppState.config.texts.bar_fav_added );
         if(card) card.classList.add('is-favorite');
-        if(summaryItem) summaryItem.classList.add('is-favorite');
-        if(summaryBtn) summaryBtn.innerHTML = '<span class="material-icons" style="color: var(--primary-color);">favorite</span>';
+        summaryItems.forEach(item => {
+            item.classList.add('is-favorite');
+            const btn = item.querySelector('.summary-like-btn');
+            if(btn) btn.innerHTML = '<span class="material-icons" style="color: var(--primary-color);">favorite</span>';
+        });
 
         const drawer = document.getElementById( 'fav-timeline-drawer' );
 
@@ -2339,6 +2427,7 @@ function toggleFav( id, openDrawer = true ) {
     renderDrawerTimeline();
     updateFavoritesIcon();
     updateTicketingStats();
+    updateAtAGlanceFilterWarning();
     if ( AppState.state.isPlayingFavorites ) renderFavFilterBar();
 }
 
@@ -2361,6 +2450,7 @@ function exitFavoritesMode(shouldScroll = true) {
     AppState.state.isPlayingFavorites = false;
     document.body.classList.remove( 'favorites-mode' );
     document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
+    updateAtAGlanceFilterWarning();
     if ( currentId && shouldScroll ) {
         const el = document.getElementById( `video-${currentId}` );
         if ( el ) el.scrollIntoView( {
@@ -2430,6 +2520,7 @@ function filterByTag( tagSlug, event, shouldScroll = true ) {
 
     renderDrawerTimeline();
     renderDrawerFavorites();
+    updateAtAGlanceFilterWarning();
     updateURLState();
 
     if (shouldScroll) {
@@ -2536,6 +2627,7 @@ function exitTagFilterMode(shouldScroll = true) {
 
     renderDrawerTimeline();
     renderDrawerFavorites();
+    updateAtAGlanceFilterWarning();
     updateURLState();
     if ( currentId && shouldScroll ) {
         const el = document.getElementById( `video-${currentId}` );
@@ -2609,6 +2701,7 @@ function switchDrawerTab(tabName) {
 
 function closeFavTimelineDrawers() {
     document.querySelectorAll( '.drawer-fav-timeline' ).forEach( el => el.classList.remove( 'active' ) );
+    document.querySelectorAll( '.drawer-at-a-glance' ).forEach( el => el.classList.remove( 'active' ) );
     document.getElementById( 'drawer-overlay' ).classList.remove( 'active' );
 
     // Also close main menu if open
@@ -2627,7 +2720,8 @@ function closeFavTimelineDrawers() {
 
 function closeDrawerIfOpen() {
     const drawer = document.getElementById( 'fav-timeline-drawer' );
-    if ( drawer.classList.contains( 'active' ) || AppState.state.isMainMenuOpen ) {
+    const atAGlance = document.getElementById( 'at-a-glance-drawer' );
+    if ( drawer.classList.contains( 'active' ) || AppState.state.isMainMenuOpen || (atAGlance && atAGlance.classList.contains('active')) ) {
         closeFavTimelineDrawers();
         return true;
     }

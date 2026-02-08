@@ -1473,7 +1473,8 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
 
 /* --- DRAWERS --- */
 
-.drawer-fav-timeline {
+.drawer-fav-timeline,
+.drawer-at-a-glance {
     position: fixed;
     top: 0;
     right: 0;
@@ -1490,8 +1491,22 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     box-shadow: -10px 0 30px var(--black-a15-color);
 }
 
-.drawer-fav-timeline.active {
+.drawer-fav-timeline.active,
+.drawer-at-a-glance.active {
     transform: translateX(0);
+}
+
+.drawer-at-a-glance .summary-grid {
+    grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    padding: 15px;
+}
+
+@media (min-width: 640px) {
+    .drawer-at-a-glance {
+        width: 50vw;
+        min-width: 640px;
+        max-width: 100vw;
+    }
 }
 
 /* --- DRAWER TABS & HEADER --- */
