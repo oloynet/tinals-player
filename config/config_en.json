@@ -157,6 +157,7 @@
         "menu_reload_confirm_title": "Reload App",
         "menu_reload_confirm_text": "Reload the application and update data?<br />You won't lose your favourites.",
         "menu_about": "About",
+        "menu_share": "Share TINALS",
 
         "msg_up_to_date": "You are up to date",
         "update_available_title": "Update Available",

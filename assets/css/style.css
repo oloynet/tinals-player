@@ -2508,6 +2508,10 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     display: none;
 }
 
+.main-menu-drawer.no-icons .menu-icon.force-visible {
+    display: block;
+}
+
 .main-menu-drawer {
     position: fixed;
     top: 0;
