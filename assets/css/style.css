@@ -2474,6 +2474,10 @@ body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-description:no
     opacity: 0.6;
 }
 
+.main-menu-drawer.no-icons .menu-icon {
+    display: none;
+}
+
 .main-menu-drawer {
     position: fixed;
     top: 0;

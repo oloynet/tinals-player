@@ -42,6 +42,7 @@ const AppState = {
         isDisplayControlBar: true,
         isDisplayImageVideoPause: true,
         isDisplayImageVideoEnd: true,
+        isDisplayMenuIcon: true,
 
         isButtonSoundEnable: true,
         isButtonTopBottomEnable: false,
@@ -471,6 +472,7 @@ function applyConfigs() {
     s.isDisplayControlBar           = f.is_display_control_bar            ?? true;
     s.isDisplayImageVideoEnd        = f.is_display_image_video_end        ?? true;
     s.isDisplayImageVideoPause      = f.is_display_image_video_pause      ?? true;
+    s.isDisplayMenuIcon             = f.is_display_menu_icon              ?? true;
 
     s.isButtonSoundEnable           = f.is_button_sound_enable            ?? true;
     s.isButtonTopBottomEnable       = f.is_button_top_bottom_enable       ?? false;
@@ -502,6 +504,15 @@ function applyConfigs() {
     } else {
         const actionBar = document.querySelector('.action-bar');
         if (actionBar) actionBar.style.display = '';
+    }
+
+    const menuDrawer = document.getElementById('main-menu-drawer');
+    if (menuDrawer) {
+        if (!s.isDisplayMenuIcon) {
+            menuDrawer.classList.add('no-icons');
+        } else {
+            menuDrawer.classList.remove('no-icons');
+        }
     }
 
     if ( !s.isButtonSoundEnable ) document.getElementById( 'btn-mute' ).style.display = 'none';
