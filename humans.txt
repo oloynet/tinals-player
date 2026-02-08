@@ -1,10 +1,39 @@
 /* TEAM */
-    Developer: Olivier LOYNET
+    Developer: Olivier LOYNET (+33.668055252)
+    Contact: olivierloynet [at] gmail.com
+    From: Nîmes, France
 
 /* THANKS */
     Festival: This Is Not A Love Song (TINALS) - Paloma / Nîmes Métropole
     Organizers: Come On People and Paloma
+    Location: Nîmes, France
+
+    Fred JUMEL (Directeur de Paloma)
+    fred [at] paloma-nimes.fr
+
+    George VAN DE GIESSEN (responsable communication et relations publiques de Paloma)
+    george [at] paloma-nimes.fr
+
+    Zoé HARDING (Chargée de communication de Paloma)
+    zoe [at] paloma-nimes.fr
+
+    Mathieu SIMARD dit SINCLAIR (Programmation)
+    mathieu [at] comeonpeople.fr
+
+    Lucie MELETOPOULOS (Radio & Podcast)
+    lucie [at] comeonpeople.fr
+
+    Agathe BLOCHET (Presse)
+    presse [at] comeonpeople.fr
+
+    Walter WIZMAN (Communication)
+    wize [at] comeonpeople.fr
+
 
 /* SITE */
+    Last update: 2026-02-08
+    Language: French / English
+    Doctype: HTML5
     Standards: HTML5, CSS3, JavaScript (Vanilla), JSON, PWA
-    Components: Service Worker, Manifest
+    Components: Service Worker, Manifest, Youtube API
+    IDE: Sublime Text, Inkscape
