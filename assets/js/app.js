@@ -286,7 +286,7 @@ async function init() {
         setupInteraction();
         setupMenuObserver();
         setupDrawerListeners();
-        setupModalListeners();
+        setupGlobalModalBehaviors();
         setupSwipeGestures();
         setupScrollToasts();
         setupKeyboardControls();
@@ -1271,15 +1271,25 @@ function closeAboutModal() {
 }
 
 
-function setupModalListeners() {
-    const aboutModal = document.getElementById('about-modal');
-    if (aboutModal) {
-        aboutModal.addEventListener('click', (e) => {
-            if (e.target === aboutModal) {
-                closeAboutModal();
-            }
-        });
-    }
+const MODAL_REGISTRY = [
+    { id: 'install-modal',    close: () => PWAManager.dismiss() },
+    { id: 'features-modal',   close: closeFeaturesModal },
+    { id: 'about-modal',      close: closeAboutModal },
+    { id: 'share-box-modal',  close: closeShareModal },
+    { id: 'confirm-modal',    close: closeConfirmModal }
+];
+
+function setupGlobalModalBehaviors() {
+    MODAL_REGISTRY.forEach( modalConfig => {
+        const modal = document.getElementById( modalConfig.id );
+        if ( modal ) {
+            modal.addEventListener( 'click', ( e ) => {
+                if ( e.target === modal ) {
+                    modalConfig.close();
+                }
+            } );
+        }
+    });
 }
 
 
@@ -1987,27 +1997,15 @@ function setupKeyboardControls() {
         const key = e.key.toLowerCase();
         const activeId = AppState.state.activeId;
         if ( e.key === 'Escape' ) {
-            const shareModal = document.getElementById( 'share-box-modal' );
-            if ( shareModal.classList.contains( 'active' ) ) {
-                closeShareModal();
-                return;
+            // Check registered modals
+            for ( const modalConfig of MODAL_REGISTRY ) {
+                const modal = document.getElementById( modalConfig.id );
+                if ( modal && modal.classList.contains( 'active' ) ) {
+                    modalConfig.close();
+                    return;
+                }
             }
-            if ( document.getElementById('install-modal').classList.contains('active') ) {
-                PWAManager.dismiss();
-                return;
-            }
-            if ( document.getElementById('features-modal').classList.contains('active') ) {
-                closeFeaturesModal();
-                return;
-            }
-            if ( document.getElementById('about-modal').classList.contains('active') ) {
-                closeAboutModal();
-                return;
-            }
-            if ( document.getElementById('confirm-modal').classList.contains('active') ) {
-                closeConfirmModal();
-                return;
-            }
+
             const drawers = document.querySelectorAll( '.drawer-fav-timeline.active' );
             if ( drawers.length > 0 || AppState.state.isMainMenuOpen ) {
                 closeFavTimelineDrawers();
