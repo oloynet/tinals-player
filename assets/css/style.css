@@ -3199,9 +3199,11 @@ body {
 
     @media (min-width: 640px) {
 
+        /*
         :root {
             --header-height: 75px;
         }
+        */
 
 
         /* --- BAR-TOP --- */
@@ -3211,11 +3213,12 @@ body {
                 padding: 0 20px;
             }
 
+            /*
             .bar-top {
                 height: 75px;
                 height: var(--header-height);
             }
-
+            */
 
             .bar-top .main-menu-icon {
             }
