@@ -807,7 +807,21 @@ body {
         }
 
 
+        .summary-item.is-current {
+            border: 5px solid var(--primary-color);
+        }
+
         .summary-item.is-playing {
+            border: 5px solid var(--primary-color);
+        }
+
+        /*
+        .summary-item.is-paused {
+            border: 5px solid var(--primary-color);
+        }
+         */
+
+        .summary-item.is-playing.is-current {
             border: 5px solid var(--primary-color);
         }
 
@@ -875,7 +889,7 @@ body {
 
         .summary-date-place {
             font-size: 0.75rem;
-            color: var(--grey20-color);
+            color: var(--grey70-color);
             display: flex;
             flex-wrap: wrap;
             gap: 5px;
@@ -2418,7 +2432,9 @@ body {
             padding-right: 10px;
         }
 
-        .about-press-list {
+        .about-press-list,
+        .about-local-press-list,
+        .about-programming {
             display: grid;
             grid-template-columns: 1fr 1fr;
             gap: 10px;
@@ -3530,7 +3546,7 @@ body {
         }
 
         .artist-info .artist-description .desc-text {
-            font-size: 1.4rem;
+            font-size: 1.25rem;
         }
 
         .artist-info .tag-pill {

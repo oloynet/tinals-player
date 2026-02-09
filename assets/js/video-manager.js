@@ -378,7 +378,7 @@ const VideoManager = {
         if (existing) existing.remove();
 
         const t = AppState.config.texts;
-        const msg = (t && t.error_video_playback) ? t.error_video_playback : "Problème de lecture de la vidéo";
+        const msg = (t && t.error_video_playback) ? t.error_video_playback : "Problème de lecture de la vidéo YouTube";
         const suggestion = (t && t.error_video_suggestion) ? t.error_video_suggestion : "Veuillez recharger la page pour réessayer";
 
         const div = document.createElement('div');

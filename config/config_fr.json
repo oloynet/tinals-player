@@ -175,7 +175,7 @@
         "about_title": "A propos",
         "about_close": "Fermer",
         "about_programming": "La programmation musicale et artistique",
-        "about_festival_desc": "Un festival indie rock à Nîmes en France. TINALS est organisé par",
+        "about_festival_desc": "Un festival indie rock à Nîmes en France, organisé par",
         "about_media_inter": "Contacts médias (inter)nationaux",
         "about_media_local": "Contact médias locaux",
         "about_press_officer": "Attachée de presse",
@@ -184,7 +184,7 @@
         "about_development": "Pas de cookies, juste l'essentiel. Nous croyons que votre navigation ne devrait pas être une marchandise. C’est pourquoi notre application fonctionne sans aucun cookie et ne collecte aucune donnée personnelle à votre insu. Nous nous concentrons sur ce qui compte vraiment : vous offrir le meilleur pour le festival TINALS.",
         "about_follow_us": "Suivez-nous sur Facebook",
 
-        "error_video_playback": "Problème de lecture de la vidéo",
+        "error_video_playback": "Problème de lecture de la vidéo YouTube, erreur 150",
         "error_video_suggestion": "Veuillez recharger la page pour réessayer"
     }
 }
