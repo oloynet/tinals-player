@@ -2074,11 +2074,14 @@ function handleGesture( startX, startY, endX, endY ) {
 
     if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
         if ( Math.abs( xDiff ) > 50 ) {
-            const drawer     = document.getElementById( 'fav-timeline-drawer' );
-            const isFavOpen  = drawer ? drawer.classList.contains( 'active' ) : false;
-            const isMenuOpen = AppState.state.isMainMenuOpen;
+            const favDrawer       = document.getElementById( 'fav-timeline-drawer' );
+            const atAGlanceDrawer = document.getElementById( 'at-a-glance-drawer' );
 
-            if ( !isMenuOpen && !isFavOpen ) {
+            const isFavOpen       = favDrawer ? favDrawer.classList.contains( 'active' ) : false;
+            const isAtAGlanceOpen = atAGlanceDrawer ? atAGlanceDrawer.classList.contains( 'active' ) : false;
+            const isMenuOpen      = AppState.state.isMainMenuOpen;
+
+            if ( !isMenuOpen && !isFavOpen && !isAtAGlanceOpen ) {
                 // Case 1: No drawers open
                 if ( xDiff < 0 ) {
                     // Swipe Left-to-Right -> Open Menu
@@ -2099,6 +2102,13 @@ function handleGesture( startX, startY, endX, endY ) {
                 if ( xDiff < 0 ) {
                     // Swipe Left-to-Right -> Close Favorites/Timeline
                     closeFavTimelineDrawers();
+                }
+                // Swipe Right-to-Left -> Do nothing
+            } else if ( isAtAGlanceOpen ) {
+                // Case 4: At a Glance is open (Right Drawer)
+                if ( xDiff < 0 ) {
+                    // Swipe Left-to-Right -> Close At a Glance
+                    closeAtAGlanceDrawer();
                 }
                 // Swipe Right-to-Left -> Do nothing
             }
