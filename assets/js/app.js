@@ -141,8 +141,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.84';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.84' : 'config/config_fr.json?v1.84';
+        const configFile = 'config/config.json?v1.85';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.85' : 'config/config_fr.json?v1.85';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -1291,7 +1291,7 @@ function closeFeaturesModal() {
 }
 
 
-/* MODAL BOX */
+/* MODALS BOXES */
 
 function openAboutModal() {
     const modal = document.getElementById('about-modal');
@@ -2308,7 +2308,7 @@ function updateSummaryButtonState() {
     // We could highlight if drawer is open, but that's handled by drawer active state logic if we want.
     // For now, resetting to default state to avoid "stuck" highlight if we remove the logic.
 
-    if ( icon ) icon.style.color = 'var(--white-color)';
+    if ( icon ) icon.style.color = 'var(--primary-color)';
     if ( bg ) bg.classList.remove( 'bright' );
 }
 
@@ -2968,7 +2968,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.84' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.85' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
