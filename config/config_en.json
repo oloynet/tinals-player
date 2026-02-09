@@ -131,7 +131,7 @@
         "install_modal_btn_yes": "Install",
         "install_modal_btn_no": "Later",
 
-        "ticket_likes_label": "My favorites",
+        "ticket_likes_label": "favorite(s)",
         "ticket_artists_count_label": "{count} artists are coming to the festival",
 
         "menu_home": "Home",

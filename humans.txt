@@ -17,7 +17,7 @@
     Zoé HARDING (Chargée de communication de Paloma)
     zoe [at] paloma-nimes.fr
 
-    Mathieu SIMARD dit SINCLAIR (Programmation)
+    Mathieu SIMARD dit Mathieu SINCLAIR (Programmation)
     mathieu [at] comeonpeople.fr
 
     Lucie MELETOPOULOS (Radio & Podcast)
@@ -31,9 +31,10 @@
 
 
 /* SITE */
-    Last update: 2026-02-08
+    Version: v1.88
+    Last update: 2026-02-09
     Language: French / English
     Doctype: HTML5
     Standards: HTML5, CSS3, JavaScript (Vanilla), JSON, PWA
     Components: Service Worker, Manifest, Youtube API
-    IDE: Sublime Text, Inkscape
+    IDE: Sublime Text, Inkscape, VI, GIT
