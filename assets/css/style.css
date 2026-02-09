@@ -84,7 +84,7 @@
     --status-scheduled-color: var(--white-color);
     --status-scheduled-bg: var(--primary-color);
 
-    --header-height: 65px;
+    --header-height: 55px;
 
     --sat: env(safe-area-inset-top);
     --sab: env(safe-area-inset-bottom);
@@ -136,14 +136,18 @@ body {
             position: fixed;
             top: 0;
             width: 100%;
-            height: 65px;
+            height: var(--header-height);
             background: var(--primary-color);
             z-index: 100;
             display: flex;
             /* justify-content: space-between; */
             align-items: center;
             padding: 0 10px 0 5px;
-            transition: transform 0.4s ease;
+            transition: transform 0.4s ease, background-color 0.4s ease;
+        }
+
+        body.is-video-playing .bar-top {
+            background-color: var(--black-color);
         }
 
         .bar-top.auto-hidden {
@@ -3199,12 +3203,9 @@ body {
 
     @media (min-width: 640px) {
 
-        /*
         :root {
-            --header-height: 75px;
+            --header-height: 65px;
         }
-        */
-
 
         /* --- BAR-TOP --- */
 
@@ -3212,13 +3213,6 @@ body {
             .bar-top {
                 padding: 0 20px;
             }
-
-            /*
-            .bar-top {
-                height: 75px;
-                height: var(--header-height);
-            }
-            */
 
             .bar-top .main-menu-icon {
             }
@@ -3491,6 +3485,10 @@ body {
 
     @media (min-width: 1024px) {
 
+        :root {
+            --header-height: 75px;
+        }
+
         .bar-top {
             padding: 0 30px;
         }
@@ -3579,6 +3577,9 @@ body {
 /* --- TABLET "xl" (min-width: 1280px) --- */
 
     @media (min-width: 1280px) {
+        :root {
+            --header-height: 80px;
+        }
     }
 
 

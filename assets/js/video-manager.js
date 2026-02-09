@@ -138,6 +138,7 @@ const VideoManager = {
         const icon = card.querySelector( '.video-state-icon' );
 
         if ( e.data === 1 ) {
+            document.body.classList.add('is-video-playing');
             if ( AppState.timers.iconSwap ) clearTimeout( AppState.timers.iconSwap );
 
             card.classList.remove( 'loading' );
@@ -164,6 +165,7 @@ const VideoManager = {
             if ( s.isAutoLoadVideo ) this.preloadNext( id );
             if ( typeof updateSummaryPlayingState === 'function' ) updateSummaryPlayingState( id, false );
         } else if ( e.data === 2 || e.data === 0 ) {
+            document.body.classList.remove('is-video-playing');
             card.classList.remove( 'loading' );
             card.classList.remove( 'audio-playing' );
 
