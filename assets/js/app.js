@@ -2007,6 +2007,7 @@ function setupObserver() {
                     }
                     AppState.state.previousId = AppState.state.activeId = id;
                     updateActionButtons( id );
+                    updateSummaryCurrentState( id );
                     // updateSummaryPlayingState moved to VideoManager
                     updateURLState();
 
@@ -2027,6 +2028,7 @@ function setupObserver() {
                         VideoManager.instances[ AppState.state.previousId ].pauseVideo();
                     }
                     updateActionButtons( null );
+                    updateSummaryCurrentState( null );
                     updateURLState();
                     document.querySelectorAll( '.section-snap' ).forEach( s => s.classList.remove( 'active' ) );
                     entry.target.classList.add( 'active' );
@@ -2323,6 +2325,20 @@ function updateSummaryButtonState() {
 }
 
 
+function updateSummaryCurrentState( activeId ) {
+    document.querySelectorAll( '.summary-item' ).forEach( item => {
+        item.classList.remove( 'is-current' );
+    } );
+
+    if ( activeId !== null && !isNaN( activeId ) ) {
+        document.querySelectorAll( `.summary-item[data-id="${activeId}"]` ).forEach( activeItem => {
+            activeItem.classList.add( 'is-current' );
+        });
+        scrollToAtAGlanceItem(activeId);
+    }
+}
+
+
 function updateSummaryPlayingState( activeId, isPaused = false ) {
     document.querySelectorAll('.summary-grid').forEach(grid => {
          if (activeId !== null && !isNaN(activeId)) {
@@ -2342,7 +2358,6 @@ function updateSummaryPlayingState( activeId, isPaused = false ) {
             activeItem.classList.add( 'is-playing' );
             if (isPaused) activeItem.classList.add( 'is-paused' );
         });
-        scrollToAtAGlanceItem(activeId);
     }
 }
 
