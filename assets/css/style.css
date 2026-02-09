@@ -92,14 +92,17 @@
     --sar: env(safe-area-inset-right);
 }
 
-body.menu-hidden {
-    --header-height: 0px;
-}
+
+
 
 * {
     box-sizing: border-box;
     margin: 0;
     padding: 0;
+}
+
+body.menu-hidden {
+    --header-height: 0px;
 }
 
 body {
@@ -109,6 +112,30 @@ body {
     overflow: hidden;
     -webkit-font-smoothing: antialiased;
 }
+
+
+.primary-color {
+    color: var(--primary-color) !important;
+}
+
+.secondary-color {
+    color: var(--secondary-color) !important;
+}
+
+.third-color {
+    color: var(--third-color) !important;
+}
+
+.fourth-color {
+    color: var(--fourth-color) !important;
+}
+
+.fifth-color {
+    color: var(--fifth-color) !important;
+}
+
+
+
 
 /* --- SVG LOGOS --- */
 
@@ -2029,8 +2056,8 @@ body {
         .menu-text {
             flex: 1;
         }
-
-        .external-link-icon {
+,
+        .menu-right-icon {
             font-size: 18px;
             color: var(--grey60-color);
         }
