@@ -34,21 +34,21 @@
         }
     ],
 
-    "ticketing":
+    "ticketing_texts":
     {
-        "full_pass_ticket":
+        "full-pass":
         {
             "ticket_title":    "Pass 2 journées",
             "ticket_subtitle": "5 & 6 juin 2026",
             "button_text":     "Billet des 2 jours"
         },
-        "day_pass_ticket_1":
+        "day-pass-1":
         {
             "ticket_title":    "Pass vendredi",
             "ticket_subtitle": "5 juin 2026",
             "button_text":     "Billet du vendredi"
         },
-        "day_pass_ticket_2":
+        "day-pass-2":
         {
             "ticket_title":    "Pass samedi",
             "ticket_subtitle": "6 juin 2026",
@@ -78,7 +78,7 @@
         "home_day_1": "Vendredi 5 juin",
         "home_day_2": "Samedi 6 juin",
         "home_btn_ticket": "La billetterie",
-        "home_footer": "Le festival est organisé par Come&nbsp;On&nbsp;People&nbsp;et&nbsp;Paloma,<br />avec le soutien de Nîmes&nbsp;Métropole",
+        "home_footer": "Le festival est organisé par Come&nbsp;On&nbsp;People&nbsp;and&nbsp;Paloma,<br />avec le soutien de Nîmes&nbsp;Métropole",
 
         "summary_title": "En un coup d'oeil",
         "at_a_glance_title": "En un coup d'oeil",
@@ -188,4 +188,3 @@
         "error_video_suggestion": "Veuillez recharger la page pour réessayer"
     }
 }
-

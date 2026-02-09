@@ -1642,18 +1642,19 @@ function getSocialsHtml(g) {
 function getTicketingHtml() {
     const t = AppState.config.texts;
     const s = AppState.settings;
-    const ticketing = AppState.config.ticketing || {};
+    const ticketing = AppState.config.ticketing || [];
+    const ticketingTexts = AppState.config.ticketing_texts || {};
     let blocksHtml = '';
 
-    for (const key in ticketing) {
-        if (ticketing.hasOwnProperty(key)) {
-            const ticket      = ticketing[key];
-            const isAvailable = ticket.is_available    !== false;
-            const colorClass  = ticket.button_color    || '';
-            const title       = ticket.ticket_title    || '';
-            const subtitle    = ticket.ticket_subtitle || '';
-            const btnText     = ticket.button_text     || '';
-            const url         = ticket.button_url      || '#';
+    if (Array.isArray(ticketing)) {
+        ticketing.forEach(ticket => {
+            const ticketTexts = ticketingTexts[ticket.id] || {};
+            const isAvailable = ticket.is_available !== false;
+            const colorClass  = ticket.button_color || '';
+            const title       = ticketTexts.ticket_title || '';
+            const subtitle    = ticketTexts.ticket_subtitle || '';
+            const btnText     = ticketTexts.button_text || '';
+            const url         = ticket.button_url || '#';
 
             let btnHtml = '';
             if (isAvailable) {
@@ -1664,12 +1665,11 @@ function getTicketingHtml() {
 
             // --- TICKET STATS LOGIC ---
             let statsHtml = '';
-            const startDate = ticket.start_date;
-            const endDate = ticket.end_date;
+            const ticketSessions = ticket.session || [];
 
-            if (startDate && endDate) {
+            if (ticketSessions.length > 0) {
                 const ticketEvents = AppState.data.filter(g =>
-                    g.event_start_date >= startDate && g.event_start_date <= endDate
+                    ticketSessions.includes(g.event_session)
                 );
 
                 const artistsCount = ticketEvents.length;
@@ -1680,7 +1680,7 @@ function getTicketingHtml() {
                 let likesHtml = '';
                 if (s.isTicketingDisplayLike) {
                     likesHtml = `
-                    <div class="ticket-likes-row" id="ticket-likes-${key}">
+                    <div class="ticket-likes-row" id="ticket-likes-${ticket.id}">
                         <span class="material-icons">favorite</span>
                         <span class="likes-text"><span class="likes-count">${likesCount}</span> ${t.ticket_likes_label}</span>
                     </div>`;
@@ -1688,14 +1688,14 @@ function getTicketingHtml() {
 
                 // Artists Count (Full Pass only)
                 let countHtml = '';
-                if (s.isTicketingDisplayCount && key === 'full_pass_ticket') {
+                if (s.isTicketingDisplayCount && ticket.id === 'full-pass') {
                     const label = t.ticket_artists_count_label.replace('{count}', artistsCount);
                     countHtml = `<div class="ticket-artists-count">${label}</div>`;
                 }
 
                 // Artist Names (Day Passes only)
                 let listHtml = '';
-                if (s.isTicketingDisplayArtistsName && key.startsWith('day_pass_ticket')) {
+                if (s.isTicketingDisplayArtistsName && ticket.id.startsWith('day-pass')) {
                     listHtml = `<div class="ticket-artists-list">${artistNames}</div>`;
                 }
 
@@ -1716,7 +1716,7 @@ function getTicketingHtml() {
                     ${btnHtml}
                     ${statsHtml}
                 </div>`;
-        }
+        });
     }
 
     return `
@@ -1730,23 +1730,23 @@ function getTicketingHtml() {
 
 
 function updateTicketingStats() {
-    const ticketing = AppState.config.ticketing || {};
-    for (const key in ticketing) {
-        const ticket = ticketing[key];
-        const container = document.getElementById(`ticket-likes-${key}`);
-        if (container) {
-             const startDate = ticket.start_date;
-             const endDate = ticket.end_date;
-             if (startDate && endDate) {
-                 const count = AppState.data.filter(g =>
-                    g.event_start_date >= startDate &&
-                    g.event_start_date <= endDate &&
-                    AppState.favorites.includes(g.id)
-                 ).length;
-                 const countSpan = container.querySelector('.likes-count');
-                 if(countSpan) countSpan.innerText = count;
-             }
-        }
+    const ticketing = AppState.config.ticketing || [];
+
+    if (Array.isArray(ticketing)) {
+        ticketing.forEach(ticket => {
+            const container = document.getElementById(`ticket-likes-${ticket.id}`);
+            if (container) {
+                const ticketSessions = ticket.session || [];
+                if (ticketSessions.length > 0) {
+                    const count = AppState.data.filter(g =>
+                        ticketSessions.includes(g.event_session) &&
+                        AppState.favorites.includes(g.id)
+                    ).length;
+                    const countSpan = container.querySelector('.likes-count');
+                    if(countSpan) countSpan.innerText = count;
+                }
+            }
+        });
     }
 }
 
