@@ -1018,6 +1018,10 @@ body {
 
     /* --- AT-A-GLANCE --- */
 
+        #at-a-glance-list {
+            padding: 0 15px;
+        }
+
         .drawer-at-a-glance .summary-separator {
             padding: 0;
         }
