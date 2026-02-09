@@ -10,6 +10,17 @@
     <meta name="theme-color"         content="#e9552b">
     <meta name="copyright"           content="© 2026 Paloma">
 
+    <link rel="author"               href="humans.txt" type="text/plain" />
+    <link rel="publisher"            href="humans.txt" type="text/plain" />
+    <link rel="icon"                 href="assets/favicon/favicon.ico?v2">
+    <link rel="apple-touch-icon"     href="assets/favicon/apple-touch-icon.png?v2">
+    <link rel="manifest"             href="manifest.json?v1.84">
+    <link rel="stylesheet"           href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap">
+    <link rel="stylesheet"           href="https://fonts.googleapis.com/icon?family=Material+Icons" >
+    <link rel="stylesheet"           href="assets/css/style.css?v1.84" >
+    <link rel="alternate"            href="https://thisisnotalovesong.fr/player/?lang=fr" hreflang="fr" />
+    <link rel="alternate"            href="https://thisisnotalovesong.fr/player/?lang=en" hreflang="en" />
+
     <meta property="og:title"        content="Player du festival TINALS 2026 à Nîmes">
     <meta property="og:description"  content="Le player TINALS pour écouter, voir, découvrir toute la programmation du festival 'This Is Not A Love Song' du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à la SMAC Paloma Nîmes-Métropole">
     <meta property="og:image"        content="https://thisisnotalovesong.fr/player/assets/images/tinals-apps-facebook-1200x630.webp">
@@ -28,19 +39,6 @@
     <meta name="twitter:description" content="Le player TINALS pour écouter, voir, découvrir toute la programmation du festival 'This Is Not A Love Song' du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à la SMAC Paloma Nîmes-Métropole">
     <meta name="twitter:image"       content="https://thisisnotalovesong.fr/player/assets/images/tinals-apps-facebook-1200x630.webp">
     <meta name="format-detection"    content="telephone=no">
-
-    <link rel="author"               href="humans.txt" type="text/plain" />
-    <link rel="publisher"            href="humans.txt" type="text/plain" />
-
-    <link rel="icon"                 href="assets/favicon/favicon.ico?v2">
-    <link rel="apple-touch-icon"     href="assets/favicon/apple-touch-icon.png?v2">
-    <link rel="manifest"             href="manifest.json?v1.84">
-    <link rel="stylesheet"           href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700;900&display=swap">
-    <link rel="stylesheet"           href="https://fonts.googleapis.com/icon?family=Material+Icons" >
-    <link rel="stylesheet"           href="assets/css/style.css?v1.84" >
-
-    <link rel="alternate"            href="https://thisisnotalovesong.fr/player/?lang=fr" hreflang="fr" />
-    <link rel="alternate"            href="https://thisisnotalovesong.fr/player/?lang=en" hreflang="en" />
 </head>
 
 <body>
@@ -369,34 +367,34 @@
         <div id="at-a-glance-list" class="scrollable-list"></div>
     </aside>
     <div class="action-bar">
-        <button id="btn-at-a-glance"       class="btn-fav-float material-icons" onclick="toggleAtAGlanceDrawer()" aria-label="Aller au sommaire">
-            <span class="btn-bg"></span><span class="material-icons">visibility</span>
-        </button>
         <button id="btn-mute"              class="btn-fav-float material-icons" onclick="toggleMute()" aria-label="Couper le son">
             <span class="btn-bg"></span><span class="material-icons">volume_up</span>
         </button>
-        <button id="btn-nav-top"           class="btn-fav-float material-icons" onclick="scrollToTop()" aria-label="Faire défiler en haut de la page">
-            <span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_up</span>
-        </button>
-        <button id="btn-nav-previous-card" class="btn-fav-float material-icons" onclick="navigateScroll('up')" aria-label="Page précédente">
-            <span class="btn-bg"></span><span class="material-icons">keyboard_arrow_up</span>
+        <button id="btn-at-a-glance"       class="btn-fav-float material-icons" onclick="toggleAtAGlanceDrawer()" aria-label="La programmation en un coup d'oeil">
+            <span class="btn-bg"></span><span class="material-icons">visibility</span>
         </button>
         <button id="btn-dynamic-heart"     class="btn-fav-float material-icons" onclick="toggleFavCurrent()" aria-label="Ajouter aux favoris">
             <span class="btn-bg"></span><span class="material-icons">favorite_border</span>
         </button>
-        <button id="btn-drawer-favorites"  class="btn-fav-float material-icons" onclick="toggleFavTimelineDrawer('favorites')" aria-label="Voir mes favoris">
+        <button id="btn-drawer-favorites"  class="btn-fav-float material-icons" onclick="toggleFavTimelineDrawer('favorites')" aria-label="Mes favoris">
             <span class="btn-bg"></span><span class="material-icons">bookmark</span>
         </button>
         <button id="btn-share"             class="btn-fav-float material-icons" onclick="shareCurrent()" aria-label="Partager">
             <span class="btn-bg"></span><span class="material-icons">share</span>
         </button>
-        <button id="btn-drawer-timeline"   class="btn-fav-float material-icons" onclick="toggleFavTimelineDrawer('timeline')" aria-label="Voir la timeline">
+        <button id="btn-drawer-timeline"   class="btn-fav-float material-icons" onclick="toggleFavTimelineDrawer('timeline')" aria-label="La timeline">
             <span class="btn-bg"></span><span class="material-icons">event_note</span>
         </button>
-        <button id="btn-nav-next-card"     class="btn-fav-float material-icons" onclick="navigateScroll('down')" aria-label="Page suivante">
+        <button id="btn-nav-top"           class="btn-fav-float material-icons" onclick="scrollToTop()" aria-label="Faire défiler au début">
+            <span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_up</span>
+        </button>
+        <button id="btn-nav-previous-card" class="btn-fav-float material-icons" onclick="navigateScroll('up')" aria-label="Précédent">
+            <span class="btn-bg"></span><span class="material-icons">keyboard_arrow_up</span>
+        </button>
+        <button id="btn-nav-next-card"     class="btn-fav-float material-icons" onclick="navigateScroll('down')" aria-label="Suivant">
             <span class="btn-bg"></span><span class="material-icons">keyboard_arrow_down</span>
         </button>
-        <button id="btn-nav-bottom"        class="btn-fav-float material-icons" onclick="scrollToTicketing()" aria-label="Faire défiler en bas de la page">
+        <button id="btn-nav-bottom"        class="btn-fav-float material-icons" onclick="scrollToTicketing()" aria-label="Faire défiler en fin">
             <span class="btn-bg"></span><span class="material-icons">keyboard_double_arrow_down</span>
         </button>
     </div>

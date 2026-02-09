@@ -106,6 +106,7 @@
     {
         "is_app_install": true,
         "is_debug_js": false,
+        "is_test_display": true,
         "is_display_version": false,
 
         "is_display_day": true,
@@ -139,13 +140,9 @@
 
         "is_menu_auto_hide": false,
 
-
-
         "is_description_auto_hide": true,
         "is_fullscreen_enable": true,
         "is_force_zoom": false,
-
-        "is_test_display": false,
 
         "is_ticketing_display_like": true,
         "is_ticketing_display_count": true,
