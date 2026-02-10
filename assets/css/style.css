@@ -2458,11 +2458,18 @@ body {
 
         .about-press-list,
         .about-local-press-list,
-        .about-programming {
+        .about-programming-list {
             display: grid;
-            grid-template-columns: repeat(1, 1fr);
-            gap: 2px;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 5px;
         }
+
+        .about-press-list li:last-child:nth-child(odd),
+        .about-local-press-list li:last-child:nth-child(odd),
+        .about-programming-list li:last-child:nth-child(odd) {
+            grid-column: 1 / span 2;
+        }
+
 
         .about-section-title {
             color: var(--primary-color);
