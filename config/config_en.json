@@ -89,12 +89,12 @@
 
         "bar_fav_top_page":       "<b>First   favorite</b> event",
         "bar_fav_bottom_page":    "<b>Last    favorite</b> event",
-        "filter_cancel_fav":      "{position}{count} <b>favorite</b> event(s),<br />Click to cancel",
-        "top_of_list":            "Top of list",
+        "filter_cancel_fav":      "<b>{position}{count}</b> <b>favorite</b> event(s),<br />Click to cancel",
+        "top_of_list":            "Start of selection",
 
         "bar_filter_top_page":    "First <b>\"{tag}\"</b>",
         "bar_filter_bottom_page": "Last  <b>\"{tag}\"</b>",
-        "filter_cancel_tags":     "{position}{count} event(s) <b>\"{tag}\"</b><br />Click to cancel",
+        "filter_cancel_tags":     "<b>{position}{count}</b> event(s) <b>\"{tag}\"</b><br />Click to cancel",
 
         "filter_warning_text":    "<b>The List</b><br />with <b>\"{tag}\"</b> tag ",
         "favorite_warning_text":  "<b>My Favorites</b><br />with <b>\"{tag}\"</b> tag",

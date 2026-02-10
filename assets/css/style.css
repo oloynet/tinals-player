@@ -405,8 +405,15 @@ body {
             transform: translateY(0);
         }
 
-        .filter-text {
+        .filter-content-wrapper {
             flex-grow: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            cursor: pointer;
+        }
+
+        .filter-text {
             text-align: center;
             padding: 0 5px;
         }
@@ -430,7 +437,7 @@ body {
             display: none;
             font-weight: bold;
             font-size: 0.8rem;
-            text-transform: uppercase;
+            text-transform: none;
         }
 
         @media (min-width: 480px) {
@@ -1398,6 +1405,12 @@ body {
             pointer-events: none;
             padding-bottom: 35px;
             padding-bottom: calc(35px + env(safe-area-inset-bottom));
+        }
+
+        @media (hover: hover) {
+            .artist-overlay {
+                pointer-events: auto;
+            }
         }
 
         .video-card.active .artist-overlay {

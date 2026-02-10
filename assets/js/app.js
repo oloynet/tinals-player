@@ -1979,6 +1979,32 @@ function setupInteraction() {
             }
         } );
     } );
+
+    document.querySelectorAll( '.artist-overlay' ).forEach( overlay => {
+        overlay.addEventListener( 'mouseenter', function() {
+            if (isMobileDevice()) return;
+            const desc = this.querySelector('.artist-description');
+            if (desc) {
+                desc.classList.add( 'expanded' );
+                const icon = desc.querySelector('.desc-state-icon');
+                if (icon) icon.innerText = 'expand_more';
+                const card = this.closest('.video-card');
+                if (card) card.classList.add('desc-open');
+            }
+        });
+
+        overlay.addEventListener( 'mouseleave', function() {
+            if (isMobileDevice()) return;
+            const desc = this.querySelector('.artist-description');
+            if (desc) {
+                desc.classList.remove( 'expanded' );
+                const icon = desc.querySelector('.desc-state-icon');
+                if (icon) icon.innerText = 'expand_less';
+                const card = this.closest('.video-card');
+                if (card) card.classList.remove('desc-open');
+            }
+        });
+    });
 }
 
 
@@ -2694,10 +2720,12 @@ function renderTagFilterBar() {
             <span class="material-icons">north_west</span>
             <span class="btn-label">${topBtnLabel}</span>
         </button>
-        <div class="filter-text"></div>
-        <button class="close-fav-mode" onclick="cancelFilters()">
-            <span class="material-icons">cancel</span>
-        </button>
+        <div class="filter-content-wrapper" onclick="cancelFilters()">
+            <div class="filter-text"></div>
+            <button class="close-fav-mode">
+                <span class="material-icons">cancel</span>
+            </button>
+        </div>
     `;
 
     const bar = document.getElementById( 'tag-mode-bar' );
@@ -2716,10 +2744,12 @@ function renderFavFilterBar() {
             <span class="material-icons">north_west</span>
             <span class="btn-label">${topBtnLabel}</span>
         </button>
-        <div class="filter-text"></div>
-        <button class="close-fav-mode" onclick="exitFavoritesMode()">
-            <span class="material-icons">cancel</span>
-        </button>
+        <div class="filter-content-wrapper" onclick="exitFavoritesMode()">
+            <div class="filter-text"></div>
+            <button class="close-fav-mode">
+                <span class="material-icons">cancel</span>
+            </button>
+        </div>
     `;
 
     const bar = document.getElementById( 'fav-mode-bar' );
