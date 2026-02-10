@@ -50,6 +50,9 @@
     --white-a40-color:  #ffffff66;
     --white-a50-color:  #ffffff7f;
     --white-a60-color:  #ffffff99;
+    --white-a70-color:  #ffffffb3;
+    --white-a80-color:  #ffffffcc;
+    --white-a90-color:  #ffffffe5;
 
     --content-color: var(--white-color);
     --content-bg: var(--black-color);
@@ -1451,6 +1454,9 @@ body {
     /* --- VIDEO-CARD : ARTIST SOCIAL PILL --- */
 
         .artist-info .social-pill {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
             background: var(--social-pill-bg);
             border-radius: 12px;
             font-size: 0.8rem;
@@ -1465,6 +1471,7 @@ body {
         }
 
         .artist-info .social-pill:hover {
+            transform: scale(1.1);
             filter: brightness(1.2);
         }
 
@@ -1478,6 +1485,9 @@ body {
             width: auto;
             transition: transform 0.2s;
             text-decoration: none;
+            background-color: var(--white-a60-color);
+            padding: 5px;
+            border-radius: 12px;
         }
 
         .artist-info .social-icon-link:hover {
