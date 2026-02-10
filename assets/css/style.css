@@ -292,7 +292,7 @@ body {
             min-height: 40px;
             z-index: 90;
             display: flex;
-            justify-content: center;
+            justify-content: space-between;
             align-items: center;
             font-weight: normal;
             text-transform: uppercase;
@@ -301,8 +301,8 @@ body {
             transition: transform 0.3s ease-in-out, top 0.4s ease, padding-top 0.4s ease;
             box-shadow: 0 4px 15px var(--black-a30-color);
             cursor: pointer;
-            padding-left: 20px;
-            padding-right: 20px;
+            padding-left: 10px;
+            padding-right: 10px;
             text-align: center;
         }
 
@@ -328,10 +328,44 @@ body {
             transform: translateY(0);
         }
 
+        .filter-text {
+            flex-grow: 1;
+            text-align: center;
+            padding: 0 5px;
+        }
+
+        .btn-nav-top-list {
+            background: none;
+            border: none;
+            color: inherit;
+            display: flex;
+            align-items: center;
+            cursor: pointer;
+            padding: 5px;
+        }
+
+        .btn-nav-top-list .material-icons {
+            font-size: 24px;
+        }
+
+        .btn-nav-top-list .btn-label {
+            margin-left: 5px;
+            display: none;
+            font-weight: bold;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+        }
+
+        @media (min-width: 480px) {
+            .btn-nav-top-list .btn-label {
+                display: inline-block;
+            }
+        }
+
         .close-fav-mode {
             background: none;
             border: none;
-            color: var(--fav-mode-bar-color);
+            color: inherit;
             cursor: pointer;
             /*
             position: absolute;
