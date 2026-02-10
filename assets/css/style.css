@@ -1485,7 +1485,7 @@ body {
             width: auto;
             transition: transform 0.2s;
             text-decoration: none;
-            background-color: var(--white-a60-color);
+            background-color: var(--white-a90-color);
             padding: 5px;
             border-radius: 12px;
         }
