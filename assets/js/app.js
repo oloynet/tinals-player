@@ -838,9 +838,8 @@ function updateDynamicDates() {
             if (width < 320) newText = session.display.compact;
             else newText = session.display.normal;
         } else if (context === 'summary') {
-            // < 320 compact, >= 320 normal
-            if (width < 320) newText = session.display.compact;
-            else newText = session.display.normal;
+            // FORCE COMPACT
+            newText = session.display.compact;
         } else if (context === 'timeline') {
             // Always compact
             newText = session.display.compact;
@@ -2013,6 +2012,7 @@ function setupObserver() {
                     AppState.state.previousId = AppState.state.activeId = id;
                     updateActionButtons( id );
                     updateSummaryCurrentState( id );
+                    updateFilterBarText();
                     // updateSummaryPlayingState moved to VideoManager
                     updateURLState();
 
@@ -2034,6 +2034,7 @@ function setupObserver() {
                     }
                     updateActionButtons( null );
                     updateSummaryCurrentState( null );
+                    updateFilterBarText();
                     updateURLState();
                     document.querySelectorAll( '.section-snap' ).forEach( s => s.classList.remove( 'active' ) );
                     entry.target.classList.add( 'active' );
@@ -2521,6 +2522,78 @@ function exitFavoritesMode(shouldScroll = true) {
 
 /* FILTER : TAGS  */
 
+function updateFilterBarText() {
+    const isFavMode = AppState.state.isPlayingFavorites;
+    const isTagMode = !!AppState.state.currentTagFilter;
+
+    if (!isFavMode && !isTagMode) return;
+
+    let position = 0;
+    let totalCount = 0;
+    let textKey = '';
+    let filterName = '';
+    let barId = '';
+
+    if (isFavMode) {
+        textKey = 'filter_cancel_fav';
+        filterName = 'favori(s)';
+        barId = 'fav-mode-bar';
+        totalCount = AppState.favorites.length;
+
+        // Find position of current activeId in favorites list (data order)
+        if (AppState.state.activeId && AppState.favorites.includes(AppState.state.activeId)) {
+             const sortedFavs = AppState.data.filter(g => AppState.favorites.includes(g.id)).map(g => g.id);
+             position = sortedFavs.indexOf(AppState.state.activeId) + 1;
+        }
+
+    } else {
+        textKey = 'filter_cancel_tags';
+        const slug = AppState.state.currentTagFilter;
+        filterName = getTagNameFromSlug(slug);
+        barId = 'tag-mode-bar';
+
+        const matchingItems = AppState.data.filter(g => g.event_tags && g.event_tags.some(t => slugify(t) === slug));
+        totalCount = matchingItems.length;
+
+        if (AppState.state.activeId) {
+            const index = matchingItems.findIndex(g => g.id === AppState.state.activeId);
+            if (index !== -1) {
+                position = index + 1;
+            }
+        }
+    }
+
+    const posStr = position > 0 ? `${position}/` : '';
+    const rawText = AppState.config.texts[textKey] || "";
+
+    const finalText = rawText
+        .replace('{position}', posStr)
+        .replace('{count}', totalCount)
+        .replace('{tag}', filterName);
+
+    const bar = document.getElementById(barId);
+    if (bar) {
+        const textDiv = bar.querySelector('.filter-text');
+        if (textDiv) textDiv.innerHTML = finalText;
+    }
+}
+
+function scrollToFirstFilteredVideo() {
+    let selector = '';
+    if (AppState.state.isPlayingFavorites) {
+        selector = '.video-card.is-favorite';
+    } else if (AppState.state.currentTagFilter) {
+        selector = '.video-card.has-matching-tag';
+    }
+
+    if (selector) {
+        const firstMatch = document.querySelector(selector);
+        if (firstMatch) {
+            VideoManager.scrollTo(Number(firstMatch.dataset.id));
+        }
+    }
+}
+
 function filterByTag( tagSlug, event, shouldScroll = true ) {
     if ( event ) event.stopPropagation();
 
@@ -2611,26 +2684,49 @@ function getTagNameFromSlug(tagSlug) {
 
 
 function renderTagFilterBar() {
-    const t           = AppState.config.texts;
     const currentSlug = AppState.state.currentTagFilter;
     if (!currentSlug) return;
 
-    const tagName = getTagNameFromSlug(currentSlug);
-    const count   = AppState.data.filter(g => g.event_tags && g.event_tags.some(t => slugify(t) === currentSlug)).length;
-    const text    = t.filter_cancel_tags.replace('{tag}', tagName).replace('{count}', count);
+    const topBtnLabel = AppState.config.texts.top_of_list || "Top";
 
-    const html    = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
-    document.getElementById( 'tag-mode-bar' ).innerHTML = html;
+    const html = `
+        <button class="btn-nav-top-list" onclick="scrollToFirstFilteredVideo()">
+            <span class="material-icons">north_west</span>
+            <span class="btn-label">${topBtnLabel}</span>
+        </button>
+        <div class="filter-text"></div>
+        <button class="close-fav-mode" onclick="cancelFilters()">
+            <span class="material-icons">cancel</span>
+        </button>
+    `;
+
+    const bar = document.getElementById( 'tag-mode-bar' );
+    if(bar) {
+        bar.innerHTML = html;
+        updateFilterBarText();
+    }
 }
 
 
 function renderFavFilterBar() {
-    const t     = AppState.config.texts;
-    const count = AppState.favorites.length;
-    const text  = t.filter_cancel_fav.replace('{count}', count);
+    const topBtnLabel = AppState.config.texts.top_of_list || "Top";
 
-    const html  = `<div>${text}</div> <button class="close-fav-mode"><span class="material-icons">cancel</span></button>`;
-    document.getElementById( 'fav-mode-bar' ).innerHTML = html;
+    const html = `
+        <button class="btn-nav-top-list" onclick="scrollToFirstFilteredVideo()">
+            <span class="material-icons">north_west</span>
+            <span class="btn-label">${topBtnLabel}</span>
+        </button>
+        <div class="filter-text"></div>
+        <button class="close-fav-mode" onclick="exitFavoritesMode()">
+            <span class="material-icons">cancel</span>
+        </button>
+    `;
+
+    const bar = document.getElementById( 'fav-mode-bar' );
+    if(bar) {
+        bar.innerHTML = html;
+        updateFilterBarText();
+    }
 }
 
 
