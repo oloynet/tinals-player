@@ -197,7 +197,7 @@
         "flag_fr_id":        "flag-fr",
         "flag_en_id":        "flag-en",
 
-        "sprite_path":       "assets/images/sprite.svg?v1.88",
+        "sprite_path":       "assets/sprites/sprite.svg?v1.88",
 
         "icon_192":          "assets/favicon/android-chrome-192x192.png",
         "icon_512":          "assets/favicon/android-chrome-512x512.png",
