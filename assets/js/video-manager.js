@@ -384,6 +384,7 @@ const VideoManager = {
         const div = document.createElement('div');
         div.className = 'video-error-overlay';
         div.innerHTML = `
+            <svg class="video-error-logo"><use href="${AppState.config.images.sprite_path}#youtube-dark"></use></svg>
             <span class="material-icons video-error-icon">error_outline</span>
             <div class="video-error-message">${msg}</div>
             <div class="video-error-subtext">${suggestion}</div>
