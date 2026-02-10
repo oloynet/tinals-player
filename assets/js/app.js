@@ -1629,6 +1629,9 @@ function getSocialsHtml(g) {
     ];
 
     const links = networks.filter(n => g[n.key]).map(n => {
+        if (n.sprite) {
+            return `<a href="${g[n.key]}" target="_blank" class="social-icon-link" title="${n.label}"><svg class="social-icon-svg"><use href="${AppState.config.images.sprite_path}#${n.sprite}"></use></svg></a>`;
+        }
         return `<a href="${g[n.key]}" target="_blank" class="social-pill" title="${n.label}">${n.label}</a>`;
     });
 

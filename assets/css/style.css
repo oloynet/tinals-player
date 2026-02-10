@@ -1468,6 +1468,29 @@ body {
             filter: brightness(1.2);
         }
 
+    /* --- VIDEO-CARD : ARTIST SOCIAL ICONS --- */
+
+        .artist-info .social-icon-link {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            height: 40px;
+            width: auto;
+            transition: transform 0.2s;
+            text-decoration: none;
+        }
+
+        .artist-info .social-icon-link:hover {
+            transform: scale(1.1);
+            filter: brightness(1.2);
+        }
+
+        .artist-info .social-icon-svg {
+            height: 100%;
+            width: auto;
+            display: block;
+        }
+
     /* --- VIDEO-CARD : ARTIST HIDING ELEMENTS ON PLAY --- */
 
         /* body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-date-place, */
