@@ -1615,16 +1615,17 @@ function toggleArtistDescription( element, event ) {
 
 function getSocialsHtml(g) {
     const networks = [
-        { key: 'performer_facebook',  label: 'Facebook' },
-        { key: 'performer_instagram', label: 'Instagram' },
-        { key: 'performer_tiktok',    label: 'TikTok' },
-        { key: 'performer_pinterest', label: 'Pinterest' },
-        { key: 'performer_youtube',   label: 'YouTube' },
-        { key: 'performer_spotify',   label: 'Spotify' },
-        { key: 'performer_deezer',    label: 'Deezer' },
-        { key: 'performer_website',   label: 'Website' },
-        { key: 'event_link',          label: 'TINALS event' },
-        { key: 'event_ticket',        label: 'Tickets' }
+        { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer' },
+        { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon' },
+        { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram-icon' },
+        { key: 'performer_pinterest',  label: 'Pinterest',   sprite: 'pinterest-icon' },
+        { key: 'performer_soundcloud', label: 'SoundCloud',  sprite: 'soundcloud-icon' },
+        { key: 'performer_spotify',    label: 'Spotify',     sprite: 'spotify' },
+        { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon' },
+        { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube' },
+        { key: 'performer_website',    label: 'Website'      },
+        { key: 'event_link',           label: 'TINALS event' },
+        { key: 'event_ticket',         label: 'Tickets'      }
     ];
 
     const links = networks.filter(n => g[n.key]).map(n => {
