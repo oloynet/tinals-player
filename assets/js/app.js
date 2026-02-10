@@ -838,8 +838,8 @@ function updateDynamicDates() {
             if (width < 320) newText = session.display.compact;
             else newText = session.display.normal;
         } else if (context === 'summary') {
-            // FORCE COMPACT
-            newText = session.display.compact;
+            if (width < 320) newText = session.display.compact;
+            else newText = session.display.compact;
         } else if (context === 'timeline') {
             // Always compact
             newText = session.display.compact;

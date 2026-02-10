@@ -138,6 +138,59 @@ body {
 }
 
 
+/* --- LOADER --- */
+
+    #loader {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--content-bg);
+        z-index: 9999;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        transition: opacity 0.6s ease-out, visibility 0.6s;
+    }
+
+    #loader.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+    }
+
+/* --- LOADER LOGO --- */
+
+    .loader-logo {
+        display: block;
+        width: 42vh;
+        height: 42vh;
+        animation: pulse-loader-logo 1.5s infinite ease-in-out;
+        fill: var(--white-color);
+        color: var(--grey50-color);
+        transform-origin: center center;
+    }
+
+    @keyframes pulse-loader-logo {
+        0% {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        50% {
+            transform: scale(1.05);
+            opacity: 0.7;
+        }
+
+        100% {
+            transform: scale(1);
+            opacity: 1;
+        }
+    }
+
+
+
 /* --- SVG LOGOS --- */
 
     .svg-icon {
@@ -3178,58 +3231,6 @@ body {
             font-size: 0.65rem;
             padding: 2px 6px;
             margin-right: 5px;
-        }
-
-
-    /* --- LOADER --- */
-
-        #loader {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: var(--content-bg);
-            z-index: 9999;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            transition: opacity 0.6s ease-out, visibility 0.6s;
-        }
-
-        #loader.hidden {
-            opacity: 0;
-            visibility: hidden;
-            pointer-events: none;
-        }
-
-        @keyframes pulse-logo {
-            0% {
-                transform: scale(1);
-                opacity: 1;
-            }
-
-            50% {
-                transform: scale(1.05);
-                opacity: 0.7;
-            }
-
-            100% {
-                transform: scale(1);
-                opacity: 1;
-            }
-        }
-
-    /* --- LOADER LOGO --- */
-
-        .loader-logo {
-            display: block;
-            width: 42vh;
-            height: 42vh;
-            animation: pulse-logo 1.5s infinite ease-in-out;
-            fill: var(--white-color);
-            color: var(--grey50-color);
-            transform-origin: center center;
         }
 
 
