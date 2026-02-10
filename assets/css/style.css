@@ -165,11 +165,30 @@ body {
     .loader-logo {
         display: block;
         width: 42vh;
-        height: 42vh;
+        height: auto;
+        aspect-ratio: 512 / 578;
+        position: relative;
         animation: pulse-loader-logo 1.5s infinite ease-in-out;
+        transform-origin: center center;
+    }
+
+    .loader-logo svg {
         fill: var(--white-color);
         color: var(--grey50-color);
-        transform-origin: center center;
+    }
+
+    .loader-layer {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        display: block;
+    }
+
+    .loader-spin {
+        animation: animation-spin 1.81s linear infinite;
+        transform-origin: 50% 50%;
     }
 
     @keyframes pulse-loader-logo {
@@ -187,6 +206,11 @@ body {
             transform: scale(1);
             opacity: 1;
         }
+    }
+
+    @keyframes animation-spin {
+        from { transform: rotate(0deg); }
+        to   { transform: rotate(360deg); }
     }
 
 
