@@ -367,11 +367,11 @@ body {
             padding-bottom: env(safe-area-inset-bottom);
         }
 
-        .drawer-fav-timeline.active~.action-bar {
+        .action-bar .drawer-fav-timeline.active~.action-bar {
             transform: translateX(-380px);
         }
 
-        .btn-fav-float {
+        .action-bar .btn-fav-float {
             position: relative;
             width: 40px;
             height: 40px;
@@ -390,15 +390,19 @@ body {
             overflow: hidden;
         }
 
-        #btn-drawer-favorites {
+        .action-bar #btn-drawer-favorites {
             overflow: visible;
         }
 
-        #btn-drawer-favorites .material-icons {
-            font-size: 36px;
+        .action-bar .material-icons {
+            font-size: 32px;
         }
 
-        .fav-count-badge {
+        .action-bar #btn-drawer-favorites .material-icons {
+            font-size: 40px;
+        }
+
+        .action-bar .fav-count-badge {
             position: absolute;
             top: 0;
             left: 0;
@@ -417,7 +421,7 @@ body {
             line-height: 1;
         }
 
-        .btn-bg {
+        .action-bar .btn-bg {
             position: absolute;
             top: 0;
             left: 0;
@@ -430,35 +434,35 @@ body {
             transition: opacity 0.2s, background-color 0.2s;
         }
 
-        .btn-bg.bright {
-            background-color: var(--grey35-color) !important;
+        .action-bar .btn-bg.bright {
+            background-color: var(--grey25-color) !important;
             opacity: 0.4 !important;
         }
 
-        .btn-fav-float .material-icons {
+        .action-bar .btn-fav-float .material-icons {
             position: relative;
             z-index: 1;
         }
 
-        .btn-fav-float.disabled {
+        .action-bar .btn-fav-float.disabled {
             pointer-events: none;
             box-shadow: none;
             opacity: 0.2 !important;
         }
 
-        .visual-haptic .btn-bg {
+        .action-bar .visual-haptic .btn-bg {
             background-color: var(--white-color) !important;
             opacity: 1 !important;
         }
 
-        .visual-haptic {
+        .action-bar .visual-haptic {
             color: var(--primary-color) !important;
             transform: scale(1.1);
             box-shadow: 0 0 15px var(--white-a60-color) !important;
             transition: none !important;
         }
 
-        .btn-action {
+        .action-bar .btn-action {
             background: none;
             border: none;
             color: var(--white-color);
@@ -469,12 +473,6 @@ body {
             -webkit-tap-highlight-color: transparent;
         }
 
-        #btn-nav-top,
-        #btn-nav-previous-card,
-        #btn-nav-next-card,
-        #btn-nav-bottom {
-            font-size: 28px !important;
-        }
 
     /* --- CONTROL BAR (bottom) --- */
 
