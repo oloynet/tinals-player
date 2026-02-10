@@ -1623,7 +1623,7 @@ function getSocialsHtml(g) {
         { key: 'performer_spotify',   label: 'Spotify' },
         { key: 'performer_deezer',    label: 'Deezer' },
         { key: 'performer_website',   label: 'Website' },
-        { key: 'event_link',          label: 'Event' },
+        { key: 'event_link',          label: 'TINALS event' },
         { key: 'event_ticket',        label: 'Tickets' }
     ];
 

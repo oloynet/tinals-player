@@ -78,21 +78,21 @@
         {
             "id":    "blind-pass-full",
             "label": "Blind Pass - Tarif unique",
-            "price": "70",
+            "price": "78",
             "is_available": true,
             "ticketing": ["full-pass"]
         },
         {
             "id":    "blind-pass-day",
             "label": "Blind Pass - Tarif plein",
-            "price": "42",
+            "price": "46",
             "is_available": true,
             "ticketing": ["day-pass-1", "day-pass-2"]
         },
         {
             "id":    "blind-pass-day-discounted",
             "label": "Blind Pass - Tarif réduit",
-            "price": "38",
+            "price": "42",
             "is_available": true,
             "ticketing": ["day-pass-1", "day-pass-2"]
         }

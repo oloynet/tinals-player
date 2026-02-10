@@ -135,8 +135,6 @@ body {
 }
 
 
-
-
 /* --- SVG LOGOS --- */
 
     .svg-icon {
@@ -792,14 +790,11 @@ body {
         }
 
         /* Media Queries for Grid */
+
         @media (min-width: 320px) {
             .summary-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (min-width: 480px) {
-
-            #summary-title {
-                margin-bottom: 20px;
-            }
             .summary-grid { grid-template-columns: repeat(2, 1fr); }
         }
         @media (min-width: 640px) {
@@ -910,7 +905,8 @@ body {
             font-weight: bold;
             text-transform: uppercase;
             color: var(--white-color);
-            margin-bottom: 5px;
+                margin-top: 10px;
+                margin-bottom: 0px;
             line-height: 1.2;
         }
 
@@ -2464,8 +2460,8 @@ body {
         .about-local-press-list,
         .about-programming {
             display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 10px;
+            grid-template-columns: repeat(1, 1fr);
+            gap: 2px;
         }
 
         .about-section-title {
