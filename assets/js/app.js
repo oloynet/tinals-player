@@ -1615,16 +1615,17 @@ function toggleArtistDescription( element, event ) {
 
 function getSocialsHtml(g) {
     const networks = [
-        { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer',          viewBox: '0 0 992 279' },
-        { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon',   viewBox: '0 0 666.66666 666.66666' },
-        { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram-icon',  viewBox: '0 0 680 680' },
-        { key: 'performer_pinterest',  label: 'Pinterest',   sprite: 'pinterest-icon',  viewBox: '0 0 666.667 666.827' },
-        { key: 'performer_soundcloud', label: 'SoundCloud',  sprite: 'soundcloud-icon', viewBox: '0 0 256.1 111.1' },
-        { key: 'performer_spotify',    label: 'Spotify',     sprite: 'spotify',         viewBox: '0 0 425 120' },
-        { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon',     viewBox: '0 0 21 19' },
-        { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube',         viewBox: '0 0 1090.667 366.667' },
+        { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer-dark',          viewBox: '0 0 992 279' },
+        { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon',        viewBox: '0 0 666.66666 666.66666' },
+        { key: 'performer_pinterest',  label: 'Pinterest',   sprite: 'pinterest-icon',       viewBox: '0 0 666.667 666.827' },
+        { key: 'performer_soundcloud', label: 'SoundCloud',  sprite: 'soundcloud-icon',      viewBox: '0 0 256.1 111.1' },
+        { key: 'performer_spotify',    label: 'Spotify',     sprite: 'spotify',              viewBox: '0 0 425 120' },
+        { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon',          viewBox: '0 0 21 19' },
+        { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube-dark',         viewBox: '0 0 1090.667 366.667' },
+        { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram-dark',       viewBox: '0 0 792.003 224.673' },
+
         { key: 'performer_website',    label: 'Website'      },
-        { key: 'event_link',           label: 'TINALS event' },
+        { key: 'event_link',           label: 'TINALS' },
         { key: 'event_ticket',         label: 'Tickets'      }
     ];
 
