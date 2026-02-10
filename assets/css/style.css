@@ -1650,6 +1650,12 @@ body {
             backdrop-filter: blur(5px);
         }
 
+        .video-error-logo {
+            width: 120px;
+            height: auto;
+            margin-bottom: 10px;
+        }
+
         .video-error-icon {
             font-size: 4rem !important;
             color: var(--secondary-color);
@@ -2562,21 +2568,25 @@ body {
         }
 
         .about-social a {
-            color: var(--white-color);
+            color: var(--facebook-color);
             font-weight: bold;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             gap: 10px;
             padding: 10px 20px;
-            background: #1877f2;
-            border-radius: 30px;
+            background: transparent;
             font-size: 0.9rem;
             transition: transform 0.2s;
         }
 
         .about-social a:hover {
             transform: scale(1.05);
+        }
+
+        .facebook-icon-about {
+            width: 32px;
+            height: 32px;
         }
 
     /* --- MAIN MENU : ABOUT ORGANIZER LIST --- */

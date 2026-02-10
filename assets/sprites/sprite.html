@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Visualiseur de Sprite SVG</title>
+    <title>Visualiseur des sprites SVG</title>
     <style>
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
@@ -11,11 +11,20 @@
             color: #333;
             margin: 0;
             padding: 20px;
+            padding-bottom: 50px;
         }
         h1 {
             text-align: center;
             margin-bottom: 30px;
             color: #2c3e50;
+        }
+        h2 {
+            text-align: center;
+            font-size: 1rem;
+            color: #7f8c8d;
+            font-weight: normal;
+            margin-top: -20px;
+            margin-bottom: 30px;
         }
         .grid {
             display: grid;
@@ -53,11 +62,14 @@
             max-height: 100%;
             width: auto;
             height: auto;
+            border: 1px dotted #333;
         }
         .info {
             padding: 15px;
             background: #fff;
             flex-grow: 1;
+            display: flex;
+            flex-direction: column;
         }
         .info h3 {
             margin: 0 0 10px 0;
@@ -74,15 +86,54 @@
         .info strong {
             color: #333;
         }
+        .actions {
+            margin-top: 10px;
+            text-align: center;
+        }
+        .btn-download {
+            display: inline-block;
+            padding: 5px 10px;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 0.85em;
+            transition: background-color 0.2s;
+        }
+        .btn-download:hover {
+            background-color: #2980b9;
+        }
+        .footer-link {
+            text-align: center;
+            margin-top: 40px;
+            padding-top: 20px;
+            border-top: 1px solid #ddd;
+        }
+        .footer-link a {
+            color: #3498db;
+            text-decoration: none;
+            font-weight: bold;
+        }
+        .footer-link a:hover {
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
-    <h1>Visualiseur de Sprite SVG</h1>
+    <h1>Visualiseur des sprites SVG</h1>
+    <h2 id="file-path">Fichier : sprite.svg</h2>
     <div id="grid" class="grid"></div>
+
+    <div class="footer-link">
+        <a href="https://svgomg.net/" target="_blank">Optimiser vos SVG avec SVGOMG</a>
+    </div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            fetch('sprite.svg')
+            const filePath = 'sprite.svg'; // Chemin du fichier relatif
+            document.getElementById('file-path').innerText = `Fichier : ${window.location.pathname.replace('sprite.html', '')}${filePath}`;
+
+            fetch(filePath)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Erreur réseau ou fichier non trouvé');
@@ -105,6 +156,12 @@
                         const ariaLabel = symbol.getAttribute('aria-label') || '<em>Non défini</em>';
                         const viewBox = symbol.getAttribute('viewBox');
 
+                        // Récupération Title et Desc
+                        const titleEl = symbol.querySelector('title');
+                        const descEl = symbol.querySelector('desc');
+                        const title = titleEl ? titleEl.textContent : '<em>Non défini</em>';
+                        const desc = descEl ? descEl.textContent : '<em>Non défini</em>';
+
                         let dimensions = 'Non défini';
                         if (viewBox) {
                             const parts = viewBox.split(/[ ,]+/);
@@ -114,6 +171,15 @@
                                 dimensions = viewBox;
                             }
                         }
+
+                        // Création du SVG blob pour le téléchargement
+                        // On crée un SVG enveloppant avec le contenu du symbole
+                        const svgContent = `
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox || '0 0 100 100'}">
+${symbol.innerHTML}
+</svg>`;
+                        const blob = new Blob([svgContent], {type: 'image/svg+xml'});
+                        const url = URL.createObjectURL(blob);
 
                         // Création de la carte
                         const card = document.createElement('div');
@@ -128,7 +194,12 @@
                             <div class="info">
                                 <h3>${id}</h3>
                                 <p><strong>Label :</strong> ${ariaLabel}</p>
+                                <p><strong>Title :</strong> ${title}</p>
+                                <p><strong>Desc :</strong> ${desc}</p>
                                 <p><strong>Dimensions :</strong> ${dimensions}</p>
+                                <div class="actions">
+                                    <a href="${url}" download="${id}.svg" target="_blank" class="btn-download">Télécharger SVG</a>
+                                </div>
                             </div>
                         `;
                         container.appendChild(card);
