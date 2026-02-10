@@ -1615,14 +1615,14 @@ function toggleArtistDescription( element, event ) {
 
 function getSocialsHtml(g) {
     const networks = [
-        { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer' },
-        { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon' },
-        { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram-icon' },
-        { key: 'performer_pinterest',  label: 'Pinterest',   sprite: 'pinterest-icon' },
-        { key: 'performer_soundcloud', label: 'SoundCloud',  sprite: 'soundcloud-icon' },
-        { key: 'performer_spotify',    label: 'Spotify',     sprite: 'spotify' },
-        { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon' },
-        { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube' },
+        { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer',          viewBox: '0 0 992 279' },
+        { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon',   viewBox: '0 0 666.66666 666.66666' },
+        { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram-icon',  viewBox: '0 0 680 680' },
+        { key: 'performer_pinterest',  label: 'Pinterest',   sprite: 'pinterest-icon',  viewBox: '0 0 666.667 666.827' },
+        { key: 'performer_soundcloud', label: 'SoundCloud',  sprite: 'soundcloud-icon', viewBox: '0 0 256.1 111.1' },
+        { key: 'performer_spotify',    label: 'Spotify',     sprite: 'spotify',         viewBox: '0 0 425 120' },
+        { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon',     viewBox: '0 0 21 19' },
+        { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube',         viewBox: '0 0 1090.667 366.667' },
         { key: 'performer_website',    label: 'Website'      },
         { key: 'event_link',           label: 'TINALS event' },
         { key: 'event_ticket',         label: 'Tickets'      }
@@ -1630,7 +1630,7 @@ function getSocialsHtml(g) {
 
     const links = networks.filter(n => g[n.key]).map(n => {
         if (n.sprite) {
-            return `<a href="${g[n.key]}" target="_blank" class="social-icon-link" title="${n.label}"><svg class="social-icon-svg"><use href="${AppState.config.images.sprite_path}#${n.sprite}"></use></svg></a>`;
+            return `<a href="${g[n.key]}" target="_blank" class="social-icon-link" title="${n.label}"><svg class="social-icon-svg" viewBox="${n.viewBox}"><use href="${AppState.config.images.sprite_path}#${n.sprite}"></use></svg></a>`;
         }
         return `<a href="${g[n.key]}" target="_blank" class="social-pill" title="${n.label}">${n.label}</a>`;
     });
