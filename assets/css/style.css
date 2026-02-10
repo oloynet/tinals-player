@@ -1478,9 +1478,7 @@ body {
     /* --- VIDEO-CARD : ARTIST SOCIAL ICONS --- */
 
         .artist-info .social-icon-link {
-            display: inline-flex;
-            align-items: center;
-            justify-content: center;
+            display: inline-block;
             height: 40px;
             width: auto;
             transition: transform 0.2s;
