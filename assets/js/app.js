@@ -43,6 +43,7 @@ const AppState = {
         isDisplayImageVideoPause: true,
         isDisplayImageVideoEnd: true,
         isDisplayMenuIcon: true,
+        isContextMenuEnable: true,
 
         isButtonSoundEnable: true,
         isButtonTopBottomEnable: false,
@@ -482,6 +483,13 @@ function applyConfigs() {
     s.isDisplayImageVideoEnd        = f.is_display_image_video_end        ?? true;
     s.isDisplayImageVideoPause      = f.is_display_image_video_pause      ?? true;
     s.isDisplayMenuIcon             = f.is_display_menu_icon              ?? true;
+    s.isContextMenuEnable           = f.is_context_menu                   ?? true;
+
+    if (!s.isContextMenuEnable) {
+        document.addEventListener('contextmenu', function(event) {
+            event.preventDefault();
+        });
+    }
 
     s.isButtonSoundEnable           = f.is_button_sound_enable            ?? true;
     s.isButtonTopBottomEnable       = f.is_button_top_bottom_enable       ?? false;
