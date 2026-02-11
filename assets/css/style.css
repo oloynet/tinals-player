@@ -104,6 +104,17 @@
     padding: 0;
 }
 
+::selection {
+    background-color: #ff5733;
+    color: #ffffff;
+}
+
+.no-select {
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
 body.menu-hidden {
     --header-height: 0px;
 }
