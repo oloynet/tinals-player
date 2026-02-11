@@ -387,7 +387,7 @@ function handleOrientationChange() {
     if(!isPlaying) return;
 
     // We are playing. Check logic.
-    if ( s.isMenuAutoHide || isLandscape() ) {
+    if ( s.isMenuAutoHide || ( isMobileDevice() && isLandscape() ) ) {
         // Should be auto-hidden.
         // If it's not already scheduled to hide and not hidden, schedule it.
         if ( !topDrawer.classList.contains('auto-hidden') && !tm.menu ) {

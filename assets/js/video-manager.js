@@ -157,7 +157,7 @@ const VideoManager = {
             const topDrawer = document.getElementById( 'top-bar' );
             topDrawer.classList.remove( 'auto-hidden' );
             topDrawer.style.transform = '';
-            if ( s.isMenuAutoHide || isLandscape() ) {
+            if ( s.isMenuAutoHide || (isMobileDevice() && isLandscape()) ) {
                 tm.menu = setTimeout( () => {
                     topDrawer.classList.add( 'auto-hidden' );
                 }, 3000 );
