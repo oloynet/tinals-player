@@ -55,37 +55,37 @@
     --white-a90-color:  #ffffffe5;
 
     --content-color: var(--white-color);
-    --content-bg: var(--black-color);
-    --control-bar-bg: var(--grey5-a20-color);
+    --content-fill: var(--black-color);
+    --control-bar-fill: var(--grey5-a20-color);
     --control-bar-color: var(--content-color);
-    --drawer-bg: var(--white-color);
+    --drawer-fill: var(--white-color);
     --drawer-text: var(--black-color);
-    --fav-mode-bar-bg: var(--secondary-color);
+    --fav-mode-bar-fill: var(--secondary-color);
     --fav-mode-bar-color: var(--black-color);
-    --social-pill-bg: var(--primary-color);
+    --social-pill-fill: var(--primary-color);
     --social-pill-color: var(--content-color);
-    --tag-mode-bar-bg: var(--fourth-color);
+    --tag-mode-bar-fill: var(--fourth-color);
     --tag-mode-bar-color: var(--black-color);
-    --tag-pill-bg: var(--white-a20-color);
+    --tag-pill-fill: var(--white-a20-color);
     --tag-pill-color: var(--white-color);
-    --tag-pill-active-bg: var(--fourth-color);
+    --tag-pill-active-fill: var(--fourth-color);
     --tag-pill-active-color: var(--black-color);
-    --toast-bg: var(--primary-color);
+    --toast-fill: var(--primary-color);
     --toast-color: var(--content-color);
     --full-pass-ticket-color: var(--primary-color);
     --day-pass-ticket-1-color: var(--fifth-color);
     --day-pass-ticket-2-color: var(--third-color);
 
     --status-canceled-color: var(--white-color);
-    --status-canceled-bg: var(--primary-color);
+    --status-canceled-fill: var(--primary-color);
     --status-moved-online-color: var(--white-color);
-    --status-moved-online-bg: var(--primary-color);
+    --status-moved-online-fill: var(--primary-color);
     --status-postponed-color: var(--white-color);
-    --status-postponed-bg: var(--primary-color);
+    --status-postponed-fill: var(--primary-color);
     --status-rescheduled-color: var(--white-color);
-    --status-rescheduled-bg: var(--primary-color);
+    --status-rescheduled-fill: var(--primary-color);
     --status-scheduled-color: var(--white-color);
-    --status-scheduled-bg: var(--primary-color);
+    --status-scheduled-fill: var(--primary-color);
 
     --header-height: 55px;
 
@@ -126,7 +126,7 @@
 
     body {
         font-family: 'Roboto', sans-serif;
-        background: var(--content-bg);
+        background: var(--content-fill);
         color: var(--content-color);
         overflow: hidden;
         -webkit-font-smoothing: antialiased;
@@ -159,7 +159,7 @@
         left: 0;
         width: 100%;
         height: 100%;
-        background-color: var(--content-bg);
+        background-color: var(--content-fill);
         z-index: 9999;
         display: flex;
         justify-content: center;
@@ -403,12 +403,12 @@
         }
 
         #fav-mode-bar {
-            background-color: var(--fav-mode-bar-bg);
+            background-color: var(--fav-mode-bar-fill);
             color: var(--fav-mode-bar-color);
         }
 
         #tag-mode-bar {
-            background-color: var(--tag-mode-bar-bg);
+            background-color: var(--tag-mode-bar-fill);
             color: var(--tag-mode-bar-color);
         }
 
@@ -618,7 +618,7 @@
             padding-bottom: env(safe-area-inset-bottom);
             padding-left: 0;
             padding-right: 0;
-            background-color: var(--control-bar-bg);
+            background-color: var(--control-bar-fill);
             color: var(--control-bar-color);
             z-index: 350;
             display: flex;
@@ -898,7 +898,7 @@
             width: 100%;
             scroll-snap-align: center;
             position: relative;
-            background-color: var(--content-bg);
+            background-color: var(--content-fill);
             overflow-y: auto;
             padding-top: calc(var(--header-height) + 10px);
             padding-bottom: 20px;
@@ -1570,7 +1570,7 @@
         .artist-info .tag-pill {
             font-size: 0.85rem;
             padding: 4px 10px;
-            background: var(--tag-pill-bg);
+            background: var(--tag-pill-fill);
             color: var(--tag-pill-color);
             border-radius: 12px;
             font-weight: bold;
@@ -1585,7 +1585,7 @@
         }
 
         .artist-info .tag-pill.tag-active {
-            background-color: var(--tag-pill-active-bg);
+            background-color: var(--tag-pill-active-fill);
             color: var(--tag-pill-active-color);
         }
 
@@ -1595,7 +1595,7 @@
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            background: var(--social-pill-bg);
+            background: var(--social-pill-fill);
             border-radius: 12px;
             font-size: 0.8rem;
             padding: 4px 10px;
@@ -2040,7 +2040,7 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid var(--black-a10-color);
-            background: var(--drawer-bg);
+            background: var(--drawer-fill);
         }
 
         .drawer-tabs {
@@ -2161,7 +2161,7 @@
             width: 100%;
             max-width: none;
             height: 100%;
-            background: var(--drawer-bg);
+            background: var(--drawer-fill);
             color: var(--drawer-text);
             z-index: 500; /* Higher than other drawers */
             transform: translateX(-100%);
@@ -2281,7 +2281,7 @@
         .main-menu-footer {
             padding: 20px;
             text-align: center;
-            background: var(--drawer-bg);
+            background: var(--drawer-fill);
             border-top: 1px solid var(--black-a10-color);
         }
 
@@ -2301,7 +2301,7 @@
             width: 100%;
             max-width: none;
             height: 100%;
-            background: var(--drawer-bg);
+            background: var(--drawer-fill);
             color: var(--drawer-text);
             z-index: 400;
             transform: translateX(100%);
@@ -2343,7 +2343,7 @@
         .drawer-footer {
             padding: 20px;
             border-top: 1px solid var(--black-a10-color);
-            background: var(--drawer-bg);
+            background: var(--drawer-fill);
             margin-top: auto;
             display: none;
         }
@@ -2800,7 +2800,7 @@
         }
 
         .features-box {
-            background: var(--drawer-bg);
+            background: var(--drawer-fill);
             padding: 30px;
             border-radius: 15px;
             width: 90%;
@@ -3244,27 +3244,27 @@
         }
 
         .status-badge.status-canceled {
-            background-color: var(--status-canceled-bg);
+            background-color: var(--status-canceled-fill);
             color: var(--status-canceled-color);
         }
 
         .status-badge.status-moved-online {
-            background-color: var(--status-moved-online-bg);
+            background-color: var(--status-moved-online-fill);
             color: var(--status-moved-online-color);
         }
 
         .status-badge.status-postponed {
-            background-color: var(--status-postponed-bg);
+            background-color: var(--status-postponed-fill);
             color: var(--status-postponed-color);
         }
 
         .status-badge.status-rescheduled {
-            background-color: var(--status-rescheduled-bg);
+            background-color: var(--status-rescheduled-fill);
             color: var(--status-rescheduled-color);
         }
 
         .status-badge.status-scheduled {
-            background-color: var(--status-scheduled-bg);
+            background-color: var(--status-scheduled-fill);
             color: var(--status-scheduled-color);
         }
 
@@ -3293,7 +3293,7 @@
             top: 30%;
             left: 50%;
             transform: translate(-50%, -50%);
-            background-color: var(--toast-bg);
+            background-color: var(--toast-fill);
             color: var(--toast-color);
             padding: 5px 15px;
             border-radius: 20px;

@@ -966,8 +966,8 @@ function getSummaryItemsHtml() {
         const favClass = isFav ? 'is-favorite' : '';
 
         const favIconHtml = isFav
-            ? '<span class="material-icons" style="color: var(--primary-color);">favorite</span>'
-            : '<span class="material-icons" style="color: var(--white-color);">favorite_border</span>';
+            ? '<span class="material-icons primary-color">favorite</span>'
+            : '<span class="material-icons white-color">favorite_border</span>';
 
         const imageX = (g.image_x !== undefined && g.image_x !== null) ? g.image_x : (AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50);
         const imageY = (g.image_y !== undefined && g.image_y !== null) ? g.image_y : (AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25);
@@ -2377,7 +2377,10 @@ function updateSummaryButtonState() {
     // We could highlight if drawer is open, but that's handled by drawer active state logic if we want.
     // For now, resetting to default state to avoid "stuck" highlight if we remove the logic.
 
-    if ( icon ) icon.style.color = 'var(--primary-color)';
+    if ( icon ) {
+        icon.classList.remove('white-color');
+        icon.classList.add('primary-color');
+    }
     if ( bg ) bg.classList.remove( 'bright' );
 }
 
@@ -2433,13 +2436,15 @@ function updateActionButtons( id ) {
         if ( AppState.favorites.includes( id ) ) {
             if ( icon ) {
                 icon.innerHTML = 'favorite';
-                icon.style.color = 'var(--primary-color)';
+                icon.classList.remove('white-color');
+                icon.classList.add('primary-color');
             }
             if ( bg ) bg.classList.add( 'bright' );
         } else {
             if ( icon ) {
                 icon.innerHTML = 'favorite_border';
-                icon.style.color = 'var(--white-color)';
+                icon.classList.remove('primary-color');
+                icon.classList.add('white-color');
             }
             if ( bg ) bg.classList.remove( 'bright' );
         }
@@ -2481,10 +2486,16 @@ function updateFavoritesIcon() {
 
     if ( count > 0 ) {
         if ( bg )   bg.classList.add( 'bright' );
-        if ( icon ) icon.style.color = 'var(--primary-color)';
+        if ( icon ) {
+            icon.classList.remove('white-color');
+            icon.classList.add('primary-color');
+        }
     } else {
         if ( bg )   bg.classList.remove( 'bright' );
-        if ( icon ) icon.style.color = 'var(--white-color)';
+        if ( icon ) {
+            icon.classList.remove('primary-color');
+            icon.classList.add('white-color');
+        }
     }
 }
 
@@ -2505,7 +2516,7 @@ function toggleFav( id, openDrawer = true ) {
         summaryItems.forEach(item => {
             item.classList.remove('is-favorite');
             const btn = item.querySelector('.summary-like-btn');
-            if(btn) btn.innerHTML = '<span class="material-icons" style="color: var(--white-color);">favorite_border</span>';
+            if(btn) btn.innerHTML = '<span class="material-icons white-color">favorite_border</span>';
         });
     } else {
         AppState.favorites.push( id );
@@ -2514,7 +2525,7 @@ function toggleFav( id, openDrawer = true ) {
         summaryItems.forEach(item => {
             item.classList.add('is-favorite');
             const btn = item.querySelector('.summary-like-btn');
-            if(btn) btn.innerHTML = '<span class="material-icons" style="color: var(--primary-color);">favorite</span>';
+            if(btn) btn.innerHTML = '<span class="material-icons primary-color">favorite</span>';
         });
 
         const drawer = document.getElementById( 'fav-timeline-drawer' );
