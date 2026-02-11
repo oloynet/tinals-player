@@ -1640,6 +1640,69 @@
             display: block;
         }
 
+    /* --- VIDEO-CARD : ARTIST TICKET BUTTON --- */
+
+        .artist-ticket-btn {
+            display: inline-flex;
+            align-items: center;
+            background-color: var(--white-color);
+            padding: 8px 15px;
+            border-radius: 12px;
+            text-decoration: none;
+            margin-top: 10px;
+            margin-right: 10px;
+            box-shadow: 0 4px 15px var(--black-a20-color);
+            transition: transform 0.2s, box-shadow 0.2s;
+            max-width: 100%;
+            align-self: flex-start;
+        }
+
+        .artist-ticket-btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 6px 20px var(--black-a30-color);
+        }
+
+        .artist-ticket-icon {
+            font-size: 24px;
+            margin-right: 10px;
+        }
+
+        .artist-ticket-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .artist-ticket-btn .ticket-title {
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            line-height: 1.1;
+            width: auto;
+            text-align: left;
+            padding: 0;
+            color: inherit;
+            margin: 0;
+        }
+
+        .artist-ticket-btn .ticket-subtitle {
+            font-size: 0.75rem;
+            font-weight: normal;
+            opacity: 0.8;
+            color: inherit;
+        }
+
+        .artist-ticket-btn.full-pass-ticket {
+            color: var(--full-pass-ticket-color);
+        }
+
+        .artist-ticket-btn.day-pass-ticket-1 {
+            color: var(--day-pass-ticket-1-color);
+        }
+
+        .artist-ticket-btn.day-pass-ticket-2 {
+            color: var(--day-pass-ticket-2-color);
+        }
+
     /* --- VIDEO-CARD : ARTIST HIDING ELEMENTS ON PLAY --- */
 
         /* body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-date-place, */
