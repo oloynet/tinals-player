@@ -99,6 +99,7 @@
             border-radius: 4px;
             font-size: 0.85em;
             transition: background-color 0.2s;
+            margin: 0 5px;
         }
         .btn-download:hover {
             background-color: #2980b9;
@@ -199,6 +200,7 @@ ${symbol.innerHTML}
                                 <p><strong>Desc :</strong> ${desc}</p>
                                 <p><strong>Dimensions :</strong> ${dimensions}</p>
                                 <div class="actions">
+                                    <a href="${url}" target="_blank" class="btn-download">Voir SVG</a>
                                     <a href="${url}" download="${id}.svg" target="_blank" class="btn-download">Télécharger SVG</a>
                                 </div>
                             </div>
