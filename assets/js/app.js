@@ -1981,28 +1981,45 @@ function setupInteraction() {
     } );
 
     document.querySelectorAll( '.artist-overlay' ).forEach( overlay => {
-        overlay.addEventListener( 'mouseenter', function() {
+        let hoverTimer = null;
+
+        const openDesc = () => {
             if (isMobileDevice()) return;
-            const desc = this.querySelector('.artist-description');
+            if (hoverTimer) {
+                clearTimeout(hoverTimer);
+                hoverTimer = null;
+            }
+
+            const desc = overlay.querySelector('.artist-description');
             if (desc) {
                 desc.classList.add( 'expanded' );
                 const icon = desc.querySelector('.desc-state-icon');
                 if (icon) icon.innerText = 'expand_more';
-                const card = this.closest('.video-card');
+                const card = overlay.closest('.video-card');
                 if (card) card.classList.add('desc-open');
             }
-        });
+        };
 
-        overlay.addEventListener( 'mouseleave', function() {
+        const closeDesc = () => {
             if (isMobileDevice()) return;
-            const desc = this.querySelector('.artist-description');
-            if (desc) {
-                desc.classList.remove( 'expanded' );
-                const icon = desc.querySelector('.desc-state-icon');
-                if (icon) icon.innerText = 'expand_less';
-                const card = this.closest('.video-card');
-                if (card) card.classList.remove('desc-open');
-            }
+            if (hoverTimer) clearTimeout(hoverTimer);
+
+            hoverTimer = setTimeout(() => {
+                const desc = overlay.querySelector('.artist-description');
+                if (desc) {
+                    desc.classList.remove( 'expanded' );
+                    const icon = desc.querySelector('.desc-state-icon');
+                    if (icon) icon.innerText = 'expand_less';
+                    const card = overlay.closest('.video-card');
+                    if (card) card.classList.remove('desc-open');
+                }
+            }, 150);
+        };
+
+        const targets = overlay.querySelectorAll('.artist-avatar-container, .artist-info h2, .artist-date-place, .artist-description');
+        targets.forEach(el => {
+            el.addEventListener('mouseenter', openDesc);
+            el.addEventListener('mouseleave', closeDesc);
         });
     });
 }
