@@ -168,12 +168,12 @@ body {
         height: auto;
         aspect-ratio: 512 / 578;
         position: relative;
-        animation: pulse-loader-logo 1.5s infinite ease-in-out;
+        /* animation: pulse-loader-logo 1.5s infinite ease-in-out; */
         transform-origin: center center;
     }
 
     .loader-logo svg {
-        fill: var(--white-color);
+        /* fill: var(--black-color); */
         color: var(--grey50-color);
     }
 
@@ -1477,7 +1477,7 @@ body {
             margin: 8px 0;
             margin-bottom: 4px;
             max-height: 4.0rem;
-            max-width: 92%;
+            max-width: 999px;
             overflow: hidden;
             position: relative;
             transition: max-height 1s ease;
@@ -1601,12 +1601,11 @@ body {
 
         .artist-info .social-icon-link {
             display: inline-block;
-            height: 40px;
+            height: 26px;
             width: auto;
             transition: transform 0.2s;
             text-decoration: none;
             background-color: var(--black);
-            padding: 5px;
             border-radius: 12px;
         }
 
