@@ -35,26 +35,27 @@
     ],
 
     "ticketing_texts":
-    {
-        "full-pass":
+    [
         {
+            "id":              "full-pass",
             "ticket_title":    "2-day Pass",
             "ticket_subtitle": "June 5 & 6, 2026",
             "button_text":     "2-day ticket"
         },
-        "day-pass-1":
         {
+            "id":              "day-pass-1",
             "ticket_title":    "Friday Pass",
             "ticket_subtitle": "June 5, 2026",
             "button_text":     "Friday ticket"
         },
-        "day-pass-2":
         {
+            "id":              "day-pass-2",
             "ticket_title":    "Saturday Pass",
             "ticket_subtitle": "June 6, 2026",
             "button_text":     "Saturday ticket"
         }
-    },
+    ],
+
 
     "texts":
     {
