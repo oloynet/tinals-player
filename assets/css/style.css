@@ -1750,7 +1750,7 @@
             }
         }
 
-        .video-card:not(.playing) .video-state-icon {
+        .video-card:not(.playing):not(.loading) .video-state-icon {
             animation: pulse-paused 1.5s ease-in-out infinite;
             transition: none;
         }
