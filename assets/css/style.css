@@ -1111,7 +1111,7 @@
             margin-top: 2px;
         }
 
-        .summary-item.is-playing .playing-indicator {
+        .summary-item.is-playing:not(.is-paused) .playing-indicator {
             display: flex;
         }
 
