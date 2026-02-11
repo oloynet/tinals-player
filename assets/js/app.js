@@ -1666,7 +1666,7 @@ function getTicketButtonsHtml(g) {
     // If artist has no session/tag, only include full-pass?
     // Let's assume full-pass has id 'full-pass'.
 
-    return AppState.config.ticketing.map(ticket => {
+    const buttonsHtml = AppState.config.ticketing.map(ticket => {
         if (ticket.is_available !== true) return '';
 
         let shouldShow = false;
@@ -1707,6 +1707,11 @@ function getTicketButtonsHtml(g) {
             </div>
         </a>`;
     }).join('');
+
+    if (buttonsHtml) {
+        return `<div class="tickets-links-container">${buttonsHtml}</div>`;
+    }
+    return '';
 }
 
 

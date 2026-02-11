@@ -1703,6 +1703,22 @@
             background-color: var(--day-pass-ticket-2-color);
         }
 
+    /* --- VIDEO-CARD : ARTIST TICKETS CONTAINER --- */
+
+        .tickets-links-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            width: 100%;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .tickets-links-container .artist-ticket-btn {
+            margin: 0;
+            align-self: center;
+        }
+
     /* --- VIDEO-CARD : ARTIST HIDING ELEMENTS ON PLAY --- */
 
         /* body.hide-desc-mobile .video-card.playing:not(.desc-open) .artist-date-place, */
