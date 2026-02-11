@@ -31,7 +31,7 @@
 
 
 /* SITE */
-    Version: v1.95
+    Version: v1.96
     Last update: 2026-02-11
     Language: French / English
     Doctype: HTML5

@@ -142,8 +142,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.95';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.95' : 'config/config_fr.json?v1.95';
+        const configFile = 'config/config.json?v1.96';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.96' : 'config/config_fr.json?v1.96';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -1692,11 +1692,11 @@ function getTicketButtonsHtml(g) {
         const textObj = AppState.config.ticketing_texts.find(t => t.id === ticket.id);
         if (!textObj) return '';
 
-        const title    = textObj.ticket_title || '';
+        const title    = textObj.ticket_title    || '';
         const subtitle = textObj.ticket_subtitle || '';
-        const btnText  = textObj.button_text || ''; // Not used in design, but available
-        const url      = ticket.button_url || '#';
-        const color    = ticket.button_color || '';
+        const btnText  = textObj.button_text     || ''; // Not used in design, but available
+        const url      = ticket.button_url       || '#';
+        const color    = ticket.button_color     || '';
 
         return `
         <a href="${url}" target="_blank" class="artist-ticket-btn ${color}" onclick="event.stopPropagation()">
@@ -3227,7 +3227,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.95' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.96' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
