@@ -968,20 +968,19 @@
             position: relative;
         }
 
-
         .summary-item.is-current {
             border: 5px solid var(--primary-color);
         }
 
+        /*
         .summary-item.is-playing {
             border: 5px solid var(--primary-color);
         }
 
-        /*
         .summary-item.is-paused {
             border: 5px solid var(--primary-color);
         }
-         */
+        */
 
         .summary-item.is-playing.is-current {
             border: 5px solid var(--primary-color);
