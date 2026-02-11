@@ -142,8 +142,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.92';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.92' : 'config/config_fr.json?v1.92';
+        const configFile = 'config/config.json?v1.93';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.93' : 'config/config_fr.json?v1.93';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -1630,10 +1630,9 @@ function getSocialsHtml(g) {
         { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon',          viewBox: '0 0 21 19' },
         { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube-dark',         viewBox: '0 0 1090.667 366.667' },
         { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram-dark',       viewBox: '0 0 792.003 224.673' },
-
         { key: 'performer_website',    label: 'Website'      },
-        { key: 'event_link',           label: 'TINALS' },
-        { key: 'event_ticket',         label: 'Tickets'      }
+        { key: 'event_ticket',         label: 'Tickets'      },
+        { key: 'event_link',           label: 'TINALS',      sprite: 'tag-tinals-2026',      viewBox: '0 0 550.81738 103.39637' }
     ];
 
     const links = networks.filter(n => g[n.key]).map(n => {
@@ -3160,7 +3159,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.92' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.93' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
