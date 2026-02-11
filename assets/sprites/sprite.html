@@ -130,10 +130,11 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
+            const timestamp = new Date().getTime();
             const filePath = 'sprite.svg'; // Chemin du fichier relatif
             document.getElementById('file-path').innerText = `Fichier : ${window.location.pathname.replace('sprite.html', '')}${filePath}`;
 
-            fetch(filePath)
+            fetch(`${filePath}?t=${timestamp}`)
                 .then(response => {
                     if (!response.ok) {
                         throw new Error('Erreur réseau ou fichier non trouvé');
@@ -188,7 +189,7 @@ ${symbol.innerHTML}
                         card.innerHTML = `
                             <div class="preview checkerboard">
                                 <svg viewBox="${viewBox || ''}">
-                                    <use href="sprite.svg#${id}"></use>
+                                    <use href="${filePath}?t=${timestamp}#${id}"></use>
                                 </svg>
                             </div>
                             <div class="info">
