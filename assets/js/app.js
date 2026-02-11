@@ -1054,7 +1054,8 @@ function getVideoCardHtml( g ) {
 
     const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
     const socialsHtml     = getSocialsHtml(g);
-    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-header-row"><div class="desc-state-icon material-icons">expand_less</div><div class="desc-text">${descriptionText}</div></div>${socialsHtml}</div>` : '';
+    const ticketButtonsHtml = getTicketButtonsHtml(g);
+    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-header-row"><div class="desc-state-icon material-icons">expand_less</div><div class="desc-text">${descriptionText}</div></div>${socialsHtml}${ticketButtonsHtml}</div>` : '';
     const artistAvatarImg = g.image_thumbnail || g.image;
 
     const artistAvatarHtml = `
@@ -1647,6 +1648,68 @@ function getSocialsHtml(g) {
 }
 
 
+function getTicketButtonsHtml(g) {
+    if (!AppState.config.ticketing || !AppState.config.ticketing_texts) return '';
+
+    // Check availability and session match
+    // Requirement:
+    // 1. "pass de 2 jours" (full-pass)
+    // 2. "billet journée" corresponding to tag “day-1” or “day-2”
+    // Remark: "Si pas de tag “day-1” ou “day-2”, alors uniquement celui de "pass de 2 jours""
+    // Remark: "Il faut que le billet est la valeur "is_available": true"
+
+    // Logic:
+    // Iterate over configured tickets.
+    // If ticket is not available, skip.
+    // If ticket session covers the artist's session (g.event_session), include it.
+    // Note: full-pass covers day-1 and day-2, so it will match.
+    // If artist has no session/tag, only include full-pass?
+    // Let's assume full-pass has id 'full-pass'.
+
+    return AppState.config.ticketing.map(ticket => {
+        if (ticket.is_available !== true) return '';
+
+        let shouldShow = false;
+
+        if (ticket.id === 'full-pass') {
+            shouldShow = true; // Always show full pass? Or only if no specific tag?
+            // Requirement says: "Si pas de tag ... alors uniquement full pass".
+            // And "Un billet 'pass de 2 jours' pour vendredi et samedi" (implies always shown for those days too)
+        } else {
+             // Day pass logic
+             if (g.event_session) {
+                 if (Array.isArray(ticket.session)) {
+                     if (ticket.session.includes(g.event_session)) shouldShow = true;
+                 } else {
+                     if (ticket.session === g.event_session) shouldShow = true;
+                 }
+             }
+        }
+
+        if (!shouldShow) return '';
+
+        // Get text from ticketing_texts (Array)
+        const textObj = AppState.config.ticketing_texts.find(t => t.id === ticket.id);
+        if (!textObj) return '';
+
+        const title    = textObj.ticket_title || '';
+        const subtitle = textObj.ticket_subtitle || '';
+        const btnText  = textObj.button_text || ''; // Not used in design, but available
+        const url      = ticket.button_url || '#';
+        const color    = ticket.button_color || '';
+
+        return `
+        <a href="${url}" target="_blank" class="artist-ticket-btn ${color}" onclick="event.stopPropagation()">
+            <span class="material-icons artist-ticket-icon">confirmation_number</span>
+            <div class="artist-ticket-info">
+                <span class="ticket-title">${title}</span>
+                <span class="ticket-subtitle">${subtitle}</span>
+            </div>
+        </a>`;
+    }).join('');
+}
+
+
 /* TICKETING */
 
 
@@ -1654,12 +1717,12 @@ function getTicketingHtml() {
     const t = AppState.config.texts;
     const s = AppState.settings;
     const ticketing = AppState.config.ticketing || [];
-    const ticketingTexts = AppState.config.ticketing_texts || {};
+    const ticketingTexts = AppState.config.ticketing_texts || [];
     let blocksHtml = '';
 
     if (Array.isArray(ticketing)) {
         ticketing.forEach(ticket => {
-            const ticketTexts = ticketingTexts[ticket.id] || {};
+            const ticketTexts = ticketingTexts.find(txt => txt.id === ticket.id) || {};
             const isAvailable = ticket.is_available !== false;
             const colorClass  = ticket.button_color || '';
             const title       = ticketTexts.ticket_title || '';
