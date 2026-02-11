@@ -1645,7 +1645,7 @@
         .artist-ticket-btn {
             display: inline-flex;
             align-items: center;
-            background-color: var(--white-color);
+            color: var(--white-color);
             padding: 8px 15px;
             border-radius: 12px;
             text-decoration: none;
@@ -1692,15 +1692,15 @@
         }
 
         .artist-ticket-btn.full-pass-ticket {
-            color: var(--full-pass-ticket-color);
+            background-color: var(--full-pass-ticket-color);
         }
 
         .artist-ticket-btn.day-pass-ticket-1 {
-            color: var(--day-pass-ticket-1-color);
+            background-color: var(--day-pass-ticket-1-color);
         }
 
         .artist-ticket-btn.day-pass-ticket-2 {
-            color: var(--day-pass-ticket-2-color);
+            background-color: var(--day-pass-ticket-2-color);
         }
 
     /* --- VIDEO-CARD : ARTIST HIDING ELEMENTS ON PLAY --- */
