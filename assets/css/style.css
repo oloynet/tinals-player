@@ -5,7 +5,16 @@
     --fourth-color:     #f8f8d8;  /* light yellow */
     --fifth-color:      #96a002;  /* green */
 
-    --facebook-color:   #0866ff;  /* facebook blue */
+    --deezer-orange-color:       #a238ff;
+    --facebook-blue-color:       #0766ff;
+    --instagram-dark-grey-color: #262626;
+    --pinterest-red-color:       #e71c26;
+    --soundcloud-orange-color:   #f50;
+    --spotify-green-color:       #1ed760;
+    --tiktok-blue-color:         #25F4EE;
+    --tiktok-red-color:          #FE2C55;
+    --youtube-dark-grey-color:   #212121;
+    --youtube-red-color:         #f03;
 
     --black-color:      #000;
     --black-a5-color:   #0000000d;
@@ -160,7 +169,7 @@
     .svg-logo-paloma-2022,
     .svg-logo-nimes-metropole,
     .svg-logo-come-on-people {
-        fill: #000;
+        fill: var(--black-color);
     }
 
     .svg-logo-tinals-2026-dark,
@@ -169,7 +178,7 @@
     .svg-logo-paloma-2022-dark,
     .svg-logo-nimes-metropole-dark,
     .svg-logo-come-on-people-dark {
-        fill: #fff;
+        fill: var(--white-color);
     }
     .svg-tag-tinals-2026,
     .svg-tag-tinals-2026-dark {
@@ -178,64 +187,63 @@
 
     .svg-deezer,
     .svg-deezer-icon {
-        fill: #000;
+        fill: var(--black-color);
     }
     .svg-deezer-dark,
     .svg-deezer-icon-dark {
-        fill: #fff;
+        fill: var(--white-color);
     }
 
     .svg-facebook,
     .svg-facebook-icon,
     .svg-facebook-dark,
     .svg-facebook-icon-dark {
-        fill: #0866ff;
+        fill: var(--facebook-blue-color);
     }
 
     .svg-instagram,
     .svg-instagram-icon {
-        fill: #262626;
+        fill: var(--instagram-dark-grey-color);
     }
 
     .svg-instagram-dark,
     .svg-instagram-icon-dark {
-        fill: #fff;
+        fill: var(--white-color);
     }
 
     .svg-pinterest-icon,
     .svg-pinterest-icon-dark {
-        fill: #e71c26;
+        fill: var( --pinterest-red-color);
     }
 
     .svg-soundcloud-icon,
     .svg-soundcloud-icon-dark {
-        fill: #ff5500;
+        fill: var(--soundcloud-orange-color);
     }
 
     .svg-spotify,
     .svg-spotify-icon,
     .svg-spotify-dark,
     .svg-spotify-icon-dark {
-        fill: #1ed760;
-        fill: #1ed760;
+        fill: var(--spotify-green-color);
     }
 
     .svg-tiktok,
     .svg-tiktok-icon {
-        fill: #000;
+        fill: var(--black-color);
     }
     .svg-tiktok-dark,
     .svg-tiktok-icon-dark {
-        fill: #fff;
+        fill: var(--white-color);
     }
 
     .svg-youtube,
     .svg-youtube-icon {
-        fill: #212121;
+        fill: var(--youtube-dark-grey-color);
     }
     .svg-youtube-dark,
     .svg-youtube-icon-dark {
-        fill: #fff;
+        fill: var(--white-color);
     }
 
 
@@ -940,7 +948,7 @@
         .home-organizer svg {
             width: 100%;
             height: auto;
-            fill: #fff;
+            fill: var(--white-color);
             display: block;
             transition: transform 0.2s;
         }
@@ -957,7 +965,7 @@
         }
 
         .organizer-logo-link:hover svg {
-            fill: #fff;
+            fill: var(--white-color);
         }
 
         .organizer-logo-link:hover svg {
@@ -1820,7 +1828,7 @@
     /* --- VIDEO-CARD : FULLSCREEN --- */
 
         .video-card:fullscreen {
-            background: #000;
+            background: var(--black-color);
             display: flex;
             justify-content: center;
             align-items: center;
@@ -2876,7 +2884,7 @@
         }
 
         .about-social a {
-            color: var(--facebook-color);
+            color: var(--facebook-blue-color);
             font-weight: bold;
             text-decoration: none;
             display: inline-flex;
@@ -3232,7 +3240,7 @@
         }
 
         .share-btn-modal.facebook {
-            background: var(--facebook-color);
+            background: var(--facebook-blue-color);
         }
 
         .share-btn-modal.email {

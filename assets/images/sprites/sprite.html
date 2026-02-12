@@ -11,6 +11,20 @@
             --third-color:      #2d91d0;  /* blue */
             --fourth-color:     #f8f8d8;  /* light yellow */
             --fifth-color:      #96a002;  /* green */
+
+            --black-color:      #000;
+            --white-color:      #fff;
+
+            --deezer-orange-color:       #a238ff;
+            --facebook-blue-color:       #0766ff;
+            --instagram-dark-grey-color: #262626;
+            --pinterest-red-color:       #e71c26;
+            --soundcloud-orange-color:   #f50;
+            --spotify-green-color:       #1ed760;
+            --tiktok-blue-color:         #25F4EE;
+            --tiktok-red-color:          #FE2C55;
+            --youtube-dark-grey-color:   #212121;
+            --youtube-red-color:         #f03;
         }
 
         body {
@@ -232,94 +246,90 @@
             background-color: #2980b9;
         }
 
+    /* --- SVG COLORS SPRITES--- */
 
-    .svg-logo-tinals-2026,
-    .svg-svg-logo-paloma-2012,
-    .svg-logo-paloma-2022,
-    .svg-logo-nimes-metropole,
-    .svg-logo-come-on-people {
-        fill: #000;
-    }
+        .svg-logo-tinals-2026,
+        .svg-tag-tinals-2026,
+        .svg-svg-logo-paloma-2012,
+        .svg-logo-paloma-2022,
+        .svg-logo-nimes-metropole,
+        .svg-logo-come-on-people {
+            fill: var(--black-color);
+        }
 
-    .svg-tag-tinals-2026 {
-        fill: var(--primary-color);
-    }
+        .svg-logo-tinals-2026-dark,
+        .svg-tag-tinals-2026-dark,
+        .svg-svg-logo-paloma-2012-dark,
+        .svg-logo-paloma-2022-dark,
+        .svg-logo-nimes-metropole-dark,
+        .svg-logo-come-on-people-dark {
+            fill: var(--white-color);
+        }
+        .svg-tag-tinals-2026,
+        .svg-tag-tinals-2026-dark {
+            fill: var(--primary-color);
+        }
 
-    .svg-logo-tinals-2026-dark,
-    .svg-svg-logo-paloma-2012-dark,
-    .svg-logo-paloma-2022-dark,
-    .svg-logo-nimes-metropole-dark,
-    .svg-logo-come-on-people-dark {
-        fill: #fff;
-    }
+        .svg-deezer,
+        .svg-deezer-icon {
+            fill: var(--black-color);
+        }
+        .svg-deezer-dark,
+        .svg-deezer-icon-dark {
+            fill: var(--white-color);
+        }
 
-    .svg-tag-tinals-2026-dark {
-        fill: var(--primary-color);
-    }
+        .svg-facebook,
+        .svg-facebook-icon,
+        .svg-facebook-dark,
+        .svg-facebook-icon-dark {
+            fill: var(--facebook-blue-color);
+        }
 
+        .svg-instagram,
+        .svg-instagram-icon {
+            fill: var(--instagram-dark-grey-color);
+        }
 
-    .svg-deezer,
-    .svg-deezer-icon {
-        fill: #000;
-    }
-    .svg-deezer-dark,
-    .svg-deezer-icon-dark {
-        fill: #fff;
-    }
+        .svg-instagram-dark,
+        .svg-instagram-icon-dark {
+            fill: var(--white-color);
+        }
 
-    .svg-facebook,
-    .svg-facebook-icon,
-    .svg-facebook-dark,
-    .svg-facebook-icon-dark {
-        fill: #0866ff;
-    }
+        .svg-pinterest-icon,
+        .svg-pinterest-icon-dark {
+            fill: var( --pinterest-red-color);
+        }
 
-    .svg-instagram,
-    .svg-instagram-icon {
-        fill: #262626;
-    }
+        .svg-soundcloud-icon,
+        .svg-soundcloud-icon-dark {
+            fill: var(--soundcloud-orange-color);
+        }
 
-    .svg-instagram-dark,
-    .svg-instagram-icon-dark {
-        fill: #fff;
-    }
+        .svg-spotify,
+        .svg-spotify-icon,
+        .svg-spotify-dark,
+        .svg-spotify-icon-dark {
+            fill: var(--spotify-green-color);
+        }
 
-    .svg-pinterest-icon,
-    .svg-pinterest-icon-dark {
-        fill: #e71c26;
-    }
+        .svg-tiktok,
+        .svg-tiktok-icon {
+            fill: var(--black-color);
+        }
+        .svg-tiktok-dark,
+        .svg-tiktok-icon-dark {
+            fill: var(--white-color);
+        }
 
-    .svg-soundcloud-icon,
-    .svg-soundcloud-icon-dark {
-        fill: #ff5500;
-    }
-
-    .svg-spotify,
-    .svg-spotify-icon,
-    .svg-spotify-dark,
-    .svg-spotify-icon-dark {
-        fill: #1ed760;
-        fill: #1ed760;
-    }
-
-    .svg-tiktok,
-    .svg-tiktok-icon {
-        fill: #000;
-    }
-    .svg-tiktok-dark,
-    .svg-tiktok-icon-dark {
-        fill: #fff;
-    }
-
-    .svg-youtube,
-    .svg-youtube-icon {
-        fill: #212121;
-    }
-    .svg-youtube-dark,
-    .svg-youtube-icon-dark {
-        fill: #fff;
-    }
-
+        .svg-youtube,
+        .svg-youtube-icon {
+            fill: var(--youtube-dark-grey-color);
+        }
+        .svg-youtube-dark,
+        .svg-youtube-icon-dark {
+            fill: var(--white-color);
+        }
 
     </style>
 </head>
@@ -468,6 +478,9 @@
                     themeToggleBtn.innerText = 'Mode Sombre';
                     classColorExt = '';
                 }
+
+                console.log( 'classColorExt = ' + classColorExt );
+
                 localStorage.setItem('theme', isDark ? 'dark' : 'light');
                 updateSvgClasses();
             }
