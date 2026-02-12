@@ -2091,7 +2091,7 @@ function setupInteraction() {
             }, 150);
         };
 
-        const targets = overlay.querySelectorAll('.artist-avatar-container, .artist-info h2, .artist-date-place, .artist-description');
+        const targets = overlay.querySelectorAll('.artist-avatar-container, .artist-info h2, .artist-date-place, .tags-container, .artist-description');
         targets.forEach(el => {
             el.addEventListener('mouseenter', openDesc);
             el.addEventListener('mouseleave', closeDesc);
