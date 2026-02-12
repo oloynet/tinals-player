@@ -5,6 +5,14 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Visualiseur des sprites SVG</title>
     <style>
+        :root {
+            --primary-color:    #e9552b;  /* orange - rgb(255, 65, 4) */
+            --secondary-color:  #ffa7b5;  /* pink */
+            --third-color:      #2d91d0;  /* blue */
+            --fourth-color:     #f8f8d8;  /* light yellow */
+            --fifth-color:      #96a002;  /* green */
+        }
+
         body {
             font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
             background-color: #f4f4f9;
@@ -12,7 +20,52 @@
             margin: 0;
             padding: 20px;
             padding-bottom: 50px;
+            transition: background-color 0.3s, color 0.3s;
         }
+
+        /* Dark Mode Styles */
+        body.dark-mode {
+            background-color: #1a1a1a;
+            color: #f0f0f0;
+        }
+        body.dark-mode h1 {
+            color: #ecf0f1;
+        }
+        body.dark-mode h2 {
+            color: #bdc3c7;
+        }
+        body.dark-mode .card {
+            background-color: #2c3e50;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+        }
+        body.dark-mode .info {
+            background-color: #2c3e50;
+            color: #ecf0f1;
+        }
+        body.dark-mode .info h3 {
+            color: #ecf0f1;
+        }
+        body.dark-mode .info p {
+            color: #bdc3c7;
+        }
+        body.dark-mode .info strong {
+            color: #fff;
+        }
+        body.dark-mode .validation-box {
+            background-color: #2c3e50;
+            border-color: #444;
+        }
+        body.dark-mode .validation-box pre {
+            background-color: #252525;
+            color: #f0f0f0;
+        }
+        body.dark-mode .footer-link a {
+            color: #5dade2;
+        }
+        body.dark-mode .preview {
+            border-bottom: 1px solid #444;
+        }
+
         h1 {
             text-align: center;
             margin-bottom: 30px;
@@ -66,6 +119,7 @@
             overflow: hidden;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.3s;
         }
         .preview {
             height: 200px;
@@ -83,6 +137,14 @@
             background-size: 20px 20px;
             background-position: 0 0, 10px 10px;
         }
+
+        body.dark-mode .checkerboard {
+            background-color: #333;
+            background-image:
+                linear-gradient(45deg, #444 25%, transparent 25%, transparent 75%, #444 75%, #444),
+                linear-gradient(45deg, #444 25%, transparent 25%, transparent 75%, #444 75%, #444);
+        }
+
         .preview svg {
             max-width: 100%;
             max-height: 100%;
@@ -90,12 +152,18 @@
             height: auto;
             border: 1px dotted #333;
         }
+
+        body.dark-mode .preview svg {
+             border: 1px dotted #777;
+        }
+
         .info {
             padding: 15px;
             background: #fff;
             flex-grow: 1;
             display: flex;
             flex-direction: column;
+            transition: background-color 0.3s, color 0.3s;
         }
         .info h3 {
             margin: 0 0 10px 0;
@@ -145,9 +213,27 @@
             text-decoration: underline;
         }
 
+        /* Toggle Button */
+        #theme-toggle {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            padding: 8px 16px;
+            background-color: #3498db;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            font-size: 0.9em;
+            transition: background-color 0.2s;
+        }
+        #theme-toggle:hover {
+            background-color: #2980b9;
+        }
+
 
     .svg-logo-tinals-2026,
-    .svg-tag-tinals-2026,
     .svg-svg-logo-paloma-2012,
     .svg-logo-paloma-2022,
     .svg-logo-nimes-metropole,
@@ -155,13 +241,20 @@
         fill: #000;
     }
 
+    .svg-tag-tinals-2026 {
+        fill: var(--primary-color);
+    }
+
     .svg-logo-tinals-2026-dark,
-    .svg-tag-tinals-2026-dark,
     .svg-svg-logo-paloma-2012-dark,
     .svg-logo-paloma-2022-dark,
     .svg-logo-nimes-metropole-dark,
     .svg-logo-come-on-people-dark {
         fill: #fff;
+    }
+
+    .svg-tag-tinals-2026-dark {
+        fill: var(--primary-color);
     }
 
 
@@ -231,6 +324,7 @@
     </style>
 </head>
 <body>
+    <button id="theme-toggle">Mode Sombre</button>
     <h1>Visualiseur des sprites SVG</h1>
     <h2 id="file-path">Fichier : sprite.svg</h2>
 
@@ -360,7 +454,42 @@
 
         document.addEventListener('DOMContentLoaded', () => {
 
-            const classColorExt = ''; // '' for light background or '-dark' for dark background;
+            let classColorExt = ''; // '' for light background or '-dark' for dark background;
+            const themeToggleBtn = document.getElementById('theme-toggle');
+
+            // Theme Management
+            function setTheme(isDark) {
+                if (isDark) {
+                    document.body.classList.add('dark-mode');
+                    themeToggleBtn.innerText = 'Mode Clair';
+                    classColorExt = '-dark';
+                } else {
+                    document.body.classList.remove('dark-mode');
+                    themeToggleBtn.innerText = 'Mode Sombre';
+                    classColorExt = '';
+                }
+                localStorage.setItem('theme', isDark ? 'dark' : 'light');
+                updateSvgClasses();
+            }
+
+            function updateSvgClasses() {
+                const svgs = document.querySelectorAll('.card .preview svg[data-id]');
+                svgs.forEach(svg => {
+                    const id = svg.getAttribute('data-id');
+                    svg.setAttribute('class', `svg-${id}${classColorExt}`);
+                });
+            }
+
+            themeToggleBtn.addEventListener('click', () => {
+                const isDark = !document.body.classList.contains('dark-mode');
+                setTheme(isDark);
+            });
+
+            // Initialize theme
+            const savedTheme = localStorage.getItem('theme');
+            if (savedTheme === 'dark') {
+                setTheme(true);
+            }
 
             const timestamp  = new Date().getTime();
             const filePath   = 'sprite.svg'; // Chemin du fichier relatif
@@ -427,7 +556,7 @@ ${symbol.innerHTML}
 
                         card.innerHTML = `
                             <div class="preview checkerboard">
-                                <svg viewBox="${viewBox || ''}" class="${classColor}">
+                                <svg viewBox="${viewBox || ''}" class="${classColor}" data-id="${id}">
                                     <use href="${filePath}?t=${timestamp}#${id}"></use>
                                 </svg>
                             </div>
