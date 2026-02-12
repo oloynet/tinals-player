@@ -154,6 +154,23 @@
 
 /* --- SVG COLORS SPRITES--- */
 
+    .svg-logo-tinals-2026,
+    .svg-tag-tinals-2026,
+    .svg-svg-logo-paloma-2012,
+    .svg-logo-paloma-2022,
+    .svg-logo-nimes-metropole,
+    .svg-logo-come-on-people {
+        fill: #000;
+    }
+
+    .svg-logo-tinals-2026-dark,
+    .svg-tag-tinals-2026-dark,
+    .svg-svg-logo-paloma-2012-dark,
+    .svg-logo-paloma-2022-dark,
+    .svg-logo-nimes-metropole-dark,
+    .svg-logo-come-on-people-dark {
+        fill: #fff;
+    }
     .svg-tag-tinals-2026,
     .svg-tag-tinals-2026-dark {
         fill: var(--primary-color);
@@ -371,7 +388,6 @@
             width: 75px;
             height: auto;
             aspect-ratio: 40 / 17;
-            fill: var(--white-color);
         }
 
 
@@ -940,8 +956,8 @@
             transition: color 0.4s;
         }
 
-        .organizer-logo-link:hover {
-            color: var(--white-color);
+        .organizer-logo-link:hover svg {
+            fill: #fff;
         }
 
         .organizer-logo-link:hover svg {
@@ -2340,7 +2356,6 @@
             width: 75px;
             height: auto;
             aspect-ratio: 40 / 17;
-            fill: var(--black-color);
         }
 
         .main-menu-content {

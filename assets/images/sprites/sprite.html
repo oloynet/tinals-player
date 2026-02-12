@@ -146,72 +146,87 @@
         }
 
 
-        .svg-tag-tinals-2026,
-        .svg-tag-tinals-2026-dark {
-            fill: var(--primary-color);
-        }
+    .svg-logo-tinals-2026,
+    .svg-tag-tinals-2026,
+    .svg-svg-logo-paloma-2012,
+    .svg-logo-paloma-2022,
+    .svg-logo-nimes-metropole,
+    .svg-logo-come-on-people {
+        fill: #000;
+    }
 
-        .svg-deezer,
-        .svg-deezer-icon {
-            fill: #000;
-        }
-        .svg-deezer-dark,
-        .svg-deezer-icon-dark {
-            fill: #fff;
-        }
+    .svg-logo-tinals-2026-dark,
+    .svg-tag-tinals-2026-dark,
+    .svg-svg-logo-paloma-2012-dark,
+    .svg-logo-paloma-2022-dark,
+    .svg-logo-nimes-metropole-dark,
+    .svg-logo-come-on-people-dark {
+        fill: #fff;
+    }
 
-        .svg-facebook,
-        .svg-facebook-icon,
-        .svg-facebook-dark,
-        .svg-facebook-icon-dark {
-            fill: #0866ff;
-        }
 
-        .svg-instagram,
-        .svg-instagram-icon {
-            fill: #262626;
-        }
+    .svg-deezer,
+    .svg-deezer-icon {
+        fill: #000;
+    }
+    .svg-deezer-dark,
+    .svg-deezer-icon-dark {
+        fill: #fff;
+    }
 
-        .svg-instagram-dark,
-        .svg-instagram-icon-dark {
-            fill: #fff;
-        }
+    .svg-facebook,
+    .svg-facebook-icon,
+    .svg-facebook-dark,
+    .svg-facebook-icon-dark {
+        fill: #0866ff;
+    }
 
-        .svg-pinterest-icon,
-        .svg-pinterest-icon-dark {
-            fill: #e71c26;
-        }
+    .svg-instagram,
+    .svg-instagram-icon {
+        fill: #262626;
+    }
 
-        .svg-soundcloud-icon,
-        .svg-soundcloud-icon-dark {
-            fill: #ff5500;
-        }
+    .svg-instagram-dark,
+    .svg-instagram-icon-dark {
+        fill: #fff;
+    }
 
-        .svg-spotify,
-        .svg-spotify-icon,
-        .svg-spotify-dark,
-        .svg-spotify-icon-dark {
-            fill: #1ed760;
-            fill: #1ed760;
-        }
+    .svg-pinterest-icon,
+    .svg-pinterest-icon-dark {
+        fill: #e71c26;
+    }
 
-        .svg-tiktok,
-        .svg-tiktok-icon {
-            fill: #000;
-        }
-        .svg-tiktok-dark,
-        .svg-tiktok-icon-dark {
-            fill: #fff;
-        }
+    .svg-soundcloud-icon,
+    .svg-soundcloud-icon-dark {
+        fill: #ff5500;
+    }
 
-        .svg-youtube,
-        .svg-youtube-icon {
-            fill: #212121;
-        }
-        .svg-youtube-dark,
-        .svg-youtube-icon-dark {
-            fill: #fff;
-        }
+    .svg-spotify,
+    .svg-spotify-icon,
+    .svg-spotify-dark,
+    .svg-spotify-icon-dark {
+        fill: #1ed760;
+        fill: #1ed760;
+    }
+
+    .svg-tiktok,
+    .svg-tiktok-icon {
+        fill: #000;
+    }
+    .svg-tiktok-dark,
+    .svg-tiktok-icon-dark {
+        fill: #fff;
+    }
+
+    .svg-youtube,
+    .svg-youtube-icon {
+        fill: #212121;
+    }
+    .svg-youtube-dark,
+    .svg-youtube-icon-dark {
+        fill: #fff;
+    }
+
 
     </style>
 </head>
@@ -345,10 +360,11 @@
 
         document.addEventListener('DOMContentLoaded', () => {
 
-            const color = '-dark'; // '' for light background or '-dark' for dark background;
+            const classColorExt = ''; // '' for light background or '-dark' for dark background;
 
-            const timestamp = new Date().getTime();
-            const filePath  = 'sprite.svg'; // Chemin du fichier relatif
+            const timestamp  = new Date().getTime();
+            const filePath   = 'sprite.svg'; // Chemin du fichier relatif
+
             document.getElementById('file-path').innerText = `Fichier : ${window.location.pathname.replace('sprite.html', '')}${filePath}`;
 
             fetch(`${filePath}?t=${timestamp}`)
@@ -407,9 +423,11 @@ ${symbol.innerHTML}
                         const card = document.createElement('div');
                         card.className = 'card';
 
+                        const classColor = `svg-${id}${classColorExt}`;
+
                         card.innerHTML = `
                             <div class="preview checkerboard">
-                                <svg viewBox="${viewBox || ''}" class="svg-${id}${color}">
+                                <svg viewBox="${viewBox || ''}" class="${classColor}">
                                     <use href="${filePath}?t=${timestamp}#${id}"></use>
                                 </svg>
                             </div>
