@@ -506,6 +506,8 @@ function applyConfigs() {
     s.isToastScrollPage             = f.is_toast_scroll_page              ?? false;
 
     s.isMenuAutoHide                = f.is_menu_auto_hide                 ?? false;
+    s.isMenuUninstall               = f.is_menu_uninstall                 ?? false;
+
     s.isDescriptionAutoHide         = f.is_description_auto_hide          ?? true;
     s.isFullscreenEnable            = f.is_fullscreen_enable              ?? true;
     s.isForceZoom                   = f.is_force_zoom                     ?? false;
@@ -766,6 +768,7 @@ function updateStaticTexts() {
         renderTagFilterBar();
     }
     updateSessionDisplay();
+    updateInstallMenuVisibility();
 }
 
 
@@ -824,6 +827,30 @@ function updateSessionDisplay() {
     });
 
     updateDynamicDates();
+}
+
+
+function updateInstallMenuVisibility() {
+    const installLi = document.getElementById('menu-install-li');
+    if (!installLi) return;
+
+    const isInstalled = localStorage.getItem('app_installed') === 'true';
+    const isMenuUninstall = AppState.settings.isMenuUninstall;
+    const t = AppState.config.texts;
+    const txtEl = document.getElementById('menu-txt-install');
+
+    // Dynamic text
+    if (txtEl) {
+         txtEl.innerText = isInstalled ? (t.menu_uninstall || "Désinstallation") : (t.menu_install || "Installation");
+    }
+
+    // Visibility
+    // Requirement: Show IF isMenuUninstall AND isInstalled
+    if (isMenuUninstall && isInstalled) {
+        installLi.style.display = ''; // Revert to CSS
+    } else {
+        installLi.style.display = 'none';
+    }
 }
 
 
@@ -1363,6 +1390,7 @@ function triggerInstallOrUninstall() {
             AppState.config.texts.menu_uninstall_confirm_title,
             AppState.config.texts.menu_uninstall_confirm_text,
             () => {
+                localStorage.removeItem('app_installed');
                 reloadApp(); // "Uninstall" via clearing data
             }
         );
@@ -3225,6 +3253,7 @@ const PWAManager = {
             this.deferredPrompt = null;
             localStorage.setItem('app_installed', 'true');
             console.log('PWA was installed');
+            updateInstallMenuVisibility();
         });
 
         // Setup buttons
