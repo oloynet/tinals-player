@@ -210,7 +210,12 @@ const VideoManager = {
         const group = AppState.data.find( g => g.id === id );
         const isAudio = group && !group.video_url && group.audio;
 
-        if ( icon && card ) {
+        let isAlreadyPlaying = false;
+        if ( this.instances[ id ] && typeof this.instances[ id ].getPlayerState === 'function' ) {
+            if ( this.instances[ id ].getPlayerState() === 1 ) isAlreadyPlaying = true;
+        }
+
+        if ( icon && card && !isAlreadyPlaying ) {
             if ( !isAudio ) {
                 icon.textContent = 'cached';
                 card.classList.add( 'loading' );
