@@ -68,7 +68,7 @@ These files handle general settings, feature flags, and internationalization (i1
     *   `is_display_tag`: If the tags are displayed.
     *   `is_display_place`: If the place is displayed.
     *   `is_display_record_name`: If the performer’s record name is displayed.
-    *   `is_display_group_description`: If the performer’s description is displayed.
+    *   `is_display_artist_description`: If the performer’s description is displayed.
     *   `is_description_auto_hide`: If the performer’s description is autohided after starting a video.
     *   `is_display_image_video_pause`: If the event image is displayed when the video is paused.
     *   `is_display_image_video_end`: If the event image is displayed when the video is ended.

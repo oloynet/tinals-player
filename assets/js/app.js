@@ -142,8 +142,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.98';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.98' : 'config/config_fr.json?v1.98';
+        const configFile = 'config/config.json?v1.99';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.99' : 'config/config_fr.json?v1.99';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -474,7 +474,7 @@ function applyConfigs() {
     s.isDisplayTag                  = f.is_display_tag                    ?? true;
     s.isDisplayPlace                = f.is_display_place                  ?? true;
     s.isDisplayRecordName           = f.is_display_record_name            ?? false;
-    s.isDisplayGroupDescription     = f.is_display_group_description      ?? true;
+    s.isDisplayGroupDescription     = f.is_display_artist_description      ?? true;
 
     s.isDisplayBoxTitle             = f.is_display_box_title              ?? false;
     s.isDisplayArtist               = f.is_display_artist                 ?? true;
@@ -1623,27 +1623,23 @@ function toggleArtistDescription( element, event ) {
 
 function getSocialsHtml(g) {
 
-    const classColorExt = '-dark'; // '' for light background or '-dark' for dark background;
-
     const networks = [
-        { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer',          viewBox: '0 0 992 279' },
-        { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon',   viewBox: '0 0 666.66666 666.66666' },
-        { key: 'performer_pinterest',  label: 'Pinterest',   sprite: 'pinterest-icon',  viewBox: '0 0 666.667 666.827' },
-        { key: 'performer_soundcloud', label: 'SoundCloud',  sprite: 'soundcloud-icon', viewBox: '0 0 256.1 111.1' },
-        { key: 'performer_spotify',    label: 'Spotify',     sprite: 'spotify',         viewBox: '0 0 425 120' },
-        { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon',     viewBox: '0 0 21 19' },
-        { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube',         viewBox: '0 0 1090.667 366.667' },
-        { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram',       viewBox: '0 0 792.003 224.673' },
+        { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer',          class: 'svg-deezer-dark',             viewBox: '0 0 992 279' },
+        { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon',   class: 'svg-facebook-icon-dark',      viewBox: '0 0 666.66666 666.66666' },
+        { key: 'performer_pinterest',  label: 'Pinterest',   sprite: 'pinterest-icon',  class: 'svg-pinterest-icon-dark',     viewBox: '0 0 666.667 666.827' },
+        { key: 'performer_soundcloud', label: 'SoundCloud',  sprite: 'soundcloud-icon', class: 'svg-soundcloud-icon-dark',    viewBox: '0 0 256.1 111.1' },
+        { key: 'performer_spotify',    label: 'Spotify',     sprite: 'spotify',         class: 'svg-spotify-dark',            viewBox: '0 0 425 120' },
+        { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon',     class: 'svg-tiktok-icon-dark',        viewBox: '0 0 21 19' },
+        { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube',         class: 'svg-youtube-dark',            viewBox: '0 0 1090.667 366.667' },
+        { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram',       class: 'svg-instagram-dark',          viewBox: '0 0 792.003 224.673' },
         { key: 'performer_website',    label: 'Website'      },
         { key: 'event_ticket',         label: 'Tickets'      },
-        { key: 'event_link',           label: 'TINALS',      sprite: 'tag-tinals-2026', viewBox: '0 0 420 100' }
+        { key: 'event_link',           label: 'TINALS',      sprite: 'tag-tinals-2026', class: 'svg-tag-tinals-2026-primary', viewBox: '0 0 420 100' }
     ];
-
 
     const links = networks.filter(n => g[n.key]).map(n => {
         if (n.sprite) {
-            const classColor = `svg-${n.sprite}${classColorExt}`
-            return `<a href="${g[n.key]}" target="_blank" class="social-icon-link ${classColor}" title="${n.label}"><svg class="social-icon-svg" viewBox="${n.viewBox}"><use href="${AppState.config.images.sprite_path}#${n.sprite}"></use></svg></a>`;
+            return `<a href="${g[n.key]}" target="_blank" class="social-icon-link ${n.class}" title="${n.label}"><svg class="social-icon-svg" viewBox="${n.viewBox}"><use href="${AppState.config.images.sprite_path}#${n.sprite}"></use></svg></a>`;
         }
         return `<a href="${g[n.key]}" target="_blank" class="social-pill" title="${n.label}">${n.label}</a>`;
     });
@@ -1659,7 +1655,7 @@ function getTicketButtonsHtml(g) {
     // Check availability and session match
     // Requirement:
     // 1. "pass de 2 jours" (full-pass)
-    // 2. "billet journée" corresponding to tag “day-1” or “day-2”
+    // 2. "pass journée" corresponding to tag “day-1” or “day-2”
     // Remark: "Si pas de tag “day-1” ou “day-2”, alors uniquement celui de "pass de 2 jours""
     // Remark: "Il faut que le billet est la valeur "is_available": true"
 
@@ -3237,7 +3233,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.98' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.99' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
