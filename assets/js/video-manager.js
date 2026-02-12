@@ -163,7 +163,7 @@ const VideoManager = {
                 }, 3000 );
             }
             if ( s.isAutoLoadVideo ) this.preloadNext( id );
-            if ( typeof updateSummaryPlayingState === 'function' ) updateSummaryPlayingState( id, false );
+            if ( typeof updateProgramPlayingState === 'function' ) updateProgramPlayingState( id, false );
         } else if ( e.data === 2 || e.data === 0 ) {
             document.body.classList.remove('is-video-playing');
             card.classList.remove( 'loading' );
@@ -175,7 +175,7 @@ const VideoManager = {
             ControlBar.updatePlayPauseIcon( false );
 
             if ( e.data === 2 ) {
-                if ( typeof updateSummaryPlayingState === 'function' ) updateSummaryPlayingState( id, true );
+                if ( typeof updateProgramPlayingState === 'function' ) updateProgramPlayingState( id, true );
                 if ( s.isDisplayImageVideoPause ) card.classList.remove( 'playing' );
                 else card.classList.add( 'playing' );
 
@@ -184,7 +184,7 @@ const VideoManager = {
                     icon.textContent = 'play_arrow';
                 }
             } else {
-                if ( typeof updateSummaryPlayingState === 'function' ) updateSummaryPlayingState( null );
+                if ( typeof updateProgramPlayingState === 'function' ) updateProgramPlayingState( null );
                 ControlBar.stopTracking();
                 card.classList.remove( 'playing' );
 

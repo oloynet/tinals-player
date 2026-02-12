@@ -1,14 +1,32 @@
-const CACHE_NAME = 'v1.96';
+const CACHE_NAME = 'v1.973';
 
 const STATIC_ASSETS = [
     './',
     './index.html',
     './manifest.json',
 
-    './config/config_en.config.json',
+    './assets/css/style.css',
+    './assets/images/sprites/sprite.svg',
+    './assets/images/background/tinals-2018-trame-342x342-noir.svg',
+    './assets/images/shortcuts/flag-EN.svg',
+    './assets/images/shortcuts/flag-FR.svg',
+
+    './assets/js/app.js',
+    './assets/js/control-bar.js',
+    './assets/js/audio-player.js',
+    './assets/js/video-manager.js',
+
+    './assets/favicon/android-chrome-192x192.png',
+    './assets/favicon/android-chrome-512x512.png',
+    './assets/favicon/favicon-maskable-192x192.png',
+    './assets/favicon/favicon-maskable-512x512.png',
+    './assets/favicon/apple-touch-icon.png',
+    './assets/favicon/favicon.ico',
+    './assets/favicon/favicon.svg',
+
+    './config/config_en.json',
     './config/config_fr.json',
 
-    //'./data/2026/affiche-tinals.webp',
     './data/2026/data.json',
 
     './data/2026/images/16-horsepower.artist.webp',
@@ -116,24 +134,7 @@ const STATIC_ASSETS = [
     './data/2026/images/yerai-cortes.thumbnail.webp',
     './data/2026/images/yerai-cortes.webp',
 
-    './assets/css/style.css',
-    './assets/images/photos/tinals-2025-par-dorian-meyrieux.webp',
-    './assets/images/shortcuts/flag-EN.svg',
-    './assets/images/shortcuts/flag-FR.svg',
-    './assets/images/tinals-2018-trame-342x342-noir.svg',
-    './assets/sprites/sprite.svg',
-    './assets/js/app.js',
-    './assets/js/control-bar.js',
-    './assets/js/simple-audio-player.js',
-    './assets/js/video-manager.js',
-
-    './assets/favicon/android-chrome-192x192.png',
-    './assets/favicon/android-chrome-512x512.png',
-    './assets/favicon/favicon-maskable-192x192.png',
-    './assets/favicon/favicon-maskable-512x512.png',
-    './assets/favicon/apple-touch-icon.png',
-    './assets/favicon/favicon.ico',
-    './assets/favicon/favicon.svg',
+    './data/2026/splash/affiche-tinals.webp'
 ];
 
 self.addEventListener( 'install', ( evt ) => {

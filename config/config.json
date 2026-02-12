@@ -1,10 +1,10 @@
 {
     "site":
     {
-        "version":          "v1.96",
-        "version_name":     "TINALS v1.96",
-        "title":            "Playlist du festival TINALS 2026 à Nîmes",
-        "name":             "TINALS 2026",
+        "version":          "v1.973",
+        "version_name":     "TINALS v1.973",
+        "title":            "TINALS 2026 player",
+        "name":             "TINALS app",
         "short_name":       "TINALS",
         "description":      "Festival This Is Not A Love Song du 5 au 6 juin 2026 à Nîmes. TINALS est un festival de musiques indépendantes dites 'indie' à Paloma",
         "theme_color":      "#e9552b",
@@ -19,7 +19,7 @@
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
-        "data_source":      "data/2026/data.json?v1.96",
+        "data_source":      "data/2026/data.json?v1.973",
 
         "step":             "full_program"
     },
@@ -120,7 +120,7 @@
         "is_display_control_bar": true,
         "is_display_image_video_pause": true,
         "is_display_image_video_end": true,
-        "is_display_summary_head": true,
+        "is_display_program_head": true,
         "is_display_menu_icon": false,
         "is_context_menu": true,
 
@@ -194,11 +194,10 @@
     {
         "menu_id":           "logo-tinals-2026",
         "presentation_id":   "logo-home",
-        "loader_id":         "tinals-2026-loader-rotate",
         "flag_fr_id":        "flag-fr",
         "flag_en_id":        "flag-en",
 
-        "sprite_path":       "assets/sprites/sprite.svg?v1.96",
+        "sprite_path":       "assets/images/sprites/sprite.svg?v1.973",
 
         "icon_192":          "assets/favicon/android-chrome-192x192.png",
         "icon_512":          "assets/favicon/android-chrome-512x512.png",

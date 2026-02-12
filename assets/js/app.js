@@ -142,8 +142,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v1.96';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.96' : 'config/config_fr.json?v1.96';
+        const configFile = 'config/config.json?v1.973';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v1.973' : 'config/config_fr.json?v1.973';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -263,7 +263,7 @@ async function init() {
             }, 100 );
         } else if ( idParam && validIds.includes( Number( idParam ) ) ) {
             AppState.state.activeId = Number( idParam );
-            updateSummaryPlayingState( AppState.state.activeId );
+            updateProgramPlayingState( AppState.state.activeId );
             setTimeout( () => {
                 const target = document.getElementById( `video-${AppState.state.activeId}` );
                 if ( target ) target.scrollIntoView( {
@@ -599,7 +599,7 @@ function applyConfigs() {
                 scripts: [
                     "service-worker.js",
                     "assets/js/app.js",
-                    "assets/js/simple-audio-player.js",
+                    "assets/js/audio-player.js",
                     "assets/js/control-bar.js",
                     "assets/js/video-manager.js"
                 ],
@@ -703,7 +703,7 @@ function updateStaticTexts() {
     if(t.fav_btn_play)      document.getElementById( 'btn-txt-play-fav' ).innerText  = t.fav_btn_play;
     if(t.fav_btn_share)     document.getElementById( 'btn-txt-share-fav' ).innerText = t.fav_btn_share;
     if(t.share_title)       document.getElementById( 'share-title-text' ).innerText  = t.share_title;
-    if(t.summary_title)     document.getElementById( 'summary-title' ).innerText     = t.summary_title;
+    if(t.program_title)     document.getElementById( 'program-title' ).innerText     = t.program_title;
     if(t.share_facebook)    document.getElementById( 'txt-share-fb' ).innerText      = t.share_facebook;
     if(t.share_tiktok)      document.getElementById( 'txt-share-tiktok' ).innerText  = t.share_tiktok;
     if(t.share_email)       document.getElementById( 'txt-share-email' ).innerText   = t.share_email;
@@ -845,7 +845,7 @@ function updateDynamicDates() {
             // < 320 compact, >= 320 normal
             if (width < 320) newText = session.display.compact;
             else newText = session.display.normal;
-        } else if (context === 'summary') {
+        } else if (context === 'program') {
             if (width < 320) newText = session.display.compact;
             else newText = session.display.compact;
         } else if (context === 'timeline') {
@@ -886,8 +886,8 @@ function getSvgHtml( spriteId, cssClass ) {
 function getHomeHtml() {
     const c = AppState.config;
     //const s = AppState.settings;
-    const logoHtml    = getSvgHtml( c.images.presentation_id, "home-logo" );
-    const posterImage = "data/2026/affiche-tinals.webp";
+    //const logoHtml    = getSvgHtml( c.images.presentation_id, "home-logo" );
+    const posterImage = "data/2026/splash/affiche-tinals.webp";
 
     return `
         <section id="home" class="home-card section-snap" style="background-image: url('${posterImage}');">
@@ -922,30 +922,30 @@ function getHomeHtml() {
 }
 
 
-function getSummaryItemsHtml() {
+function getProgramItemsHtml() {
     const s = AppState.settings;
-    const isDisplaySummaryHead = AppState.config.features.is_display_summary_head;
+    const isDisplayProgramHead = AppState.config.features.is_display_program_head;
 
     let itemsHtml = '';
     let lastSession = null;
 
     AppState.data.forEach(g => {
         // --- Separator Logic ---
-        if (isDisplaySummaryHead && g.event_session && g.event_session !== lastSession) {
+        if (isDisplayProgramHead && g.event_session && g.event_session !== lastSession) {
              const session = AppState.config.sessions.find(s => s.id === g.event_session && s.display);
              if (session && session.display) {
                   const sId = slugify(session.id);
                   itemsHtml += `
-                  <div class="summary-separator" data-slug="${sId}" onclick="filterByTag('${sId}', event, false)">
+                  <div class="program-separator" data-slug="${sId}" onclick="filterByTag('${sId}', event, false)">
                       <h3><span>${session.display.tag || ''}</span><span class="session-date">${session.display.normal || ''}</span></h3>
                   </div>`;
              }
              lastSession = g.event_session;
         }
 
-        let summaryDateHtml = '';
+        let programDateHtml = '';
         if ( s.isDisplayDate && g.event_start_date ) {
-             summaryDateHtml = `<span class="summary-date">${getFormattedDateHtml(g.event_start_date, 'summary')}</span>`;
+             programDateHtml = `<span class="program-date">${getFormattedDateHtml(g.event_start_date, 'program')}</span>`;
         }
 
         let timeString = '';
@@ -956,9 +956,9 @@ function getSummaryItemsHtml() {
 
         // Construct date/place html parts
         let metaHtml = '';
-        if (summaryDateHtml) metaHtml += summaryDateHtml;
-        if (timeString) metaHtml += `<span class="summary-time">${timeString}</span>`;
-        if (placeName) metaHtml += `<span class="summary-place">${placeName}</span>`;
+        if (programDateHtml) metaHtml += programDateHtml;
+        if (timeString) metaHtml += `<span class="program-time">${timeString}</span>`;
+        if (placeName) metaHtml += `<span class="program-place">${placeName}</span>`;
 
         const isFav = AppState.favorites.includes(g.id);
         const thumb = g.image_artist || g.image_thumbnail || g.image;
@@ -974,23 +974,23 @@ function getSummaryItemsHtml() {
         const objectPosStyle = `object-position: ${imageX}% ${imageY}%;`;
 
         itemsHtml += `
-        <div class="summary-item ${favClass}" data-id="${g.id}" onclick="VideoManager.scrollTo(${g.id})">
-            <button class="summary-like-btn" onclick="toggleFav(${g.id}, false); event.stopPropagation();">
+        <div class="program-item ${favClass}" data-id="${g.id}" onclick="VideoManager.scrollTo(${g.id})">
+            <button class="program-like-btn" onclick="toggleFav(${g.id}, false); event.stopPropagation();">
                 ${favIconHtml}
             </button>
-            <div class="summary-image-container">
-                <img src="${thumb}" class="summary-image" style="${objectPosStyle}" loading="lazy" alt="${g.event_name}">
+            <div class="program-image-container">
+                <img src="${thumb}" class="program-image" style="${objectPosStyle}" loading="lazy" alt="${g.event_name}">
             </div>
-            <div class="summary-content">
-                <div class="summary-title-row">
-                    <div class="summary-title">${g.event_name}</div>
+            <div class="program-content">
+                <div class="program-title-row">
+                    <div class="program-title">${g.event_name}</div>
                     <div class="playing-indicator">
                         <div class="playing-bar"></div>
                         <div class="playing-bar"></div>
                         <div class="playing-bar"></div>
                     </div>
                 </div>
-                <div class="summary-date-place">${metaHtml}</div>
+                <div class="program-date-place">${metaHtml}</div>
             </div>
         </div>`;
     });
@@ -999,14 +999,14 @@ function getSummaryItemsHtml() {
 }
 
 
-function getSummaryHtml() {
+function getProgramHtml() {
     const t = AppState.config.texts;
-    const itemsHtml = getSummaryItemsHtml();
+    const itemsHtml = getProgramItemsHtml();
 
     return `
-    <section id="summary" class="section-snap">
-        <h2 id="summary-title">${t.summary_title || 'En un coup d\'oeil'}</h2>
-        <div class="summary-grid">
+    <section id="program" class="section-snap">
+        <h2 id="program-title">${t.program_title || 'En un coup d\'oeil'}</h2>
+        <div class="program-grid">
             ${itemsHtml}
         </div>
     </section>`;
@@ -1127,7 +1127,7 @@ function renderFeed() {
         htmlParts.push( getTestCardHtml() );
     }
 
-    htmlParts.push( getHomeHtml(), getSummaryHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() );
+    htmlParts.push( getHomeHtml(), getProgramHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() );
     feed.innerHTML = htmlParts.join( '' );
 
     if ( AppState.settings.isTestDisplay ) {
@@ -1503,8 +1503,8 @@ function closeAtAGlanceDrawer() {
 function renderAtAGlance() {
     const list = document.getElementById('at-a-glance-list');
     if (list) {
-        const itemsHtml = getSummaryItemsHtml();
-        list.innerHTML = `<div class="summary-grid">${itemsHtml}</div>`;
+        const itemsHtml = getProgramItemsHtml();
+        list.innerHTML = `<div class="program-grid">${itemsHtml}</div>`;
     }
     updateAtAGlanceFilterWarning();
 }
@@ -1542,7 +1542,7 @@ function scrollToAtAGlanceItem(id) {
     const drawer = document.getElementById('at-a-glance-drawer');
     if (!drawer || !drawer.classList.contains('active')) return;
 
-    const item = drawer.querySelector(`.summary-item[data-id="${id}"]`);
+    const item = drawer.querySelector(`.program-item[data-id="${id}"]`);
     if (item) {
         item.scrollIntoView({ behavior: 'smooth', block: 'center' });
     }
@@ -1830,11 +1830,11 @@ function updateTicketingStats() {
 }
 
 
-function scrollToSummary(shouldPause = true) {
+function scrollToProgram(shouldPause = true) {
     AppState.state.isMenuNavigation = true;
     if (shouldPause) VideoManager.pauseAll();
-    const summarySection = document.getElementById( 'summary' );
-    if ( summarySection ) summarySection.scrollIntoView( {
+    const programSection = document.getElementById( 'program' );
+    if ( programSection ) programSection.scrollIntoView( {
         behavior: 'smooth'
     } );
     setTimeout( () => {
@@ -1846,7 +1846,7 @@ function scrollToSummary(shouldPause = true) {
 function openProgramSession(sessionId) {
     filterByTag(sessionId, null, false);
     setTimeout(() => {
-        scrollToSummary();
+        scrollToProgram();
     }, 100);
 }
 
@@ -2129,9 +2129,9 @@ function setupObserver() {
                     }
                     AppState.state.previousId = AppState.state.activeId = id;
                     updateActionButtons( id );
-                    updateSummaryCurrentState( id );
+                    updateProgramCurrentState( id );
                     updateFilterBarText();
-                    // updateSummaryPlayingState moved to VideoManager
+                    // updateProgramPlayingState moved to VideoManager
                     updateURLState();
 
                     if ( AppState.settings.isDisplayControlBar ) {
@@ -2151,7 +2151,7 @@ function setupObserver() {
                         VideoManager.instances[ AppState.state.previousId ].pauseVideo();
                     }
                     updateActionButtons( null );
-                    updateSummaryCurrentState( null );
+                    updateProgramCurrentState( null );
                     updateFilterBarText();
                     updateURLState();
                     document.querySelectorAll( '.section-snap' ).forEach( s => s.classList.remove( 'active' ) );
@@ -2430,11 +2430,11 @@ function updateNavActionButtons() {
         btnDown.classList.remove(   'disabled' );
         btnBottom.classList.remove( 'disabled' );
     }
-    updateSummaryButtonState();
+    updateProgramButtonState();
 }
 
 
-function updateSummaryButtonState() {
+function updateProgramButtonState() {
     const btn = document.getElementById( 'btn-at-a-glance' );
     if ( !btn ) return;
     const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
@@ -2452,13 +2452,13 @@ function updateSummaryButtonState() {
 }
 
 
-function updateSummaryCurrentState( activeId ) {
-    document.querySelectorAll( '.summary-item' ).forEach( item => {
+function updateProgramCurrentState( activeId ) {
+    document.querySelectorAll( '.program-item' ).forEach( item => {
         item.classList.remove( 'is-current' );
     } );
 
     if ( activeId !== null && !isNaN( activeId ) ) {
-        document.querySelectorAll( `.summary-item[data-id="${activeId}"]` ).forEach( activeItem => {
+        document.querySelectorAll( `.program-item[data-id="${activeId}"]` ).forEach( activeItem => {
             activeItem.classList.add( 'is-current' );
         });
         scrollToAtAGlanceItem(activeId);
@@ -2466,8 +2466,8 @@ function updateSummaryCurrentState( activeId ) {
 }
 
 
-function updateSummaryPlayingState( activeId, isPaused = false ) {
-    document.querySelectorAll('.summary-grid').forEach(grid => {
+function updateProgramPlayingState( activeId, isPaused = false ) {
+    document.querySelectorAll('.program-grid').forEach(grid => {
          if (activeId !== null && !isNaN(activeId)) {
             grid.classList.add('is-playing');
         } else {
@@ -2475,13 +2475,13 @@ function updateSummaryPlayingState( activeId, isPaused = false ) {
         }
     });
 
-    document.querySelectorAll( '.summary-item' ).forEach( item => {
+    document.querySelectorAll( '.program-item' ).forEach( item => {
         item.classList.remove( 'is-playing' );
         item.classList.remove( 'is-paused' );
     } );
 
     if ( activeId !== null && !isNaN( activeId ) ) {
-        document.querySelectorAll( `.summary-item[data-id="${activeId}"]` ).forEach( activeItem => {
+        document.querySelectorAll( `.program-item[data-id="${activeId}"]` ).forEach( activeItem => {
             activeItem.classList.add( 'is-playing' );
             if (isPaused) activeItem.classList.add( 'is-paused' );
         });
@@ -2574,24 +2574,24 @@ function toggleFavCurrent() {
 
 function toggleFav( id, openDrawer = true ) {
     const card = document.getElementById(`video-${id}`);
-    const summaryItems = document.querySelectorAll(`.summary-item[data-id="${id}"]`);
+    const programItems = document.querySelectorAll(`.program-item[data-id="${id}"]`);
 
     if ( AppState.favorites.includes( id ) ) {
         AppState.favorites = AppState.favorites.filter( f => f !== id );
         showToast( AppState.config.texts.bar_fav_removed );
         if(card) card.classList.remove('is-favorite');
-        summaryItems.forEach(item => {
+        programItems.forEach(item => {
             item.classList.remove('is-favorite');
-            const btn = item.querySelector('.summary-like-btn');
+            const btn = item.querySelector('.program-like-btn');
             if(btn) btn.innerHTML = '<span class="material-icons white-color">favorite_border</span>';
         });
     } else {
         AppState.favorites.push( id );
         showToast( AppState.config.texts.bar_fav_added );
         if(card) card.classList.add('is-favorite');
-        summaryItems.forEach(item => {
+        programItems.forEach(item => {
             item.classList.add('is-favorite');
-            const btn = item.querySelector('.summary-like-btn');
+            const btn = item.querySelector('.program-like-btn');
             if(btn) btn.innerHTML = '<span class="material-icons primary-color">favorite</span>';
         });
 
@@ -2761,14 +2761,14 @@ function filterByTag( tagSlug, event, shouldScroll = true ) {
         else card.classList.remove( 'has-matching-tag' );
     } );
 
-    document.querySelectorAll( '.summary-item' ).forEach( item => {
+    document.querySelectorAll( '.program-item' ).forEach( item => {
         const id    = Number( item.dataset.id );
         const group = AppState.data.find( g => g.id === id );
         if ( group && group.event_tags && group.event_tags.some(t => slugify(t) === tagSlug) ) item.classList.add( 'has-matching-tag' );
         else item.classList.remove( 'has-matching-tag' );
     });
 
-    document.querySelectorAll( '.summary-separator' ).forEach( sep => {
+    document.querySelectorAll( '.program-separator' ).forEach( sep => {
         const slug = sep.dataset.slug;
         if ( slug === tagSlug ) sep.classList.add( 'has-matching-tag' );
         else sep.classList.remove( 'has-matching-tag' );
@@ -2906,7 +2906,7 @@ function exitTagFilterMode(shouldScroll = true) {
     document.body.classList.remove( 'tag-filtering' );
 
     document.querySelectorAll('.tag-pill').forEach(el => el.classList.remove('tag-active'));
-    document.querySelectorAll('.summary-separator').forEach(el => el.classList.remove('has-matching-tag'));
+    document.querySelectorAll('.program-separator').forEach(el => el.classList.remove('has-matching-tag'));
     document.getElementById( 'tag-mode-bar' ).classList.remove( 'active' );
     // document.getElementById( 'fav-filter-info' ).innerText  = '';
     // document.getElementById( 'time-filter-info' ).innerText = '';
@@ -3232,7 +3232,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v1.96' )
+    navigator.serviceWorker.register( 'service-worker.js?v1.973' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }

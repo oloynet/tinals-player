@@ -31,8 +31,8 @@
 
 
 /* SITE */
-    Version: v1.96
-    Last update: 2026-02-11
+    Version: v1.973
+    Last update: 2026-02-12
     Language: French / English
     Doctype: HTML5
     Standards: HTML5, CSS3, JavaScript (Vanilla), JSON, PWA

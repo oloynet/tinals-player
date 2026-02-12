@@ -22,10 +22,10 @@ def get_slug(text):
 
 def take_screenshot(page, context, lang, sequence_num):
     # Format: LANG-NNN-context-YYYY-MM-DD_HH-mm.webp
-    timestamp = datetime.now().strftime("%Y-%m-%d_%H-%M")
+    timestamp     = datetime.now().strftime("%Y-%m-%d-%H%M")
     filename_base = f"{lang.upper()}-{str(sequence_num).zfill(3)}-{context}-{timestamp}"
-    png_path = os.path.join(OUTPUT_DIR, f"{filename_base}.png")
-    webp_path = os.path.join(OUTPUT_DIR, f"{filename_base}.webp")
+    png_path      = os.path.join(OUTPUT_DIR, f"{filename_base}.png")
+    webp_path     = os.path.join(OUTPUT_DIR, f"{filename_base}.webp")
 
     # Capture PNG
     page.screenshot(path=png_path, type="png")
@@ -137,7 +137,7 @@ def run_process():
             page.click("#fav-timeline-drawer .btn-close-drawer")
             time.sleep(0.5)
 
-            # 006 - At A Glance (Summary)
+            # 006 - At A Glance (Program)
             # Open At A Glance
             # Click bottom bar button
             page.click("#btn-at-a-glance")
@@ -148,8 +148,8 @@ def run_process():
 
             # 007 - Filter Day 1 (in At A Glance)
             try:
-                # Selector: #at-a-glance-list .summary-separator[data-slug="day-1"]
-                sep_selector = '#at-a-glance-list .summary-separator[data-slug="day-1"]'
+                # Selector: #at-a-glance-list .program-separator[data-slug="day-1"]
+                sep_selector = '#at-a-glance-list .program-separator[data-slug="day-1"]'
                 if page.query_selector(sep_selector):
                     page.click(sep_selector)
                     time.sleep(1)
@@ -165,7 +165,7 @@ def run_process():
             time.sleep(0.5)
 
             try:
-                sep_selector = '#at-a-glance-list .summary-separator[data-slug="day-2"]'
+                sep_selector = '#at-a-glance-list .program-separator[data-slug="day-2"]'
                 # Note: If Day 1 was active, Day 2 was hidden. But we cancelled filters.
                 # However, confirm cancellation worked.
                 page.wait_for_selector(sep_selector, state="visible", timeout=2000)
