@@ -161,6 +161,12 @@
     .white-fill     { background-color: var(--white-color)     !important; }
 
 
+/* --- TEXT UTILS --- */
+
+    span.short { display: inline; }
+    span.long  { display: none; }
+
+
 /* --- SVG COLORS SPRITES--- */
 
 
@@ -3527,6 +3533,9 @@
 /* --- MOBILE "xs" (min-width: 480px) --- */
 
     @media (min-width: 480px) {
+
+        span.short { display: none; }
+        span.long  { display: inline; }
 
         /* --- LOGO --- */
 

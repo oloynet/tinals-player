@@ -475,6 +475,7 @@ function applyConfigs() {
     s.isDisplayPlace                = f.is_display_place                  ?? true;
     s.isDisplayRecordName           = f.is_display_record_name            ?? false;
     s.isDisplayGroupDescription     = f.is_display_artist_description      ?? true;
+    s.isDisplayArtistDescriptionMouseOver = f.is_display_artist_description_mouse_over ?? true;
 
     s.isDisplayBoxTitle             = f.is_display_box_title              ?? false;
     s.isDisplayArtist               = f.is_display_artist                 ?? true;
@@ -2093,10 +2094,12 @@ function setupInteraction() {
         };
 
         const targets = overlay.querySelectorAll('.artist-avatar-container, .artist-info h2, .artist-date-place, .tags-container, .artist-description');
-        targets.forEach(el => {
-            el.addEventListener('mouseenter', openDesc);
-            el.addEventListener('mouseleave', closeDesc);
-        });
+        if (AppState.settings.isDisplayArtistDescriptionMouseOver) {
+            targets.forEach(el => {
+                el.addEventListener('mouseenter', openDesc);
+                el.addEventListener('mouseleave', closeDesc);
+            });
+        }
     });
 }
 
