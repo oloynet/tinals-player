@@ -108,6 +108,7 @@
         "bar_fav_removed": "Supprimé des favoris",
         "fav_title":       "Mes favoris",
         "fav_empty":       "Aucun favori",
+        "event_empty":     "Aucun concert",
         "fav_btn_play":    "Écouter mes favoris",
         "fav_btn_share":   "Partager mes favoris",
 

@@ -932,14 +932,20 @@ function getProgramItemsHtml() {
 
     AppState.data.forEach(g => {
         // --- Separator Logic ---
-        if (isDisplayProgramHead && g.event_session && g.event_session !== lastSession) {
-             const session = AppState.config.sessions.find(s => s.id === g.event_session && s.display);
-             if (session && session.display) {
-                  const sId = slugify(session.id);
-                  itemsHtml += `
-                  <div class="program-separator" data-slug="${sId}" onclick="filterByTag('${sId}', event, false)">
-                      <h3><span>${session.display.tag || ''}</span><span class="session-date">${session.display.normal || ''}</span></h3>
-                  </div>`;
+        if (g.event_session && g.event_session !== lastSession) {
+             if (lastSession) {
+                 itemsHtml += `<div class="program-empty-placeholder" data-session="${lastSession}"></div>`;
+             }
+
+             if (isDisplayProgramHead) {
+                 const session = AppState.config.sessions.find(s => s.id === g.event_session && s.display);
+                 if (session && session.display) {
+                      const sId = slugify(session.id);
+                      itemsHtml += `
+                      <div class="program-separator" data-slug="${sId}" onclick="filterByTag('${sId}', event, false)">
+                          <h3><span>${session.display.tag || ''}</span><span class="session-date">${session.display.normal || ''}</span></h3>
+                      </div>`;
+                 }
              }
              lastSession = g.event_session;
         }
@@ -975,7 +981,7 @@ function getProgramItemsHtml() {
         const objectPosStyle = `object-position: ${imageX}% ${imageY}%;`;
 
         itemsHtml += `
-        <div class="program-item ${favClass}" data-id="${g.id}" onclick="VideoManager.scrollTo(${g.id})">
+        <div class="program-item ${favClass}" data-id="${g.id}" data-session="${g.event_session}" onclick="VideoManager.scrollTo(${g.id})">
             <button class="program-like-btn" onclick="toggleFav(${g.id}, false); event.stopPropagation();">
                 ${favIconHtml}
             </button>
@@ -995,6 +1001,10 @@ function getProgramItemsHtml() {
             </div>
         </div>`;
     });
+
+    if (lastSession) {
+        itemsHtml += `<div class="program-empty-placeholder" data-session="${lastSession}"></div>`;
+    }
 
     return itemsHtml;
 }
@@ -2615,7 +2625,10 @@ function toggleFav( id, openDrawer = true ) {
     updateFavoritesIcon();
     updateTicketingStats();
     updateAtAGlanceFilterWarning();
-    if ( AppState.state.isPlayingFavorites ) renderFavFilterBar();
+    if ( AppState.state.isPlayingFavorites ) {
+        renderFavFilterBar();
+        updateEmptyStateVisibility();
+    }
 }
 
 
@@ -2633,6 +2646,7 @@ function playFavorites() {
     VideoManager.scrollTo( startId );
     document.body.classList.add( 'favorites-mode' );
     document.getElementById( 'fav-mode-bar' ).classList.add( 'active' );
+    updateEmptyStateVisibility();
 }
 
 
@@ -2643,6 +2657,7 @@ function exitFavoritesMode(shouldScroll = true) {
     document.body.classList.remove( 'favorites-mode' );
     document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
     updateAtAGlanceFilterWarning();
+    updateEmptyStateVisibility();
     if ( currentId && shouldScroll ) {
         const el = document.getElementById( `video-${currentId}` );
         if ( el ) el.scrollIntoView( {
@@ -2772,12 +2787,6 @@ function filterByTag( tagSlug, event, shouldScroll = true ) {
         else item.classList.remove( 'has-matching-tag' );
     });
 
-    document.querySelectorAll( '.program-separator' ).forEach( sep => {
-        const slug = sep.dataset.slug;
-        if ( slug === tagSlug ) sep.classList.add( 'has-matching-tag' );
-        else sep.classList.remove( 'has-matching-tag' );
-    });
-
     // document.getElementById( 'fav-filter-info' ).innerText  = `(${tagName})`;
     // document.getElementById( 'time-filter-info' ).innerText = `(${tagName})`;
     updateDrawerFilterWarning(tagName);
@@ -2785,6 +2794,7 @@ function filterByTag( tagSlug, event, shouldScroll = true ) {
     renderDrawerTimeline();
     renderDrawerFavorites();
     updateAtAGlanceFilterWarning();
+    updateEmptyStateVisibility();
     updateURLState();
 
     if (shouldScroll) {
@@ -2818,6 +2828,55 @@ function getTagNameFromSlug(tagSlug) {
         }
     }
     return translateText(tagName, 'tags');
+}
+
+
+function updateEmptyStateVisibility() {
+    if (!AppState.config.sessions) return;
+
+    const isFavMode = AppState.state.isPlayingFavorites;
+    const isTagMode = !!AppState.state.currentTagFilter;
+
+    if (!isFavMode && !isTagMode) {
+        document.querySelectorAll('.program-empty-placeholder').forEach(el => el.classList.remove('visible'));
+        return;
+    }
+
+    const t = AppState.config.texts;
+    let emptyText = "";
+    if (isFavMode) emptyText = t.fav_empty || "Aucun favori";
+    else if (isTagMode) emptyText = t.event_empty || "Aucun concert";
+
+    AppState.config.sessions.forEach(session => {
+        const sessionId = session.id;
+        const sId = slugify(sessionId);
+
+        let visibleCount = 0;
+        const sessionItems = AppState.data.filter(g => g.event_session === sessionId);
+
+        if (isFavMode) {
+            visibleCount = sessionItems.filter(g => AppState.favorites.includes(g.id)).length;
+        } else if (isTagMode) {
+            const currentTag = AppState.state.currentTagFilter;
+            visibleCount = sessionItems.filter(g => g.event_tags && g.event_tags.some(tag => slugify(tag) === currentTag)).length;
+        }
+
+        const placeholders = document.querySelectorAll(`.program-empty-placeholder[data-session="${sessionId}"]`);
+        const separators   = document.querySelectorAll(`.program-separator[data-slug="${sId}"]`);
+
+        if (visibleCount === 0) {
+            placeholders.forEach(el => {
+                el.innerText = emptyText;
+                el.classList.add('visible');
+            });
+            separators.forEach(el => el.classList.add('has-matching-tag'));
+        } else {
+            placeholders.forEach(el => {
+                el.classList.remove('visible');
+            });
+            separators.forEach(el => el.classList.add('has-matching-tag'));
+        }
+    });
 }
 
 
@@ -2919,6 +2978,7 @@ function exitTagFilterMode(shouldScroll = true) {
     renderDrawerTimeline();
     renderDrawerFavorites();
     updateAtAGlanceFilterWarning();
+    updateEmptyStateVisibility();
     updateURLState();
     if ( currentId && shouldScroll ) {
         const el = document.getElementById( `video-${currentId}` );
