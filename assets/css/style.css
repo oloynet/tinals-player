@@ -1323,7 +1323,26 @@
             color: var(--black-color);
         }
 
+    /* --- PROGRAM CARD : EMPTY STATE --- */
 
+        .program-empty-placeholder {
+            grid-column: 1 / -1;
+            padding: 40px;
+            text-align: center;
+            color: var(--grey60-color);
+            display: none;
+            font-size: 1.1rem;
+            text-transform: uppercase;
+        }
+
+        .program-empty-placeholder.visible {
+            display: block;
+        }
+
+        .drawer-at-a-glance .program-empty-placeholder {
+            color: var(--grey40-color);
+            background-color: var(--white-color);
+        }
 
 
     /* --- VIDEO CARD --- */
