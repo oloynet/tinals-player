@@ -152,6 +152,77 @@
     .white-fill     { background-color: var(--white-color)     !important; }
 
 
+/* --- SVG COLORS SPRITES--- */
+
+    .svg-tag-tinals-2026,
+    .svg-tag-tinals-2026-dark {
+        fill: var(--primary-color);
+    }
+
+    .svg-deezer,
+    .svg-deezer-icon {
+        fill: #000;
+    }
+    .svg-deezer-dark,
+    .svg-deezer-icon-dark {
+        fill: #fff;
+    }
+
+    .svg-facebook,
+    .svg-facebook-icon,
+    .svg-facebook-dark,
+    .svg-facebook-icon-dark {
+        fill: #0866ff;
+    }
+
+    .svg-instagram,
+    .svg-instagram-icon {
+        fill: #262626;
+    }
+
+    .svg-instagram-dark,
+    .svg-instagram-icon-dark {
+        fill: #fff;
+    }
+
+    .svg-pinterest-icon,
+    .svg-pinterest-icon-dark {
+        fill: #e71c26;
+    }
+
+    .svg-soundcloud-icon,
+    .svg-soundcloud-icon-dark {
+        fill: #ff5500;
+    }
+
+    .svg-spotify,
+    .svg-spotify-icon,
+    .svg-spotify-dark,
+    .svg-spotify-icon-dark {
+        fill: #1ed760;
+        fill: #1ed760;
+    }
+
+    .svg-tiktok,
+    .svg-tiktok-icon {
+        fill: #000;
+    }
+    .svg-tiktok-dark,
+    .svg-tiktok-icon-dark {
+        fill: #fff;
+    }
+
+    .svg-youtube,
+    .svg-youtube-icon {
+        fill: #212121;
+    }
+    .svg-youtube-dark,
+    .svg-youtube-icon-dark {
+        fill: #fff;
+    }
+
+
+
 /* --- LOADER --- */
 
     #loader {
@@ -1610,53 +1681,6 @@
             background-color: var(--black);
             border-radius: 12px;
         }
-
-
-        .artist-info .social-icon-link.tag-tinals-2026 {
-            fill: var(--primary-color);
-        }
-        .artist-info .social-icon-link.deezer {
-            fill: #fff;
-        }
-        .artist-info .social-icon-link.deezer-icon {
-            fill: #fff;
-        }
-        .artist-info .social-icon-link.facebook {
-            fill: #0866ff;
-        }
-        .artist-info .social-icon-link.facebook-icon {
-            fill: #0866ff;
-        }
-        .artist-info .social-icon-link.instagram {
-            fill: #fff;
-        }
-        .artist-info .social-icon-link.instagram-icon {
-            fill: #fff;
-        }
-        .artist-info .social-icon-link.pinterest-icon {
-            fill: #e71c26,
-        }
-        .artist-info .social-icon-link.soundcloud-icon {
-            fill: #ff5500;
-        }
-        .artist-info .social-icon-link.spotify-icon {
-            fill: #1ed760;
-        }
-        .artist-info .social-icon-link.spotify {
-            fill: #1ed760;
-        }
-        .artist-info .social-icon-link.tiktok {
-        }
-        .artist-info .social-icon-link.tiktok-icon {
-        }
-        .artist-info .social-icon-link.youtube {
-            fill: #fff;
-        }
-        .artist-info .social-icon-link.youtube-icon {
-            fill: #fff;
-        }
-
-
 
         .artist-info .social-icon-link:hover {
             transform: scale(1.1);

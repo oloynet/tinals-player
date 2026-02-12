@@ -144,6 +144,75 @@
         .footer-link a:hover {
             text-decoration: underline;
         }
+
+
+        .svg-tag-tinals-2026,
+        .svg-tag-tinals-2026-dark {
+            fill: var(--primary-color);
+        }
+
+        .svg-deezer,
+        .svg-deezer-icon {
+            fill: #000;
+        }
+        .svg-deezer-dark,
+        .svg-deezer-icon-dark {
+            fill: #fff;
+        }
+
+        .svg-facebook,
+        .svg-facebook-icon,
+        .svg-facebook-dark,
+        .svg-facebook-icon-dark {
+            fill: #0866ff;
+        }
+
+        .svg-instagram,
+        .svg-instagram-icon {
+            fill: #262626;
+        }
+
+        .svg-instagram-dark,
+        .svg-instagram-icon-dark {
+            fill: #fff;
+        }
+
+        .svg-pinterest-icon,
+        .svg-pinterest-icon-dark {
+            fill: #e71c26;
+        }
+
+        .svg-soundcloud-icon,
+        .svg-soundcloud-icon-dark {
+            fill: #ff5500;
+        }
+
+        .svg-spotify,
+        .svg-spotify-icon,
+        .svg-spotify-dark,
+        .svg-spotify-icon-dark {
+            fill: #1ed760;
+            fill: #1ed760;
+        }
+
+        .svg-tiktok,
+        .svg-tiktok-icon {
+            fill: #000;
+        }
+        .svg-tiktok-dark,
+        .svg-tiktok-icon-dark {
+            fill: #fff;
+        }
+
+        .svg-youtube,
+        .svg-youtube-icon {
+            fill: #212121;
+        }
+        .svg-youtube-dark,
+        .svg-youtube-icon-dark {
+            fill: #fff;
+        }
+
     </style>
 </head>
 <body>
@@ -275,8 +344,11 @@
         }
 
         document.addEventListener('DOMContentLoaded', () => {
+
+            const color = '-dark'; // '' for light background or '-dark' for dark background;
+
             const timestamp = new Date().getTime();
-            const filePath = 'sprite.svg'; // Chemin du fichier relatif
+            const filePath  = 'sprite.svg'; // Chemin du fichier relatif
             document.getElementById('file-path').innerText = `Fichier : ${window.location.pathname.replace('sprite.html', '')}${filePath}`;
 
             fetch(`${filePath}?t=${timestamp}`)
@@ -302,15 +374,15 @@
                     }
 
                     symbols.forEach(symbol => {
-                        const id = symbol.id;
+                        const id        = symbol.id;
                         const ariaLabel = symbol.getAttribute('aria-label') || '<em>Non défini</em>';
-                        const viewBox = symbol.getAttribute('viewBox');
+                        const viewBox   = symbol.getAttribute('viewBox');
 
                         // Récupération Title et Desc
                         const titleEl = symbol.querySelector('title');
-                        const descEl = symbol.querySelector('desc');
-                        const title = titleEl ? titleEl.textContent : '<em>Non défini</em>';
-                        const desc = descEl ? descEl.textContent : '<em>Non défini</em>';
+                        const descEl  = symbol.querySelector('desc');
+                        const title   = titleEl ? titleEl.textContent : '<em>Non défini</em>';
+                        const desc    = descEl  ? descEl.textContent  : '<em>Non défini</em>';
 
                         let dimensions = 'Non défini';
                         if (viewBox) {
@@ -337,7 +409,7 @@ ${symbol.innerHTML}
 
                         card.innerHTML = `
                             <div class="preview checkerboard">
-                                <svg viewBox="${viewBox || ''}">
+                                <svg viewBox="${viewBox || ''}" class="svg-${id}${color}">
                                     <use href="${filePath}?t=${timestamp}#${id}"></use>
                                 </svg>
                             </div>

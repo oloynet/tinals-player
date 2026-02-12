@@ -1622,6 +1622,8 @@ function toggleArtistDescription( element, event ) {
 /* SOCIALS */
 
 function getSocialsHtml(g) {
+
+    const color = '-dark'; // '' for light background or '-dark' for dark background;
     const networks = [
         { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer-dark',          viewBox: '0 0 992 279' },
         { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon',        viewBox: '0 0 666.66666 666.66666' },
@@ -1638,7 +1640,7 @@ function getSocialsHtml(g) {
 
     const links = networks.filter(n => g[n.key]).map(n => {
         if (n.sprite) {
-            return `<a href="${g[n.key]}" target="_blank" class="social-icon-link" title="${n.label}"><svg class="social-icon-svg" viewBox="${n.viewBox}"><use href="${AppState.config.images.sprite_path}#${n.sprite}"></use></svg></a>`;
+            return `<a href="${g[n.key]}" target="_blank" class="social-icon-link svg-${n.sprite}${color}" title="${n.label}"><svg class="social-icon-svg" viewBox="${n.viewBox}"><use href="${AppState.config.images.sprite_path}#${n.sprite}"></use></svg></a>`;
         }
         return `<a href="${g[n.key]}" target="_blank" class="social-pill" title="${n.label}">${n.label}</a>`;
     });
