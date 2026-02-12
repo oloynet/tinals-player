@@ -280,13 +280,17 @@ const VideoManager = {
         if ( !s.isAutoPlayNext ) return;
         const favs = AppState.favorites;
         if ( AppState.state.isPlayingFavorites && favs.length > 0 ) {
-            const currentFavIndex = favs.indexOf( currentId );
+            const sortedFavIds = AppState.data
+                .filter( g => favs.includes( g.id ) )
+                .map( g => g.id );
+
+            const currentFavIndex = sortedFavIds.indexOf( currentId );
             let nextId;
-            if ( currentFavIndex === -1 ) nextId = favs[ 0 ];
+            if ( currentFavIndex === -1 ) nextId = sortedFavIds[ 0 ];
             else {
-                if ( currentFavIndex >= favs.length - 1 && !s.isAutoPlayLoop ) return;
-                const nextFavIndex = ( currentFavIndex + 1 ) % favs.length;
-                nextId = favs[ nextFavIndex ];
+                if ( currentFavIndex >= sortedFavIds.length - 1 && !s.isAutoPlayLoop ) return;
+                const nextFavIndex = ( currentFavIndex + 1 ) % sortedFavIds.length;
+                nextId = sortedFavIds[ nextFavIndex ];
             }
             AppState.state.isAutoNext = true;
             this.scrollTo( nextId );

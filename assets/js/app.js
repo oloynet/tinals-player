@@ -2621,7 +2621,12 @@ function playFavorites() {
     renderFavFilterBar();
     AppState.state.isPlayingFavorites = true;
     AppState.state.isMenuNavigation = true;
-    VideoManager.scrollTo( AppState.favorites[ 0 ] );
+
+    // Find first favorite in Data order
+    const firstFav = AppState.data.find( g => AppState.favorites.includes(g.id) );
+    const startId = firstFav ? firstFav.id : AppState.favorites[0];
+
+    VideoManager.scrollTo( startId );
     document.body.classList.add( 'favorites-mode' );
     document.getElementById( 'fav-mode-bar' ).classList.add( 'active' );
 }
