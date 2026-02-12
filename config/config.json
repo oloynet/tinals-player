@@ -112,11 +112,11 @@
         "is_display_tag": true,
         "is_display_place": true,
         "is_display_record_name": false,
+        "is_display_artist": true,
         "is_display_artist_description": true,
         "is_display_artist_description_mouse_over": false,
 
         "is_display_box_title": false,
-        "is_display_artist": true,
         "is_display_action_bar": true,
         "is_display_control_bar": true,
         "is_display_image_video_pause": true,

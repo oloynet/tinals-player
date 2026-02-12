@@ -27,6 +27,7 @@ const AppState = {
         isDebugJS: false,
         isDisplayVersion: false,
         versionNumber: "",
+        isTestDisplay: false,
 
         isDisplayDay: true,
         isDisplayDate: true,
@@ -34,10 +35,11 @@ const AppState = {
         isDisplayTag: true,
         isDisplayPlace: true,
         isDisplayRecordName: false,
-        isDisplayGroupDescription: true,
+        isDisplayArtist: true,
+        isDisplayArtistDescription: true,
+        isDisplayArtistDescriptionMouseOver: false,
 
         isDisplayBoxTitle: false,
-        isDisplayArtist: true,
         isDisplayActionBar: true,
         isDisplayControlBar: true,
         isDisplayImageVideoPause: true,
@@ -62,8 +64,6 @@ const AppState = {
 
         isFullscreenEnable: true,
         isForceZoom: false,
-
-        isTestDisplay: false,
 
         isTicketingDisplayLike: false,
         isTicketingDisplayCount: false,
@@ -467,6 +467,7 @@ function applyConfigs() {
     s.isDebugJS                     = f.is_debug_js                       ?? false;
     s.isDisplayVersion              = f.is_display_version                ?? false;
     s.versionNumber                 = c.site.version || "";
+    s.isTestDisplay                 = f.is_test_display                   ?? false;
 
     s.isDisplayDay                  = f.is_display_day                    ?? true;
     s.isDisplayDate                 = f.is_display_date                   ?? true;
@@ -474,11 +475,11 @@ function applyConfigs() {
     s.isDisplayTag                  = f.is_display_tag                    ?? true;
     s.isDisplayPlace                = f.is_display_place                  ?? true;
     s.isDisplayRecordName           = f.is_display_record_name            ?? false;
-    s.isDisplayGroupDescription     = f.is_display_artist_description      ?? true;
-    s.isDisplayArtistDescriptionMouseOver = f.is_display_artist_description_mouse_over ?? true;
+    s.isDisplayArtist               = f.is_display_artist                 ?? true;
+    s.isDisplayArtistDescription    = f.is_display_artist_description      ?? true;
+    s.isDisplayArtistDescriptionMouseOver = f.is_display_artist_description_mouse_over ?? false;
 
     s.isDisplayBoxTitle             = f.is_display_box_title              ?? false;
-    s.isDisplayArtist               = f.is_display_artist                 ?? true;
     s.isDisplayActionBar            = f.is_display_action_bar             ?? true;
     s.isDisplayControlBar           = f.is_display_control_bar            ?? true;
     s.isDisplayImageVideoEnd        = f.is_display_image_video_end        ?? true;
@@ -509,11 +510,10 @@ function applyConfigs() {
     s.isFullscreenEnable            = f.is_fullscreen_enable              ?? true;
     s.isForceZoom                   = f.is_force_zoom                     ?? false;
 
-    s.isTestDisplay                 = f.is_test_display                   ?? false;
-
     s.isTicketingDisplayLike        = f.is_ticketing_display_like         ?? false;
     s.isTicketingDisplayCount       = f.is_ticketing_display_count        ?? false;
     s.isTicketingDisplayArtistsName = f.is_ticketing_display_artists_name ?? false;
+
 
     if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
     else document.body.classList.remove( 'hide-desc-mobile' );
@@ -1056,7 +1056,7 @@ function getVideoCardHtml( g ) {
     const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
     const socialsHtml     = getSocialsHtml(g);
     const ticketButtonsHtml = getTicketButtonsHtml(g);
-    const descHtml        = ( s.isDisplayGroupDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-header-row"><div class="desc-state-icon material-icons">expand_less</div><div class="desc-text">${descriptionText}</div></div>${socialsHtml}${ticketButtonsHtml}</div>` : '';
+    const descHtml        = ( s.isDisplayArtistDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-header-row"><div class="desc-state-icon material-icons">expand_less</div><div class="desc-text">${descriptionText}</div></div>${socialsHtml}${ticketButtonsHtml}</div>` : '';
     const artistAvatarImg = g.image_thumbnail || g.image;
 
     const artistAvatarHtml = `
