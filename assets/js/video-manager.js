@@ -197,6 +197,11 @@ const VideoManager = {
             card.classList.add( 'paused-manual' );
 
             if ( e.data === 0 ) {
+                if ( this.instances[ id ] && typeof this.instances[ id ].seekTo === 'function' ) {
+                    this.instances[ id ].seekTo( 0 );
+                    this.instances[ id ].pauseVideo();
+                }
+
                 if ( s.isDisplayImageVideoEnd ) card.classList.add( 'ended' );
                 this.goToNext( id );
             }
