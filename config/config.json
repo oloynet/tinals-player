@@ -138,7 +138,7 @@
         "is_toast_scroll_page": false,
 
         "is_menu_auto_hide": false,
-        "is_menu_uninstall": false,
+        "is_menu_uninstall": true,
 
         "is_description_auto_hide": true,
         "is_fullscreen_enable": true,
