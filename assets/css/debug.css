@@ -1,0 +1,327 @@
+:root {
+    --debug-bg: #1a1a1a;
+    --debug-text: #f0f0f0;
+    --debug-header-bg: #2c3e50;
+    --debug-tab-bg: #34495e;
+    --debug-tab-active-bg: #3498db;
+    --debug-border: #444;
+    --debug-code-bg: #252525;
+    --debug-accent: #3498db;
+    --debug-error: #e74c3c;
+    --debug-success: #2ecc71;
+    --debug-warning: #f1c40f;
+}
+
+.debug-overlay.light-mode {
+    --debug-bg: #f4f4f9;
+    --debug-text: #333;
+    --debug-header-bg: #ecf0f1;
+    --debug-tab-bg: #bdc3c7;
+    --debug-tab-active-bg: #3498db;
+    --debug-border: #ddd;
+    --debug-code-bg: #fcfcfc;
+}
+
+.debug-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: var(--debug-bg);
+    color: var(--debug-text);
+    z-index: 10000;
+    display: none;
+    flex-direction: column;
+    font-family: monospace;
+    transition: background-color 0.3s, color 0.3s;
+}
+
+.debug-overlay.active {
+    display: flex;
+}
+
+.debug-header {
+    background-color: var(--debug-header-bg);
+    padding: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-bottom: 1px solid var(--debug-border);
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.debug-tabs {
+    display: flex;
+    gap: 5px;
+    overflow-x: auto;
+    padding-bottom: 5px;
+    flex: 1;
+    scrollbar-width: none; /* Firefox */
+}
+
+.debug-tabs::-webkit-scrollbar {
+    display: none;
+}
+
+.debug-tab-btn {
+    background-color: var(--debug-tab-bg);
+    color: var(--debug-text);
+    border: none;
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: background-color 0.2s;
+}
+
+.debug-tab-btn.active {
+    background-color: var(--debug-tab-active-bg);
+    color: #fff;
+}
+
+.debug-controls {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.debug-btn-icon {
+    background: none;
+    border: none;
+    color: var(--debug-text);
+    cursor: pointer;
+    font-size: 1.2rem;
+    padding: 5px;
+}
+
+.debug-content {
+    flex: 1;
+    overflow-y: auto;
+    padding: 20px;
+}
+
+.debug-section {
+    display: none;
+}
+
+.debug-section.active {
+    display: block;
+}
+
+.debug-info-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.debug-info-item {
+    padding: 10px 0;
+    border-bottom: 1px solid var(--debug-border);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.debug-info-label {
+    font-weight: bold;
+}
+
+.debug-info-value {
+    color: var(--debug-accent);
+}
+
+.debug-actions {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.debug-btn {
+    background-color: var(--debug-tab-bg);
+    color: var(--debug-text);
+    border: none;
+    padding: 10px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: bold;
+    text-transform: uppercase;
+    text-align: center;
+}
+
+.debug-btn:hover {
+    filter: brightness(1.1);
+}
+
+.debug-btn.danger {
+    background-color: var(--debug-error);
+    color: #fff;
+}
+
+.debug-btn.success {
+    background-color: var(--debug-success);
+    color: #fff;
+}
+
+.debug-code-block {
+    background-color: var(--debug-code-bg);
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid var(--debug-border);
+    white-space: pre-wrap;
+    word-break: break-all;
+    font-family: Consolas, monospace;
+    font-size: 0.9rem;
+}
+
+/* Colors Grid */
+.debug-color-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+}
+
+.debug-color-card {
+    background-color: var(--debug-code-bg);
+    border: 1px solid var(--debug-border);
+    border-radius: 4px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.debug-color-swatch {
+    width: 40px;
+    height: 40px;
+    border-radius: 4px;
+    border: 1px solid var(--debug-border);
+}
+
+.debug-color-info {
+    flex: 1;
+    overflow: hidden;
+}
+
+.debug-color-name {
+    font-weight: bold;
+    font-size: 0.8rem;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.debug-color-hex {
+    font-size: 0.75rem;
+    opacity: 0.8;
+}
+
+/* Sprites Grid */
+.debug-sprite-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 15px;
+}
+
+.debug-sprite-card {
+    background-color: var(--debug-code-bg);
+    border: 1px solid var(--debug-border);
+    border-radius: 4px;
+    padding: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+.debug-sprite-preview {
+    width: 64px;
+    height: 64px;
+    margin-bottom: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-image:
+        linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc),
+        linear-gradient(45deg, #ccc 25%, transparent 25%, transparent 75%, #ccc 75%, #ccc);
+    background-size: 20px 20px;
+    background-position: 0 0, 10px 10px;
+    border-radius: 4px;
+    padding: 5px;
+}
+
+.debug-overlay.light-mode .debug-sprite-preview {
+    background-color: #eee;
+}
+
+.debug-overlay:not(.light-mode) .debug-sprite-preview {
+    background-color: #333;
+    background-image:
+        linear-gradient(45deg, #444 25%, transparent 25%, transparent 75%, #444 75%, #444),
+        linear-gradient(45deg, #444 25%, transparent 25%, transparent 75%, #444 75%, #444);
+}
+
+.debug-sprite-preview svg {
+    max-width: 100%;
+    max-height: 100%;
+    width: auto;
+    height: auto;
+}
+
+.debug-sprite-id {
+    font-size: 0.8rem;
+    font-weight: bold;
+    word-break: break-all;
+}
+
+/* Features List */
+.debug-feature-list {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.debug-feature-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px;
+    background-color: var(--debug-code-bg);
+    border: 1px solid var(--debug-border);
+    border-radius: 4px;
+}
+
+.debug-feature-key {
+    font-weight: bold;
+}
+
+/* Favicons */
+.debug-favicon-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    gap: 15px;
+}
+
+.debug-favicon-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    background-color: var(--debug-code-bg);
+    border-radius: 4px;
+}
+
+.debug-favicon-img {
+    max-width: 64px;
+    max-height: 64px;
+    margin-bottom: 10px;
+}
+
+.debug-favicon-label {
+    font-size: 0.8rem;
+    word-break: break-all;
+}

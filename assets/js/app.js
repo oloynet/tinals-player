@@ -25,10 +25,8 @@ const AppState = {
     settings: {
         isAppInstall: false,
         isDebugJS: false,
-        isDisplayVersion: false,
+        isDebugTool: false,
         versionNumber: "",
-        isTestDisplay: false,
-        isTestStorage: false,
 
         isDisplayDay: true,
         isDisplayDate: true,
@@ -170,7 +168,9 @@ async function init() {
 
         applyConfigs();
 
-        checkVersion();
+        if ( AppState.settings.isDebugTool ) {
+            loadDebugTool();
+        }
 
         if ( AppState.settings.isDebugJS ) {
             console.log( "--- DEBUG MODE ACTIVATED ---" );
@@ -305,15 +305,6 @@ async function init() {
         }
 
         window.addEventListener('resize', handleOrientationChange);
-
-        if ( AppState.settings.isTestDisplay ) {
-            window.addEventListener('resize', updateTestMetrics);
-            window.addEventListener('orientationchange', () => setTimeout(updateTestMetrics, 200));
-        }
-
-        if ( AppState.settings.isTestStorage ) {
-            window.addEventListener('storage', updateTestStorage);
-        }
 
         const loader = document.getElementById( 'loader' );
         if ( loader ) loader.classList.add( 'hidden' );
@@ -471,10 +462,8 @@ function applyConfigs() {
 
     s.isAppInstall                  = f.is_app_install                    ?? true;
     s.isDebugJS                     = f.is_debug_js                       ?? false;
-    s.isDisplayVersion              = f.is_display_version                ?? false;
+    s.isDebugTool                   = f.is_debug_tool                     ?? false;
     s.versionNumber                 = c.site.version || "";
-    s.isTestDisplay                 = f.is_test_display                   ?? false;
-    s.isTestStorage                 = f.is_test_storage                   ?? false;
 
     s.isDisplayDay                  = f.is_display_day                    ?? true;
     s.isDisplayDate                 = f.is_display_date                   ?? true;
@@ -513,7 +502,6 @@ function applyConfigs() {
     s.isToastScrollPage             = f.is_toast_scroll_page              ?? false;
 
     s.isMenuAutoHide                = f.is_menu_auto_hide                 ?? false;
-    s.isMenuUninstall               = f.is_menu_uninstall                 ?? false;
 
     s.isDescriptionAutoHide         = f.is_description_auto_hide          ?? true;
     s.isFullscreenEnable            = f.is_fullscreen_enable              ?? true;
@@ -554,18 +542,7 @@ function applyConfigs() {
         document.getElementById( 'btn-nav-next-card' ).style.display = 'none';
     }
 
-    const versionEl = document.getElementById('app-version-indicator');
-    if (versionEl) {
-        if (s.isDisplayVersion && s.versionNumber) {
-            versionEl.innerText = s.versionNumber;
-            versionEl.classList.add('visible');
-        } else {
-            versionEl.classList.remove('visible');
-        }
-    }
-
     if ( AppState.settings.isDebugJS ) {
-        //console.log( 's.isDisplayVersion = ' + s.isDisplayVersion );
         // console.log( 's.versionNumber = ' + s.versionNumber );
     }
 
@@ -728,10 +705,6 @@ function updateStaticTexts() {
     if (btnYes)   btnYes.innerText   = t.btn_ok    || 'OK';
     if (btnNo)    btnNo.innerText    = t.btn_later || 'Later';
 
-    // Features Modal
-    document.getElementById( 'features-title' ).innerText = t.features_modal_title;
-    document.getElementById( 'btn-close-features' ).innerText = t.features_modal_close;
-
     // Main Menu Texts
     const setText = (id, text) => {
         const el = document.getElementById(id);
@@ -775,7 +748,6 @@ function updateStaticTexts() {
         renderTagFilterBar();
     }
     updateSessionDisplay();
-    updateInstallMenuVisibility();
 }
 
 
@@ -834,36 +806,6 @@ function updateSessionDisplay() {
     });
 
     updateDynamicDates();
-}
-
-
-function updateInstallMenuVisibility() {
-    const installLi = document.getElementById('menu-install-li');
-    const forceInstallLi = document.getElementById('menu-force-install-li');
-
-    const isInstalled = localStorage.getItem('app_installed') === 'true';
-    const isMenuUninstall = AppState.settings.isMenuUninstall;
-    const isDebug = AppState.settings.isDebugJS;
-    const t = AppState.config.texts;
-    const txtEl = document.getElementById('menu-txt-install');
-
-    // Dynamic text
-    if (txtEl) {
-         txtEl.innerText = isInstalled ? (t.menu_uninstall || "Désinstallation") : (t.menu_install || "Installation");
-    }
-
-    // Visibility
-    // Requirement: Show IF (isMenuUninstall AND isInstalled) OR isDebug
-    if ((isMenuUninstall && isInstalled) || isDebug) {
-        if (installLi) installLi.style.display = ''; // Revert to CSS
-    } else {
-        if (installLi) installLi.style.display = 'none';
-    }
-
-    // Force Install Visibility
-    if (forceInstallLi) {
-        forceInstallLi.style.display = isDebug ? '' : 'none';
-    }
 }
 
 
@@ -1174,24 +1116,8 @@ function renderFeed() {
     const feed      = document.getElementById( 'main-feed' );
     const htmlParts = [];
 
-    if ( AppState.settings.isTestDisplay ) {
-        htmlParts.push( getTestCardHtml() );
-    }
-
-    if ( AppState.settings.isTestStorage ) {
-        htmlParts.push( getTestStorageHtml() );
-    }
-
     htmlParts.push( getHomeHtml(), getProgramHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() );
     feed.innerHTML = htmlParts.join( '' );
-
-    if ( AppState.settings.isTestDisplay ) {
-        setTimeout( updateTestMetrics, 100 );
-    }
-
-    if ( AppState.settings.isTestStorage ) {
-        setTimeout( updateTestStorage, 100 );
-    }
 }
 
 
@@ -1295,24 +1221,6 @@ function handleMenuAction(action) {
             if(links.home) window.open(links.home, '_blank');
             closeMainMenu();
             break;
-        case 'features':
-            openFeaturesModal();
-            break;
-        case 'install':
-            // Logic for installation / uninstall
-            triggerInstallOrUninstall();
-            break;
-        case 'force_install':
-            localStorage.setItem('app_installed', 'true');
-            window.location.reload();
-            break;
-        case 'check_version':
-            closeMainMenu();
-            checkVersion(true);
-            break;
-        case 'reload':
-            triggerReload();
-            break;
         case 'about':
             openAboutModal();
             break;
@@ -1323,42 +1231,6 @@ function handleMenuAction(action) {
         default:
             break;
     }
-}
-
-
-/* FEATURES BOX */
-
-function openFeaturesModal() {
-    const modal = document.getElementById('features-modal');
-    const features = AppState.config.features || {};
-    let html = '';
-
-    for (const [key, value] of Object.entries(features)) {
-        let displayValue = value;
-        if (typeof value === 'boolean') {
-            const icon = value ? 'check_box' : 'check_box_outline_blank';
-            displayValue = `<span class="material-icons">${icon}</span>`;
-        } else if (Array.isArray(value)) {
-            displayValue = value.join(', ');
-        }
-
-        html += `
-            <div class="feature-item">
-                <span class="feature-key">${key}</span>
-                <span class="feature-value">${displayValue}</span>
-            </div>`;
-    }
-
-    const listContainer = document.getElementById('features-list');
-    if(listContainer) listContainer.innerHTML = html;
-
-    if(modal) modal.classList.add('active');
-}
-
-
-function closeFeaturesModal() {
-    const modal = document.getElementById('features-modal');
-    if(modal) modal.classList.remove('active');
 }
 
 
@@ -1378,7 +1250,6 @@ function closeAboutModal() {
 
 const MODAL_REGISTRY = [
     { id: 'install-modal',    close: () => PWAManager.dismiss() },
-    { id: 'features-modal',   close: closeFeaturesModal },
     { id: 'about-modal',      close: closeAboutModal },
     { id: 'share-box-modal',  close: closeShareModal },
     { id: 'confirm-modal',    close: closeConfirmModal }
@@ -1407,37 +1278,6 @@ function toggleAccordion( el ) {
 }
 
 
-function triggerInstallOrUninstall() {
-    const isInstalled = localStorage.getItem('app_installed') === 'true';
-    if (isInstalled) {
-        // App is installed, ask for "uninstall" (reset)
-        openConfirmModal(
-            AppState.config.texts.menu_uninstall_confirm_title,
-            AppState.config.texts.menu_uninstall_confirm_text,
-            () => {
-                localStorage.removeItem('app_installed');
-                reloadApp(); // "Uninstall" via clearing data
-            }
-        );
-    } else {
-        // App is not installed, show install prompt
-        closeMainMenu();
-        PWAManager.showModal();
-    }
-}
-
-
-function triggerReload() {
-    openConfirmModal(
-        AppState.config.texts.menu_reload_confirm_title,
-        AppState.config.texts.menu_reload_confirm_text,
-        () => {
-            reloadApp();
-        }
-    );
-}
-
-
 async function reloadApp() {
     // Unregister SW
     if ('serviceWorker' in navigator) {
@@ -1457,40 +1297,6 @@ async function reloadApp() {
     // I'll stick to SW and Caches.
 
     window.location.reload(true);
-}
-
-
-async function checkVersion(manualCheck = false) {
-    try {
-        const response = await fetch(`./VERSION?t=${Date.now()}`);
-        if (!response.ok) return;
-        const serverVersion = (await response.text()).trim();
-        const currentVersion = AppState.config.site.version;
-
-        if (serverVersion && currentVersion && serverVersion !== currentVersion) {
-            if (AppState.settings.isDebugJS) {
-                console.log(`Version mismatch: server=${serverVersion}, local=${currentVersion}`);
-            }
-
-            const displayServerVersion = serverVersion.replace(/^v/, '');
-            const displayCurrentVersion = currentVersion.replace(/^v/, '');
-            let updateText = AppState.config.texts.update_available_text;
-            updateText = updateText.replace('{new_version}', displayServerVersion)
-                                   .replace('{old_version}', displayCurrentVersion);
-
-            openConfirmModal(
-                AppState.config.texts.update_available_title,
-                updateText,
-                () => {
-                    reloadApp();
-                }
-            );
-        } else if (manualCheck) {
-            showToast(AppState.config.texts.msg_up_to_date);
-        }
-    } catch (e) {
-        console.error("Error checking version:", e);
-    }
 }
 
 
@@ -2210,9 +2016,6 @@ function setupObserver() {
                     AppState.state.activeId = null;
                     if ( entry.target.id ) {
                         AppState.state.activeSection = entry.target.id;
-                        if ( entry.target.id === 'home' ) {
-                            checkVersion();
-                        }
                     }
                     if ( !AppState.state.isMenuNavigation && AppState.state.previousId !== null && VideoManager.instances[ AppState.state.previousId ] && typeof VideoManager.instances[ AppState.state.previousId ].pauseVideo === 'function' ) {
                         VideoManager.instances[ AppState.state.previousId ].pauseVideo();
@@ -3279,8 +3082,6 @@ const PWAManager = {
             this.deferredPrompt = null;
             localStorage.setItem('app_installed', 'true');
             console.log('PWA was installed');
-            updateInstallMenuVisibility();
-            if (AppState.settings.isTestStorage) updateTestStorage();
         });
 
         // Setup buttons
@@ -3356,77 +3157,41 @@ if ( 'serviceWorker' in navigator ) {
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
-/* TEST METRICS */
+/* DEBUG TOOL */
 
-function getMobileMetrics() {
-    // Nécessite que vous ayez défini --sat: env(safe-area-inset-top); etc. dans le :root CSS
-
-    const styles = getComputedStyle(document.documentElement);
-
-    return {
-        screen: {
-            width:      window.screen.width,
-            height:     window.screen.height,
-            pixelRatio: window.devicePixelRatio
-        },
-        viewport: {
-            width:  window.innerWidth,
-            height: window.innerHeight
-        },
-        safeArea: {
-            top:    styles.getPropertyValue("--sat").trim(), // Supposé défini en CSS
-            bottom: styles.getPropertyValue("--sab").trim(),
-            left:   styles.getPropertyValue("--sal").trim(),
-            right:  styles.getPropertyValue("--sar").trim()
-        },
-        status: {
-            isPWA:       window.matchMedia('(display-mode: standalone)').matches,
-            isDarkMode:  window.matchMedia('(prefers-color-scheme: dark)').matches,
-            orientation: window.screen.orientation ? window.screen.orientation.type : 'unknown'
-        }
+function loadDebugTool() {
+    const script = document.createElement('script');
+    script.src = 'assets/js/debug.js';
+    script.onload = () => {
+        DebugTool.init();
     };
+    document.body.appendChild(script);
+
+    const link = document.createElement('link');
+    link.rel = 'stylesheet';
+    link.href = 'assets/css/debug.css';
+    document.head.appendChild(link);
+
+    setupDebugTrigger();
 }
 
+function setupDebugTrigger() {
+    const logo = document.querySelector('.logo-container'); // Top Bar Logo
+    let timer;
 
-function getTestCardHtml() {
-    return `
-    <section id="test_display" class="test-card section-snap">
-        <pre id="test-metrics-content" class="test-metrics-content">Loading metrics...</pre>
-    </section>`;
-}
+    if(logo) {
+        const startTimer = () => {
+            timer = setTimeout(() => {
+                if(window.DebugTool) DebugTool.open();
+            }, 3000);
+        };
+        const clearTimer = () => clearTimeout(timer);
 
-
-function updateTestMetrics() {
-    const el = document.getElementById('test-metrics-content');
-    if (el) {
-        const metrics = getMobileMetrics();
-        el.textContent = JSON.stringify(metrics, null, 4);
-    }
-}
-
-
-function getTestStorageHtml() {
-    return `
-    <section id="test_storage" class="test-card section-snap">
-        <pre id="test-storage-content" class="test-metrics-content">Loading storage...</pre>
-    </section>`;
-}
-
-
-function updateTestStorage() {
-    const el = document.getElementById('test-storage-content');
-    if (el) {
-        const storageData = {};
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            let value = localStorage.getItem(key);
-            try {
-                value = JSON.parse(value);
-            } catch (e) {
-                // keep as string
-            }
-            storageData[key] = value;
-        }
-        el.textContent = JSON.stringify(storageData, null, 4);
+        logo.addEventListener('touchstart', startTimer);
+        logo.addEventListener('touchend', clearTimer);
+        logo.addEventListener('touchcancel', clearTimer);
+        logo.addEventListener('mousedown', startTimer);
+        logo.addEventListener('mouseup', clearTimer);
+        logo.addEventListener('mouseleave', clearTimer);
     }
 }

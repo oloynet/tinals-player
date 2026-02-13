@@ -104,10 +104,7 @@
         "is_app_install": true,
         "is_debug": true,
         "is_debug_js": true,
-
-        "is_test_display": false,
-        "is_test_storage": true,
-        "is_display_version": true,
+        "is_debug_tool": false,
 
         "is_display_day": true,
         "is_display_date": true,
@@ -141,8 +138,6 @@
         "is_toast_scroll_page": false,
 
         "is_menu_auto_hide": false,
-        "is_menu_install": true,
-        "is_menu_uninstall": true,
 
         "is_description_auto_hide": true,
         "is_fullscreen_enable": true,
