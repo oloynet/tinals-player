@@ -1,8 +1,8 @@
 {
     "site":
     {
-        "version":          "v2.02",
-        "version_name":     "TINALS v2.02",
+        "version":          "v2.03",
+        "version_name":     "TINALS v2.03",
         "title":            "TINALS 2026 player",
         "name":             "TINALS app",
         "short_name":       "TINALS",
@@ -19,7 +19,7 @@
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
-        "data_source":      "data/2026/data.json?v2.02",
+        "data_source":      "data/2026/data.json?v2.03",
 
         "step":             "full_program"
     },
@@ -199,7 +199,7 @@
         "flag_fr_id":        "flag-fr",
         "flag_en_id":        "flag-en",
 
-        "sprite_path":       "assets/images/sprites/sprite.svg?v2.02",
+        "sprite_path":       "assets/images/sprites/sprite.svg?v2.03",
 
         "icon_192":          "assets/favicon/android-chrome-192x192.png?v2",
         "icon_512":          "assets/favicon/android-chrome-512x512.png?v2",
