@@ -28,6 +28,7 @@ const AppState = {
         isDisplayVersion: false,
         versionNumber: "",
         isTestDisplay: false,
+        isTestStorage: false,
 
         isDisplayDay: true,
         isDisplayDate: true,
@@ -249,6 +250,7 @@ async function init() {
             if ( urlFavs.length > 0 ) {
                 AppState.favorites = [ ...new Set( [ ...AppState.favorites, ...urlFavs ] ) ];
                 localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
+                if ( AppState.settings.isTestStorage ) updateTestStorage();
                 setTimeout( () => {
                     playFavorites();
                     updateURLState();
@@ -307,6 +309,10 @@ async function init() {
         if ( AppState.settings.isTestDisplay ) {
             window.addEventListener('resize', updateTestMetrics);
             window.addEventListener('orientationchange', () => setTimeout(updateTestMetrics, 200));
+        }
+
+        if ( AppState.settings.isTestStorage ) {
+            window.addEventListener('storage', updateTestStorage);
         }
 
         const loader = document.getElementById( 'loader' );
@@ -468,6 +474,7 @@ function applyConfigs() {
     s.isDisplayVersion              = f.is_display_version                ?? false;
     s.versionNumber                 = c.site.version || "";
     s.isTestDisplay                 = f.is_test_display                   ?? false;
+    s.isTestStorage                 = f.is_test_storage                   ?? false;
 
     s.isDisplayDay                  = f.is_display_day                    ?? true;
     s.isDisplayDate                 = f.is_display_date                   ?? true;
@@ -1171,11 +1178,19 @@ function renderFeed() {
         htmlParts.push( getTestCardHtml() );
     }
 
+    if ( AppState.settings.isTestStorage ) {
+        htmlParts.push( getTestStorageHtml() );
+    }
+
     htmlParts.push( getHomeHtml(), getProgramHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() );
     feed.innerHTML = htmlParts.join( '' );
 
     if ( AppState.settings.isTestDisplay ) {
         setTimeout( updateTestMetrics, 100 );
+    }
+
+    if ( AppState.settings.isTestStorage ) {
+        setTimeout( updateTestStorage, 100 );
     }
 }
 
@@ -2657,6 +2672,7 @@ function toggleFav( id, openDrawer = true ) {
         }
     }
     localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
+    if (AppState.settings.isTestStorage) updateTestStorage();
     updateActionButtons( AppState.state.activeId );
     renderDrawerFavorites();
     renderDrawerTimeline();
@@ -3264,6 +3280,7 @@ const PWAManager = {
             localStorage.setItem('app_installed', 'true');
             console.log('PWA was installed');
             updateInstallMenuVisibility();
+            if (AppState.settings.isTestStorage) updateTestStorage();
         });
 
         // Setup buttons
@@ -3384,5 +3401,32 @@ function updateTestMetrics() {
     if (el) {
         const metrics = getMobileMetrics();
         el.textContent = JSON.stringify(metrics, null, 4);
+    }
+}
+
+
+function getTestStorageHtml() {
+    return `
+    <section id="test_storage" class="test-card section-snap">
+        <pre id="test-storage-content" class="test-metrics-content">Loading storage...</pre>
+    </section>`;
+}
+
+
+function updateTestStorage() {
+    const el = document.getElementById('test-storage-content');
+    if (el) {
+        const storageData = {};
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            let value = localStorage.getItem(key);
+            try {
+                value = JSON.parse(value);
+            } catch (e) {
+                // keep as string
+            }
+            storageData[key] = value;
+        }
+        el.textContent = JSON.stringify(storageData, null, 4);
     }
 }
