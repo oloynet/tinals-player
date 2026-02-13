@@ -102,7 +102,7 @@
     "features":
     {
         "is_app_install": true,
-        "is_debug_js": false,
+        "is_debug_js": true,
         "is_test_display": false,
         "is_display_version": false,
 
