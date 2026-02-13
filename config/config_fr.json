@@ -88,21 +88,23 @@
         "bar_top_page":    "Haut de page",
         "bar_bottom_page": "Bas de page",
 
-        "bar_fav_top_page":       "Premier évènement <b>favori</b>",
-        "bar_fav_bottom_page":    "Dernier évènement <b>favori</b>",
-        "filter_cancel_fav":      "<b>{position}{count}</b> évènement(s) <b>favori(s)</b><br />Cliquez pour annuler la sélection",
-        "top_of_list":            "Début sélection",
+        "top_of_list":            "Début",
+
+        "bar_fav_top_page":       "Premier <b>favori</b>",
+        "bar_fav_bottom_page":    "Dernier <b>favori</b>",
 
         "bar_filter_top_page":    "<b>Premier</b> évènement <b>\"{tag}\"</b>",
         "bar_filter_bottom_page": "<b>Dernier</b> évènement <b>\"{tag}\"</b>",
+
+        "filter_cancel_fav":      "<b>{position}{count}</b> évènement(s) <b>favori(s)</b><br />Cliquez pour annuler la sélection",
         "filter_cancel_tags":     "<b>{position}{count}</b> évènement(s) <b>\"{tag}\"</b><br />Cliquez pour annuler la sélection",
 
-        "filter_warning_text":    "<b>La liste</b> avec le tag <b>\"{tag}\"</b>",
-        "favorite_warning_text":  "<b>Mes favoris</b> avec le tag <b>\"{tag}\"</b>",
-        "timeline_warning_text":  "<b>Le planning</b> avec le tag <b>\"{tag}\"</b>",
+        "filter_warning_text":    "<b>La liste</b>    avec <b>\"{tag}\"</b>",
+        "favorite_warning_text":  "<b>Mes favoris</b> avec <b>\"{tag}\"</b>",
+        "timeline_warning_text":  "<b>Le planning</b> avec <b>\"{tag}\"</b>",
 
-        "at_a_glance_favorite_warning_text":  "Mes <b>évènements</b> favoris",
-        "at_a_glance_timeline_warning_text":  "Les <b>évènements</b> filtrés avec le tag <b>\"{tag}\"</b>",
+        "at_a_glance_favorite_warning_text":  "Mes évènements <b>favoris</b>",
+        "at_a_glance_timeline_warning_text":  "<b>Évènements</b> avec <b>\"{tag}\"</b>",
 
         "bar_fav_added":   "Ajouté aux favoris",
         "bar_fav_removed": "Supprimé des favoris",
