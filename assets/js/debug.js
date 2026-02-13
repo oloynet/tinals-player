@@ -5,12 +5,24 @@ window.DebugTool = {
 
     init: function() {
         if (this.isInit) return;
+
+        // Restore active tab
+        const savedTab = localStorage.getItem('debug_active_tab');
+        if (savedTab) this.activeTab = savedTab;
+
         this.createOverlay();
         this.setupListeners();
         this.isInit = true;
         console.log( "--- DEBUG TOOL INITIALIZED ---" );
         console.log( "    is_debug_tool: true" );
 
+        // Keyboard Shortcut 'd'
+        document.addEventListener('keydown', (e) => {
+            if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
+            if (e.key.toLowerCase() === 'd') {
+                this.toggle();
+            }
+        });
     },
 
     createOverlay: function() {
@@ -21,11 +33,12 @@ window.DebugTool = {
         overlay.innerHTML = `
             <div class="debug-header">
                 <div class="debug-tabs">
-                    <button class="debug-tab-btn active" data-tab="infos">Infos</button>
+                    <button class="debug-tab-btn" data-tab="infos">Infos</button>
                     <button class="debug-tab-btn" data-tab="display">Display</button>
                     <button class="debug-tab-btn" data-tab="storage">Storage</button>
                     <button class="debug-tab-btn" data-tab="cache">Cache</button>
                     <button class="debug-tab-btn" data-tab="favicons">Favicons</button>
+                    <button class="debug-tab-btn" data-tab="images">Images</button>
                     <button class="debug-tab-btn" data-tab="sprites">Sprites</button>
                     <button class="debug-tab-btn" data-tab="features">Features</button>
                     <button class="debug-tab-btn" data-tab="colors">Colors</button>
@@ -40,18 +53,20 @@ window.DebugTool = {
                 </div>
             </div>
             <div class="debug-content">
-                <div id="debug-section-infos" class="debug-section active"></div>
+                <div id="debug-section-infos" class="debug-section"></div>
                 <div id="debug-section-display" class="debug-section"></div>
                 <div id="debug-section-storage" class="debug-section"></div>
                 <div id="debug-section-cache" class="debug-section"></div>
                 <div id="debug-section-favicons" class="debug-section"></div>
+                <div id="debug-section-images" class="debug-section"></div>
                 <div id="debug-section-sprites" class="debug-section"></div>
                 <div id="debug-section-features" class="debug-section"></div>
                 <div id="debug-section-colors" class="debug-section"></div>
             </div>
+            <div id="debug-modal-container"></div>
         `;
         document.body.appendChild(overlay);
-        this.renderAll();
+        this.switchTab(this.activeTab);
     },
 
     setupListeners: function() {
@@ -88,8 +103,18 @@ window.DebugTool = {
         if (overlay) overlay.classList.remove('active');
     },
 
+    toggle: function() {
+        const overlay = document.getElementById('debug-overlay');
+        if (overlay.classList.contains('active')) {
+            this.close();
+        } else {
+            this.open();
+        }
+    },
+
     switchTab: function(tabId) {
         this.activeTab = tabId;
+        localStorage.setItem('debug_active_tab', tabId);
 
         // Update Buttons
         document.querySelectorAll('.debug-tab-btn').forEach(btn => {
@@ -101,7 +126,8 @@ window.DebugTool = {
         document.querySelectorAll('.debug-section').forEach(sec => {
             sec.classList.remove('active');
         });
-        document.getElementById(`debug-section-${tabId}`).classList.add('active');
+        const targetSection = document.getElementById(`debug-section-${tabId}`);
+        if(targetSection) targetSection.classList.add('active');
     },
 
     toggleTheme: function() {
@@ -134,6 +160,7 @@ window.DebugTool = {
         this.renderStorage();
         this.renderCache();
         this.renderFavicons();
+        this.renderImages();
         this.renderSprites();
         this.renderFeatures();
         this.renderColors();
@@ -256,18 +283,37 @@ window.DebugTool = {
         container.innerHTML = html;
     },
 
+    renderImages: function() {
+        const container = document.getElementById('debug-section-images');
+        if (!container) return;
+
+        const images = AppState.config.images || {};
+
+        let html = '<div class="debug-image-grid">';
+        for (const [key, value] of Object.entries(images)) {
+             if (typeof value === 'string' && (value.startsWith('http') || value.startsWith('assets/') || value.startsWith('data/'))) {
+                 html += `
+                    <div class="debug-image-card">
+                        <img src="${value}" class="debug-image-img" loading="lazy">
+                        <span class="debug-image-label">${key}</span>
+                    </div>
+                 `;
+             }
+        }
+        html += '</div>';
+        container.innerHTML = html;
+    },
+
     renderSprites: function() {
         const container = document.getElementById('debug-section-sprites');
         if (!container) return;
 
         const spritePath = AppState.config.images.sprite_path;
-        // Strip query params for fetch
         const cleanPath = spritePath.split('?')[0];
+        const classColorExt  = this.isDarkMode ? 'svg-dark-mode' : '';
+        const timestampedPath = `${cleanPath}?t=${Date.now()}`;
 
-
-        const classColorExt  = this.isDarkMode ? 'svg-dark-mode' : ''; // '' for light background or '-dark' for dark background;
-
-        fetch(cleanPath)
+        fetch(timestampedPath)
             .then(response => response.text())
             .then(text => {
                 const parser = new DOMParser();
@@ -278,16 +324,35 @@ window.DebugTool = {
                 symbols.forEach(symbol => {
                     const id       = symbol.id;
                     const viewBox  = symbol.getAttribute('viewBox') || '0 0 24 24';
+
+                    const title = symbol.querySelector('title') ? symbol.querySelector('title').textContent : '-';
+                    const desc  = symbol.querySelector('desc') ? symbol.querySelector('desc').textContent : '-';
+                    const ariaLabel = symbol.getAttribute('aria-label') || '-';
+
+                    const svgContent = `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${viewBox}">${symbol.innerHTML}</svg>`;
+                    const blob = new Blob([svgContent], {type: 'image/svg+xml'});
+                    const url = URL.createObjectURL(blob);
+
                     const svgClass = `svg-${id}`;
 
                     html += `
                         <div class="debug-sprite-card">
-                            <div class="debug-sprite-preview">
+                            <div class="debug-sprite-preview dashed-border">
                                 <svg viewBox="${viewBox}" class="${svgClass} ${classColorExt}">
                                     <use href="${spritePath}#${id}"></use>
                                 </svg>
                             </div>
                             <span class="debug-sprite-id">${id}</span>
+                            <div class="debug-sprite-info">
+                                <div>Size: ${viewBox}</div>
+                                <div>Title: ${title}</div>
+                                <div>Desc: ${desc}</div>
+                                <div>Aria: ${ariaLabel}</div>
+                            </div>
+                            <div class="debug-sprite-actions">
+                                <button class="debug-btn-small" onclick="window.open('${url}', '_blank')">View</button>
+                                <a href="${url}" download="${id}.svg" class="debug-btn-small" style="text-decoration:none; display:inline-block;">Download</a>
+                            </div>
                         </div>
                     `;
                 });
@@ -329,7 +394,6 @@ window.DebugTool = {
         const container = document.getElementById('debug-section-colors');
         if (!container) return;
 
-        // Hardcoded list of variables from style.css
         const variables = [
             '--primary-color', '--secondary-color', '--third-color', '--fourth-color', '--fifth-color',
             '--black-color', '--white-color',
@@ -361,53 +425,80 @@ window.DebugTool = {
 
     /* --- ACTIONS --- */
 
+    showModal: function(title, message, onConfirm) {
+        const container = document.getElementById('debug-modal-container');
+        if(!container) return;
+
+        const isAlert = !onConfirm;
+        const confirmText = isAlert ? "OK" : "Confirm";
+        const cancelBtnStyle = isAlert ? 'display:none;' : '';
+
+        container.innerHTML = `
+            <div class="debug-modal-overlay">
+                <div class="debug-modal">
+                    <div class="debug-modal-title">${title}</div>
+                    <div class="debug-modal-message">${message}</div>
+                    <div class="debug-modal-buttons">
+                        <button class="debug-btn" id="debug-modal-cancel" style="${cancelBtnStyle}">Cancel</button>
+                        <button class="debug-btn success" id="debug-modal-confirm">${confirmText}</button>
+                    </div>
+                </div>
+            </div>
+        `;
+
+        document.getElementById('debug-modal-cancel').onclick = () => {
+            container.innerHTML = '';
+        };
+        document.getElementById('debug-modal-confirm').onclick = () => {
+            container.innerHTML = '';
+            if (onConfirm) onConfirm();
+        };
+    },
+
     actionReload: function() {
-        if (confirm("Full Application Reload?")) {
+        this.showModal("Reload", "Full Application Reload?", () => {
             window.location.reload(true);
-        }
+        });
     },
 
     actionCheckVersion: function() {
-        // Re-use app logic if possible, or implement simple check
         fetch(`./VERSION?t=${Date.now()}`)
             .then(r => r.text())
-            .then(v => alert(`Server Version: ${v.trim()}\nClient Version: ${AppState.config.site.version}`))
-            .catch(e => alert("Error checking version"));
+            .then(v => this.showModal("Version Check", `Server Version: ${v.trim()}<br>Client Version: ${AppState.config.site.version}`))
+            .catch(e => this.showModal("Error", "Error checking version: " + e.message));
     },
 
     actionForceInstall: function() {
-        if (confirm("Force PWA Install logic? This sets 'app_installed' to true and reloads.")) {
+        this.showModal("Force Install", "Force PWA Install logic? This sets 'app_installed' to true and reloads.", () => {
             localStorage.setItem('app_installed', 'true');
             window.location.reload();
-        }
+        });
     },
 
     actionForceUninstall: function() {
-         if (confirm("Force Uninstall logic? This removes 'app_installed' and reloads.")) {
+         this.showModal("Force Uninstall", "Force Uninstall logic? This removes 'app_installed' and reloads.", () => {
             localStorage.removeItem('app_installed');
             window.location.reload();
-        }
+        });
     },
 
     actionClearStorage: function() {
-        if (confirm("Clear ALL Local Storage? This will reset all preferences.")) {
+        this.showModal("Clear Storage", "Clear ALL Local Storage? This will reset all preferences.", () => {
             localStorage.clear();
-            alert("Storage Cleared. Reloading...");
             window.location.reload();
-        }
+        });
     },
 
     actionClearCache: function() {
-        if (confirm("Delete ALL Caches? This will force redownload of assets.")) {
+        this.showModal("Clear Cache", "Delete ALL Caches? This will force redownload of assets.", () => {
             if ('caches' in window) {
                 caches.keys().then(keys => {
                     Promise.all(keys.map(key => caches.delete(key))).then(() => {
-                        alert("Caches deleted. Reloading...");
                         window.location.reload();
                     });
                 });
             }
-        }
+        });
     },
 
     /* --- HELPERS --- */

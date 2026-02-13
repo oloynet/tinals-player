@@ -55,14 +55,9 @@
 .debug-tabs {
     display: flex;
     gap: 5px;
-    overflow-x: auto;
+    flex-wrap: wrap;
     padding-bottom: 5px;
     flex: 1;
-    scrollbar-width: none; /* Firefox */
-}
-
-.debug-tabs::-webkit-scrollbar {
-    display: none;
 }
 
 .debug-tab-btn {
@@ -137,7 +132,8 @@
 .debug-actions {
     margin-top: 20px;
     display: flex;
-    flex-direction: column;
+    flex-direction: row;
+    flex-wrap: wrap;
     gap: 10px;
 }
 
@@ -151,6 +147,7 @@
     font-weight: bold;
     text-transform: uppercase;
     text-align: center;
+    width: auto;
 }
 
 .debug-btn:hover {
@@ -324,4 +321,103 @@
 .debug-favicon-label {
     font-size: 0.8rem;
     word-break: break-all;
+}
+
+/* Images Grid */
+.debug-image-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
+    gap: 15px;
+}
+
+.debug-image-card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 10px;
+    background-color: var(--debug-code-bg);
+    border-radius: 4px;
+}
+
+.debug-image-img {
+    max-width: 240px;
+    max-height: 240px;
+    margin-bottom: 10px;
+}
+
+.debug-image-label {
+    font-size: 0.8rem;
+    word-break: break-all;
+}
+
+/* Modal */
+.debug-modal-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.7);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 10001;
+}
+
+.debug-modal {
+    background: var(--debug-bg);
+    padding: 20px;
+    border-radius: 5px;
+    border: 1px solid var(--debug-border);
+    max-width: 90%;
+    width: 400px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.5);
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.debug-modal-title {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: var(--debug-accent);
+}
+
+.debug-modal-buttons {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+/* Sprite Extras */
+.debug-sprite-preview.dashed-border {
+    border: 1px dashed var(--debug-text);
+}
+
+.debug-sprite-info {
+    font-size: 0.75rem;
+    margin-top: 5px;
+    text-align: left;
+    width: 100%;
+    color: var(--debug-text);
+    opacity: 0.8;
+}
+
+.debug-sprite-actions {
+    margin-top: 10px;
+    display: flex;
+    gap: 5px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.debug-btn-small {
+    padding: 4px 8px;
+    font-size: 0.75rem;
+    background-color: var(--debug-tab-bg);
+    color: var(--debug-text);
+    border: none;
+    border-radius: 3px;
+    cursor: pointer;
 }

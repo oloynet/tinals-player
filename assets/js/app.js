@@ -168,6 +168,10 @@ async function init() {
 
         applyConfigs();
 
+        if (AppState.config.site && AppState.config.site.version) {
+            localStorage.setItem('app_version', AppState.config.site.version);
+        }
+
         if ( AppState.settings.isDebugTool ) {
             loadDebugTool();
         }
