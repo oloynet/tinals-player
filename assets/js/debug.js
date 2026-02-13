@@ -62,16 +62,16 @@ window.DebugTool = {
                 </div>
             </div>
             <div class="debug-content">
-                <div id="debug-section-infos" class="debug-section"></div>
-                <div id="debug-section-display" class="debug-section"></div>
-                <div id="debug-section-storage" class="debug-section"></div>
-                <div id="debug-section-cache" class="debug-section"></div>
+                <div id="debug-section-infos"    class="debug-section"></div>
+                <div id="debug-section-display"  class="debug-section"></div>
+                <div id="debug-section-storage"  class="debug-section"></div>
+                <div id="debug-section-cache"    class="debug-section"></div>
                 <div id="debug-section-favicons" class="debug-section"></div>
-                <div id="debug-section-images" class="debug-section"></div>
-                <div id="debug-section-files" class="debug-section"></div>
-                <div id="debug-section-sprites" class="debug-section"></div>
+                <div id="debug-section-images"   class="debug-section"></div>
+                <div id="debug-section-files"    class="debug-section"></div>
+                <div id="debug-section-sprites"  class="debug-section"></div>
                 <div id="debug-section-features" class="debug-section"></div>
-                <div id="debug-section-colors" class="debug-section"></div>
+                <div id="debug-section-colors"   class="debug-section"></div>
             </div>
             <div id="debug-modal-container"></div>
         `;
@@ -185,12 +185,12 @@ window.DebugTool = {
 
         // Meta tags check
         const googlebot = document.querySelector('meta[name="googlebot"]')?.content || 'Not found';
-        const robots = document.querySelector('meta[name="robots"]')?.content || 'Not found';
+        const robots    = document.querySelector('meta[name="robots"]')?.content || 'Not found';
 
         // Memory
         let memoryInfo = 'Not available';
         if (window.performance && window.performance.memory) {
-            const used = Math.round(window.performance.memory.usedJSHeapSize / 1024 / 1024);
+            const used  = Math.round(window.performance.memory.usedJSHeapSize  / 1024 / 1024);
             const total = Math.round(window.performance.memory.totalJSHeapSize / 1024 / 1024);
             memoryInfo = `${used} MB / ${total} MB`;
         }
@@ -207,10 +207,10 @@ window.DebugTool = {
                 <li class="debug-info-item"><span class="debug-info-label">Robots</span><span class="debug-info-value">${robots}</span></li>
             </ul>
             <div class="debug-actions column-layout">
-                <button class="debug-btn" onclick="DebugTool.actionReload()">Full Reload</button>
-                <button class="debug-btn" onclick="DebugTool.actionCheckVersion()">Check Version</button>
-                <button class="debug-btn" onclick="DebugTool.actionForceInstall()">Force Install (PWA)</button>
-                 <button class="debug-btn" onclick="DebugTool.actionForceUninstall()">Force Uninstall</button>
+                <button class="debug-btn"        onclick="DebugTool.actionReload()">Full Reload</button>
+                <button class="debug-btn"        onclick="DebugTool.actionCheckVersion()">Check Version</button>
+                <button class="debug-btn"        onclick="DebugTool.actionForceInstall()">Force Install (PWA)</button>
+                <button class="debug-btn"        onclick="DebugTool.actionForceUninstall()">Force Uninstall</button>
                 <button class="debug-btn danger" onclick="DebugTool.actionClearStorage()">Clear Local Storage</button>
                 <button class="debug-btn danger" onclick="DebugTool.actionClearCache()">Clear Cache Storage</button>
             </div>
@@ -524,8 +524,8 @@ window.DebugTool = {
 
     actionCheckVersion: function() {
         fetch(`./VERSION?t=${Date.now()}`)
-            .then(r => r.text())
-            .then(v => this.showModal("Version Check", `Server Version: ${v.trim()}<br>Client Version: ${AppState.config.site.version}`))
+            .then(r  => r.text())
+            .then(v  => this.showModal("Version Check", `Server Version: ${v.trim()}<br>Client Version: ${AppState.config.site.version}`))
             .catch(e => this.showModal("Error", "Error checking version: " + e.message));
     },
 
@@ -568,27 +568,27 @@ window.DebugTool = {
         const styles = getComputedStyle(document.documentElement);
         return {
             navigator: {
-                appName: navigator.appName,
+                appName:   navigator.appName,
                 userAgent: navigator.userAgent
             },
             screen: {
-                width: window.screen.width,
-                height: window.screen.height,
+                width:      window.screen.width,
+                height:     window.screen.height,
                 pixelRatio: window.devicePixelRatio
             },
             viewport: {
-                width: window.innerWidth,
+                width:  window.innerWidth,
                 height: window.innerHeight
             },
             safeArea: {
-                top: styles.getPropertyValue("--sat").trim(),
+                top:    styles.getPropertyValue("--sat").trim(),
                 bottom: styles.getPropertyValue("--sab").trim(),
-                left: styles.getPropertyValue("--sal").trim(),
-                right: styles.getPropertyValue("--sar").trim()
+                left:   styles.getPropertyValue("--sal").trim(),
+                right:  styles.getPropertyValue("--sar").trim()
             },
             status: {
-                isPWA: window.matchMedia('(display-mode: standalone)').matches,
-                isDarkMode: window.matchMedia('(prefers-color-scheme: dark)').matches,
+                isPWA:       window.matchMedia('(display-mode: standalone)').matches,
+                isDarkMode:  window.matchMedia('(prefers-color-scheme: dark)').matches,
                 orientation: window.screen.orientation ? window.screen.orientation.type : 'unknown'
             }
         };

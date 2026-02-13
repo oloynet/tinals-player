@@ -141,8 +141,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v2.04';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v2.04' : 'config/config_fr.json?v2.04';
+        const configFile = 'config/config.json?v2.05';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v2.05' : 'config/config_fr.json?v2.05';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -1248,6 +1248,12 @@ function handleMenuAction(action) {
             break;
         case 'about':
             openAboutModal();
+            break;
+        case 'cache':
+
+            // actionClearCache
+
+            closeMainMenu();
             break;
         case 'debug':
             if ( window.DebugTool ) DebugTool.open();
@@ -3202,7 +3208,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v2.04' )
+    navigator.serviceWorker.register( 'service-worker.js?v2.05' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }

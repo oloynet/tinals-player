@@ -106,14 +106,13 @@
 }
 
 
-
 /* --- ALL --- */
 
-* {
-    box-sizing: border-box;
-    margin: 0;
-    padding: 0;
-}
+    * {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
 
 /* --- SELECTION --- */
 
@@ -160,12 +159,10 @@
     .black-fill     { background-color: var(--black-color)     !important; }
     .white-fill     { background-color: var(--white-color)     !important; }
 
-
 /* --- TEXT UTILS --- */
 
     span.short { display: inline; }
     span.long  { display: none; }
-
 
 /* --- SVG COLORS SPRITES--- */
 
@@ -258,6 +255,63 @@
         fill: var(--white-color);
     }
 
+/* --- HEADER H1 H2 H3 --- */
+
+h1 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--white-color);
+}
+
+h2 {
+    font-size: 1.5rem;
+    font-weight: 900;
+    text-transform: uppercase;
+    color: var(--white-color);
+}
+
+#program h2 {
+    font-size: 1.25rem;
+}
+
+
+.artist-info h2 {
+    font-size: 1.25rem;
+    font-weight: bold;
+    text-transform: uppercase;
+}
+
+.ticket-block h2 {
+    font-size: 1.4rem;
+    margin: 0;
+    text-transform: uppercase;
+    font-weight: 900;
+    text-shadow: 0 2px 10px var(--black-a30-color);
+}
+
+h3 {
+    font-size: 1.2rem;
+    font-weight: normal;
+}
+
+.ticket-block h3 {
+    font-size: 1.2rem;
+    font-weight: 300;
+}
+
+.program-separator h3 {
+    color: var(--primary-color);
+    font-weight: 900;
+    text-transform: uppercase;
+    line-height: 1.2;
+}
+
+.program-separator h3 .session-date {
+    color: var(--white-color);
+    font-size: 1.1rem;
+    line-height: 1.2;
+}
 
 
 /* --- LOADER --- */
@@ -427,7 +481,7 @@
         .bar-top .header-actions .btn-ticket,
         .bar-top .header-actions .btn-lang {
             font-weight: bold;
-            font-size: 0.7em;
+            font-size: 0.65em;
             padding: 4px 8px;
             cursor: pointer;
             text-decoration: none;
@@ -894,7 +948,6 @@
             width: auto;
             min-width: 200px;
             white-space: nowrap;
-
         }
 
         .home-ticket-btn {
@@ -907,14 +960,9 @@
             border: 2px solid var(--black-color);
         }
 
-
-
-
         .home-btn:hover {
             transform: scale(1.1);
         }
-
-
 
         .home-organizer {
             background-color: var(--primary-color);
@@ -940,7 +988,6 @@
             animation-delay: 0.8s;
 
             /* text-shadow: 1px 1px 8px var(--black-a90-color); */
-
         }
 
         .home-organizer .organizer-col-fixed {
@@ -1001,13 +1048,9 @@
             padding-right: 10px;
         }
 
-        #program-title {
+        #program h2 {
             text-align: center;
-            font-size: 1.5rem;
-            font-weight: 900;
-            text-transform: uppercase;
             margin-bottom: 0;
-            color: var(--white-color);
         }
 
         .program-grid {
@@ -1063,13 +1106,13 @@
         }
 
         /*
-        .program-item.is-playing {
-            border: 5px solid var(--primary-color);
-        }
+            .program-item.is-playing {
+                border: 5px solid var(--primary-color);
+            }
 
-        .program-item.is-paused {
-            border: 5px solid var(--primary-color);
-        }
+            .program-item.is-paused {
+                border: 5px solid var(--primary-color);
+            }
         */
 
         .program-item.is-playing.is-current {
@@ -1134,8 +1177,8 @@
             font-weight: bold;
             text-transform: uppercase;
             color: var(--white-color);
-                margin-top: 10px;
-                margin-bottom: 0px;
+            margin-top: 10px;
+            margin-bottom: 0px;
             line-height: 1.2;
         }
 
@@ -1238,7 +1281,6 @@
         }
         */
 
-
     /* --- PROGRAM CARD : SEPARATOR --- */
 
         .program-separator {
@@ -1268,17 +1310,12 @@
         }
 
         .program-separator h3 {
-            color: var(--primary-color);
-            font-size: 1.5rem;
-            font-weight: 900;
-            text-transform: uppercase;
             margin: 0;
             line-height: 1.2;
         }
 
         .program-separator h3 .session-date {
             color: var(--white-color);
-            line-height: 1.2;
         }
 
         .program-separator h3 span {
@@ -1435,10 +1472,6 @@
         }
 
         .box-title h2 {
-            font-size: 1.5rem;
-            font-weight: 700;
-            text-transform: uppercase;
-            color: var(--white-color);
             display: inline;
             margin: 0;
             padding: 5px 10px;
@@ -1448,8 +1481,6 @@
         }
 
         .box-title h3 {
-            font-size: 1.2rem;
-            font-weight: normal;
             margin: 10px 0 0 0;
             text-shadow: 0 0 20px var(--black-a80-color);
         }
@@ -1582,9 +1613,6 @@
 
         .artist-info h2 {
             margin: 0 0 2px 0;
-            font-size: 1.2rem;
-            font-weight: bold;
-            text-transform: uppercase;
         }
 
         .artist-info .artist-song-title {
@@ -2021,19 +2049,15 @@
             min-height: auto;
         }
 
-            .ticket-title {
-                width: 100%;
-                text-align: center;
-                padding-top: 10px;
-                padding-bottom: 10px;
-            }
+        .ticket-title {
+            width: 100%;
+            text-align: center;
+            padding-top: 10px;
+            padding-bottom: 10px;
+        }
 
-            .ticket-title h2 {
-                color: var(--white-color);
-                text-transform: uppercase;
-                font-size: 2rem;
-                font-weight: 900;
-            }
+        .ticket-title h2 {
+        }
 
         .ticket-container {
             display: flex;
@@ -2066,17 +2090,12 @@
         }
 
         .ticket-block h2 {
-            font-size: 1.4rem;
             margin: 0;
-            text-transform: uppercase;
-            font-weight: 900;
             text-shadow: 0 2px 10px var(--black-a30-color);
         }
 
         .ticket-block h3 {
-            font-size: 1rem;
             margin: 0;
-            font-weight: 300;
             opacity: 0.9;
         }
 
@@ -2181,42 +2200,6 @@
             font-weight: normal;
         }
 
-
-    /* --- TEST CARD --- */
-
-        .test-card {
-            height: 100vh;
-            height: 100dvh;
-            width: 100%;
-            scroll-snap-align: center;
-            position: relative;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            background-color: var(--grey10-color);
-            background-image:
-                linear-gradient(45deg, var(--grey20-color) 25%, transparent 25%, transparent 75%, var(--grey20-color) 75%, var(--grey20-color)),
-                linear-gradient(45deg, var(--grey20-color) 25%, transparent 25%, transparent 75%, var(--grey20-color) 75%, var(--grey20-color));
-            background-size: 20px 20px;
-            background-position: 0 0, 10px 10px;
-            color: var(--white-color);
-            font-family: monospace;
-            font-size: 0.8rem;
-            overflow: hidden;
-            padding: 20px;
-        }
-
-        .test-metrics-content {
-            background: rgba(0,0,0,0.7);
-            padding: 20px;
-            border-radius: 8px;
-            border: 1px solid var(--grey30-color);
-            max-width: 90%;
-            max-height: 90%;
-            overflow: auto;
-            white-space: pre-wrap;
-            text-align: left;
-        }
 
 
 /* =============================================================================
@@ -3407,6 +3390,7 @@
         }
 
 
+
 /* =============================================================================
    MISC
    ========================================================================== */
@@ -3529,7 +3513,6 @@
 
 
 
-
 /* ==========================================================================
    MEDIA QUERIES - MOBILE FIRST STRATEGY
    ========================================================================== */
@@ -3593,270 +3576,270 @@
             --header-height: 65px;
         }
 
-        /* --- BAR-TOP --- */
+        .box-title h2 {
+            font-size: 2.5rem;
+        }
 
 
-            .bar-top {
-                padding: 0 20px;
-            }
+    /* --- BAR-TOP --- */
 
-            .bar-top .main-menu-icon {
-            }
+        .bar-top {
+            padding: 0 20px;
+        }
 
-
-            .bar-top .header-actions {
-                gap: 10px;
-            }
+        .bar-top .main-menu-icon {
+        }
 
 
-            .bar-top .header-actions .btn-program,
-            .bar-top .header-actions .btn-ticket,
-            .bar-top .header-actions .btn-lang {
-                padding: 10px 18px;
-                font-size: 0.7em;
-            }
-
-            .logo,
-            .menu-logo {
-                width: 125px;
-                max-width: 100%;
-            }
-
-            .lang-icon {
-                width: 32px;
-            }
+        .bar-top .header-actions {
+            gap: 10px;
+        }
 
 
-            #btn-header-lang {
-                margin-left: 5px;
-                min-width: 40px;
-            }
+        .bar-top .header-actions .btn-program,
+        .bar-top .header-actions .btn-ticket,
+        .bar-top .header-actions .btn-lang {
+            padding: 10px 18px;
+            font-size: 0.7em;
+        }
 
-        /* --- FAV-MODE-BAR  TAG-MODE-BAR AT-A-GLANCE-FILTER-WARNING --- */
+        .logo,
+        .menu-logo {
+            width: 125px;
+            max-width: 100%;
+        }
 
-            #fav-mode-bar, #tag-mode-bar, #at-a-glance-filter-warning {
-                top: var(--visible-header-height);
-                min-height: 65px;
-                font-size: 1.20rem;
-            }
+        .lang-icon {
+            width: 32px;
+        }
 
-        /* --- PROGRAM SEPARATOR --- */
 
-            .program-separator {
-                flex-direction: row;
-                gap: 20px;
-                padding: 30px;
-            }
+        #btn-header-lang {
+            margin-left: 5px;
+            min-width: 40px;
+        }
 
-            .program-separator h3 .session-date {
-                margin-left: 20px;
-                margin-top: 0;
-            }
+    /* --- FAV-MODE-BAR  TAG-MODE-BAR AT-A-GLANCE-FILTER-WARNING --- */
 
-            .program-separator span::after {
-                content: "—";
-                margin-left: 20px;
-                color: var(--grey60-color);
-            }
+        #fav-mode-bar, #tag-mode-bar, #at-a-glance-filter-warning {
+            top: var(--visible-header-height);
+            min-height: 65px;
+            font-size: 1.20rem;
+        }
 
-            .program-separator h3 span {
-                display: inline-block;
-            }
+    /* --- PROGRAM SEPARATOR --- */
 
-        /* --- HOME-CARD --- */
+        .program-separator {
+            flex-direction: row;
+            gap: 20px;
+            padding: 30px;
+        }
 
-            .home-card {
-                padding: 12vh 20px 5vh 20px;
-            }
+        .program-separator h3 .session-date {
+            margin-left: 20px;
+            margin-top: 0;
+        }
 
-            .home-content-top {
-                margin-top: 0;
-            }
+        .program-separator span::after {
+            content: "—";
+            margin-left: 20px;
+            color: var(--grey60-color);
+        }
 
-            .home-subtitle {
-                font-size: 1.5rem;
-            }
+        .program-separator h3 span {
+            display: inline-block;
+        }
 
-            .home-date {
-                font-size: 3.5rem;
-            }
+    /* --- HOME-CARD --- */
 
-            .home-buttons-container {
-                gap: 20px;
-                flex-direction: row;
-                align-items: stretch;
-            }
+        .home-card {
+            padding: 12vh 20px 5vh 20px;
+        }
 
-            .home-btn {
-                padding: 15px 20px;
-                font-size: 0.95rem;
-                flex: 1;
-                width: auto;
-                min-width: auto;
-            }
+        .home-content-top {
+            margin-top: 0;
+        }
 
-            .home-organizer {
-                font-size: 1.0rem;
-                height: 80px;
-                padding: 10px 10px;
-            }
+        .home-subtitle {
+            font-size: 1.5rem;
+        }
 
-            .home-organizer .organizer-col-fixed {
-                width: 64px;
-            }
+        .home-date {
+            font-size: 3.5rem;
+        }
 
-        /* --- VIDEO CARD : BOX TITLE --- */
+        .home-buttons-container {
+            gap: 20px;
+            flex-direction: row;
+            align-items: stretch;
+        }
 
-            .box-title h2 {
-                font-size: 2.5rem;
-            }
+        .home-btn {
+            padding: 15px 20px;
+            font-size: 0.95rem;
+            flex: 1;
+            width: auto;
+            min-width: auto;
+        }
 
-            .box-meta-place {
-                font-size: 1.3rem;
-                margin-bottom: 4px;
-            }
+        .home-organizer {
+            font-size: 1.0rem;
+            height: 80px;
+            padding: 10px 10px;
+        }
 
-            .box-meta-date {
-                font-size: 1.3rem;
-            }
+        .home-organizer .organizer-col-fixed {
+            width: 64px;
+        }
 
-        /* --- VIDEO CARD : ARTIST OVERLAY --- */
+    /* --- VIDEO CARD : BOX TITLE --- */
 
-            .artist-overlay {
-                padding: 25px;
-                padding-bottom: 35px;
-                padding-bottom: calc(35px + env(safe-area-inset-bottom));
-            }
+        .box-meta-place {
+            font-size: 1.3rem;
+            margin-bottom: 4px;
+        }
 
-            .artist-info .artist-avatar-container {
-                width: 80px;
-                height: 80px;
-            }
+        .box-meta-date {
+            font-size: 1.3rem;
+        }
 
-            .artist-info h2 {
-                font-size: 1.7rem;
-            }
+    /* --- VIDEO CARD : ARTIST OVERLAY --- */
 
-            .artist-info .artist-date-place {
-                font-size: 1.1rem;
-            }
+        .artist-overlay {
+            padding: 25px;
+            padding-bottom: 35px;
+            padding-bottom: calc(35px + env(safe-area-inset-bottom));
+        }
 
-            .artist-info .artist-description .desc-text {
-                font-size: 1.15rem;
-                margin-bottom: 8px;
-            }
+        .artist-info .artist-avatar-container {
+            width: 80px;
+            height: 80px;
+        }
 
-            .artist-info .tag-pill {
-                font-size: 0.90rem;
-                padding: 4px 10px;
-            }
+        .artist-info h2 {
+            font-size: 1.7rem;
+        }
 
-            .artist-info .tags-container {
-                margin-bottom: 4px;
-            }
+        .artist-info .artist-date-place {
+            font-size: 1.1rem;
+        }
 
-            .artist-info .social-pill {
-                font-size: 0.90rem;
-            }
+        .artist-info .artist-description .desc-text {
+            font-size: 1.15rem;
+            margin-bottom: 8px;
+        }
 
-        /* --- ACTION BAR --- */
+        .artist-info .tag-pill {
+            font-size: 0.90rem;
+            padding: 4px 10px;
+        }
 
-            .action-bar {
-                right: 20px;
-                gap: 20px;
-                padding-bottom: 0;
-            }
+        .artist-info .tags-container {
+            margin-bottom: 4px;
+        }
 
-            .btn-fav-float {
-                width: 50px;
-                height: 50px;
-            }
+        .artist-info .social-pill {
+            font-size: 0.90rem;
+        }
 
-            .main-menu-drawer {
-                width: 85%;
-                max-width: 350px;
-            }
+    /* --- ACTION BAR --- */
 
-            .drawer-header {
-                padding: 15px 20px;
-            }
+        .action-bar {
+            right: 20px;
+            gap: 20px;
+            padding-bottom: 0;
+        }
 
-            .favorite-item {
-                padding: 15px 25px;
-            }
+        .btn-fav-float {
+            width: 50px;
+            height: 50px;
+        }
 
-            .favorite-item img {
-                width: 55px;
-                height: 55px;
-            }
+        .main-menu-drawer {
+            width: 85%;
+            max-width: 350px;
+        }
 
-            .timeline-item {
-                padding: 15px;
-            }
+        .drawer-header {
+            padding: 15px 20px;
+        }
 
-            .time-thumb {
-                width: 80px;
-                height: 80px;
-                margin-right: 15px;
-            }
+        .favorite-item {
+            padding: 15px 25px;
+        }
 
-        /* --- VIDEO CARD : VIDEO-STATE-ICON --- */
+        .favorite-item img {
+            width: 55px;
+            height: 55px;
+        }
 
-            .video-state-icon {
-                font-size: 76px;
-            }
+        .timeline-item {
+            padding: 15px;
+        }
 
-        /* --- TICKETING CARD --- */
+        .time-thumb {
+            width: 80px;
+            height: 80px;
+            margin-right: 15px;
+        }
 
-            .ticketing-card {
-                /* min-height was auto in mobile, keep it? or restore 100vh behavior if lost */
-            }
+    /* --- VIDEO CARD : VIDEO-STATE-ICON --- */
 
-            .ticket-container {
-                flex-direction: row;
-                gap: 20px;
-                padding: 20px;
-            }
+        .video-state-icon {
+            font-size: 76px;
+        }
 
-            .ticket-block {
-                padding: 20px;
-                margin: 10px;
-            }
+    /* --- TICKETING CARD --- */
 
-            .ticket-block:hover {
-                flex: 1.6;
-            }
+        .ticketing-card {
+            /* min-height was auto in mobile, keep it? or restore 100vh behavior if lost */
+        }
 
-            .ticket-block h2 {
-                font-size: 2rem;
-                transition: transform 0.3s ease;
-            }
+        .ticket-container {
+            flex-direction: row;
+            gap: 20px;
+            padding: 20px;
+        }
 
-            .ticket-block h3 {
-                font-size: 1.5rem;
-                transition: transform 0.3s ease;
-            }
+        .ticket-block {
+            padding: 20px;
+            margin: 10px;
+        }
 
-            .ticket-btn {
-                padding: 15px 30px;
-                font-size: 1rem;
-                transition: transform 0.2s, box-shadow 0.2s, transform 0.3s ease;
-            }
+        .ticket-block:hover {
+            flex: 1.6;
+        }
 
-            .ticket-block:hover h2,
-            .ticket-block:hover h3,
-            .ticket-block:hover .ticket-btn {
-                transform: scale(1.2);
-                margin-bottom: 15px;
-            }
+        .ticket-block h2 {
+            font-size: 2rem;
+            transition: transform 0.3s ease;
+        }
 
-            .ticket-artists-list {
-                display: block;
-            }
+        .ticket-block h3 {
+            font-size: 1.5rem;
+            transition: transform 0.3s ease;
+        }
 
-            .ticket-stats {
-                margin-top: 20px;
-            }
+        .ticket-btn {
+            padding: 15px 30px;
+            font-size: 1rem;
+            transition: transform 0.2s, box-shadow 0.2s, transform 0.3s ease;
+        }
+
+        .ticket-block:hover h2,
+        .ticket-block:hover h3,
+        .ticket-block:hover .ticket-btn {
+            transform: scale(1.2);
+            margin-bottom: 15px;
+        }
+
+        .ticket-artists-list {
+            display: block;
+        }
+
+        .ticket-stats {
+            margin-top: 20px;
+        }
     }
 
 
