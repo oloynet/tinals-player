@@ -909,7 +909,7 @@ function getHomeHtml() {
                 </div>
                 <div class="home-organizer">
                     <div class="organizer-col-fixed">
-                        <a href="${c.external_links.comeonpeople}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-come-on-people-dark">
+                        <a href="${c.external_links.comeonpeople}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-come-on-people svg-dark-mode">
                             <svg class="come-on-people"><use href="${c.images.sprite_path}#logo-come-on-people"></use></svg>
                         </a>
                     </div>
@@ -917,7 +917,7 @@ function getHomeHtml() {
                         ${c.texts.home_footer}
                     </div>
                     <div class="organizer-col-fixed">
-                        <a href="${c.external_links.paloma}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-paloma-2022-dark">
+                        <a href="${c.external_links.paloma}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-paloma-2022 svg-dark-mode">
                             <svg class="paloma"><use href="${c.images.sprite_path}#logo-paloma-2022"></use></svg>
                         </a>
                     </div>
@@ -1520,17 +1520,17 @@ function toggleArtistDescription( element, event ) {
 function getSocialsHtml(g) {
 
     const networks = [
-        { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer',          class: 'svg-deezer-dark',             viewBox: '0 0 992 279' },
-        { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon',   class: 'svg-facebook-icon-dark',      viewBox: '0 0 666.66666 666.66666' },
-        { key: 'performer_pinterest',  label: 'Pinterest',   sprite: 'pinterest-icon',  class: 'svg-pinterest-icon-dark',     viewBox: '0 0 666.667 666.827' },
-        { key: 'performer_soundcloud', label: 'SoundCloud',  sprite: 'soundcloud-icon', class: 'svg-soundcloud-icon-dark',    viewBox: '0 0 256.1 111.1' },
-        { key: 'performer_spotify',    label: 'Spotify',     sprite: 'spotify',         class: 'svg-spotify-dark',            viewBox: '0 0 425 120' },
-        { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon',     class: 'svg-tiktok-icon-dark',        viewBox: '0 0 21 19' },
-        { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube',         class: 'svg-youtube-dark',            viewBox: '0 0 1090.667 366.667' },
-        { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram',       class: 'svg-instagram-dark',          viewBox: '0 0 792.003 224.673' },
+        { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer',          class: 'svg-dark-mode svg-deezer ',         viewBox: '0 0 992 279' },
+        { key: 'performer_facebook',   label: 'Facebook',    sprite: 'facebook-icon',   class: 'svg-dark-mode svg-facebook-icon',   viewBox: '0 0 666.66666 666.66666' },
+        { key: 'performer_pinterest',  label: 'Pinterest',   sprite: 'pinterest-icon',  class: 'svg-dark-mode svg-pinterest-icon',  viewBox: '0 0 666.667 666.827' },
+        { key: 'performer_soundcloud', label: 'SoundCloud',  sprite: 'soundcloud-icon', class: 'svg-dark-mode svg-soundcloud-icon', viewBox: '0 0 256.1 111.1' },
+        { key: 'performer_spotify',    label: 'Spotify',     sprite: 'spotify',         class: 'svg-dark-mode svg-spotify',         viewBox: '0 0 425 120' },
+        { key: 'performer_tiktok',     label: 'TikTok',      sprite: 'tiktok-icon',     class: 'svg-dark-mode svg-tiktok-icon',     viewBox: '0 0 21 19' },
+        { key: 'performer_youtube',    label: 'YouTube',     sprite: 'youtube',         class: 'svg-dark-mode svg-youtube',         viewBox: '0 0 1090.667 366.667' },
+        { key: 'performer_instagram',  label: 'Instagram',   sprite: 'instagram',       class: 'svg-dark-mode svg-instagram',       viewBox: '0 0 792.003 224.673' },
         { key: 'performer_website',    label: 'Website'      },
         { key: 'event_ticket',         label: 'Tickets'      },
-        { key: 'event_link',           label: 'TINALS',      sprite: 'tag-tinals-2026', class: 'svg-tag-tinals-2026-primary', viewBox: '0 0 420 100' }
+        { key: 'event_link',           label: 'TINALS',      sprite: 'tag-tinals-2026', class: 'svg-primary svg-tag-tinals-2026', viewBox: '0 0 420 100' }
     ];
 
     const links = networks.filter(n => g[n.key]).map(n => {

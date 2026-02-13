@@ -15,7 +15,7 @@ window.DebugTool = {
 
     createOverlay: function() {
         const overlay = document.createElement('div');
-        overlay.id = 'debug-overlay';
+        overlay.id        = 'debug-overlay';
         overlay.className = 'debug-overlay'; // Default dark mode via CSS variables
 
         overlay.innerHTML = `
@@ -107,14 +107,24 @@ window.DebugTool = {
     toggleTheme: function() {
         this.isDarkMode = !this.isDarkMode;
         const overlay = document.getElementById('debug-overlay');
-        const icon = document.querySelector('#debug-theme-toggle .material-icons');
+        const icon    = document.querySelector('#debug-theme-toggle .material-icons');
+        const svgs    = document.querySelectorAll('.debug-sprite-preview svg');
 
         if (this.isDarkMode) {
-            overlay.classList.remove('light-mode');
             icon.innerText = 'dark_mode';
+            overlay.classList.remove('light-mode');
+
+            svgs.forEach(element => {
+                element.classList.add('svg-dark-mode');
+            });
+
         } else {
-            overlay.classList.add('light-mode');
             icon.innerText = 'light_mode';
+            overlay.classList.add('light-mode');
+
+            svgs.forEach(element => {
+                element.classList.remove('svg-dark-mode');
+            });
         }
     },
 
@@ -173,7 +183,7 @@ window.DebugTool = {
         const container = document.getElementById('debug-section-display');
         if (!container) return;
 
-        const metrics = this.getMobileMetrics();
+        const metrics     = this.getMobileMetrics();
         const metricsHtml = JSON.stringify(metrics, null, 4);
 
         container.innerHTML = `
@@ -254,6 +264,9 @@ window.DebugTool = {
         // Strip query params for fetch
         const cleanPath = spritePath.split('?')[0];
 
+
+        const classColorExt  = this.isDarkMode ? 'svg-dark-mode' : ''; // '' for light background or '-dark' for dark background;
+
         fetch(cleanPath)
             .then(response => response.text())
             .then(text => {
@@ -263,12 +276,14 @@ window.DebugTool = {
 
                 let html = '<div class="debug-sprite-grid">';
                 symbols.forEach(symbol => {
-                    const id = symbol.id;
-                    const viewBox = symbol.getAttribute('viewBox') || '0 0 24 24';
+                    const id       = symbol.id;
+                    const viewBox  = symbol.getAttribute('viewBox') || '0 0 24 24';
+                    const svgClass = `svg-${id}`;
+
                     html += `
                         <div class="debug-sprite-card">
                             <div class="debug-sprite-preview">
-                                <svg viewBox="${viewBox}">
+                                <svg viewBox="${viewBox}" class="${svgClass} ${classColorExt}">
                                     <use href="${spritePath}#${id}"></use>
                                 </svg>
                             </div>

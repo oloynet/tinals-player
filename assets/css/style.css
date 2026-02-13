@@ -179,21 +179,21 @@
         fill: var(--black-color);
     }
 
-    .svg-logo-tinals-2026-dark,
-    .svg-tag-tinals-2026-dark,
-    .svg-svg-logo-paloma-2012-dark,
-    .svg-logo-paloma-2022-dark,
-    .svg-logo-nimes-metropole-dark,
-    .svg-logo-come-on-people-dark {
+    .svg-logo-tinals-2026.svg-dark-mode,
+    .svg-tag-tinals-2026.svg-dark-mode,
+    .svg-svg-logo-paloma-2012.svg-dark-mode,
+    .svg-logo-paloma-2022.svg-dark-mode,
+    .svg-logo-nimes-metropole.svg-dark-mode,
+    .svg-logo-come-on-people.svg-dark-mode {
         fill: var(--white-color);
     }
 
-    .svg-logo-tinals-2026-primary,
-    .svg-tag-tinals-2026-primary,
-    .svg-svg-logo-paloma-2012-primary,
-    .svg-logo-paloma-2022-primary,
-    .svg-logo-nimes-metropole-primary,
-    .svg-logo-come-on-people-primary {
+    .svg-logo-tinals-2026.svg-primary,
+    .svg-tag-tinals-2026.svg-primary,
+    .svg-svg-logo-paloma-2012.svg-primary,
+    .svg-logo-paloma-2022.svg-primary,
+    .svg-logo-nimes-metropole.svg-primary,
+    .svg-logo-come-on-people.svg-primary {
         fill: var(--primary-color);
     }
 
@@ -201,15 +201,15 @@
     .svg-deezer-icon {
         fill: var(--black-color);
     }
-    .svg-deezer-dark,
-    .svg-deezer-icon-dark {
+    .svg-deezer.svg-dark-mode,
+    .svg-deezer-icon.svg-dark-mode {
         fill: var(--white-color);
     }
 
     .svg-facebook,
     .svg-facebook-icon,
-    .svg-facebook-dark,
-    .svg-facebook-icon-dark {
+    .svg-facebook.svg-dark-mode,
+    .svg-facebook-icon.svg-dark-mode {
         fill: var(--facebook-blue-color);
     }
 
@@ -218,25 +218,25 @@
         fill: var(--instagram-dark-grey-color);
     }
 
-    .svg-instagram-dark,
-    .svg-instagram-icon-dark {
+    .svg-instagram.svg-dark-mode,
+    .svg-instagram-icon.svg-dark-mode {
         fill: var(--white-color);
     }
 
     .svg-pinterest-icon,
-    .svg-pinterest-icon-dark {
+    .svg-pinterest-icon.svg-dark-mode {
         fill: var( --pinterest-red-color);
     }
 
     .svg-soundcloud-icon,
-    .svg-soundcloud-icon-dark {
+    .svg-soundcloud-icon.svg-dark-mode {
         fill: var(--soundcloud-orange-color);
     }
 
     .svg-spotify,
     .svg-spotify-icon,
-    .svg-spotify-dark,
-    .svg-spotify-icon-dark {
+    .svg-spotify.svg-dark-mode,
+    .svg-spotify-icon.svg-dark-mode {
         fill: var(--spotify-green-color);
     }
 
@@ -244,8 +244,8 @@
     .svg-tiktok-icon {
         fill: var(--black-color);
     }
-    .svg-tiktok-dark,
-    .svg-tiktok-icon-dark {
+    .svg-tiktok.svg-dark-mode,
+    .svg-tiktok-icon.svg-dark-mode {
         fill: var(--white-color);
     }
 
