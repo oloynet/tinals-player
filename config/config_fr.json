@@ -152,6 +152,7 @@
         "menu_pro_area": "Espace pro",
         "menu_settings": "Paramètres",
         "menu_features": "Fonctionnalités",
+        "menu_debug": "Outil de debug",
         "menu_install": "Installation",
         "menu_uninstall": "Désinstallation",
         "menu_uninstall_confirm_title": "Désinstaller l'application",
