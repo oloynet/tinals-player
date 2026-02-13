@@ -8,7 +8,9 @@ const DebugTool = {
         this.createOverlay();
         this.setupListeners();
         this.isInit = true;
-        console.log("Debug Tool Initialized");
+        console.log( "--- DEBUG TOOL INITIALIZED ---" );
+        console.log( "    is_debug_tool: true" );
+
     },
 
     createOverlay: function() {
@@ -398,6 +400,10 @@ const DebugTool = {
     getMobileMetrics: function() {
         const styles = getComputedStyle(document.documentElement);
         return {
+            navigator: {
+                appName: navigator.appName,
+                userAgent: navigator.userAgent
+            },
             screen: {
                 width: window.screen.width,
                 height: window.screen.height,

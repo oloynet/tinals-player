@@ -174,6 +174,7 @@ async function init() {
 
         if ( AppState.settings.isDebugJS ) {
             console.log( "--- DEBUG MODE ACTIVATED ---" );
+            console.log( "    is_debug_tool: true" );
             attachDebugWrappers( VideoManager, "VideoManager" );
             attachDebugWrappers( ControlBar,   "ControlBar" );
         }
