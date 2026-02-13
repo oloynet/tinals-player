@@ -137,6 +137,10 @@
     gap: 10px;
 }
 
+.debug-actions.column-layout {
+    flex-direction: column;
+}
+
 .debug-btn {
     background-color: var(--debug-tab-bg);
     color: var(--debug-text);
@@ -177,9 +181,9 @@
 
 /* Colors Grid */
 .debug-color-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
-    gap: 15px;
+    column-width: 235px;
+    column-gap: 15px;
+    display: block;
 }
 
 .debug-color-card {
@@ -190,6 +194,8 @@
     display: flex;
     align-items: center;
     gap: 10px;
+    break-inside: avoid;
+    margin-bottom: 15px;
 }
 
 .debug-color-swatch {
@@ -320,6 +326,28 @@
 
 .debug-favicon-label {
     font-size: 0.8rem;
+    word-break: break-all;
+}
+
+.debug-image-size {
+    font-size: 0.75rem;
+    color: var(--debug-accent);
+    margin-top: 5px;
+}
+
+/* Files Grid */
+.debug-files-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+    gap: 15px;
+}
+
+.debug-file-item {
+    background-color: var(--debug-code-bg);
+    border: 1px solid var(--debug-border);
+    border-radius: 4px;
+    padding: 10px;
+    font-size: 0.85rem;
     word-break: break-all;
 }
 

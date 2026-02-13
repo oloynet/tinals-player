@@ -16,11 +16,16 @@ window.DebugTool = {
         console.log( "--- DEBUG TOOL INITIALIZED ---" );
         console.log( "    is_debug_tool: true" );
 
-        // Keyboard Shortcut 'd'
+        // Keyboard Shortcuts
         document.addEventListener('keydown', (e) => {
             if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA') return;
-            if (e.key.toLowerCase() === 'd') {
+            const key = e.key.toLowerCase();
+            if (key === 'd') {
                 this.toggle();
+            }
+            // 'r' for reload if debug tool is enabled
+            if (key === 'r' && AppState.settings.isDebugTool) {
+                 window.location.reload(true);
             }
         });
     },
@@ -39,11 +44,15 @@ window.DebugTool = {
                     <button class="debug-tab-btn" data-tab="cache">Cache</button>
                     <button class="debug-tab-btn" data-tab="favicons">Favicons</button>
                     <button class="debug-tab-btn" data-tab="images">Images</button>
+                    <button class="debug-tab-btn" data-tab="files">Files</button>
                     <button class="debug-tab-btn" data-tab="sprites">Sprites</button>
                     <button class="debug-tab-btn" data-tab="features">Features</button>
                     <button class="debug-tab-btn" data-tab="colors">Colors</button>
                 </div>
                 <div class="debug-controls">
+                    <button class="debug-btn-icon" title="Reload" onclick="window.location.reload(true)">
+                        <span class="material-icons">cached</span>
+                    </button>
                     <button id="debug-theme-toggle" class="debug-btn-icon" title="Toggle Theme">
                         <span class="material-icons">dark_mode</span>
                     </button>
@@ -59,6 +68,7 @@ window.DebugTool = {
                 <div id="debug-section-cache" class="debug-section"></div>
                 <div id="debug-section-favicons" class="debug-section"></div>
                 <div id="debug-section-images" class="debug-section"></div>
+                <div id="debug-section-files" class="debug-section"></div>
                 <div id="debug-section-sprites" class="debug-section"></div>
                 <div id="debug-section-features" class="debug-section"></div>
                 <div id="debug-section-colors" class="debug-section"></div>
@@ -161,6 +171,7 @@ window.DebugTool = {
         this.renderCache();
         this.renderFavicons();
         this.renderImages();
+        this.renderFiles();
         this.renderSprites();
         this.renderFeatures();
         this.renderColors();
@@ -195,7 +206,7 @@ window.DebugTool = {
                 <li class="debug-info-item"><span class="debug-info-label">Googlebot</span><span class="debug-info-value">${googlebot}</span></li>
                 <li class="debug-info-item"><span class="debug-info-label">Robots</span><span class="debug-info-value">${robots}</span></li>
             </ul>
-            <div class="debug-actions">
+            <div class="debug-actions column-layout">
                 <button class="debug-btn" onclick="DebugTool.actionReload()">Full Reload</button>
                 <button class="debug-btn" onclick="DebugTool.actionCheckVersion()">Check Version</button>
                 <button class="debug-btn" onclick="DebugTool.actionForceInstall()">Force Install (PWA)</button>
@@ -287,21 +298,71 @@ window.DebugTool = {
         const container = document.getElementById('debug-section-images');
         if (!container) return;
 
-        const images = AppState.config.images || {};
+        this.fetchStaticAssets().then(assets => {
+            const imageExtensions = ['.svg', '.png', '.ico', '.webp'];
+            const images = assets.filter(url => imageExtensions.some(ext => url.toLowerCase().endsWith(ext)));
 
-        let html = '<div class="debug-image-grid">';
-        for (const [key, value] of Object.entries(images)) {
-             if (typeof value === 'string' && (value.startsWith('http') || value.startsWith('assets/') || value.startsWith('data/'))) {
-                 html += `
+            let html = '<div class="debug-image-grid">';
+
+            // Render basic structure first
+            images.forEach(url => {
+                const name = url.split('/').pop();
+                html += `
                     <div class="debug-image-card">
-                        <img src="${value}" class="debug-image-img" loading="lazy">
-                        <span class="debug-image-label">${key}</span>
+                        <img src="${url}" class="debug-image-img" loading="lazy" onload="DebugTool.updateImageSize(this)">
+                        <span class="debug-image-label">${name}</span>
+                        <div class="debug-image-size">Loading...</div>
                     </div>
-                 `;
-             }
-        }
-        html += '</div>';
-        container.innerHTML = html;
+                `;
+            });
+
+            html += '</div>';
+            container.innerHTML = html;
+        });
+    },
+
+    updateImageSize: function(img) {
+         if (img && img.naturalWidth) {
+             const sizeLabel = img.parentNode.querySelector('.debug-image-size');
+             if(sizeLabel) sizeLabel.innerText = `${img.naturalWidth}x${img.naturalHeight}`;
+         }
+    },
+
+    renderFiles: function() {
+         const container = document.getElementById('debug-section-files');
+         if (!container) return;
+
+         this.fetchStaticAssets().then(assets => {
+            const imageExtensions = ['.svg', '.png', '.ico', '.webp'];
+            const files = assets.filter(url => !imageExtensions.some(ext => url.toLowerCase().endsWith(ext)));
+
+            let html = '<div class="debug-files-grid">';
+            files.forEach(url => {
+                 html += `<div class="debug-file-item">${url}</div>`;
+            });
+            html += '</div>';
+            container.innerHTML = html;
+         });
+    },
+
+    fetchStaticAssets: function() {
+        return fetch('service-worker.js?t=' + Date.now())
+            .then(r => r.text())
+            .then(text => {
+                const match = text.match(/const STATIC_ASSETS = \[\s*([\s\S]*?)\s*\];/);
+                if (match && match[1]) {
+                    // Parse the array content roughly
+                    return match[1]
+                        .split(',')
+                        .map(line => line.trim().replace(/['"]/g, ''))
+                        .filter(line => line.length > 0);
+                }
+                return [];
+            })
+            .catch(err => {
+                console.error("Error parsing service-worker.js", err);
+                return [];
+            });
     },
 
     renderSprites: function() {
