@@ -1842,7 +1842,7 @@ h3 {
     /* --- VIDEO-CARD : ARTIST TICKETS CONTAINER --- */
 
         .tickets-links-container {
-            display: flex;
+            display: none;
             flex-wrap: wrap;
             justify-content: center;
             width: 100%;
@@ -1871,6 +1871,10 @@ h3 {
     /* --- VIDEO CARD : ARTISTS --- */
 
         .artist-description.expanded .social-links-container {
+            display: flex;
+        }
+
+        .artist-description.expanded .tickets-links-container {
             display: flex;
         }
 

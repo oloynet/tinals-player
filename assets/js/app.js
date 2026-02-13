@@ -1250,10 +1250,24 @@ function handleMenuAction(action) {
             openAboutModal();
             break;
         case 'cache':
-
-            // actionClearCache
-
             closeMainMenu();
+            {
+                const t = AppState.config.texts;
+                const title = t.menu_reload_confirm_title || "Recharger l'application";
+                const text = t.menu_reload_confirm_text || "Recharger l'application et mettre à jour les données ?";
+
+                openConfirmModal(title, text, () => {
+                    if ('caches' in window) {
+                        caches.keys().then(keys => {
+                            Promise.all(keys.map(key => caches.delete(key))).then(() => {
+                                window.location.reload(true);
+                            });
+                        });
+                    } else {
+                        window.location.reload(true);
+                    }
+                });
+            }
             break;
         case 'debug':
             if ( window.DebugTool ) DebugTool.open();
