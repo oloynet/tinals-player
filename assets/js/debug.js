@@ -1,4 +1,4 @@
-const DebugTool = {
+window.DebugTool = {
     isInit: false,
     isDarkMode: true,
     activeTab: 'infos',

@@ -464,6 +464,7 @@ function applyConfigs() {
     s.isAppInstall                  = f.is_app_install                    ?? true;
     s.isDebugJS                     = f.is_debug_js                       ?? false;
     s.isDebugTool                   = f.is_debug_tool                     ?? false;
+    s.isDebugToolMenu               = f.is_debug_tool_menu                ?? false;
     s.versionNumber                 = c.site.version || "";
 
     s.isDisplayDay                  = f.is_display_day                    ?? true;
@@ -660,6 +661,25 @@ function applyConfigs() {
              menuLangIconUse.setAttributeNS( 'http://www.w3.org/1999/xlink', 'href', href );
         }
     }
+    updateDebugMenu();
+}
+
+function updateDebugMenu() {
+    const s = AppState.settings;
+    if ( !s.isDebugTool || !s.isDebugToolMenu ) return;
+
+    // Check if already exists to avoid duplication
+    if ( document.getElementById('menu-txt-debug') ) return;
+
+    const shareItem = document.querySelector('li[onclick="handleMenuAction(\'share\')"]');
+    if ( !shareItem ) return;
+
+    const debugItem = document.createElement('li');
+    debugItem.onclick = () => handleMenuAction('debug');
+    debugItem.innerHTML = `<span class="material-icons menu-icon">bug_report</span><span class="menu-text" id="menu-txt-debug">Outil de debug</span>`;
+
+    // Insert before shareItem
+    shareItem.parentNode.insertBefore(debugItem, shareItem);
 }
 
 
@@ -730,6 +750,7 @@ function updateStaticTexts() {
     setText('menu-txt-check-version', t.menu_check_version);
     setText('menu-txt-reload',    t.menu_reload);
     setText('menu-txt-about',     t.menu_about);
+    setText('menu-txt-debug',     t.menu_debug);
     setText('menu-txt-share',     t.menu_share);
     setText('menu-version', AppState.settings.versionNumber);
 
@@ -1224,6 +1245,10 @@ function handleMenuAction(action) {
             break;
         case 'about':
             openAboutModal();
+            break;
+        case 'debug':
+            if ( window.DebugTool ) DebugTool.open();
+            closeMainMenu();
             break;
         case 'share':
             closeMainMenu();
