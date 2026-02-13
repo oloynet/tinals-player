@@ -1,8 +1,8 @@
 {
     "site":
     {
-        "version":          "v2.01",
-        "version_name":     "TINALS v2.01",
+        "version":          "v2.02",
+        "version_name":     "TINALS v2.02",
         "title":            "TINALS 2026 player",
         "name":             "TINALS app",
         "short_name":       "TINALS",
@@ -19,7 +19,7 @@
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "https://thisisnotalovesong.fr",
         "homepage_url":     "https://thisisnotalovesong.fr",
-        "data_source":      "data/2026/data.json?v2.01",
+        "data_source":      "data/2026/data.json?v2.02",
 
         "step":             "full_program"
     },
@@ -138,7 +138,7 @@
         "is_toast_scroll_page": false,
 
         "is_menu_auto_hide": false,
-        "is_menu_preference": false,
+        "is_menu_preferences": false,
 
         "is_description_auto_hide": true,
         "is_fullscreen_enable": true,
@@ -199,15 +199,15 @@
         "flag_fr_id":        "flag-fr",
         "flag_en_id":        "flag-en",
 
-        "sprite_path":       "assets/images/sprites/sprite.svg?v2.01",
+        "sprite_path":       "assets/images/sprites/sprite.svg?v2.02",
 
-        "icon_192":          "assets/favicon/android-chrome-192x192.png",
-        "icon_512":          "assets/favicon/android-chrome-512x512.png",
-        "icon_192_maskable": "assets/favicon/favicon-maskable-192x192.png",
-        "icon_512_maskable": "assets/favicon/favicon-maskable-512x512.png",
-        "apple_touch_icon":  "assets/favicon/apple-touch-icon.png",
-        "favicon":           "assets/favicon/favicon.ico",
-        "icon_svg":          "assets/favicon/favicon.svg",
+        "icon_192":          "assets/favicon/android-chrome-192x192.png?v2",
+        "icon_512":          "assets/favicon/android-chrome-512x512.png?v2",
+        "icon_192_maskable": "assets/favicon/favicon-maskable-192x192.png?v2",
+        "icon_512_maskable": "assets/favicon/favicon-maskable-512x512.png?v2",
+        "apple_touch_icon":  "assets/favicon/apple-touch-icon.png?v2",
+        "favicon":           "assets/favicon/favicon.ico?v2",
+        "icon_svg":          "assets/favicon/favicon.svg?v2",
 
         "sizes": [
             {
@@ -252,42 +252,42 @@
     "icons": [
       {
         "sizes":   "192x192",
-        "src":     "assets/favicon/android-chrome-192x192.png",
+        "src":     "assets/favicon/android-chrome-192x192.png?v2",
         "type":    "image/png",
         "purpose": "any"
       },
       {
         "sizes":   "512x512",
-        "src":     "assets/favicon/android-chrome-512x512.png",
+        "src":     "assets/favicon/android-chrome-512x512.png?v2",
         "type":    "image/png",
         "purpose": "any"
       },
       {
         "sizes":   "192x192",
-        "src":     "assets/favicon/favicon-maskable-192x192.png",
+        "src":     "assets/favicon/favicon-maskable-192x192.png?v2",
         "type":    "image/png",
         "purpose": "maskable"
       },
       {
         "sizes":   "512x512",
-        "src":     "assets/favicon/favicon-maskable-512x512.png",
+        "src":     "assets/favicon/favicon-maskable-512x512.png?v2",
         "type":    "image/png",
         "purpose": "maskable"
       },
       {
         "sizes":   "180x180",
-        "src":     "assets/favicon/apple-touch-icon.png",
+        "src":     "assets/favicon/apple-touch-icon.png?v2",
         "type":    "image/png",
         "purpose": "any"
       },
       {
         "sizes":   "48x48",
-        "src":     "assets/favicon/favicon.ico",
+        "src":     "assets/favicon/favicon.ico?v2",
         "type":    "image/x-icon",
         "purpose": "any"
       },
       {
-        "src":     "assets/favicon/favicon.svg",
+        "src":     "assets/favicon/favicon.svg?v2",
         "sizes":   "512x512",
         "type":    "image/svg+xml",
         "purpose": "any maskable"

@@ -181,7 +181,7 @@
 /* Colors Grid */
 .debug-color-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
     gap: 15px;
 }
 
@@ -196,8 +196,8 @@
 }
 
 .debug-color-swatch {
-    width: 40px;
-    height: 40px;
+    width: 50px;
+    height: 50px;
     border-radius: 4px;
     border: 1px solid var(--debug-border);
 }
@@ -223,7 +223,7 @@
 /* Sprites Grid */
 .debug-sprite-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
     gap: 15px;
 }
 
@@ -239,8 +239,8 @@
 }
 
 .debug-sprite-preview {
-    width: 64px;
-    height: 64px;
+    width: 240px;
+    height: 240px;
     margin-bottom: 10px;
     display: flex;
     justify-content: center;
@@ -301,7 +301,7 @@
 /* Favicons */
 .debug-favicon-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    grid-template-columns: repeat(auto-fill, minmax(235px, 1fr));
     gap: 15px;
 }
 
@@ -316,8 +316,8 @@
 }
 
 .debug-favicon-img {
-    max-width: 64px;
-    max-height: 64px;
+    max-width: 240px;
+    max-height: 240px;
     margin-bottom: 10px;
 }
 

@@ -141,8 +141,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v2.01';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v2.01' : 'config/config_fr.json?v2.01';
+        const configFile = 'config/config.json?v2.02';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v2.02' : 'config/config_fr.json?v2.02';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -3179,7 +3179,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v2.01' )
+    navigator.serviceWorker.register( 'service-worker.js?v2.02' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
@@ -3187,7 +3187,7 @@ if ( 'serviceWorker' in navigator ) {
 
 function loadDebugTool() {
     const script = document.createElement('script');
-    script.src = 'assets/js/debug.js';
+    script.src = 'assets/js/debug.js?v=2.01';
     script.onload = () => {
         DebugTool.init();
     };
@@ -3195,7 +3195,7 @@ function loadDebugTool() {
 
     const link = document.createElement('link');
     link.rel = 'stylesheet';
-    link.href = 'assets/css/debug.css';
+    link.href = 'assets/css/debug.css?v=2.01';
     document.head.appendChild(link);
 
     setupDebugTrigger();
