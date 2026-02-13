@@ -104,7 +104,7 @@
         "is_app_install": true,
         "is_debug_js": false,
         "is_debug_tool": true,
-        "is_debug_tool_menu": true,
+        "is_debug_tool_menu": false,
 
         "is_display_day": true,
         "is_display_date": true,

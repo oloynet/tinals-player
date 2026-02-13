@@ -5,7 +5,7 @@
 
 /* THANKS */
     Festival: This Is Not A Love Song (TINALS) - Paloma / Nîmes Métropole
-    Organizers: Come On People and Paloma
+    Organizers: Paloma and Come On People
     Location: Nîmes, France
 
     Fred JUMEL (Directeur de Paloma)
@@ -32,7 +32,7 @@
 
 /* SITE */
     Version: v2.02
-    Last update: 2026-02-12
+    Last update: 2026-02-13
     Language: French / English
     Doctype: HTML5
     Standards: HTML5, CSS3, JavaScript (Vanilla), JSON, PWA

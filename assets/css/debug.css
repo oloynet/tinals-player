@@ -130,16 +130,26 @@
 }
 
 .debug-actions {
-    margin-top: 20px;
-    display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
-    gap: 10px;
+    column-width: 235px;
+    column-gap: 15px;
+    display: block;
 }
 
-.debug-actions.column-layout {
-    flex-direction: column;
+
+/*
+.debug-color-card {
+    background-color: var(--debug-code-bg);
+    border: 1px solid var(--debug-border);
+    border-radius: 4px;
+    padding: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    break-inside: avoid;
+    margin-bottom: 15px;
 }
+*/
+
 
 .debug-btn {
     background-color: var(--debug-tab-bg);
@@ -150,8 +160,13 @@
     cursor: pointer;
     font-weight: bold;
     text-transform: uppercase;
+    display: flex;
+    align-items: center;
     text-align: center;
-    width: auto;
+    gap: 10px;
+    break-inside: avoid;
+    margin-bottom: 15px;
+    width: 100%;
 }
 
 .debug-btn:hover {

@@ -205,7 +205,9 @@ async function init() {
             return item;
         } );
 
+
         // --- SESSION PROCESSING ---
+
         if (AppState.config.sessions) {
             AppState.config.sessions.forEach(session => {
                 if (session.display && session.display.compact) {
@@ -478,9 +480,8 @@ function applyConfigs() {
     s.isDisplayPlace                = f.is_display_place                  ?? true;
     s.isDisplayRecordName           = f.is_display_record_name            ?? false;
     s.isDisplayArtist               = f.is_display_artist                 ?? true;
-    s.isDisplayArtistDescription    = f.is_display_artist_description      ?? true;
+    s.isDisplayArtistDescription    = f.is_display_artist_description     ?? true;
     s.isDisplayArtistDescriptionMouseOver = f.is_display_artist_description_mouse_over ?? false;
-
     s.isDisplayBoxTitle             = f.is_display_box_title              ?? false;
     s.isDisplayActionBar            = f.is_display_action_bar             ?? true;
     s.isDisplayControlBar           = f.is_display_control_bar            ?? true;
@@ -544,12 +545,12 @@ function applyConfigs() {
         document.getElementById( 'btn-nav-bottom' ).style.display = 'none';
     }
     if ( !s.isButtonPrevNextEnable ) {
-        document.getElementById( 'btn-nav-previous-card' ).style.display   = 'none';
-        document.getElementById( 'btn-nav-next-card' ).style.display = 'none';
+        document.getElementById( 'btn-nav-previous-card' ).style.display = 'none';
+        document.getElementById( 'btn-nav-next-card' ).style.display     = 'none';
     }
 
     if ( AppState.settings.isDebugJS ) {
-        // console.log( 's.versionNumber = ' + s.versionNumber );
+        console.log( 's.versionNumber = ' + s.versionNumber );
     }
 
 
@@ -565,7 +566,7 @@ function applyConfigs() {
             langIconUse.setAttributeNS( 'http://www.w3.org/1999/xlink', 'href', href );
         }
 
-        document.querySelector( 'link[rel="icon"]' ).href = c.images.favicon;
+        document.querySelector( 'link[rel="icon"]' ).href             = c.images.favicon;
         document.querySelector( 'link[rel="apple-touch-icon"]' ).href = c.images.apple_touch_icon;
 
         const manifest = {
@@ -599,9 +600,6 @@ function applyConfigs() {
                 service_worker: "service-worker.js"
             },
             icons: [
-
-
-
                 {
                     src: c.images.icon_192,
                     sizes: "192x192",
@@ -660,7 +658,8 @@ function applyConfigs() {
         const menuLangIconUse = document.getElementById('menu-lang-icon-use');
         if (menuLangIconUse && c.images) {
              const targetFlagId = AppState.currentLang === 'fr' ? c.images.flag_en_id : c.images.flag_fr_id;
-             const href = `${c.images.sprite_path}#${targetFlagId}`;
+             const href         = `${c.images.sprite_path}#${targetFlagId}`;
+
              menuLangIconUse.setAttribute( 'href', href );
              menuLangIconUse.setAttributeNS( 'http://www.w3.org/1999/xlink', 'href', href );
         }
@@ -678,8 +677,8 @@ function updateDebugMenu() {
     const shareItem = document.querySelector('li[onclick="handleMenuAction(\'share\')"]');
     if ( !shareItem ) return;
 
-    const debugItem = document.createElement('li');
-    debugItem.onclick = () => handleMenuAction('debug');
+    const debugItem     = document.createElement('li');
+    debugItem.onclick   = () => handleMenuAction('debug');
     debugItem.innerHTML = `<span class="material-icons menu-icon">bug_report</span><span class="menu-text" id="menu-txt-debug">Outil de debug</span>`;
 
     // Insert before shareItem
@@ -704,8 +703,8 @@ function translateText( text, type ) {
 
 function updateStaticTexts() {
     const t = AppState.config.texts;
-    // document.getElementById( 'btn-header-prog' ).innerText   = t.nav_programming;
-    // document.getElementById( 'btn-header-ticket' ).innerText = t.nav_ticketing;
+    // document.getElementById( 'btn-header-prog' ).innerText                                              = t.nav_programming;
+    // document.getElementById( 'btn-header-ticket' ).innerText                                            = t.nav_ticketing;
     // if(document.getElementById('txt-header-day1')) document.getElementById('txt-header-day1').innerText = t.nav_day_1;
     // if(document.getElementById('txt-header-day2')) document.getElementById('txt-header-day2').innerText = t.nav_day_2;
 
@@ -735,40 +734,40 @@ function updateStaticTexts() {
         const el = document.getElementById(id);
         if(el) el.innerText = text;
     };
-    setText('menu-txt-home',      t.menu_home);
-    setText('menu-txt-program',   t.menu_program);
-    // setText('menu-txt-day1',   t.menu_day_1);
-    // setText('menu-txt-day2',   t.menu_day_2);
-    setText('menu-txt-favorites', t.menu_favorites);
-    setText('menu-txt-timeline',  t.menu_timeline);
-    setText('menu-txt-ticketing', t.menu_ticketing);
-    setText('menu-txt-language',  t.menu_language);
-    setText('menu-txt-website',   t.menu_website);
-    setText('menu-txt-news',      t.menu_news);
-    setText('menu-txt-practical', t.menu_practical);
-    setText('menu-txt-map',       t.menu_map);
-    setText('menu-txt-pro-area',  t.menu_pro_area);
-    setText('menu-txt-settings',  t.menu_settings);
-    setText('menu-txt-features',  t.menu_features);
-    setText('menu-txt-install',   t.menu_install);
+    setText('menu-txt-home',          t.menu_home);
+    setText('menu-txt-program',       t.menu_program);
+    // setText('menu-txt-day1',       t.menu_day_1);
+    // setText('menu-txt-day2',       t.menu_day_2);
+    setText('menu-txt-favorites',     t.menu_favorites);
+    setText('menu-txt-timeline',      t.menu_timeline);
+    setText('menu-txt-ticketing',     t.menu_ticketing);
+    setText('menu-txt-language',      t.menu_language);
+    setText('menu-txt-website',       t.menu_website);
+    setText('menu-txt-news',          t.menu_news);
+    setText('menu-txt-practical',     t.menu_practical);
+    setText('menu-txt-map',           t.menu_map);
+    setText('menu-txt-pro-area',      t.menu_pro_area);
+    setText('menu-txt-settings',      t.menu_settings);
+    setText('menu-txt-features',      t.menu_features);
+    setText('menu-txt-install',       t.menu_install);
     setText('menu-txt-check-version', t.menu_check_version);
-    setText('menu-txt-reload',    t.menu_reload);
-    setText('menu-txt-about',     t.menu_about);
-    setText('menu-txt-debug',     t.menu_debug);
-    setText('menu-txt-share',     t.menu_share);
-    setText('menu-version', AppState.settings.versionNumber);
+    setText('menu-txt-reload',        t.menu_reload);
+    setText('menu-txt-about',         t.menu_about);
+    setText('menu-txt-debug',         t.menu_debug);
+    setText('menu-txt-share',         t.menu_share);
+    setText('menu-version',           AppState.settings.versionNumber);
 
     // About Modal
-    if(t.about_title)         document.getElementById('about-title').innerText             = t.about_title;
-    if(t.about_festival_desc) document.getElementById('txt-about-festival-desc').innerText = t.about_festival_desc;
-    if(t.about_media_inter)   document.getElementById('txt-about-media-inter').innerText   = t.about_media_inter;
-    if(t.about_media_local)   document.getElementById('txt-about-media-local').innerText   = t.about_media_local;
-    if(t.about_comm_manager)  document.getElementById('txt-about-comm-manager').innerText  = t.about_comm_manager;
-    if(t.about_press_officer) document.querySelectorAll('.txt-about-press-officer').forEach(el => el.innerText  = t.about_press_officer);
-    if(t.about_programming)   document.getElementById('txt-about-programming').innerText   = t.about_programming;
-    if(t.about_developer)     document.getElementById('txt-about-developer').innerText     = t.about_developer;
-    if(t.about_development)   document.getElementById('txt-about-development').innerText   = t.about_development;
-    if(t.about_follow_us)     document.getElementById('txt-about-follow-us').innerText     = t.about_follow_us;
+    if(t.about_title)           document.getElementById('about-title').innerText             = t.about_title;
+    if(t.about_festival_desc)   document.getElementById('txt-about-festival-desc').innerText = t.about_festival_desc;
+    //if(t.about_media_inter)   document.getElementById('txt-about-media-inter').innerText   = t.about_media_inter;
+    //if(t.about_media_local)   document.getElementById('txt-about-media-local').innerText   = t.about_media_local;
+    //if(t.about_comm_manager)  document.getElementById('txt-about-comm-manager').innerText  = t.about_comm_manager;
+    //if(t.about_press_officer) document.querySelectorAll('.txt-about-press-officer').forEach(el => el.innerText  = t.about_press_officer);
+    //if(t.about_programming)   document.getElementById('txt-about-programming').innerText   = t.about_programming;
+    if(t.about_developer)       document.getElementById('txt-about-developer').innerText     = t.about_developer;
+    if(t.about_development)     document.getElementById('txt-about-development').innerText   = t.about_development;
+    if(t.about_follow_us)       document.getElementById('txt-about-follow-us').innerText     = t.about_follow_us;
 
     if (AppState.state.currentTagFilter) {
         renderTagFilterBar();
@@ -801,10 +800,10 @@ function updateSessionDisplay() {
     AppState.config.sessions.forEach(session => {
         // ID Mapping: day-1 -> day1
         const domIdSuffix = session.id.replace(/-/g, '');
-        const menuId = `menu-txt-${domIdSuffix}`;
-        const headerId = `txt-header-${domIdSuffix}`;
+        const menuId      = `menu-txt-${domIdSuffix}`;
+        const headerId    = `txt-header-${domIdSuffix}`;
 
-        const display = session.display || {};
+        const display     = session.display || {};
 
         // Menu Logic
         let menuText = display.normal; // Default
@@ -819,7 +818,7 @@ function updateSessionDisplay() {
 
         // Header Logic
         let headerText = display.normal; // Default
-        if (width < 400) {
+        if (width < 320) {
             headerText = display.compact;
         } else if (width < 640) {
             headerText = display.normal;
@@ -906,23 +905,23 @@ function getHomeHtml() {
 
             <div class="home-content-bottom">
                 <div class="home-buttons-container">
-                    <!-- <button onclick="scrollToFirstVideo()" class="home-btn">${c.texts.home_btn_program}</button> -->
+                    <!-- <button onclick="scrollToFirstVideo()"   class="home-btn">${c.texts.home_btn_program}</button> -->
                     <button onclick="openProgramSession('day-1')" class="home-btn">${c.texts.home_day_1}</button>
-                    <button onclick="openProgramSession('day-2')"   class="home-btn">${c.texts.home_day_2}</button>
-                    <button onclick="scrollToTicketing()"       class="home-btn home-ticket-btn">${c.texts.home_btn_ticket}</button>
+                    <button onclick="openProgramSession('day-2')" class="home-btn">${c.texts.home_day_2}</button>
+                    <button onclick="scrollToTicketing()"         class="home-btn home-ticket-btn">${c.texts.home_btn_ticket}</button>
                 </div>
                 <div class="home-organizer">
                     <div class="organizer-col-fixed">
-                        <a href="${c.external_links.comeonpeople}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-come-on-people svg-dark-mode">
-                            <svg class="come-on-people"><use href="${c.images.sprite_path}#logo-come-on-people"></use></svg>
+                        <a href="${c.external_links.paloma}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-paloma-2022 svg-dark-mode">
+                            <svg class="paloma"><use href="${c.images.sprite_path}#logo-paloma-2022"></use></svg>
                         </a>
                     </div>
                     <div class="organizer-col-fluid">
                         ${c.texts.home_footer}
                     </div>
                     <div class="organizer-col-fixed">
-                        <a href="${c.external_links.paloma}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-paloma-2022 svg-dark-mode">
-                            <svg class="paloma"><use href="${c.images.sprite_path}#logo-paloma-2022"></use></svg>
+                        <a href="${c.external_links.comeonpeople}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-come-on-people svg-dark-mode">
+                            <svg class="come-on-people"><use href="${c.images.sprite_path}#logo-come-on-people"></use></svg>
                         </a>
                     </div>
                 </div>
