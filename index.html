@@ -102,15 +102,6 @@
             </div>
         </div>
     </div>
-    <div id="features-modal">
-        <div class="features-box">
-            <h3 id="features-title">Features</h3>
-            <div id="features-list" class="scrollable-list"></div>
-            <button id="btn-close-features" class="close-features" onclick="closeFeaturesModal()">Close</button>
-        </div>
-    </div>
-
-
     <div id="about-modal">
         <div class="about-box">
             <div class="about-header">
@@ -279,9 +270,6 @@
 
     <main id="main-feed"></main>
 
-    <div id="app-version-indicator">
-        version
-    </div>
     <div id="confirm-modal">
         <div class="confirm-box">
             <h3 id="confirm-title">Confirmation</h3>
@@ -341,21 +329,6 @@
                 <li onclick="handleMenuAction('pro_area')"><span class="material-icons menu-icon">person</span><span class="menu-text" id="menu-txt-pro-area">Espace Pro</span> <span class="material-icons menu-right-icon">open_in_new</span></li>
 
                 <li class="separator"></li>
-
-                <li class="accordion-item">
-                    <div class="accordion-header" onclick="toggleAccordion(this)">
-                        <span class="material-icons menu-icon">settings</span>
-                        <span class="menu-text" id="menu-txt-settings">Paramètres</span>
-                        <span class="material-icons accordion-icon">expand_more</span>
-                    </div>
-                    <ul class="accordion-content" id="settings-accordion">
-                        <li onclick="handleMenuAction('reload')"><span class="material-icons menu-icon">cached</span><span class="menu-text" id="menu-txt-reload">Recharger</span></li>
-                        <li onclick="handleMenuAction('check_version')"><span class="material-icons menu-icon">update</span><span class="menu-text" id="menu-txt-check-version">Check Version</span></li>
-                        <li id="menu-install-li" onclick="handleMenuAction('install')" style="display: none;"><span class="material-icons menu-icon">system_update</span><span class="menu-text" id="menu-txt-install">Installation</span></li>
-                        <li id="menu-force-install-li" onclick="handleMenuAction('force_install')" style="display: none;"><span class="material-icons menu-icon">admin_panel_settings</span><span class="menu-text">Force Install (Debug)</span></li>
-                        <!-- <li onclick="handleMenuAction('features')"><span class="material-icons menu-icon">list</span><span class="menu-text" id="menu-txt-features">Features</span></li> -->
-                    </ul>
-                </li>
 
                 <li class="primary-color" onclick="handleMenuAction('share')"><span class="material-icons menu-icon">share</span><span class="menu-text" id="menu-txt-share">Partager l'appli TINALS</span> <span class="material-icons menu-right-icon">share</span></li>
 
