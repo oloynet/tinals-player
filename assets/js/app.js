@@ -2722,6 +2722,11 @@ function updateEmptyStateVisibility() {
 
     const isFavMode = AppState.state.isPlayingFavorites;
     const isTagMode = !!AppState.state.currentTagFilter;
+    const currentTag = AppState.state.currentTagFilter;
+
+    // Detect if current tag is a session (day) filter
+    const sessionTags = AppState.config.sessions.map(s => slugify(s.id));
+    const isSessionFilter = isTagMode && sessionTags.includes(currentTag);
 
     if (!isFavMode && !isTagMode) {
         document.querySelectorAll('.program-empty-placeholder').forEach(el => el.classList.remove('visible'));
@@ -2743,24 +2748,39 @@ function updateEmptyStateVisibility() {
         if (isFavMode) {
             visibleCount = sessionItems.filter(g => AppState.favorites.includes(g.id)).length;
         } else if (isTagMode) {
-            const currentTag = AppState.state.currentTagFilter;
             visibleCount = sessionItems.filter(g => g.event_tags && g.event_tags.some(tag => slugify(tag) === currentTag)).length;
         }
 
         const placeholders = document.querySelectorAll(`.program-empty-placeholder[data-session="${sessionId}"]`);
         const separators   = document.querySelectorAll(`.program-separator[data-slug="${sId}"]`);
 
+        // Logic:
+        // If filtering by a specific session (day), hide other sessions completely (separator + placeholder).
+        // Otherwise (other tags or favorites), show all separators (with placeholders if empty).
+
+        let shouldShowSeparator = true;
+        if (isSessionFilter && sId !== currentTag) {
+            shouldShowSeparator = false;
+        }
+
         if (visibleCount === 0) {
             placeholders.forEach(el => {
                 el.innerText = emptyText;
-                el.classList.add('visible');
+                if (shouldShowSeparator) el.classList.add('visible');
+                else el.classList.remove('visible');
             });
-            separators.forEach(el => el.classList.add('has-matching-tag'));
+            separators.forEach(el => {
+                if (shouldShowSeparator) el.classList.add('has-matching-tag');
+                else el.classList.remove('has-matching-tag');
+            });
         } else {
             placeholders.forEach(el => {
                 el.classList.remove('visible');
             });
-            separators.forEach(el => el.classList.add('has-matching-tag'));
+            separators.forEach(el => {
+                if (shouldShowSeparator) el.classList.add('has-matching-tag');
+                else el.classList.remove('has-matching-tag');
+            });
         }
     });
 }
