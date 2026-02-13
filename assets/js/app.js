@@ -832,10 +832,11 @@ function updateSessionDisplay() {
 
 function updateInstallMenuVisibility() {
     const installLi = document.getElementById('menu-install-li');
-    if (!installLi) return;
+    const forceInstallLi = document.getElementById('menu-force-install-li');
 
     const isInstalled = localStorage.getItem('app_installed') === 'true';
     const isMenuUninstall = AppState.settings.isMenuUninstall;
+    const isDebug = AppState.settings.isDebugJS;
     const t = AppState.config.texts;
     const txtEl = document.getElementById('menu-txt-install');
 
@@ -845,11 +846,16 @@ function updateInstallMenuVisibility() {
     }
 
     // Visibility
-    // Requirement: Show IF isMenuUninstall AND isInstalled
-    if (isMenuUninstall && isInstalled) {
-        installLi.style.display = ''; // Revert to CSS
+    // Requirement: Show IF (isMenuUninstall AND isInstalled) OR isDebug
+    if ((isMenuUninstall && isInstalled) || isDebug) {
+        if (installLi) installLi.style.display = ''; // Revert to CSS
     } else {
-        installLi.style.display = 'none';
+        if (installLi) installLi.style.display = 'none';
+    }
+
+    // Force Install Visibility
+    if (forceInstallLi) {
+        forceInstallLi.style.display = isDebug ? '' : 'none';
     }
 }
 
@@ -1280,6 +1286,10 @@ function handleMenuAction(action) {
         case 'install':
             // Logic for installation / uninstall
             triggerInstallOrUninstall();
+            break;
+        case 'force_install':
+            localStorage.setItem('app_installed', 'true');
+            window.location.reload();
             break;
         case 'check_version':
             closeMainMenu();
