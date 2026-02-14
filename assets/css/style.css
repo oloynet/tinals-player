@@ -2468,6 +2468,8 @@ h3 {
             font-size: 1.5rem;
             line-height: 1;
             margin-left: 10px;
+            display: flex;
+            align-items: center;
         }
 
         /* ACCORDION */
