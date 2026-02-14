@@ -14,6 +14,7 @@
             "label":    "june 5",
             "display": {
                 "compact":  "Friday 5",
+                "short":    "Fr., June 5",
                 "normal":   "Friday, June 5",
                 "full":     "June 5, 2026",
                 "extended": "Friday, June 5, 2026",
@@ -26,6 +27,7 @@
             "label":    "june 6",
             "display": {
                 "compact":  "Saturday 6",
+                "short":    "Sat., June 6",
                 "normal":   "Saturday, June 6",
                 "full":     "June 6, 2026",
                 "extended": "Saturday, June 6, 2026",
@@ -137,7 +139,8 @@
         "install_modal_btn_no": "Later",
 
         "ticket_likes_label": "favorite(s)",
-        "ticket_artists_count_label": "{count} artists are coming to the festival",
+        "ticket_artists_count_label": "{count} artists will be coming to the festival",
+        "ticket_artists_day_count_label": "{count} artists will be participating on {day}",
 
         "menu_home": "Home",
         "menu_program": "Discover the program",

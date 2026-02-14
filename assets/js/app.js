@@ -2148,6 +2148,8 @@ function setupKeyboardControls() {
     document.addEventListener( 'keydown', ( e ) => {
         const key     = e.key.toLowerCase();
         const keycode = e.keyCode;
+        const ctrlKey = e.ctrlKey;
+
         const activeId = AppState.state.activeId;
 
         if ( e.key === 'Escape' ) {
@@ -2204,18 +2206,27 @@ function setupKeyboardControls() {
             if ( key === 'l' || e.key === 'ArrowRight' ) p.seekTo( current + 10, true );
         }
 
-        if ( key === 'f5' ||  keycode === 116) {
+        if ( ctrlKey == false && key === 'f5' ) {
             e.preventDefault();
-            console.log( "key === F5" )
-            clearServiceWorkerAndCache();
+
+            showToast( 'F5 - clear cache' );
+            console.log( "key === F5" );
+
+            setTimeout(() => {
+                clearServiceWorkerAndCache();
+            }, 300);
         }
 
         if ( key === 'r' ) {
             e.preventDefault();
-            console.log( "key === r" )
-            clearServiceWorkerAndCache();
-        }
 
+            showToast( 'R - clear cache' );
+            console.log( "key === r" );
+
+            setTimeout(() => {
+                clearServiceWorkerAndCache();
+            }, 300);
+        }
     } );
 }
 

@@ -14,6 +14,7 @@
             "label":    "5 juin",
             "display": {
                 "compact":  "Vendredi 5",
+                "short":    "Ven 5 juin",
                 "normal":   "Vendredi 5 juin",
                 "full":     "5 juin 2026",
                 "extended": "Vendredi 5 juin 2026",
@@ -26,6 +27,7 @@
             "label":    "6 juin",
             "display": {
                 "compact":  "Samedi 6",
+                "short":    "Sam 6 juin",
                 "normal":   "Samedi 6 juin",
                 "full":     "6 juin 2026",
                 "extended": "Samedi 6 juin 2026",
@@ -137,7 +139,8 @@
         "install_modal_btn_no": "Plus tard",
 
         "ticket_likes_label": "coup(s) de coeur",
-        "ticket_artists_count_label": "{count} groupes viennent au festival",
+        "ticket_artists_count_label": "{count} artistes sont présents au festival",
+        "ticket_artists_day_count_label": "{count} artistes sont présents le {day}",
 
         "menu_home": "Accueil",
         "menu_program": "Découvrez la programmation",
