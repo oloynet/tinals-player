@@ -89,27 +89,6 @@ const translations = {
 /* INIT */
 
 
-async function clearServiceWorkerAndCache() {
-
-    // Clear serviceWorker
-
-    if ('serviceWorker' in navigator) {
-        const registrations = await navigator.serviceWorker.getRegistrations();
-        for (let registration of registrations) await registration.unregister();
-    }
-
-    // Clear cache
-
-    if ('caches' in window) {
-        const keys = await caches.keys();
-        await Promise.all(keys.map(key => caches.delete(key)));
-    }
-
-    // Reload
-
-    window.location.reload(true);
-}
-
 
 async function init() {
     try {
@@ -1324,6 +1303,29 @@ function toggleAccordion( el ) {
     if(el && el.parentNode) {
         el.parentNode.classList.toggle('expanded');
     }
+}
+
+
+async function clearServiceWorkerAndCache() {
+
+    // Clear serviceWorker
+
+    if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (let registration of registrations) {
+            await registration.unregister();
+        }
+    }
+    // Clear cache
+
+    if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(key => caches.delete(key)));
+    }
+
+    // Reload
+
+    window.location.reload(true);
 }
 
 
