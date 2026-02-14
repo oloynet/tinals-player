@@ -1078,7 +1078,7 @@ function getVideoCardHtml( g ) {
 
     const artistAvatarHtml = `
         <div class="artist-avatar-container" onclick="toggleArtistDescription(this.parentNode.querySelector('.artist-description'), event)">
-            <img src="${artistAvatarImg}" class="artist-avatar" alt="${g.event_name}">
+            <img src="${artistAvatarImg}" class="artist-avatar" loading="lazy" alt="${g.event_name}">
         </div>`;
 
     const isMobile = isMobileDevice();
@@ -1124,7 +1124,7 @@ function getVideoCardHtml( g ) {
     <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
         <div class="video-container">
             ${boxTitleHtml}
-            <div class="video-background" style="background-image: url('${bgImage}'); background-position: ${bgPosition};"></div>
+            <img class="video-background" src="${bgImage}" style="object-position: ${bgPosition};" loading="lazy" alt="">
             <div id="player-${g.id}" class="yt-placeholder"></div>
             <div class="video-click-layer"></div>
             <div class="video-state-icon material-icons">play_arrow</div>
@@ -3018,10 +3018,10 @@ function renderDrawerFavorites() {
 
     if (favs.length) {
         const itemsHtml = favs.map( g => {
-            const thumb = g.image_thumbnail || g.image;
+            const thumb = g.image_artist || g.image_thumbnail || g.image;
             return `
             <li class="favorite-item">
-                <img src="${thumb}" alt="${g.event_name}">
+                <img src="${thumb}" loading="lazy" alt="${g.event_name}">
                 <div class="fav-title">${g.event_name}</div>
                 <button onclick="shareSong(${g.id})" class="material-icons btn-fav-share">share</button>
                 <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons btn-fav-play">play_arrow</button>
