@@ -506,6 +506,10 @@ h3 {
             display: none;
         }
 
+        #btn-header-prog-all {
+            display: none;
+        }
+
         .bar-top .header-actions .btn-ticket {
             background: var(--white-color);
             color: var(--primary-color);
@@ -3458,7 +3462,8 @@ h3 {
             background: var(--primary-color);
             padding: 4px 8px;
             border-radius: 4px;
-            pointer-events: none;
+            pointer-events: auto;
+            cursor: pointer;
             display: none; /* Caché par défaut */
             text-transform: uppercase;
             backdrop-filter: blur(2px);
@@ -3933,6 +3938,10 @@ h3 {
 /* --- LAPTOP "lg" (min-width: 1024px) --- */
 
     @media (min-width: 1024px) {
+
+        #btn-header-prog-all {
+            display: block;
+        }
 
         :root {
             --header-height: 75px;

@@ -249,23 +249,73 @@ window.DebugTool = {
         const container = document.getElementById('debug-section-cache');
         if (!container) return;
 
-        if ('caches' in window) {
-            caches.keys().then(keys => {
-                if (keys.length === 0) {
-                    container.innerHTML = '<p>No caches found.</p>';
-                    return;
-                }
-                const list = keys.map(k => `<li class="debug-info-item"><span class="debug-info-label">${k}</span></li>`).join('');
-                container.innerHTML = `
-                    <ul class="debug-info-list">${list}</ul>
+        container.innerHTML = '<p>Loading cache data...</p>';
+
+        Promise.all([
+            this.fetchStaticAssets(),
+            'caches' in window ? caches.keys() : Promise.resolve([])
+        ]).then(([staticAssets, cacheNames]) => {
+            let html = '';
+
+            // 1. Static Assets from SW
+            if (staticAssets.length > 0) {
+                html += '<h3 style="margin: 20px 0 10px 0; color: var(--primary-color);">SW Static Assets</h3>';
+                html += '<ul class="debug-info-list">';
+                staticAssets.forEach(asset => {
+                    html += `<li class="debug-info-item"><span class="debug-info-label">${asset}</span></li>`;
+                });
+                html += '</ul>';
+            }
+
+            // 2. Caches content
+            if (cacheNames.length > 0) {
+                const cachePromises = cacheNames.map(name => {
+                    return caches.open(name).then(cache => {
+                        return cache.keys().then(requests => {
+                            return { name, requests };
+                        });
+                    });
+                });
+
+                return Promise.all(cachePromises).then(cacheDataList => {
+                    cacheDataList.forEach(data => {
+                        html += `<h3 style="margin: 20px 0 10px 0; color: var(--primary-color);">Cache: ${data.name} (${data.requests.length})</h3>`;
+                        if (data.requests.length > 0) {
+                            html += '<ul class="debug-info-list">';
+                            data.requests.forEach(req => {
+                                let displayUrl = req.url;
+                                try {
+                                    const url = new URL(req.url);
+                                    displayUrl = url.pathname + url.search;
+                                } catch (e) {}
+                                html += `<li class="debug-info-item"><span class="debug-info-label" style="word-break: break-all;">${displayUrl}</span></li>`;
+                            });
+                            html += '</ul>';
+                        } else {
+                            html += '<p>Empty cache</p>';
+                        }
+                    });
+
+                    // Add actions
+                    html += `
+                        <div class="debug-actions" style="margin-top: 30px;">
+                            <button class="debug-btn danger" onclick="DebugTool.actionClearCache()">Delete All Caches</button>
+                        </div>
+                    `;
+                    container.innerHTML = html;
+                });
+            } else {
+                html += '<p>No caches found.</p>';
+                html += `
                     <div class="debug-actions">
                         <button class="debug-btn danger" onclick="DebugTool.actionClearCache()">Delete All Caches</button>
                     </div>
                 `;
-            });
-        } else {
-            container.innerHTML = '<p>Cache API not supported.</p>';
-        }
+                container.innerHTML = html;
+            }
+        }).catch(err => {
+            container.innerHTML = `<p class="error">Error loading cache data: ${err.message}</p>`;
+        });
     },
 
     renderFavicons: function() {
