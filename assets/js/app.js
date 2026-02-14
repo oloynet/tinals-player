@@ -911,7 +911,7 @@ function getHomeHtml() {
                     <button onclick="scrollToTicketing()"         class="home-btn home-ticket-btn">${c.texts.home_btn_ticket}</button>
                 </div>
                 <div class="home-organizer">
-                    <div class="organizer-col-fixed">
+                    <div class="organizer-col-fixed paloma">
                         <a href="${c.external_links.paloma}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-paloma-2022 svg-dark-mode">
                             <svg class="paloma"><use href="${c.images.sprite_path}#logo-paloma-2022"></use></svg>
                         </a>
@@ -919,7 +919,7 @@ function getHomeHtml() {
                     <div class="organizer-col-fluid">
                         ${c.texts.home_footer}
                     </div>
-                    <div class="organizer-col-fixed">
+                    <div class="organizer-col-fixed come-on-people">
                         <a href="${c.external_links.comeonpeople}" target="_blank" rel="noopener noreferrer" class="organizer-logo-link svg-logo-come-on-people svg-dark-mode">
                             <svg class="come-on-people"><use href="${c.images.sprite_path}#logo-come-on-people"></use></svg>
                         </a>
@@ -1252,9 +1252,9 @@ function handleMenuAction(action) {
         case 'cache':
             closeMainMenu();
             {
-                const t = AppState.config.texts;
+                const t     = AppState.config.texts;
                 const title = t.menu_reload_confirm_title || "Recharger l'application";
-                const text = t.menu_reload_confirm_text || "Recharger l'application et mettre à jour les données ?";
+                const text  = t.menu_reload_confirm_text  || "Recharger l'application et mettre à jour les données ?";
 
                 openConfirmModal(title, text, () => {
                     if ('caches' in window) {

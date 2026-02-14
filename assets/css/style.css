@@ -997,6 +997,12 @@ h3 {
             align-items: center;
             justify-content: center;
         }
+        .home-organizer .organizer-col-fixed.paloma {
+            width: 70px;
+        }
+        .home-organizer .organizer-col-fixed.come-on-people {
+        }
+
 
         .home-organizer .organizer-col-fluid {
             flex-grow: 1;
@@ -3693,6 +3699,11 @@ h3 {
         .home-organizer .organizer-col-fixed {
             width: 64px;
         }
+        .home-organizer .organizer-col-fixed.paloma {
+            width: 90px;
+        }
+        .home-organizer .organizer-col-fixed.come-on-people {
+        }
 
     /* --- VIDEO CARD : BOX TITLE --- */
 
@@ -3946,6 +3957,11 @@ h3 {
 
         .home-organizer .organizer-col-fixed {
             width: 80px;
+        }
+        .home-organizer .organizer-col-fixed.paloma {
+            width: 120px;
+        }
+        .home-organizer .organizer-col-fixed.come-on-people {
         }
 
 

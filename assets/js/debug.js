@@ -25,7 +25,7 @@ window.DebugTool = {
             }
             // 'r' for reload if debug tool is enabled
             if (key === 'r' && AppState.settings.isDebugTool) {
-                 window.location.reload(true);
+                 DebugTool.actionClearCache();
             }
         });
     },
@@ -50,7 +50,7 @@ window.DebugTool = {
                     <button class="debug-tab-btn" data-tab="colors">Colors</button>
                 </div>
                 <div class="debug-controls">
-                    <button class="debug-btn-icon" title="Reload" onclick="window.location.reload(true)">
+                    <button class="debug-btn-icon" title="Full reload and clear cache" onclick="DebugTool.actionClearCache()">
                         <span class="material-icons">cached</span>
                     </button>
                     <button id="debug-theme-toggle" class="debug-btn-icon" title="Toggle Theme">
@@ -552,7 +552,7 @@ window.DebugTool = {
 
     actionClearCache: function() {
         this.showModal("Clear Cache", "Delete ALL Caches? This will force redownload of assets.", () => {
-            if ('caches' in window) {
+            if ( 'caches' in window ) {
                 caches.keys().then(keys => {
                     Promise.all(keys.map(key => caches.delete(key))).then(() => {
                         window.location.reload();

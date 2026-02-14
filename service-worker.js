@@ -6,10 +6,12 @@ const STATIC_ASSETS = [
     './manifest.json',
 
     './assets/css/style.css',
-    './assets/images/sprites/sprite.svg',
+
     './assets/images/background/tinals-2018-trame-342x342-noir.svg',
+    './assets/images/peoples/olivier-loynet.jpg',
     './assets/images/shortcuts/flag-EN.svg',
     './assets/images/shortcuts/flag-FR.svg',
+    './assets/images/sprites/sprite.svg',
 
     './assets/js/app.js',
     './assets/js/control-bar.js',
