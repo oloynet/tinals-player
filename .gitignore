@@ -2,6 +2,11 @@
 .vscode/
 *-nogit/
 .DS_Store
+.well-known/
 *.log
 *.mp3
 *.nogit.*
+robots.txt
+google*.html
+disabled.html
+
