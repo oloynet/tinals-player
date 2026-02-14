@@ -558,14 +558,6 @@ function applyConfigs() {
         const menuUse = document.getElementById( 'menu-logo-use' );
         if ( menuUse ) menuUse.setAttribute( 'href', `${c.images.sprite_path}#${c.images.menu_id}` );
 
-        const langIconUse = document.getElementById( 'lang-icon-use' );
-        if ( langIconUse ) {
-            const targetFlagId = AppState.currentLang === 'fr' ? c.images.flag_en_id : c.images.flag_fr_id;
-            const href = `${c.images.sprite_path}#${targetFlagId}`;
-            langIconUse.setAttribute( 'href', href );
-            langIconUse.setAttributeNS( 'http://www.w3.org/1999/xlink', 'href', href );
-        }
-
         document.querySelector( 'link[rel="icon"]' ).href             = c.images.favicon;
         document.querySelector( 'link[rel="apple-touch-icon"]' ).href = c.images.apple_touch_icon;
 
@@ -653,16 +645,6 @@ function applyConfigs() {
         }
 
         // DESACTIVATE document.querySelector( 'link[rel="manifest"]' ).href = URL.createObjectURL( blob );
-
-        // Update menu lang icon
-        const menuLangIconUse = document.getElementById('menu-lang-icon-use');
-        if (menuLangIconUse && c.images) {
-             const targetFlagId = AppState.currentLang === 'fr' ? c.images.flag_en_id : c.images.flag_fr_id;
-             const href         = `${c.images.sprite_path}#${targetFlagId}`;
-
-             menuLangIconUse.setAttribute( 'href', href );
-             menuLangIconUse.setAttributeNS( 'http://www.w3.org/1999/xlink', 'href', href );
-        }
     }
     updateDebugMenu();
 }
@@ -773,6 +755,16 @@ function updateStaticTexts() {
         renderTagFilterBar();
     }
     updateSessionDisplay();
+    updateFlags();
+}
+
+function updateFlags() {
+    const flagChar = AppState.currentLang === 'fr' ? '🇬🇧' : '🇫🇷';
+    const headerFlag = document.getElementById('header-lang-flag');
+    if (headerFlag) headerFlag.textContent = flagChar;
+
+    const menuFlag = document.getElementById('menu-lang-flag');
+    if (menuFlag) menuFlag.textContent = flagChar;
 }
 
 
@@ -988,7 +980,7 @@ function getProgramItemsHtml() {
         const objectPosStyle = `object-position: ${imageX}% ${imageY}%;`;
 
         itemsHtml += `
-        <div class="program-item ${favClass}" data-id="${g.id}" data-session="${g.event_session}" onclick="VideoManager.scrollTo(${g.id})">
+        <div class="program-item ${favClass}" data-id="${g.id}" data-session="${g.event_session}" onclick="VideoManager.handleItemClick(event, ${g.id})">
             <button class="program-like-btn" onclick="toggleFav(${g.id}, false); event.stopPropagation();">
                 ${favIconHtml}
             </button>
@@ -998,11 +990,12 @@ function getProgramItemsHtml() {
             <div class="program-content">
                 <div class="program-title-row">
                     <div class="program-title">${g.event_name}</div>
-                    <div class="playing-indicator">
+                    <div class="playing-indicator" onclick="VideoManager.handleBargraphClick(event, ${g.id})">
                         <div class="playing-bar"></div>
                         <div class="playing-bar"></div>
                         <div class="playing-bar"></div>
                     </div>
+                    <button class="program-play-btn material-icons" onclick="VideoManager.handlePlayClick(event, ${g.id})">play_arrow</button>
                 </div>
                 <div class="program-date-place">${metaHtml}</div>
             </div>
