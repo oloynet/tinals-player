@@ -250,8 +250,8 @@
     .svg-youtube-icon {
         fill: var(--youtube-dark-grey-color);
     }
-    .svg-youtube-dark,
-    .svg-youtube-icon-dark {
+    .svg-youtube.svg-dark-mode,
+    .svg-youtube-icon.svg-dark-mode {
         fill: var(--white-color);
     }
 

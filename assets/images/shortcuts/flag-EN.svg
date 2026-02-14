@@ -1,11 +1,8 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<svg version="1.1" x="0px" y="0px" viewBox="0 0 96 96" xml:space="preserve" id="svg5" width="96" height="96" xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg"><defs id="defs5" />
-    <!-- https://www.kortic.com/drapeaux-internationaux-vectoriels-norme-3166-1-alpha-2.html : GB-GBR-826 -->
-    <path fill="#2e52b2" d="M 0,16 H 96 V 80 H 0 Z" id="path1" style="stroke-width:2" />
-    <path fill="white" d="m 96,16 v 8.48 L 78.72,36 H 96 V 60 H 78.72 L 96,71.52 V 80 H 87.52 L 60,61.64 V 80 H 36 V 61.64 L 8.48,80 H 0 V 71.52 L 17.28,60 H 0 V 36 H 17.28 L 0,24.48 V 16 H 8.48 L 36,34.32 V 16 H 60 V 34.32 L 87.52,16 Z" id="path2" style="stroke-width:2" />
-    <g fill="#d80027" id="g5" transform="matrix(2,0,0,2,0,16)">
-        <path d="M 27,0 H 21 V 13 H 0 v 6 h 21 v 13 h 6 V 19 H 48 V 13 H 27 Z" id="path3" />
-        <path d="M 0,0 V 2.82 L 10.76,10 H 15 Z M 48,0 V 2.82 L 37.24,10 H 33 Z" id="path4" />
-        <path d="M 0,0 V 2.82 L 10.76,10 H 15 Z M 48,0 V 2.82 L 37.24,10 H 33 Z M 0,32 V 29.18 L 10.76,22 H 15 Z m 48,0 V 29.18 L 37.24,22 H 33 Z" id="path5" />
-    </g>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 30">
+  <path fill="#012169" d="M0,0v30h50v-30z"/>
+  <path fill="#fff"    d="M 0,0 V 3.4980469 L 19.169922,15 0,26.501953 V 30 H 5.8300781 L 25,18.498047 44.169922,30 H 50 V 26.501953 L 30.830078,15 50,3.4980469 V 0 H 44.169922 L 25,11.501953 5.8300781,0 Z"/>
+  <path fill="#c8102e" d="M 0,0 V 2.3324219 L 21.113281,15 H 25 Z M 25,15 50,0 H 46.112695 L 25,12.667969 Z m 0,0 25,15 V 27.667578 L 28.886719,15 Z M 25,15 0,30 H 3.8873047 L 25,17.332031 Z"/>
+  <path fill="#c8102e" d="M 21,0 V 11 H 0 v 8 h 21 v 11 h 8 V 19 H 50 V 11 H 29 V 0 Z"/>
+  <path fill="#fff"    d="M 20,0 V 10 H 0 v 2 H 22 V 0 Z m 8,0 V 12 H 50 V 10 H 30 V 0 Z M 0,18 v 2 h 20 v 10 h 2 V 18 Z m 28,0 v 12 h 2 V 20 h 20 v -2 z"/>
 </svg>
+
