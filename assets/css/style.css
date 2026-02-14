@@ -432,6 +432,7 @@ h3 {
             transform: translateY(-100%);
         }
 
+
         .bar-top .header-actions #btn-header-lang {
             margin-left: 0;
             min-width: 24px;
@@ -593,6 +594,7 @@ h3 {
             align-items: center;
             cursor: pointer;
             padding: 5px;
+            text-transform: uppercase;
         }
 
         .btn-nav-top-list .material-icons {
@@ -604,7 +606,7 @@ h3 {
             display: none;
             font-weight: bold;
             font-size: 0.8rem;
-            text-transform: none;
+            text-transform: uppercase;
         }
 
         @media (min-width: 480px) {
@@ -989,16 +991,17 @@ h3 {
         }
 
         .home-organizer .organizer-col-fixed {
-            width: 54px;
+            width: 35px;
             flex-shrink: 0;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .home-organizer .organizer-col-fixed.paloma {
-            width: 70px;
+            width: 40px;
         }
         .home-organizer .organizer-col-fixed.come-on-people {
+            width: 35px;
         }
 
 
@@ -3576,6 +3579,15 @@ h3 {
         .bar-top .header-actions .btn-ticket  {
             display: none;
         }
+
+        .home-organizer .organizer-col-fixed.paloma {
+            width: 60px;
+        }
+
+        .home-organizer .organizer-col-fixed.come-on-people {
+            width: 50px;
+        }
+
     }
 
 
@@ -3605,6 +3617,10 @@ h3 {
 
             .bar-top .header-actions .btn-ticket  {
                 display: block;
+            }
+
+            .lang-flag {
+                font-size: 2.0rem;
             }
 
         /* --- DRAWER --- */
@@ -3648,6 +3664,8 @@ h3 {
         .bar-top .header-actions .btn-lang {
             padding: 10px 18px;
             font-size: 0.7em;
+            font-weight: 900;
+            text-transform: uppercase;
         }
 
         .logo,
@@ -3656,14 +3674,12 @@ h3 {
             max-width: 100%;
         }
 
-        .lang-icon {
-            width: 32px;
+        .bar-top .header-actions #btn-header-lang {
+            margin-left: 5px;
         }
 
-
-        #btn-header-lang {
-            margin-left: 5px;
-            min-width: 40px;
+        .bar-top .header-actions .lang-flag {
+            font-size: 2.2rem;
         }
 
     /* --- FAV-MODE-BAR  TAG-MODE-BAR AT-A-GLANCE-FILTER-WARNING --- */
@@ -3736,12 +3752,12 @@ h3 {
         }
 
         .home-organizer .organizer-col-fixed {
-            width: 64px;
         }
         .home-organizer .organizer-col-fixed.paloma {
-            width: 90px;
+            width: 80px;
         }
         .home-organizer .organizer-col-fixed.come-on-people {
+            width: 64px;
         }
 
     /* --- VIDEO CARD : BOX TITLE --- */
@@ -3994,13 +4010,11 @@ h3 {
 
         }
 
-        .home-organizer .organizer-col-fixed {
-            width: 80px;
-        }
         .home-organizer .organizer-col-fixed.paloma {
-            width: 120px;
+            width: 105px;
         }
         .home-organizer .organizer-col-fixed.come-on-people {
+            width: 80px;
         }
 
 

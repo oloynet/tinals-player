@@ -88,6 +88,29 @@ const translations = {
 
 /* INIT */
 
+
+async function clearServiceWorkerAndCache() {
+
+    // Clear serviceWorker
+
+    if ('serviceWorker' in navigator) {
+        const registrations = await navigator.serviceWorker.getRegistrations();
+        for (let registration of registrations) await registration.unregister();
+    }
+
+    // Clear cache
+
+    if ('caches' in window) {
+        const keys = await caches.keys();
+        await Promise.all(keys.map(key => caches.delete(key)));
+    }
+
+    // Reload
+
+    window.location.reload(true);
+}
+
+
 async function init() {
     try {
         // --- START NEW LOGIC ---
@@ -116,16 +139,8 @@ async function init() {
             const newUrl = window.location.pathname + (validParams.toString() ? '?' + validParams.toString() : '') + window.location.hash;
             window.history.replaceState(null, '', newUrl);
 
-            // Clear cache and reload
-            if ('serviceWorker' in navigator) {
-                const registrations = await navigator.serviceWorker.getRegistrations();
-                for (let registration of registrations) await registration.unregister();
-            }
-            if ('caches' in window) {
-                const keys = await caches.keys();
-                await Promise.all(keys.map(key => caches.delete(key)));
-            }
-            window.location.reload(true);
+            clearServiceWorkerAndCache();
+
             return; // Stop execution
         }
 
@@ -141,8 +156,8 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v2.05';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v2.05' : 'config/config_fr.json?v2.05';
+        const configFile = 'config/config.json?v2.062';
+        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v2.062' : 'config/config_fr.json?v2.062';
 
         // 1. & 2. Charger les configs en parallèle
         const [mainConfigResponse, langConfigResponse] = await Promise.all([
@@ -350,7 +365,7 @@ async function init() {
                 </div>
                 ${jsErrorHtml}
                 <div>
-                    <button class="reload-btn" onclick="reloadApp()">Réinitialiser / Try reload</button>
+                    <button class="reload-btn" onclick="clearServiceWorkerAndCache()">Réinitialiser / Try reload</button>
                 </div>
             </div>`;
         }
@@ -1250,15 +1265,7 @@ function handleMenuAction(action) {
                 const text  = t.menu_reload_confirm_text  || "Recharger l'application et mettre à jour les données ?";
 
                 openConfirmModal(title, text, () => {
-                    if ('caches' in window) {
-                        caches.keys().then(keys => {
-                            Promise.all(keys.map(key => caches.delete(key))).then(() => {
-                                window.location.reload(true);
-                            });
-                        });
-                    } else {
-                        window.location.reload(true);
-                    }
+                    clearServiceWorkerAndCache();
                 });
             }
             break;
@@ -1317,28 +1324,6 @@ function toggleAccordion( el ) {
     if(el && el.parentNode) {
         el.parentNode.classList.toggle('expanded');
     }
-}
-
-
-async function reloadApp() {
-    // Unregister SW
-    if ('serviceWorker' in navigator) {
-        const registrations = await navigator.serviceWorker.getRegistrations();
-        for (let registration of registrations) {
-            await registration.unregister();
-        }
-    }
-    // Clear Caches
-    if ('caches' in window) {
-        const keys = await caches.keys();
-        await Promise.all(keys.map(key => caches.delete(key)));
-    }
-    // Clear LocalStorage (optional but good for hard reset)
-    // localStorage.clear(); // Maybe too aggressive if we want to keep favorites?
-    // User said "clear local cache". Usually implies SW cache.
-    // I'll stick to SW and Caches.
-
-    window.location.reload(true);
 }
 
 
@@ -2157,8 +2142,10 @@ function handleGesture( startX, startY, endX, endY ) {
 
 function setupKeyboardControls() {
     document.addEventListener( 'keydown', ( e ) => {
-        const key = e.key.toLowerCase();
+        const key     = e.key.toLowerCase();
+        const keycode = e.keycode;
         const activeId = AppState.state.activeId;
+
         if ( e.key === 'Escape' ) {
             // Check registered modals
             for ( const modalConfig of MODAL_REGISTRY ) {
@@ -2177,34 +2164,54 @@ function setupKeyboardControls() {
             if ( document.fullscreenElement ) document.exitFullscreen();
             return;
         }
+
         if ( e.key === 'Enter' ) {
             e.preventDefault();
             if ( activeId !== null && !isNaN( activeId ) ) toggleFavCurrent();
         }
+
         if ( key === 'f' ) {
             e.preventDefault();
             if ( AppState.settings.isFullscreenEnable && activeId ) VideoManager.toggleFullscreen( activeId );
         }
         if ( key === 's' ) shareCurrent();
+
         if ( key === 'm' ) VideoManager.toggleMute();
+
         if ( key === 'k' || e.code === 'Space' ) {
             e.preventDefault();
             if ( activeId !== null && !isNaN( activeId ) ) VideoManager.togglePlayPause( activeId );
         }
+
         if ( e.key === 'ArrowUp' ) {
             e.preventDefault();
             navigateScroll( 'up' );
         }
+
         if ( e.key === 'ArrowDown' ) {
             e.preventDefault();
             navigateScroll( 'down' );
         }
+
         if ( activeId && VideoManager.instances[ activeId ] && typeof VideoManager.instances[ activeId ].getCurrentTime === 'function' ) {
             const p = VideoManager.instances[ activeId ];
             const current = p.getCurrentTime();
             if ( key === 'j' || e.key === 'ArrowLeft' )  p.seekTo( current - 10, true );
             if ( key === 'l' || e.key === 'ArrowRight' ) p.seekTo( current + 10, true );
         }
+
+        if ( key === 'F5' ||  keycode === '116') {
+            e.preventDefault();
+            console.log( "key === F5" )
+            clearServiceWorkerAndCache();
+        }
+
+        if ( key === 'r' ) {
+            e.preventDefault();
+            console.log( "key === r" )
+            clearServiceWorkerAndCache();
+        }
+
     } );
 }
 
@@ -2807,7 +2814,7 @@ function renderTagFilterBar() {
 
     const html = `
         <button class="btn-nav-top-list" onclick="scrollToFirstFilteredVideo()">
-            <span class="material-icons">north_west</span>
+            <span class="material-icons">play_arrow</span>
             <span class="btn-label">${topBtnLabel}</span>
         </button>
         <div class="filter-content-wrapper" onclick="cancelFilters()">
@@ -2827,11 +2834,11 @@ function renderTagFilterBar() {
 
 
 function renderFavFilterBar() {
-    const topBtnLabel = AppState.config.texts.top_of_list || "Top";
+    const topBtnLabel = AppState.config.texts.top_of_list || "Play";
 
     const html = `
         <button class="btn-nav-top-list" onclick="scrollToFirstFilteredVideo()">
-            <span class="material-icons">north_west</span>
+            <span class="material-icons">play_arrow</span>
             <span class="btn-label">${topBtnLabel}</span>
         </button>
         <div class="filter-content-wrapper" onclick="exitFavoritesMode()">
@@ -3215,7 +3222,7 @@ function setupMenuObserver() {
 
 window.onload = init;
 if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v2.05' )
+    navigator.serviceWorker.register( 'service-worker.js?v2.062' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }

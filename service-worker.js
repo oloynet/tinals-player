@@ -1,4 +1,4 @@
-const CACHE_NAME = 'v2.05';
+const CACHE_NAME = 'v2.062';
 
 const STATIC_ASSETS = [
     './',
@@ -9,8 +9,6 @@ const STATIC_ASSETS = [
 
     './assets/images/background/tinals-2018-trame-342x342-noir.svg',
     './assets/images/peoples/olivier-loynet.jpg',
-    './assets/images/shortcuts/flag-EN.svg',
-    './assets/images/shortcuts/flag-FR.svg',
     './assets/images/sprites/sprite.svg',
 
     './assets/js/app.js',

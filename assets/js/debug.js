@@ -23,10 +23,6 @@ window.DebugTool = {
             if (key === 'd') {
                 this.toggle();
             }
-            // 'r' for reload if debug tool is enabled
-            if (key === 'r' && AppState.settings.isDebugTool) {
-                 DebugTool.actionClearCache();
-            }
         });
     },
 

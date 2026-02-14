@@ -235,25 +235,6 @@
     <path transform="matrix(1.33333 0 0 -1.33333 348.74 423.276)" fill="#fff" d="M 0,0 102.827,59.668 0,119.046 Z" />
 </symbol>
 
-<symbol id="flag-fr"                   viewBox="0 0 48 32"                    aria-label="France flag">
-    <title>France flag</title>
-    <desc>source : https://www.kortic.com/drapeaux-internationaux-vectoriels-norme-3166-1-alpha-2.html : FR-FRA-250</desc>
-    <path fill="#fff" d="M0 0h48v32H0z" />
-    <path fill="#0052b4" d="M0 0h16v32H0z" />
-    <path fill="#d80027" d="M32 0h16v32H32z" />
-</symbol>
-<symbol id="flag-en"                   viewBox="0 0 48 32"                    aria-label="United-Kingdom flag">
-    <title>United-Kingdom flag</title>
-    <desc>source : https://www.kortic.com/drapeaux-internationaux-vectoriels-norme-3166-1-alpha-2.html : GB-GBR-826</desc>
-    <path fill="#2e52b2" d="M0 0h48v32H0z" />
-    <path fill="#fff" d="M48 0v4.24L39.36 10H48v12h-8.64L48 27.76V32h-4.24L30 22.82V32H18v-9.18L4.24 32H0v-4.24L8.64 22H0V10h8.64L0 4.24V0h4.24L18 9.16V0h12v9.16L43.76 0H48z" />
-    <g fill="#d80027">
-    <path d="M27 0h-6v13H0v6h21v13h6V19h21v-6H27V0z" />
-    <path d="M0 0v2.82L10.76 10H15L0 0zm48 0v2.82L37.24 10H33L48 0z" />
-    <path d="M0 0v2.82L10.76 10H15L0 0zm48 0v2.82L37.24 10H33L48 0zM0 32v-2.82L10.76 22H15L0 32zm48 0v-2.82L37.24 22H33l15 10z" />
-    </g>
-</symbol>
-
 <symbol id="instagram-icon-gradient"   viewBox="0 0 680 680"                  aria-label="Instagram icon gradient">
     <title>Instagram icon gradient</title>
     <desc>gradients don't works in svg symbol</desc>

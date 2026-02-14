@@ -88,23 +88,23 @@
         "bar_top_page":    "Page top",
         "bar_bottom_page": "Page footer",
 
-        "top_of_list":            "Start",
+        "top_of_list":            "Play all",
 
         "bar_fav_top_page":       "<b>First   favorite</b>",
         "bar_fav_bottom_page":    "<b>Last    favorite</b>",
 
-        "bar_filter_top_page":    "First <b>\"{tag}\"</b> event",
-        "bar_filter_bottom_page": "Last  <b>\"{tag}\"</b> event",
+        "bar_filter_top_page":    "First \"<b>{tag}</b>\" event",
+        "bar_filter_bottom_page": "Last  \"<b>{tag}</b>\" event",
 
-        "filter_cancel_fav":      "<b>{position}{count}</b> for  <b>my favorite</b>,<br />Click to deselect",
-        "filter_cancel_tags":     "<b>{position}{count}</b> with <b>\"{tag}\"</b>   <br />Click to deselect",
+        "filter_cancel_fav":      "<b>{position}{count}</b> for  <b>my favorite</b>,<br />Click <b>to deselect</b>",
+        "filter_cancel_tags":     "<b>{position}{count}</b> with \"<b>{tag}</b>\"   <br />Click <b>to deselect</b>",
 
-        "filter_warning_text":    "<b>The List</b>    <br />with <b>\"{tag}\"</b>",
-        "favorite_warning_text":  "<b>My Favorites</b><br />with <b>\"{tag}\"</b>",
-        "timeline_warning_text":  "<b>Timeline</b>    <br />with <b>\"{tag}\"</b>",
+        "filter_warning_text":    "<b>The List</b>    <br />with \"<b>{tag}</b>\"",
+        "favorite_warning_text":  "<b>My Favorites</b><br />with \"<b>{tag}</b>\"",
+        "timeline_warning_text":  "<b>Timeline</b>    <br />with \"<b>{tag}</b>\"",
 
         "at_a_glance_favorite_warning_text":  "Favorite(s) <b>event(s)</b>",
-        "at_a_glance_timeline_warning_text":  "Filtered <b>event(s)</b> with <b>\"{tag}\"</b> tag",
+        "at_a_glance_timeline_warning_text":  "Filtered <b>event(s)</b> with \"<b>{tag}</b>\" tag",
 
         "bar_fav_added":   "Added to favorites",
         "bar_fav_removed": "Removed from favorites",
