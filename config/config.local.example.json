@@ -1,0 +1,13 @@
+{
+    "site": {
+        "url": "https://thisisnotalovesong.fr",
+        "homepage_url": "https://thisisnotalovesong.fr"
+    },
+    "external_links": {
+        "home": "https://thisisnotalovesong.fr/",
+        "news": "https://thisisnotalovesong.fr/actualites/",
+        "practical": "https://thisisnotalovesong.fr/infos-pratiques/",
+        "contact": "https://thisisnotalovesong.fr/infos-pratiques/",
+        "professional_area": "https://thisisnotalovesong.fr/espace-pro-presse/"
+    }
+}
