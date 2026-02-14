@@ -1802,6 +1802,8 @@ function updateURLState() {
 }
 
 
+/* HREFLANG  */
+
 function updateHreflangTags(currentUrlObj) {
     const base = 'https://thisisnotalovesong.fr/player/';
     // Create a copy of search params to not mutate the original url object if we used it directly,
