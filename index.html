@@ -258,6 +258,9 @@
         </div>
         <div class="header-actions">
             <!-- <button id="btn-header-prog"   class="btn-program" onclick="scrollToFirstVideo()" aria-label="La programmation du festival">PROGRAMMATION</button> -->
+            <button id="btn-header-prog-all" class="btn-program" onclick="cancelFilters(); scrollToProgram()" aria-label="Toute la programmation">
+                <span id="txt-header-prog-all">Toute la programmation</span>
+            </button>
 
             <button id="btn-header-day1"   class="btn-program" onclick="openProgramSession('day-1')" aria-label="Vendredi 5">
                 <span id="txt-header-day1">Programmation du vendredi 5</span>
@@ -432,6 +435,7 @@
     <script src="assets/js/audio-player.js?v2.062"></script>
     <script src="assets/js/control-bar.js?v2.062"></script>
     <script src="assets/js/video-manager.js?v2.062"></script>
+    <div id="app-version-indicator" onclick="clearServiceWorkerAndCache()"></div>
 </body>
 
 </html>

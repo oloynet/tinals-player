@@ -310,6 +310,8 @@ async function init() {
         const loader = document.getElementById( 'loader' );
         if ( loader ) loader.classList.add( 'hidden' );
 
+        checkVersion();
+
     } catch ( e ) {
         console.error( "Erreur d'initialisation :", e );
         const loader = document.getElementById( 'loader' );
@@ -2145,7 +2147,7 @@ function handleGesture( startX, startY, endX, endY ) {
 function setupKeyboardControls() {
     document.addEventListener( 'keydown', ( e ) => {
         const key     = e.key.toLowerCase();
-        const keycode = e.keycode;
+        const keycode = e.keyCode;
         const activeId = AppState.state.activeId;
 
         if ( e.key === 'Escape' ) {
@@ -2202,7 +2204,7 @@ function setupKeyboardControls() {
             if ( key === 'l' || e.key === 'ArrowRight' ) p.seekTo( current + 10, true );
         }
 
-        if ( key === 'F5' ||  keycode === '116') {
+        if ( key === 'f5' ||  keycode === 116) {
             e.preventDefault();
             console.log( "key === F5" )
             clearServiceWorkerAndCache();
@@ -3265,4 +3267,27 @@ function setupDebugTrigger() {
         logo.addEventListener('mouseup', clearTimer);
         logo.addEventListener('mouseleave', clearTimer);
     }
+}
+
+function checkVersion() {
+    fetch('VERSION?t=' + Date.now())
+        .then(response => {
+            if (!response.ok) throw new Error("Version fetch failed");
+            return response.text();
+        })
+        .then(text => {
+            const serverVersion = text.trim();
+            const clientVersion = AppState.config.site.version;
+
+            if (serverVersion && clientVersion && serverVersion !== clientVersion) {
+                const indicator = document.getElementById('app-version-indicator');
+                if (indicator) {
+                    let msg = (AppState.config.texts.update_available_text || "New version {new_version}");
+                    msg = msg.replace('{new_version}', serverVersion);
+                    indicator.innerHTML = msg;
+                    indicator.classList.add('visible');
+                }
+            }
+        })
+        .catch(err => console.warn('Check version error:', err));
 }
