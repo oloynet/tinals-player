@@ -137,11 +137,13 @@ async function init() {
 
         const configFile = 'config/config.json?v2.062';
         const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v2.062' : 'config/config_fr.json?v2.062';
+        const localConfigFile = 'config/config.local.json';
 
         // 1. & 2. Charger les configs en parallèle
-        const [mainConfigResponse, langConfigResponse] = await Promise.all([
+        const [mainConfigResponse, langConfigResponse, localConfigResponse] = await Promise.all([
             fetch(configFile),
-            fetch(langConfigFile)
+            fetch(langConfigFile),
+            fetch(localConfigFile).catch(() => null)
         ]);
 
         if ( !mainConfigResponse.ok ) throw new Error( "Erreur config " + configFile );
@@ -149,10 +151,21 @@ async function init() {
 
         const mainConfig = await mainConfigResponse.json();
         const langConfig = await langConfigResponse.json();
+        let localConfig = {};
 
-        // 3. Fusionner les configs (langue écrase main pour les clés existantes)
+        if (localConfigResponse && localConfigResponse.ok) {
+            try {
+                localConfig = await localConfigResponse.json();
+                console.log("Configuration locale chargée");
+            } catch (e) {
+                console.warn("Erreur parsing config locale", e);
+            }
+        }
+
+        // 3. Fusionner les configs (langue écrase main, et local écrase tout)
         // On clone mainConfig pour ne pas le muter directement si on devait le réutiliser
-        AppState.config = deepMerge(JSON.parse(JSON.stringify(mainConfig)), langConfig);
+        let mergedConfig = deepMerge(JSON.parse(JSON.stringify(mainConfig)), langConfig);
+        AppState.config = deepMerge(mergedConfig, localConfig);
 
         // Validation explicite pour éviter le crash "is_fullscreen_enable"
         if (!AppState.config.features) {
@@ -1805,7 +1818,7 @@ function updateURLState() {
 /* HREFLANG  */
 
 function updateHreflangTags(currentUrlObj) {
-    const base = 'https://thisisnotalovesong.fr/player/';
+    const base = window.location.origin + window.location.pathname;
     // Create a copy of search params to not mutate the original url object if we used it directly,
     // though here we construct new strings anyway.
     const params = new URLSearchParams(currentUrlObj.search);
