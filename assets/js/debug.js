@@ -352,7 +352,7 @@ window.DebugTool = {
         if (!container) return;
 
         this.fetchStaticAssets().then(assets => {
-            const imageExtensions = ['.svg', '.png', '.ico', '.webp'];
+            const imageExtensions = ['.svg', '.png', '.gif', '.ico', '.webp', '.jpg', '.jpeg'];
             const images = assets.filter(url => imageExtensions.some(ext => url.toLowerCase().endsWith(ext)));
 
             let html = '<div class="debug-image-grid">';
@@ -386,7 +386,7 @@ window.DebugTool = {
          if (!container) return;
 
          this.fetchStaticAssets().then(assets => {
-            const imageExtensions = ['.svg', '.png', '.ico', '.webp'];
+            const imageExtensions = ['.svg', '.png', '.gif', '.ico', '.webp', '.jpg', '.jpeg'];
             const files = assets.filter(url => !imageExtensions.some(ext => url.toLowerCase().endsWith(ext)));
 
             let html = '<div class="debug-files-grid">';
