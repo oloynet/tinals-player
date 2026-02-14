@@ -199,12 +199,15 @@
 
                 <h4 class="about-section-title" id="txt-about-developer">Développement de l'application web progressive (PWA)</h4>
                 <ul class="about-list">
-                    <li>
-                        <b>Olivier LOYNET</b>
-                        <ul class="about-sublist">
-                            <li><a href="mailto:olivierloynet@gmail.com">olivierloynet@gmail.com</a></li>
-                            <li><a href="tel:+33668055252">phone +33.668055252</a></li>
-                        </ul>
+                    <li class="developer-item">
+                        <img src="assets/images/peoples/olivier-loynet.jpg" alt="Olivier Loynet" class="about-avatar">
+                        <div class="developer-info">
+                            <b>Olivier LOYNET</b>
+                            <ul class="about-sublist">
+                                <li><a href="mailto:olivierloynet@gmail.com">olivierloynet@gmail.com</a></li>
+                                <li><a href="tel:+33668055252">phone +33.668055252</a></li>
+                            </ul>
+                        </div>
                     </li>
                 </ul>
 
@@ -269,9 +272,7 @@
             </button>
 
             <button id="btn-header-lang"   class="btn-lang"    onclick="toggleLanguage()"        aria-label="Changer de langue">
-                <svg class="lang-icon" viewBox="0 0 48 32">
-                    <use id="lang-icon-use" href=""></use>
-                </svg>
+                <span id="header-lang-flag" class="lang-flag"></span>
             </button>
 
         </div>
@@ -327,7 +328,7 @@
 
                 <li class="separator"></li>
 
-                <li onclick="handleMenuAction('language')"><span class="material-icons menu-icon">language</span><span class="menu-text" id="menu-txt-language">Changer de langue</span><svg class="lang-icon-menu"><use id="menu-lang-icon-use" href=""></use></svg></li>
+                <li onclick="handleMenuAction('language')"><span class="material-icons menu-icon">language</span><span class="menu-text" id="menu-txt-language">Changer de langue</span><span id="menu-lang-flag" class="menu-lang-flag"></span></li>
 
                 <li class="separator"></li>
 

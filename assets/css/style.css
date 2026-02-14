@@ -517,12 +517,10 @@ h3 {
             background: transparent;
         }
 
-        .lang-icon {
-            width: 24px;
-            height: auto;
-            aspect-ratio: 48 / 32;
+        .lang-flag {
+            font-size: 1.5rem;
+            line-height: 1;
             display: block;
-            margin: 0 auto;
         }
 
 
@@ -1248,10 +1246,29 @@ h3 {
             height: 16px;
             gap: 2px;
             margin-top: 2px;
+            cursor: pointer;
+        }
+
+        .program-play-btn {
+            background: none;
+            border: none;
+            padding: 0;
+            color: var(--white-color);
+            cursor: pointer;
+            display: flex;
+            margin-top: 0;
+        }
+
+        .drawer-at-a-glance .program-play-btn {
+            color: var(--black-color);
         }
 
         .program-item.is-playing:not(.is-paused) .playing-indicator {
             display: flex;
+        }
+
+        .program-item.is-playing:not(.is-paused) .program-play-btn {
+            display: none;
         }
 
         .playing-bar {
@@ -2433,9 +2450,9 @@ h3 {
             color: var(--grey60-color);
         }
 
-        .lang-icon-menu {
-            width: 28px;
-            height: 20px;
+        .menu-lang-flag {
+            font-size: 1.5rem;
+            line-height: 1;
             margin-left: 10px;
         }
 
@@ -2895,6 +2912,28 @@ h3 {
         .about-sublist li {
             margin-bottom: 5px;
             font-size: 0.9rem;
+        }
+
+        /* --- ABOUT MODAL : DEVELOPER --- */
+
+        .developer-item {
+            display: flex;
+            align-items: center;
+            text-align: left;
+            gap: 15px;
+        }
+
+        .about-avatar {
+            width: 90px;
+            height: 90px;
+            object-fit: cover;
+            /* square as requested, no border radius */
+            flex-shrink: 0;
+        }
+
+        .developer-info {
+            display: flex;
+            flex-direction: column;
         }
 
         .about-social {

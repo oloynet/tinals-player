@@ -318,7 +318,30 @@ const VideoManager = {
             behavior: 'smooth'
         } );
     },
-    scrollTo: function ( id, autoPlay = true ) {
+    handleItemClick: function(event, id) {
+        let keepDrawerOpen = false;
+        if (event && event.target) {
+            if (event.target.closest('.drawer-at-a-glance') || event.target.closest('.drawer-fav-timeline')) {
+                keepDrawerOpen = true;
+            }
+        }
+        this.scrollTo(id, true, keepDrawerOpen);
+    },
+    handlePlayClick: function(event, id) {
+        if (event) event.stopPropagation();
+        let keepDrawerOpen = false;
+        if (event && event.target) {
+            if (event.target.closest('.drawer-at-a-glance') || event.target.closest('.drawer-fav-timeline')) {
+                keepDrawerOpen = true;
+            }
+        }
+        this.scrollTo(id, true, keepDrawerOpen);
+    },
+    handleBargraphClick: function(event, id) {
+        if (event) event.stopPropagation();
+        this.togglePlayPause(id);
+    },
+    scrollTo: function ( id, autoPlay = true, keepDrawerOpen = false ) {
         if ( autoPlay ) {
             this.pauseAll( id );
             this.play( id );
@@ -332,7 +355,9 @@ const VideoManager = {
                 }, 100 );
             }
         }
-        closeFavTimelineDrawers();
+        if (!keepDrawerOpen) {
+            closeFavTimelineDrawers();
+        }
         AppState.state.isMenuNavigation = true;
         setTimeout( () => {
             const el = document.getElementById( `video-${id}` );
