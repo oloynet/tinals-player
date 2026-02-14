@@ -464,3 +464,28 @@
     border-radius: 3px;
     cursor: pointer;
 }
+
+/* Cache Layout */
+.debug-cache-columns {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: flex-start;
+}
+
+.debug-cache-col {
+    flex: 1;
+    min-width: 300px; /* Stack on mobile */
+    background-color: var(--debug-code-bg);
+    padding: 15px;
+    border-radius: 4px;
+    border: 1px solid var(--debug-border);
+}
+
+.debug-cache-col h3 {
+    margin-top: 0;
+    margin-bottom: 15px;
+    padding-bottom: 10px;
+    border-bottom: 1px solid var(--debug-border);
+    color: var(--debug-accent);
+}
