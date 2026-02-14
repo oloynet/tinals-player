@@ -768,12 +768,14 @@ function updateStaticTexts() {
 }
 
 function updateFlags() {
-    const flagChar = AppState.currentLang === 'fr' ? '🇬🇧' : '🇫🇷';
+    const flagId = AppState.currentLang === 'fr' ? 'en-flag' : 'fr-flag';
+    const flagHtml = `<svg class="flag-icon"><use href="${AppState.config.images.sprite_path}#${flagId}"></use></svg>`;
+
     const headerFlag = document.getElementById('header-lang-flag');
-    if (headerFlag) headerFlag.textContent = flagChar;
+    if (headerFlag) headerFlag.innerHTML = flagHtml;
 
     const menuFlag = document.getElementById('menu-lang-flag');
-    if (menuFlag) menuFlag.textContent = flagChar;
+    if (menuFlag) menuFlag.innerHTML = flagHtml;
 }
 
 

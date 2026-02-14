@@ -399,6 +399,13 @@ h3 {
         fill: currentColor;
     }
 
+    .flag-icon {
+        display: inline-block;
+        width: 1.5em;
+        height: auto;
+        vertical-align: middle;
+    }
+
 
 /* =============================================================================
    BARS
