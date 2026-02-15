@@ -89,7 +89,6 @@ const translations = {
 /* INIT */
 
 
-
 async function init() {
     try {
         // --- START NEW LOGIC ---
@@ -420,6 +419,8 @@ async function init() {
 }
 
 
+/* MISC */
+
 function isMobileDevice() {
     return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test( navigator.userAgent );
 }
@@ -748,36 +749,6 @@ function applyConfigs() {
         // TODO DESACTIVATED document.querySelector( 'link[rel="manifest"]' ).href = URL.createObjectURL( blob );
     }
     updateDebugMenu();
-}
-
-
-function updateDebugMenu() {
-    const s = AppState.settings;
-
-    if( !s.isDebugTool || !s.isDebugToolMenu ) {
-        return;
-    }
-
-    // Check if already exists to avoid duplication
-    if( document.getElementById( 'menu-txt-debug' ) ) {
-        return;
-    }
-
-    const shareItem = document.querySelector( 'li[onclick="handleMenuAction( \'share\')"]' );
-
-    if( !shareItem ) {
-        return;
-    }
-
-    const debugItem     = document.createElement( 'li' );
-    debugItem.onclick   = () => handleMenuAction( 'debug' );
-    debugItem.innerHTML = `
-        <span class="material-icons menu-icon">bug_report</span>
-        <span class="menu-text" id="menu-txt-debug">Outil de debug</span>
-    `;
-
-    // Insert before shareItem
-    shareItem.parentNode.insertBefore( debugItem, shareItem );
 }
 
 
@@ -3136,7 +3107,6 @@ function getIsNavigationMenu() {
     return AppState.state.isMenuNavigation;
 }
 
-
 function setIsNavigationMenu( state ) {
     AppState.state.isMenuNavigation = state;
 }
@@ -3146,7 +3116,6 @@ function setIsNavigationMenu( state ) {
 function getIsMainMenu() {
     return AppState.state.isMainMenuOpen;
 }
-
 
 function setIsMainMenu( state ) {
     AppState.state.isMainMenuOpen = state;
@@ -3158,7 +3127,6 @@ function getVideoId() {
     return AppState.state.activeVideoId;
 }
 
-
 function setVideoId( id ) {
     AppState.state.activeVideoId = id;
 }
@@ -3168,7 +3136,6 @@ function setVideoId( id ) {
 function getPreviousVideoId() {
     return AppState.state.previousVideoId;
 }
-
 
 function setPreviousVideoId( id ) {
     AppState.state.previousVideoId = id;
@@ -3180,7 +3147,6 @@ function getActiveSession() {
     return AppState.state.activeSection;
 }
 
-
 function setActiveSession( state ) {
     AppState.state.activeSection = state;
 }
@@ -3191,7 +3157,6 @@ function getActiveTab() {
     return AppState.state.activeTab;
 }
 
-
 function setActiveTab( state ) {
     AppState.state.activeTab = state;
 }
@@ -3201,7 +3166,6 @@ function setActiveTab( state ) {
 function getIsPlayingFavorites() {
     return AppState.state.isPlayingFavorites;
 }
-
 
 function setIsPlayingFavorites( state ) {
     AppState.state.isPlayingFavorites = state;
@@ -3232,7 +3196,6 @@ function setFilterMode( mode, state ) {
     else if( mode == 'tag' ) {
         // todo
     }
-
 }
 
 function getFilterMode() {
@@ -3271,7 +3234,6 @@ function getFilterMode() {
 function isFilterMode( mode ) {
     return getFilterMode() === mode;
 }
-
 
 /* ----  */
 
@@ -3391,9 +3353,11 @@ function updateFavoritesIcon() {
     }
 }
 
+
 function toggleFavCurrent() {
     toggleFav( getVideoId() );
 }
+
 
 function toggleFav( id, openDrawer = true ) {
     const card         = document.getElementById( `video-${id}` );
@@ -3463,6 +3427,7 @@ function toggleFav( id, openDrawer = true ) {
     }
 }
 
+
 function playFavorites() {
 
     if( AppState.favorites.length === 0 ) {
@@ -3488,7 +3453,6 @@ function playFavorites() {
 
     updateEmptyStateVisibility();
 }
-
 
 
 function exitFavoritesMode( shouldScroll = true ) {
@@ -3526,7 +3490,6 @@ function exitFavoritesMode( shouldScroll = true ) {
 
 
 /* RENDER FILTER BAR  */
-
 
 function updateFilterBarText() {
     const mode = getFilterMode();
@@ -3632,8 +3595,6 @@ function scrollToFirstFilteredVideo() {
 }
 
 
-
-
 function renderFilterBar( filterType ) {
 
     const mode = getFilterMode();
@@ -3702,6 +3663,7 @@ function renderFilterBar( filterType ) {
         updateFilterBarText();
     }
 }
+
 
 
 /* FILTER : TAGS  */
@@ -3988,6 +3950,7 @@ function exitTagFilterMode( shouldScroll = true ) {
 }
 
 
+
 /* DRAWER ( FAVORITE - TIMELINE ) */
 
 function startDrawerAutoCloseTimer() {
@@ -4136,6 +4099,7 @@ function renderDrawerFavorites() {
 }
 
 
+
 /* DRAWER TIMELINE */
 
 function renderDrawerTimeline() {
@@ -4227,6 +4191,7 @@ function renderDrawerTimeline() {
     list.innerHTML = `<ul>${itemsHtml}</ul>`;
     updateDynamicDates();
 }
+
 
 
 /* HAPTIC ON BUTTONS */
@@ -4378,6 +4343,8 @@ if( 'serviceWorker' in navigator ) {
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
+
+
 /* DEBUG TOOL */
 
 function loadDebugTool() {
@@ -4395,6 +4362,7 @@ function loadDebugTool() {
 
     setupDebugTrigger();
 }
+
 
 function setupDebugTrigger() {
     const logo = document.querySelector( '.logo-container' ); // Top Bar Logo
@@ -4420,6 +4388,7 @@ function setupDebugTrigger() {
         logo.addEventListener( 'mouseleave',  clearTimer );
     }
 }
+
 
 function checkVersion() {
 
@@ -4449,4 +4418,34 @@ function checkVersion() {
             }
         } )
         .catch( err => console.warn( 'Check version error:', err ) );
+}
+
+
+function updateDebugMenu() {
+    const s = AppState.settings;
+
+    if( !s.isDebugTool || !s.isDebugToolMenu ) {
+        return;
+    }
+
+    // Check if already exists to avoid duplication
+    if( document.getElementById( 'menu-txt-debug' ) ) {
+        return;
+    }
+
+    const shareItem = document.querySelector( 'li[onclick="handleMenuAction( \'share\')"]' );
+
+    if( !shareItem ) {
+        return;
+    }
+
+    const debugItem     = document.createElement( 'li' );
+    debugItem.onclick   = () => handleMenuAction( 'debug' );
+    debugItem.innerHTML = `
+        <span class="material-icons menu-icon">bug_report</span>
+        <span class="menu-text" id="menu-txt-debug">Outil de debug</span>
+    `;
+
+    // Insert before shareItem
+    shareItem.parentNode.insertBefore( debugItem, shareItem );
 }
