@@ -1,4 +1,4 @@
-// --- CENTRALISATION DE L'ÉTAT (STATE MANAGEMENT) ---
+// --- CENTRALISATION DE L'ÉTAT ( STATE MANAGEMENT ) ---
 const AppState = {
     config: null,
     data: [],
@@ -93,40 +93,41 @@ const translations = {
 async function init() {
     try {
         // --- START NEW LOGIC ---
-        const rawParams = new URLSearchParams(window.location.search);
+        const rawParams   = new URLSearchParams( window.location.search );
         const validParams = new URLSearchParams();
-        const allowed = {
-            'id': /^[0-9]+$/,
-            'tag': /^[a-z0-9-]+$/,
-            'filter': /^[a-z0-9-]+$/,
+        const allowed     = {
+            'id':        /^[0-9]+$/,
+            'tag':       /^[a-z0-9-]+$/,
+            'filter':    /^[a-z0-9-]+$/,
             'favorites': /^[0-9,]+$/,
-            'lang': /^(fr|en)$/,
-            'share': /^[a-z0-9-]+$/,
-            'version': /^[a-z0-9.-]+$/,
-            'play': /^[a-z0-9]*$/
+            'lang':      /^( fr|en)$/,
+            'share':     /^[a-z0-9-]+$/,
+            'version':   /^[a-z0-9.-]+$/,
+            'play':      /^[a-z0-9]*$/
         };
 
-        for (const [key, value] of rawParams.entries()) {
-            if (allowed[key] && allowed[key].test(value)) {
-                validParams.append(key, value);
+        for( const [key, value] of rawParams.entries() ) {
+
+            if( allowed[key] && allowed[key].test( value ) ) {
+                validParams.append( key, value );
             }
         }
 
         // Handle Version
-        if (validParams.has('version')) {
-            validParams.delete('version');
-            const newUrl = window.location.pathname + (validParams.toString() ? '?' + validParams.toString() : '') + window.location.hash;
-            window.history.replaceState(null, '', newUrl);
+        if( validParams.has( 'version' ) ) {
+            validParams.delete( 'version' );
+            const newUrl = window.location.pathname + ( validParams.toString() ? '?' + validParams.toString() : '' ) + window.location.hash;
+            window.history.replaceState( null, '', newUrl );
 
             clearServiceWorkerAndCache();
 
             return; // Stop execution
         }
 
-        // Update URL if params were dirty (stripped)
-        if (rawParams.toString() !== validParams.toString()) {
-             const newUrl = window.location.pathname + (validParams.toString() ? '?' + validParams.toString() : '') + window.location.hash;
-             window.history.replaceState(null, '', newUrl);
+        // Update URL if params were dirty ( stripped)
+        if( rawParams.toString() !== validParams.toString() ) {
+             const newUrl = window.location.pathname + ( validParams.toString() ? '?' + validParams.toString() : '' ) + window.location.hash;
+             window.history.replaceState( null, '', newUrl );
         }
 
         const urlParams = validParams;
@@ -135,64 +136,75 @@ async function init() {
         AppState.currentLang          = urlParams.get( 'lang' ) || 'fr';
         document.documentElement.lang = AppState.currentLang;
 
-        const configFile = 'config/config.json?v2.062';
-        const langConfigFile = AppState.currentLang === 'en' ? 'config/config_en.json?v2.062' : 'config/config_fr.json?v2.062';
-        const localConfigFile = 'config/config.local.json';
+        const mainConfigFile  = 'config/config.json?v2.063';
+        const langConfigFile  = AppState.currentLang === 'en' ? 'config/config_en.json?v2.063' : 'config/config_fr.json?v2.063';
+        const localConfigFile = 'config/config.local.json?v2.063';
 
         // 1. & 2. Charger les configs en parallèle
-        const [mainConfigResponse, langConfigResponse, localConfigResponse] = await Promise.all([
-            fetch(configFile),
-            fetch(langConfigFile),
-            fetch(localConfigFile).catch(() => null)
-        ]);
+        const [ mainConfigResponse, langConfigResponse, localConfigResponse ] = await Promise.all(
+            [
+                fetch( mainConfigFile ),
+                fetch( langConfigFile ),
+                fetch( localConfigFile ).catch( () => null )
+            ]
+       );
 
-        if ( !mainConfigResponse.ok ) throw new Error( "Erreur config " + configFile );
-        if ( !langConfigResponse.ok ) throw new Error( "Erreur config langue " + langConfigFile );
+        if( !mainConfigResponse.ok ) {
+            throw new Error( "Erreur config " + mainConfigFile );
+        }
+
+        if( !langConfigResponse.ok ) {
+            throw new Error( "Erreur config langue " + langConfigFile );
+        }
 
         const mainConfig = await mainConfigResponse.json();
         const langConfig = await langConfigResponse.json();
         let localConfig = {};
 
-        if (localConfigResponse && localConfigResponse.ok) {
+        if( localConfigResponse && localConfigResponse.ok ) {
             try {
                 localConfig = await localConfigResponse.json();
-                console.log("Configuration locale chargée");
-            } catch (e) {
-                console.warn("Erreur parsing config locale", e);
+                console.log( "Configuration locale chargée" );
+            } catch( e ) {
+                console.warn( "Erreur parsing config locale", e );
             }
         }
 
-        // 3. Fusionner les configs (langue écrase main, et local écrase tout)
+        // 3. Fusionner les configs ( langue écrase main, et local écrase tout)
         // On clone mainConfig pour ne pas le muter directement si on devait le réutiliser
-        let mergedConfig = deepMerge(JSON.parse(JSON.stringify(mainConfig)), langConfig);
-        AppState.config = deepMerge(mergedConfig, localConfig);
+
+        let mergedConfig = deepMerge( JSON.parse( JSON.stringify( mainConfig ) ), langConfig );
+        AppState.config  = deepMerge( mergedConfig, localConfig );
 
         // Validation explicite pour éviter le crash "is_fullscreen_enable"
-        if (!AppState.config.features) {
-            console.error("Features manquantes dans la configuration fusionnée, utilisation d'un objet vide.");
+        if( !AppState.config.features ) {
+            console.error( "Features manquantes dans la configuration fusionnée, utilisation d'un objet vide." );
             AppState.config.features = {};
         }
 
         applyConfigs();
 
-        if (AppState.config.site && AppState.config.site.version) {
-            localStorage.setItem('app_version', AppState.config.site.version);
+        if( AppState.config.site && AppState.config.site.version ) {
+            localStorage.setItem( 'app_version', AppState.config.site.version );
         }
 
-        if ( AppState.settings.isDebugTool ) {
+        if( AppState.settings.isDebugTool ) {
             loadDebugTool();
         }
 
-        if ( AppState.settings.isDebugJS ) {
+        if( AppState.settings.isDebugJS ) {
             console.log( "--- DEBUG MODE ACTIVATED ---" );
             console.log( "    is_debug_tool: true" );
             attachDebugWrappers( VideoManager, "VideoManager" );
             attachDebugWrappers( ControlBar,   "ControlBar" );
         }
 
-        const dataSource = (AppState.config.site && AppState.config.site.data_source) ? AppState.config.site.data_source : 'data.json';
-        const response   = await fetch( dataSource );
-        if ( !response.ok ) throw new Error( "Erreur " + dataSource );
+        const dataSource = ( AppState.config.site && AppState.config.site.data_source ) ? AppState.config.site.data_source : 'data.json';
+        const response   = await fetch(  dataSource );
+
+        if( !response.ok ) {
+             throw new Error( "Erreur " + dataSource );
+        }
 
         const rawData = await response.json();
 
@@ -202,12 +214,14 @@ async function init() {
             const hasImage = item.image && item.image.trim() !== "";
             const hasDesc  = item.description && item.description.trim() !== "";
 
-            if ( !hasName || !hasImage || !hasDesc ) {
-                console.error( "Skipping invalid item (missing required fields):", item );
+            if( !hasName || !hasImage || !hasDesc ) {
+                console.error( "Skipping invalid item ( missing required fields):", item );
                 return false;
             }
+
             return true;
-        }).map( item => {
+
+        } ).map( item => {
             item.id = Number( item.id );
             return item;
         } );
@@ -215,34 +229,43 @@ async function init() {
 
         // --- SESSION PROCESSING ---
 
-        if (AppState.config.sessions) {
-            AppState.config.sessions.forEach(session => {
-                if (session.display && session.display.compact) {
+        if( AppState.config.sessions ) {
+
+            AppState.config.sessions.forEach( session => {
+
+                if( session.display && session.display.compact ) {
                     translations.sessions[session.id] = session.display.compact;
                     // Also handle slugified version just in case
-                    translations.sessions[slugify(session.id)] = session.display.compact;
+                    translations.sessions[slugify( session.id)] = session.display.compact;
                 }
-            });
+            } );
         }
 
-        AppState.data.forEach(item => {
-            if (item.event_session) {
+        AppState.data.forEach( item => {
+
+            if( item.event_session ) {
                 // Add tag if not present
-                if (!item.event_tags) item.event_tags = [];
-                const alreadyHas = item.event_tags.some(t => t === item.event_session);
-                if (!alreadyHas) {
-                    item.event_tags.unshift(item.event_session);
+
+                if( !item.event_tags ) {
+                    item.event_tags = [];
+                }
+
+                const alreadyHas = item.event_tags.some( t => t === item.event_session );
+
+                if( !alreadyHas ) {
+                    item.event_tags.unshift( item.event_session );
                 }
 
                 // Fallback for missing date using session reference
-                if (!item.event_start_date && AppState.config.sessions) {
-                    const session = AppState.config.sessions.find(s => s.id === item.event_session && (s.start_date || s.iso_date));
-                    if (session) {
+                if( !item.event_start_date && AppState.config.sessions ) {
+                    const session = AppState.config.sessions.find( s => s.id === item.event_session && ( s.start_date || s.iso_date ) );
+
+                    if( session ) {
                         item.event_start_date = session.start_date || session.iso_date;
                     }
                 }
             }
-        });
+        } );
         // -------------------------
 
         let storedFavs     = JSON.parse( localStorage.getItem( 'selected' ) ) || [];
@@ -252,50 +275,71 @@ async function init() {
         const filterParam  = urlParams.get( 'filter' );
         const favsParam    = urlParams.get( 'favorites' );
         const idParam      = urlParams.get( 'id' );
-        const hash         = window.location.hash ? window.location.hash.substring(1) : null;
+        const hash         = window.location.hash ? window.location.hash.substring( 1 ) : null;
 
         renderFeed();
         renderDrawerFavorites();
         renderDrawerTimeline();
         renderAtAGlance();
 
-        if ( favsParam ) {
+        if( favsParam ) {
             const urlFavs = favsParam.split( ',' ).map( Number ).filter( id => validIds.includes( id ) );
-            if ( urlFavs.length > 0 ) {
+
+            if( urlFavs.length > 0 ) {
                 AppState.favorites = [ ...new Set( [ ...AppState.favorites, ...urlFavs ] ) ];
                 localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
-                if ( AppState.settings.isTestStorage ) updateTestStorage();
+
+                if( AppState.settings.isTestStorage ) {
+                    updateTestStorage();
+                }
+
                 setTimeout( () => {
                     playFavorites();
                     updateURLState();
                 }, 100 );
-            } else {
+            }
+            else {
                 updateURLState();
             }
-        } else if ( filterParam ) {
+        }
+        else if( filterParam ) {
             setTimeout( () => {
                 filterByTag( filterParam );
                 updateURLState();
             }, 100 );
-        } else if ( idParam && validIds.includes( Number( idParam ) ) ) {
-            AppState.state.activeId = Number( idParam );
-            updateProgramPlayingState( AppState.state.activeId );
+
+        }
+        else if( idParam && validIds.includes( Number( idParam ) ) ) {
+            setStateVideoId( Number( idParam ) );
+            updateProgramPlayingState( getStateActiveVideoId() );
+
             setTimeout( () => {
-                const target = document.getElementById( `video-${AppState.state.activeId}` );
-                if ( target ) target.scrollIntoView( {
-                    behavior: 'auto'
-                } );
+                const target = document.getElementById( `video-${AppState.state.activeVideoId}` );
+
+                if( target ) {
+                    target.scrollIntoView( {
+                        behavior: 'auto'
+                    } );
+                }
             }, 100 );
+
             updateURLState();
-        } else if ( hash ) {
+        }
+        else if( hash ) {
+
             setTimeout( () => {
                 const target = document.getElementById( hash );
-                if ( target ) target.scrollIntoView( {
-                    behavior: 'auto'
-                } );
+
+                if( target ) {
+                    target.scrollIntoView( {
+                        behavior: 'auto'
+                    } );
+                }
             }, 100 );
+
             updateURLState();
-        } else {
+        }
+        else {
             updateURLState();
         }
 
@@ -314,33 +358,37 @@ async function init() {
         updateFavoritesIcon();
         updateStaticTexts();
 
-        if ( AppState.settings.isAppInstall ) {
+        if( AppState.settings.isAppInstall ) {
             PWAManager.init();
         }
 
-        window.addEventListener('resize', handleOrientationChange);
+        window.addEventListener( 'resize', handleOrientationChange );
 
         const loader = document.getElementById( 'loader' );
-        if ( loader ) loader.classList.add( 'hidden' );
+        if( loader ) {
+            loader.classList.add( 'hidden' );
+        }
 
         checkVersion();
 
-    } catch ( e ) {
+    } catch( e ) {
         console.error( "Erreur d'initialisation :", e );
         const loader = document.getElementById( 'loader' );
-        if ( loader ) {
+
+        if( loader ) {
             let jsErrorHtml = "";
-            if ( AppState.settings.isDebugJS ) {
-                const escapeHtml = (unsafe) => {
-                    return (unsafe || "")
-                        .replace(/&/g, "&amp;")
-                        .replace(/</g, "&lt;")
-                        .replace(/>/g, "&gt;")
-                        .replace(/"/g, "&quot;")
-                        .replace(/'/g, "&#039;");
+
+            if( AppState.settings.isDebugJS ) {
+                const escapeHtml = ( unsafe ) => {
+                    return ( unsafe || "")
+                        .replace( /&/g, "&amp;")
+                        .replace( /</g, "&lt;")
+                        .replace( />/g, "&gt;")
+                        .replace( /"/g, "&quot;")
+                        .replace( /'/g, "&#039;" );
                 };
-                const errString = e ? escapeHtml(e.toString()) : "Unknown Error";
-                const errStack  = e && e.stack ? escapeHtml(e.stack) : "";
+                const errString = e ? escapeHtml( e.toString() ) : "Unknown Error";
+                const errStack  = e && e.stack ? escapeHtml( e.stack ) : "";
                 jsErrorHtml = `
                 <div style="margin-bottom: 50px;">
                     <pre style="text-align: left; font-family: monospace; background: var(--black-a5-color); padding: 10px; overflow: auto; max-height: 50vh; var(--white-color)-space: pre-wrap; word-wrap: break-word;">
@@ -379,37 +427,47 @@ function isLandscape() {
 
 function handleOrientationChange() {
     updateSessionDisplay();
+
     const s         = AppState.settings;
     const topDrawer = document.getElementById( 'top-bar' );
     const tm        = AppState.timers;
 
-    if ( AppState.state.activeId !== null ) {
-        VideoManager.applyMobileZoom( AppState.state.activeId );
+    if( getStateActiveVideoId() !== null ) {
+        VideoManager.applyMobileZoom( getStateActiveVideoId() );
     }
 
     // Only relevant if a video is playing
-    if ( AppState.state.activeId === null ) return;
-    const player = VideoManager.instances[AppState.state.activeId];
+    if( getStateActiveVideoId() === null ) {
+        return;
+    }
+    const player = VideoManager.instances[ getStateActiveVideoId() ];
 
     // Check player state safely
     let isPlaying = false;
-    if (player && typeof player.getPlayerState === 'function') {
-        isPlaying = (player.getPlayerState() === 1);
+
+    if( player && typeof player.getPlayerState === 'function' ) {
+        isPlaying = ( player.getPlayerState() === 1 );
     }
 
-    if(!isPlaying) return;
+    if( !isPlaying ) {
+        return;
+    }
 
     // We are playing. Check logic.
-    if ( s.isMenuAutoHide || ( isMobileDevice() && isLandscape() ) ) {
+    if( s.isMenuAutoHide || ( isMobileDevice() && isLandscape() ) ) {
+
         // Should be auto-hidden.
         // If it's not already scheduled to hide and not hidden, schedule it.
-        if ( !topDrawer.classList.contains('auto-hidden') && !tm.menu ) {
+
+        if( !topDrawer.classList.contains( 'auto-hidden' ) && !tm.menu ) {
              tm.menu = setTimeout( () => {
                 topDrawer.classList.add( 'auto-hidden' );
             }, 3000 );
         }
-    } else {
-        // Should stay visible (Portrait + config=false)
+
+    }
+    else {
+        // Should stay visible ( Portrait + config=false)
         clearTimeout( tm.menu );
         tm.menu = null;
         topDrawer.classList.remove( 'auto-hidden' );
@@ -417,43 +475,50 @@ function handleOrientationChange() {
 }
 
 
-function deepMerge(target, source) {
-    const isObject = (obj) => obj && typeof obj === 'object';
+function deepMerge( target, source ) {
+    const isObject = ( obj ) => obj && typeof obj === 'object';
 
-    if (!isObject(target) || !isObject(source)) {
+    if( !isObject( target ) || !isObject( source ) ) {
         return source;
     }
 
-    Object.keys(source).forEach(key => {
+    Object.keys( source).forEach( key => {
         const targetValue = target[key];
         const sourceValue = source[key];
 
-        if (Array.isArray(targetValue) && Array.isArray(sourceValue)) {
-            target[key] = targetValue.concat(sourceValue);
-        } else if (isObject(targetValue) && isObject(sourceValue)) {
-            target[key] = deepMerge(Object.assign({}, targetValue), sourceValue);
-        } else {
+        if( Array.isArray( targetValue ) && Array.isArray( sourceValue ) ) {
+            target[key] = targetValue.concat( sourceValue );
+        }
+        else if( isObject( targetValue ) && isObject( sourceValue ) ) {
+            target[key] = deepMerge( Object.assign( {}, targetValue), sourceValue );
+        }
+        else {
             target[key] = sourceValue;
         }
-    });
+
+    } );
 
     return target;
 }
 
 
-function slugify(text) {
-    if (!text) return '';
+function slugify( text ) {
+    if( !text ) {
+        return '';
+    }
+
     return text.toString().toLowerCase()
-        .normalize('NFD')                  // separate accents
-        .replace(/[\u0300-\u036f]/g, '')   // remove accents
-        .replace(/[^a-z0-9]+/g, '-')       // replace non-alphanumeric chars with dash
-        .replace(/^-+|-+$/g, '');          // remove leading/trailing dashes
+        .normalize( 'NFD' )                 // separate accents
+        .replace( /[\u0300-\u036f]/g, '' )  // remove accents
+        .replace( /[^a-z0-9]+/g, '-' )      // replace non-alphanumeric chars with dash
+        .replace( /^-+|-+$/g, '' );          // remove leading/trailing dashes
 }
 
 
 function attachDebugWrappers( obj, objName ) {
-    for ( let prop in obj ) {
-        if ( typeof obj[ prop ] === 'function' ) {
+    for( let prop in obj ) {
+
+        if( typeof obj[ prop ] === 'function' ) {
             const originalMethod = obj[ prop ];
             obj[ prop ] = function ( ...args ) {
                 console.groupCollapsed( `[DEBUG] ${objName}.${prop}` );
@@ -467,9 +532,11 @@ function attachDebugWrappers( obj, objName ) {
 
 
 function applyConfigs() {
-    const c = AppState.config;
+
+    const c        = AppState.config;
     document.title = c.site.title;
-    if ( c.site.theme_color ) {
+
+    if( c.site.theme_color ) {
         document.documentElement.style.setProperty( '--primary-color', c.site.theme_color );
         document.querySelector( 'meta[name="theme-color"]' ).setAttribute( 'content', c.site.theme_color );
     }
@@ -499,10 +566,10 @@ function applyConfigs() {
     s.isDisplayMenuIcon             = f.is_display_menu_icon              ?? true;
     s.isContextMenuEnable           = f.is_context_menu                   ?? true;
 
-    if (!s.isContextMenuEnable) {
-        document.addEventListener('contextmenu', function(event) {
+    if( !s.isContextMenuEnable ) {
+        document.addEventListener( 'contextmenu', function( event ) {
             event.preventDefault();
-        });
+        } );
     }
 
     s.isButtonSoundEnable           = f.is_button_sound_enable            ?? true;
@@ -528,44 +595,64 @@ function applyConfigs() {
     s.isTicketingDisplayArtistsName = f.is_ticketing_display_artists_name ?? false;
 
 
-    if ( s.isDescriptionAutoHide ) document.body.classList.add( 'hide-desc-mobile' );
-    else document.body.classList.remove( 'hide-desc-mobile' );
-
-    if ( !s.isDisplayActionBar ) {
-        const actionBar = document.querySelector('.action-bar');
-        if (actionBar) actionBar.style.display = 'none';
-    } else {
-        const actionBar = document.querySelector('.action-bar');
-        if (actionBar) actionBar.style.display = '';
+    if( s.isDescriptionAutoHide ) {
+        document.body.classList.add( 'hide-desc-mobile' );
+    }
+    else {
+        document.body.classList.remove( 'hide-desc-mobile' );
     }
 
-    const menuDrawer = document.getElementById('main-menu-drawer');
-    if (menuDrawer) {
-        if (!s.isDisplayMenuIcon) {
-            menuDrawer.classList.add('no-icons');
-        } else {
-            menuDrawer.classList.remove('no-icons');
+    if( !s.isDisplayActionBar ) {
+        const actionBar = document.querySelector( '.action-bar' );
+
+        if( actionBar ) {
+            actionBar.style.display = 'none';
+        }
+
+    }
+    else {
+        const actionBar = document.querySelector( '.action-bar' );
+
+        if( actionBar ) {
+            actionBar.style.display = '';
         }
     }
 
-    if ( !s.isButtonSoundEnable ) document.getElementById( 'btn-mute' ).style.display = 'none';
-    if ( !s.isButtonTopBottomEnable ) {
+    const menuDrawer = document.getElementById( 'main-menu-drawer' );
+
+    if( menuDrawer ) {
+        if( !s.isDisplayMenuIcon ) {
+            menuDrawer.classList.add( 'no-icons' );
+        }
+        else {
+            menuDrawer.classList.remove( 'no-icons' );
+        }
+    }
+
+    if( !s.isButtonSoundEnable ) {
+        document.getElementById( 'btn-mute' ).style.display = 'none';
+    }
+
+    if( !s.isButtonTopBottomEnable ) {
         document.getElementById( 'btn-nav-top' ).style.display    = 'none';
         document.getElementById( 'btn-nav-bottom' ).style.display = 'none';
     }
-    if ( !s.isButtonPrevNextEnable ) {
+
+    if( !s.isButtonPrevNextEnable ) {
         document.getElementById( 'btn-nav-previous-card' ).style.display = 'none';
         document.getElementById( 'btn-nav-next-card' ).style.display     = 'none';
     }
 
-    if ( AppState.settings.isDebugJS ) {
+    if( AppState.settings.isDebugJS ) {
         console.log( 's.versionNumber = ' + s.versionNumber );
     }
 
-
-    if ( c.images ) {
+    if( c.images ) {
         const menuUse = document.getElementById( 'menu-logo-use' );
-        if ( menuUse ) menuUse.setAttribute( 'href', `${c.images.sprite_path}#${c.images.menu_id}` );
+
+        if( menuUse ) {
+            menuUse.setAttribute( 'href', `${c.images.sprite_path}#${c.images.menu_id}` );
+        }
 
         document.querySelector( 'link[rel="icon"]' ).href             = c.images.favicon;
         document.querySelector( 'link[rel="apple-touch-icon"]' ).href = c.images.apple_touch_icon;
@@ -649,190 +736,247 @@ function applyConfigs() {
             type: 'application/json'
         } );
 
-        if ( AppState.settings.isDebugJS ) {
+        if( AppState.settings.isDebugJS ) {
             console.log( window.location.origin + window.location.pathname );
         }
 
-        // DESACTIVATE document.querySelector( 'link[rel="manifest"]' ).href = URL.createObjectURL( blob );
+        // TODO DESACTIVATED document.querySelector( 'link[rel="manifest"]' ).href = URL.createObjectURL( blob );
     }
     updateDebugMenu();
 }
 
+
 function updateDebugMenu() {
     const s = AppState.settings;
-    if ( !s.isDebugTool || !s.isDebugToolMenu ) return;
+
+    if( !s.isDebugTool || !s.isDebugToolMenu ) {
+        return;
+    }
 
     // Check if already exists to avoid duplication
-    if ( document.getElementById('menu-txt-debug') ) return;
+    if( document.getElementById( 'menu-txt-debug' ) ) {
+        return;
+    }
 
-    const shareItem = document.querySelector('li[onclick="handleMenuAction(\'share\')"]');
-    if ( !shareItem ) return;
+    const shareItem = document.querySelector( 'li[onclick="handleMenuAction( \'share\')"]' );
 
-    const debugItem     = document.createElement('li');
-    debugItem.onclick   = () => handleMenuAction('debug');
+    if( !shareItem ) {
+        return;
+    }
+
+    const debugItem     = document.createElement( 'li' );
+    debugItem.onclick   = () => handleMenuAction( 'debug' );
     debugItem.innerHTML = `<span class="material-icons menu-icon">bug_report</span><span class="menu-text" id="menu-txt-debug">Outil de debug</span>`;
 
     // Insert before shareItem
-    shareItem.parentNode.insertBefore(debugItem, shareItem);
+    shareItem.parentNode.insertBefore( debugItem, shareItem );
 }
 
 
 function translateText( text, type ) {
-    if ( !text ) return "";
+
+    if( !text ) {
+        return "";
+    }
     const lowerText = text.toLowerCase().trim();
 
-    // Special handling for sessions (always map ID -> Localized text)
-    if ( type === 'tags' && translations.sessions && translations.sessions[lowerText] ) {
-        return translations.sessions[lowerText];
+    // Special handling for sessions ( always map ID -> Localized text)
+    if( type === 'tags' && translations.sessions && translations.sessions[lowerText] ) {
+        return translations.sessions[ lowerText ];
     }
 
-    if ( AppState.currentLang === 'fr' ) return text;
-    if ( translations[ type ] && translations[ type ][ lowerText ] ) return translations[ type ][ lowerText ];
+    if( AppState.currentLang === 'fr' ) {
+        return text;
+    }
+
+    if( translations[ type ] && translations[ type ][ lowerText ] ) {
+        return translations[ type ][ lowerText ];
+    }
+
     return text;
 }
 
 
 function updateStaticTexts() {
     const t = AppState.config.texts;
-    // document.getElementById( 'btn-header-prog' ).innerText                                              = t.nav_programming;
-    // document.getElementById( 'btn-header-ticket' ).innerText                                            = t.nav_ticketing;
-    // if(document.getElementById('txt-header-day1')) document.getElementById('txt-header-day1').innerText = t.nav_day_1;
-    // if(document.getElementById('txt-header-day2')) document.getElementById('txt-header-day2').innerText = t.nav_day_2;
+    // document.getElementById( 'btn-header-prog' ).innerText = t.nav_programming;
+    // document.getElementById( 'btn-header-ticket' ).innerText = t.nav_ticketing;
+    // if( document.getElementById( 'txt-header-day1' ) ) document.getElementById( 'txt-header-day1').innerText = t.nav_day_1;
+    // if( document.getElementById( 'txt-header-day2' ) ) document.getElementById( 'txt-header-day2').innerText = t.nav_day_2;
 
-    if(t.fav_title)         document.getElementById( 'drawer-fav-title' ).innerText  = t.fav_title;
-    if(t.timeline_title)    document.getElementById( 'drawer-time-title' ).innerText = t.timeline_title;
-    if(t.at_a_glance_title) document.getElementById( 'at-a-glance-title' ).innerText = t.at_a_glance_title;
-    if(t.fav_btn_play)      document.getElementById( 'btn-txt-play-fav' ).innerText  = t.fav_btn_play;
-    if(t.fav_btn_share)     document.getElementById( 'btn-txt-share-fav' ).innerText = t.fav_btn_share;
-    if(t.share_title)       document.getElementById( 'share-title-text' ).innerText  = t.share_title;
-    if(t.program_title)     document.getElementById( 'program-title' ).innerText     = t.program_title;
-    if(t.share_facebook)    document.getElementById( 'txt-share-fb' ).innerText      = t.share_facebook;
-    if(t.share_tiktok)      document.getElementById( 'txt-share-tiktok' ).innerText  = t.share_tiktok;
-    if(t.share_email)       document.getElementById( 'txt-share-email' ).innerText   = t.share_email;
-    if(t.share_link)        document.getElementById( 'share-link-label' ).innerText  = t.share_link;
-    if(t.share_qrcode)      document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
-    if(t.share_btn_close)   document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
-    renderFavFilterBar();
+    if( t.fav_title )         document.getElementById( 'drawer-fav-title' ).innerText  = t.fav_title;
+    if( t.timeline_title )    document.getElementById( 'drawer-time-title' ).innerText = t.timeline_title;
+    if( t.at_a_glance_title ) document.getElementById( 'at-a-glance-title' ).innerText = t.at_a_glance_title;
+    if( t.fav_btn_play )      document.getElementById( 'btn-txt-play-fav' ).innerText  = t.fav_btn_play;
+    if( t.fav_btn_share )     document.getElementById( 'btn-txt-share-fav' ).innerText = t.fav_btn_share;
+    if( t.share_title )       document.getElementById( 'share-title-text' ).innerText  = t.share_title;
+    if( t.program_title )     document.getElementById( 'program-title' ).innerText     = t.program_title;
+    if( t.share_facebook )    document.getElementById( 'txt-share-fb' ).innerText      = t.share_facebook;
+    if( t.share_tiktok )      document.getElementById( 'txt-share-tiktok' ).innerText  = t.share_tiktok;
+    if( t.share_email )       document.getElementById( 'txt-share-email' ).innerText   = t.share_email;
+    if( t.share_link )        document.getElementById( 'share-link-label' ).innerText  = t.share_link;
+    if( t.share_qrcode )      document.getElementById( 'txt-share-qr' ).innerText      = t.share_qrcode;
+    if( t.share_btn_close )   document.getElementById( 'btn-close-share' ).innerText   = t.share_btn_close;
+
 
     // Confirm Modal Buttons
-    const btnYes   = document.getElementById('btn-confirm-yes');
-    const btnNo    = document.getElementById('btn-confirm-no');
-    if (btnYes)   btnYes.innerText   = t.btn_ok    || 'OK';
-    if (btnNo)    btnNo.innerText    = t.btn_later || 'Later';
+    const btnYes = document.getElementById( 'btn-confirm-yes' );
+    const btnNo  = document.getElementById( 'btn-confirm-no' );
+
+    if( btnYes )  {
+        btnYes.innerText = t.btn_ok    || 'OK';
+    }
+
+    if( btnNo ) {
+        btnNo.innerText  = t.btn_later || 'Later';
+    }
 
     // Main Menu Texts
-    const setText = (id, text) => {
-        const el = document.getElementById(id);
-        if(el) el.innerText = text;
+    const setText = ( id, text ) => {
+        const el = document.getElementById( id );
+
+        if( el ) {
+            el.innerText = text;
+        }
     };
-    setText('menu-txt-home',          t.menu_home);
-    setText('menu-txt-program',       t.menu_program);
-    // setText('menu-txt-day1',       t.menu_day_1);
-    // setText('menu-txt-day2',       t.menu_day_2);
-    setText('menu-txt-favorites',     t.menu_favorites);
-    setText('menu-txt-timeline',      t.menu_timeline);
-    setText('menu-txt-ticketing',     t.menu_ticketing);
-    setText('menu-txt-language',      t.menu_language);
-    setText('menu-txt-website',       t.menu_website);
-    setText('menu-txt-news',          t.menu_news);
-    setText('menu-txt-practical',     t.menu_practical);
-    setText('menu-txt-map',           t.menu_map);
-    setText('menu-txt-pro-area',      t.menu_pro_area);
-    setText('menu-txt-settings',      t.menu_settings);
-    setText('menu-txt-features',      t.menu_features);
-    setText('menu-txt-install',       t.menu_install);
-    setText('menu-txt-check-version', t.menu_check_version);
-    setText('menu-txt-reload',        t.menu_reload);
-    setText('menu-txt-about',         t.menu_about);
-    setText('menu-txt-debug',         t.menu_debug);
-    setText('menu-txt-share',         t.menu_share);
-    setText('menu-version',           AppState.settings.versionNumber);
+
+    setText( 'menu-txt-home',          t.menu_home );
+    setText( 'menu-txt-program',       t.menu_program );
+    // setText( 'menu-txt-day1',       t.menu_day_1 );
+    // setText( 'menu-txt-day2',       t.menu_day_2 );
+    setText( 'menu-txt-favorites',     t.menu_favorites );
+    setText( 'menu-txt-timeline',      t.menu_timeline );
+    setText( 'menu-txt-ticketing',     t.menu_ticketing );
+    setText( 'menu-txt-language',      t.menu_language );
+    setText( 'menu-txt-website',       t.menu_website );
+    setText( 'menu-txt-news',          t.menu_news );
+    setText( 'menu-txt-practical',     t.menu_practical );
+    setText( 'menu-txt-map',           t.menu_map );
+    setText( 'menu-txt-pro-area',      t.menu_pro_area );
+    setText( 'menu-txt-settings',      t.menu_settings );
+    setText( 'menu-txt-features',      t.menu_features );
+    setText( 'menu-txt-install',       t.menu_install );
+    setText( 'menu-txt-check-version', t.menu_check_version );
+    setText( 'menu-txt-reload',        t.menu_reload );
+    setText( 'menu-txt-about',         t.menu_about );
+    setText( 'menu-txt-debug',         t.menu_debug );
+    setText( 'menu-txt-share',         t.menu_share );
+    setText( 'menu-version',           AppState.settings.versionNumber );
 
     // About Modal
-    if(t.about_title)           document.getElementById('about-title').innerText             = t.about_title;
-    if(t.about_festival_desc)   document.getElementById('txt-about-festival-desc').innerText = t.about_festival_desc;
-    //if(t.about_media_inter)   document.getElementById('txt-about-media-inter').innerText   = t.about_media_inter;
-    //if(t.about_media_local)   document.getElementById('txt-about-media-local').innerText   = t.about_media_local;
-    //if(t.about_comm_manager)  document.getElementById('txt-about-comm-manager').innerText  = t.about_comm_manager;
-    //if(t.about_press_officer) document.querySelectorAll('.txt-about-press-officer').forEach(el => el.innerText  = t.about_press_officer);
-    //if(t.about_programming)   document.getElementById('txt-about-programming').innerText   = t.about_programming;
-    if(t.about_developer)       document.getElementById('txt-about-developer').innerText     = t.about_developer;
-    if(t.about_development)     document.getElementById('txt-about-development').innerText   = t.about_development;
-    if(t.about_follow_us)       document.getElementById('txt-about-follow-us').innerText     = t.about_follow_us;
+    if( t.about_title )           document.getElementById( 'about-title').innerText             = t.about_title;
+    if( t.about_festival_desc )   document.getElementById( 'txt-about-festival-desc').innerText = t.about_festival_desc;
+    //if( t.about_media_inter )   document.getElementById( 'txt-about-media-inter').innerText   = t.about_media_inter;
+    //if( t.about_media_local )   document.getElementById( 'txt-about-media-local').innerText   = t.about_media_local;
+    //if( t.about_comm_manager )  document.getElementById( 'txt-about-comm-manager').innerText  = t.about_comm_manager;
+    //if( t.about_press_officer ) document.querySelectorAll( '.txt-about-press-officer').forEach( el => el.innerText  = t.about_press_officer );
+    //if( t.about_programming )   document.getElementById( 'txt-about-programming').innerText   = t.about_programming;
+    if( t.about_developer )       document.getElementById( 'txt-about-developer').innerText     = t.about_developer;
+    if( t.about_development )     document.getElementById( 'txt-about-development').innerText   = t.about_development;
+    if( t.about_follow_us )       document.getElementById( 'txt-about-follow-us').innerText     = t.about_follow_us;
 
-    if (AppState.state.currentTagFilter) {
-        renderTagFilterBar();
+    renderFilterBar( 'favorite' );
+
+    if( AppState.state.currentTagFilter ) {
+        renderFilterBar( 'tag' );
     }
+
     updateSessionDisplay();
     updateFlags();
 }
 
+
 function updateFlags() {
-    const flagId = AppState.currentLang === 'fr' ? 'en-flag' : 'fr-flag';
-    const flagHtml = `<svg class="flag-icon" viewBox="0 0 50 30"><use href="${AppState.config.images.sprite_path}#${flagId}"></use></svg>`;
+    const flagId     = AppState.currentLang === 'fr' ? 'en-flag' : 'fr-flag';
+    const flagHtml   = `<svg class="flag-icon" viewBox="0 0 50 30"><use href="${AppState.config.images.sprite_path}#${flagId}"></use></svg>`;
 
-    const headerFlag = document.getElementById('header-lang-flag');
-    if (headerFlag) headerFlag.innerHTML = flagHtml;
+    const headerFlag = document.getElementById( 'header-lang-flag' );
+    const menuFlag   = document.getElementById( 'menu-lang-flag' );
 
-    const menuFlag = document.getElementById('menu-lang-flag');
-    if (menuFlag) menuFlag.innerHTML = flagHtml;
-}
-
-
-function getSessionDisplay(dateStr) {
-    if (!AppState.config.sessions) return null;
-    return AppState.config.sessions.find(s => s.iso_date === dateStr && s.display) || null;
-}
-
-
-function getFormattedDateHtml(dateStr, context) {
-    const session = getSessionDisplay(dateStr);
-    if (!session) {
-        return formatDate(dateStr);
+    if( headerFlag ) {
+        headerFlag.innerHTML = flagHtml;
     }
+
+    if( menuFlag ) {
+        menuFlag.innerHTML = flagHtml;
+    }
+}
+
+
+function getSessionDisplay( dateStr ) {
+
+    if( !AppState.config.sessions ) {
+        return null;
+    }
+
+    return AppState.config.sessions.find( s => s.iso_date === dateStr && s.display ) || null;
+}
+
+
+function getFormattedDateHtml( dateStr, context ) {
+    const session = getSessionDisplay( dateStr );
+
+    if( !session ) {
+        return formatDate( dateStr );
+    }
+
     // Default text is normal, will be updated by updateDynamicDates
     return `<span class="js-dynamic-date" data-date="${dateStr}" data-context="${context}">${session.display.normal}</span>`;
 }
 
 
 function updateSessionDisplay() {
-    if (!AppState.config.sessions) return;
+
+    if( !AppState.config.sessions ) {
+        return;
+    }
 
     const width = window.innerWidth;
 
-    AppState.config.sessions.forEach(session => {
+    AppState.config.sessions.forEach( session => {
         // ID Mapping: day-1 -> day1
-        const domIdSuffix = session.id.replace(/-/g, '');
+        const domIdSuffix = session.id.replace( /-/g, '' );
         const menuId      = `menu-txt-${domIdSuffix}`;
         const headerId    = `txt-header-${domIdSuffix}`;
-
         const display     = session.display || {};
 
         // Menu Logic
+
         let menuText = display.normal; // Default
-        if (width < 400) {
+
+        if( width < 400 ) {
             menuText = display.compact;
-        } else {
+
+        }
+        else {
             menuText = display.normal;
         }
 
-        const menuEl = document.getElementById(menuId);
-        if (menuEl) menuEl.innerText = menuText;
+        const menuEl = document.getElementById( menuId );
+        if( menuEl ) {
+            menuEl.innerText = menuText;
+        }
 
         // Header Logic
+
         let headerText = display.compact; // Default
 
-        if (width >= 768) {
+        if( width >= 768 ) {
             headerText = display.extended;
-        } else if (width >= 640) {
+        }
+        else if( width >= 640 ) {
             headerText = display.normal;
-        } else if (width >= 480) {
+        }
+        else if( width >= 480 ) {
             headerText = display.short;
         }
 
-        const headerEl = document.getElementById(headerId);
-        if (headerEl) headerEl.innerText = headerText;
-    });
+        const headerEl = document.getElementById( headerId );
+
+        if( headerEl ) {
+            headerEl.innerText = headerText;
+        }
+    } );
 
     updateDynamicDates();
 }
@@ -840,48 +984,73 @@ function updateSessionDisplay() {
 
 function updateDynamicDates() {
     const width = window.innerWidth;
-    document.querySelectorAll('.js-dynamic-date').forEach(el => {
+    document.querySelectorAll( '.js-dynamic-date' ).forEach( el => {
         const dateStr = el.dataset.date;
         const context = el.dataset.context;
-        const session = getSessionDisplay(dateStr);
+        const session = getSessionDisplay( dateStr );
 
-        if (!session) return;
+        if( !session ) {
+            return;
+        }
 
         let newText = session.display.normal;
 
-        if (context === 'box-title') {
-            // < 640 compact, >= 640 normal
-            if (width < 640) newText = session.display.compact;
-            else newText = session.display.normal;
-        } else if (context === 'artist') {
-            // < 320 compact, >= 320 normal
-            if (width < 320) newText = session.display.compact;
-            else newText = session.display.normal;
-        } else if (context === 'program') {
-            if (width < 320) newText = session.display.compact;
-            else newText = session.display.compact;
-        } else if (context === 'timeline') {
-            // Always compact
+        if( context === 'box-title' ) { // < 640 compact, >= 640 normal
+
+            if( width < 640 ) {
+                newText = session.display.compact;
+            }
+            else {
+                newText = session.display.normal;
+            }
+        }
+        else if( context === 'artist' ) { // < 320 compact, >= 320 normal
+
+            if( width < 320 ) {
+                newText = session.display.compact;
+            }
+            else {
+                newText = session.display.normal;
+            }
+        }
+        else if( context === 'program' ) { // Always compact
+            if( width < 320 ) {
+                newText = session.display.compact;
+            }
+            else {
+                newText = session.display.compact;
+            }
+        }
+        else if( context === 'timeline' ) { // Always compact
             newText = session.display.compact;
         }
 
-        if (el.innerText !== newText) {
+        if( el.innerText !== newText ) {
             el.innerText = newText;
         }
-    });
+    } );
 }
 
 
 function formatDate( dateStr ) {
-    if ( !dateStr ) return "";
+    if( !dateStr ) {
+        return "";
+    }
+
     const parts = dateStr.split( '-' );
-    if ( parts.length !== 3 ) return dateStr;
-    const day = parseInt( parts[ 2 ] );
+
+    if( parts.length !== 3 ) {
+        return dateStr;
+    }
+
+    const day        = parseInt( parts[ 2 ] );
     const monthIndex = parseInt( parts[ 1 ] ) - 1;
-    if ( AppState.currentLang === 'en' ) {
+
+    if( AppState.currentLang === 'en' ) {
         const months = [ "January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December" ];
         return `${months[monthIndex]} ${day}`;
-    } else {
+    }
+    else {
         const months = [ "janvier", "février", "mars", "avril", "mai", "juin", "juillet", "août", "septembre", "octobre", "novembre", "décembre" ];
         return `${day} ${months[monthIndex]}`;
     }
@@ -895,14 +1064,14 @@ function getSvgHtml( spriteId, cssClass ) {
 }
 
 
-function getHomeHtml() {
-    const c = AppState.config;
-    //const s = AppState.settings;
-    //const logoHtml    = getSvgHtml( c.images.presentation_id, "home-logo" );
+function getHomeCardHtml() {
+    const c           = AppState.config;
+    //const s         = AppState.settings;
+    //const logoHtml  = getSvgHtml( c.images.presentation_id, "home-logo" );
     const posterImage = "data/2026/splash/affiche-tinals.webp";
 
     return `
-        <section id="home" class="home-card section-snap" style="background-image: url('${posterImage}');">
+        <section id="home" class="home-card section-snap" style="background-image: url( '${posterImage}' );">
 
             <div class="home-content-top">
             </div>
@@ -910,8 +1079,8 @@ function getHomeHtml() {
             <div class="home-content-bottom">
                 <div class="home-buttons-container">
                     <!-- <button onclick="scrollToFirstVideo()"   class="home-btn">${c.texts.home_btn_program}</button> -->
-                    <button onclick="openProgramSession('day-1')" class="home-btn">${c.texts.home_day_1}</button>
-                    <button onclick="openProgramSession('day-2')" class="home-btn">${c.texts.home_day_2}</button>
+                    <button onclick="openProgramSession( 'day-1' )" class="home-btn">${c.texts.home_day_1}</button>
+                    <button onclick="openProgramSession( 'day-2' )" class="home-btn">${c.texts.home_day_2}</button>
                     <button onclick="scrollToTicketing()"         class="home-btn home-ticket-btn">${c.texts.home_btn_ticket}</button>
                 </div>
                 <div class="home-organizer">
@@ -934,96 +1103,8 @@ function getHomeHtml() {
 }
 
 
-function getProgramItemsHtml() {
-    const s = AppState.settings;
-    const isDisplayProgramHead = AppState.config.features.is_display_program_head;
-
-    let itemsHtml = '';
-    let lastSession = null;
-
-    AppState.data.forEach(g => {
-        // --- Separator Logic ---
-        if (g.event_session && g.event_session !== lastSession) {
-             if (lastSession) {
-                 itemsHtml += `<div class="program-empty-placeholder" data-session="${lastSession}"></div>`;
-             }
-
-             if (isDisplayProgramHead) {
-                 const session = AppState.config.sessions.find(s => s.id === g.event_session && s.display);
-                 if (session && session.display) {
-                      const sId = slugify(session.id);
-                      itemsHtml += `
-                      <div class="program-separator" data-slug="${sId}" onclick="filterByTag('${sId}', event, false)">
-                          <h3><span>${session.display.tag || ''}</span><span class="session-date">${session.display.normal || ''}</span></h3>
-                      </div>`;
-                 }
-             }
-             lastSession = g.event_session;
-        }
-
-        let programDateHtml = '';
-        if ( s.isDisplayDate && g.event_start_date ) {
-             programDateHtml = `<span class="program-date">${getFormattedDateHtml(g.event_start_date, 'program')}</span>`;
-        }
-
-        let timeString = '';
-        if ( s.isDisplayTime ) {
-            timeString = g.event_start_time || '';
-        }
-        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
-
-        // Construct date/place html parts
-        let metaHtml = '';
-        if (programDateHtml) metaHtml += programDateHtml;
-        if (timeString) metaHtml += `<span class="program-time">${timeString}</span>`;
-        if (placeName) metaHtml += `<span class="program-place">${placeName}</span>`;
-
-        const isFav = AppState.favorites.includes(g.id);
-        const thumb = g.image_artist || g.image_thumbnail || g.image;
-
-        const favClass = isFav ? 'is-favorite' : '';
-
-        const favIconHtml = isFav
-            ? '<span class="material-icons primary-color">favorite</span>'
-            : '<span class="material-icons white-color">favorite_border</span>';
-
-        const imageX = (g.image_x !== undefined && g.image_x !== null) ? g.image_x : (AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50);
-        const imageY = (g.image_y !== undefined && g.image_y !== null) ? g.image_y : (AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25);
-        const objectPosStyle = `object-position: ${imageX}% ${imageY}%;`;
-
-        itemsHtml += `
-        <div class="program-item ${favClass}" data-id="${g.id}" data-session="${g.event_session}" onclick="VideoManager.handleItemClick(event, ${g.id})">
-            <button class="program-like-btn" onclick="toggleFav(${g.id}, false); event.stopPropagation();">
-                ${favIconHtml}
-            </button>
-            <div class="program-image-container">
-                <img src="${thumb}" class="program-image" style="${objectPosStyle}" loading="lazy" alt="${g.event_name}">
-            </div>
-            <div class="program-content">
-                <div class="program-title-row">
-                    <div class="program-title">${g.event_name}</div>
-                    <div class="playing-indicator" onclick="VideoManager.handleBargraphClick(event, ${g.id})">
-                        <div class="playing-bar"></div>
-                        <div class="playing-bar"></div>
-                        <div class="playing-bar"></div>
-                    </div>
-                    <button class="program-play-btn material-icons" onclick="VideoManager.handlePlayClick(event, ${g.id})">play_arrow</button>
-                </div>
-                <div class="program-date-place">${metaHtml}</div>
-            </div>
-        </div>`;
-    });
-
-    if (lastSession) {
-        itemsHtml += `<div class="program-empty-placeholder" data-session="${lastSession}"></div>`;
-    }
-
-    return itemsHtml;
-}
-
-
-function getProgramHtml() {
-    const t = AppState.config.texts;
+function getProgramCardHtml() {
+    const t         = AppState.config.texts;
     const itemsHtml = getProgramItemsHtml();
 
     return `
@@ -1036,61 +1117,180 @@ function getProgramHtml() {
 }
 
 
-function getVideoCardHtml( g ) {
+function getProgramItemsHtml() {
     const s = AppState.settings;
-    const tagsHtml = ( s.isDisplayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map(t => {
-        const slug = slugify(t);
-        return `<span class="tag-pill" data-slug="${slug}" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
-    }).join('')}</div>` : '';
+    const isDisplayProgramHead = AppState.config.features.is_display_program_head;
 
-    const artistSongTitle = ( s.isDisplayRecordName && g.video_title ) ? `<h3 class="artist-song-title" onclick="toggleArtistDescription(this.parentNode.querySelector('.artist-description'), event)">"${g.video_title}"</h3>` : '';
+    let itemsHtml   = '';
+    let lastSession = null;
+
+    AppState.data.forEach( g => {
+
+        // --- Separator Logic ---
+        if( g.event_session && g.event_session !== lastSession ) {
+
+             if( lastSession ) {
+                 itemsHtml += `<div class="program-empty-placeholder" data-session="${lastSession}"></div>`;
+             }
+
+             if( isDisplayProgramHead ) {
+                 const session = AppState.config.sessions.find( s => s.id === g.event_session && s.display );
+
+                 if( session && session.display ) {
+                      const sId = slugify( session.id );
+                      itemsHtml += `
+                      <div class="program-separator" data-slug="${sId}" onclick="filterByTag( '${sId}', event, false )">
+                          <h3><span>${session.display.tag || ''}</span><span class="session-date">${session.display.normal || ''}</span></h3>
+                      </div>`;
+                 }
+             }
+             lastSession = g.event_session;
+        }
+
+        let programDateHtml = '';
+        let timeString      = '';
+
+        if( s.isDisplayDate && g.event_start_date ) {
+             programDateHtml = `<span class="program-date">${getFormattedDateHtml( g.event_start_date, 'program')}</span>`;
+        }
+
+        if( s.isDisplayTime ) {
+            timeString = g.event_start_time || '';
+        }
+
+        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
+
+        // Construct date/place html parts
+        let metaHtml = '';
+
+        if( programDateHtml ) {
+            metaHtml += programDateHtml;
+        }
+
+        if( timeString ) {
+            metaHtml += `<span class="program-time">${timeString}</span>`;
+        }
+
+        if( placeName ) {
+            metaHtml += `<span class="program-place">${placeName}</span>`;
+        }
+
+        const isFav = AppState.favorites.includes( g.id );
+        const thumb = g.image_artist || g.image_thumbnail || g.image;
+
+        const favClass = isFav ? 'is-favorite' : '';
+
+        const favIconHtml = isFav
+            ? '<span class="material-icons primary-color">favorite</span>'
+            : '<span class="material-icons white-color">favorite_border</span>';
+
+        const imageX = ( g.image_x !== undefined && g.image_x !== null ) ? g.image_x : ( AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50 );
+        const imageY = ( g.image_y !== undefined && g.image_y !== null ) ? g.image_y : ( AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25 );
+
+        const objectPosStyle = `object-position: ${imageX}% ${imageY}%;`;
+
+        itemsHtml += `
+        <div class="program-item ${favClass}" data-id="${g.id}" data-session="${g.event_session}" onclick="VideoManager.handleItemClick( event, ${g.id} )">
+            <button class="program-like-btn" onclick="toggleFav( ${g.id}, false ); event.stopPropagation();">
+                ${favIconHtml}
+            </button>
+            <div class="program-image-container">
+                <img src="${thumb}" class="program-image" style="${objectPosStyle}" loading="lazy" alt="${g.event_name}">
+            </div>
+            <div class="program-content">
+                <div class="program-title-row">
+                    <div class="program-title">${g.event_name}</div>
+                    <div class="playing-indicator" onclick="VideoManager.handleBargraphClick( event, ${g.id} )">
+                        <div class="playing-bar"></div>
+                        <div class="playing-bar"></div>
+                        <div class="playing-bar"></div>
+                    </div>
+                    <button class="program-play-btn material-icons" onclick="VideoManager.handlePlayClick( event, ${g.id} )">play_arrow</button>
+                </div>
+                <div class="program-date-place">${metaHtml}</div>
+            </div>
+        </div>`;
+    } );
+
+    if( lastSession ) {
+        itemsHtml += `<div class="program-empty-placeholder" data-session="${lastSession}"></div>`;
+    }
+
+    return itemsHtml;
+}
+
+
+function getVideoCardHtml( g ) {
+    const s        = AppState.settings;
+    const tagsHtml = ( s.isDisplayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map( t => {
+        const slug = slugify( t );
+        return `<span class="tag-pill" data-slug="${slug}" onclick="filterByTag( '${slug}', event )">${translateText(t, 'tags')}</span>`;
+    } ).join( '')}</div>` : '';
+
+    const artistSongTitle = ( s.isDisplayRecordName && g.video_title ) ? `<h3 class="artist-song-title" onclick="toggleArtistDescription( this.parentNode.querySelector( '.artist-description'), event)">"${g.video_title}"</h3>` : '';
     const boxSongTitle    = ( s.isDisplayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
 
     let timeString = '';
-    if ( s.isDisplayTime ) {
+
+    if( s.isDisplayTime ) {
         timeString = g.event_start_time || '';
-        if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
+
+        if( timeString && g.event_end_time ) {
+            timeString += ` - ${g.event_end_time}`;
+        }
     }
 
-    const placeName       = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
+    const placeName    = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
 
     let artistDateHtml = '';
-    if ( s.isDisplayDate && g.event_start_date ) {
-        artistDateHtml = getFormattedDateHtml(g.event_start_date, 'artist');
+    let boxSplashHtml  = '';
+    let boxDateHtml    = '';
+
+    if( s.isDisplayDate && g.event_start_date ) {
+        artistDateHtml = getFormattedDateHtml( g.event_start_date, 'artist' );
     }
+
     const artistDatePlace = [ placeName, artistDateHtml, timeString ].filter( Boolean ).join( ' • ' );
 
-    let boxSplashHtml = '';
-    if ( s.isDisplayPlace && g.event_place ) boxSplashHtml += `<span class="box-meta-place">${g.event_place}</span>`;
+    if( s.isDisplayPlace && g.event_place ) {
+         boxSplashHtml += `<span class="box-meta-place">${g.event_place}</span>`;
+    }
 
-    let boxDateHtml = '';
-    if ( s.isDisplayDate && g.event_start_date ) {
-        boxDateHtml = getFormattedDateHtml(g.event_start_date, 'box-title');
+    if( s.isDisplayDate && g.event_start_date ) {
+        boxDateHtml = getFormattedDateHtml( g.event_start_date, 'box-title' );
     }
 
     let dateTimeStr = boxDateHtml;
-    if ( dateTimeStr && timeString ) dateTimeStr += ' • ' + timeString;
-    else if ( !dateTimeStr && timeString ) dateTimeStr = timeString;
 
-    if ( dateTimeStr ) boxSplashHtml += `<span class="box-meta-date">${dateTimeStr}</span>`;
+    if( dateTimeStr && timeString ) {
+        dateTimeStr += ' • ' + timeString;
+    }
+    else if( !dateTimeStr && timeString ) {
+        dateTimeStr = timeString;
+    }
+
+    if( dateTimeStr ) {
+        boxSplashHtml += `<span class="box-meta-date">${dateTimeStr}</span>`;
+    }
+
     const boxMetaHtml     = boxSplashHtml ? `<div class="box-meta">${boxSplashHtml}</div>` : '';
 
     const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
-    const socialsHtml     = getSocialsHtml(g);
-    const ticketButtonsHtml = getTicketButtonsHtml(g);
-    const descHtml        = ( s.isDisplayArtistDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription(this, event)"><div class="desc-header-row"><div class="desc-state-icon material-icons">expand_less</div><div class="desc-text">${descriptionText}</div></div>${socialsHtml}${ticketButtonsHtml}</div>` : '';
+    const socialsHtml     = getSocialsHtml( g );
+    const ticketButtonsHtml = getTicketButtonsHtml( g );
+    const descHtml        = ( s.isDisplayArtistDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription( this, event )"><div class="desc-header-row"><div class="desc-state-icon material-icons">expand_less</div><div class="desc-text">${descriptionText}</div></div>${socialsHtml}${ticketButtonsHtml}</div>` : '';
     const artistAvatarImg = g.image_thumbnail || g.image;
 
     const artistAvatarHtml = `
-        <div class="artist-avatar-container" onclick="toggleArtistDescription(this.parentNode.querySelector('.artist-description'), event)">
+        <div class="artist-avatar-container" onclick="toggleArtistDescription( this.parentNode.querySelector( '.artist-description'), event )">
             <img src="${artistAvatarImg}" class="artist-avatar" loading="lazy" alt="${g.event_name}">
         </div>`;
 
     const isMobile = isMobileDevice();
     const bgImage  = ( isMobile && g.image_mobile ) ? g.image_mobile : g.image;
 
-    const imageX = (g.image_x !== undefined && g.image_x !== null) ? g.image_x : (AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50);
-    const imageY = (g.image_y !== undefined && g.image_y !== null) ? g.image_y : (AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25);
+    const imageX = ( g.image_x !== undefined && g.image_x !== null ) ? g.image_x : ( AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50 );
+    const imageY = ( g.image_y !== undefined && g.image_y !== null ) ? g.image_y : ( AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25 );
     const bgPosition = `${imageX}% ${imageY}%`;
 
     // Status logic
@@ -1098,11 +1298,12 @@ function getVideoCardHtml( g ) {
     const displayedStatuses = AppState.config.features.displayed_statuses || [];
 
     let eventStatusBadge = '';
-    if (displayedStatuses.includes(status)) {
-        const statusKey     = 'status_' + status;
-        const statusLabel   = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
-        const statusClass   = 'status-' + status.replace('_', '-');
-        eventStatusBadge = `<div class="status-badge ${statusClass}">${statusLabel}</div>`;
+
+    if( displayedStatuses.includes( status ) ) {
+        const statusKey   = 'status_' + status;
+        const statusLabel = ( AppState.config.texts && AppState.config.texts[statusKey] ) ? AppState.config.texts[statusKey] : status.replace( '_', ' ').toUpperCase();
+        const statusClass = 'status-' + status.replace( '_', '-' );
+        eventStatusBadge  = `<div class="status-badge ${statusClass}">${statusLabel}</div>`;
     }
 
     const boxTitleHtml = s.isDisplayBoxTitle ? `
@@ -1117,7 +1318,7 @@ function getVideoCardHtml( g ) {
         <div class="artist-overlay">
             <div class="artist-info">
                 ${artistAvatarHtml}
-                <h2 onclick="toggleArtistDescription(this.parentNode.querySelector('.artist-description'), event)">${g.event_name}</h2>
+                <h2 onclick="toggleArtistDescription( this.parentNode.querySelector( '.artist-description' ), event )">${g.event_name}</h2>
                 <div class="artist-date-place">${artistDatePlace}</div>
                 ${artistSongTitle}
                 ${tagsHtml}
@@ -1126,7 +1327,7 @@ function getVideoCardHtml( g ) {
         </div>` : '';
 
     return `
-    <article class="video-card section-snap ${AppState.favorites.includes(g.id) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
+    <article class="video-card section-snap ${AppState.favorites.includes( g.id ) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
         <div class="video-container">
             ${boxTitleHtml}
             <img class="video-background" src="${bgImage}" style="object-position: ${bgPosition};" loading="lazy" alt="">
@@ -1141,12 +1342,11 @@ function getVideoCardHtml( g ) {
 
 /* RENDER MAIN FEED */
 
-
 function renderFeed() {
     const feed      = document.getElementById( 'main-feed' );
     const htmlParts = [];
 
-    htmlParts.push( getHomeHtml(), getProgramHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingHtml() );
+    htmlParts.push( getHomeCardHtml(), getProgramCardHtml(), ...AppState.data.map( group => getVideoCardHtml( group ) ), getTicketingCardHtml() );
     feed.innerHTML = htmlParts.join( '' );
 }
 
@@ -1155,7 +1355,8 @@ function renderFeed() {
 
 function toggleLanguage() {
     const newLang = AppState.currentLang === 'fr' ? 'en' : 'fr';
-    const url = new URL( window.location );
+    const url     = new URL( window.location );
+
     url.searchParams.set( 'lang', newLang );
     window.location.href = url.href;
 }
@@ -1164,96 +1365,131 @@ function toggleLanguage() {
 /* MAIN MENU */
 
 function toggleMainMenu() {
-    const drawer = document.getElementById('main-menu-drawer');
-    const overlay = document.getElementById('drawer-overlay');
-    if (!drawer) return;
+    const drawer  = document.getElementById( 'main-menu-drawer' );
+    const overlay = document.getElementById( 'drawer-overlay' );
 
-    if (AppState.state.isMainMenuOpen) {
+    if( !drawer ) {
+        return;
+    }
+
+    if( AppState.state.isMainMenuOpen ) {
         closeMainMenu();
-    } else {
+    }
+    else {
         closeFavTimelineDrawers(); // Close other drawers first
-        drawer.classList.add('active');
-        overlay.classList.add('active');
+
+        drawer.classList.add( 'active' );
+        overlay.classList.add( 'active' );
         AppState.state.isMainMenuOpen = true;
     }
 }
 
 
 function closeMainMenu() {
-    const drawer = document.getElementById('main-menu-drawer');
-    const overlay = document.getElementById('drawer-overlay');
-    if (drawer) drawer.classList.remove('active');
+    const drawer = document.getElementById( 'main-menu-drawer' );
+    const overlay = document.getElementById( 'drawer-overlay' );
 
-    // Only remove overlay if other drawers are not active (should be handled by closeFavTimelineDrawers too but let's be safe)
+    if( drawer ) {
+        drawer.classList.remove( 'active' );
+    }
+
+    // Only remove overlay if other drawers are not active ( should be handled by closeFavTimelineDrawers too but let's be safe)
     // Actually overlay is shared.
     // If we close main menu, we should check if others are open?
     // But typically we treat overlay as "one modal/drawer open".
-    if(overlay) overlay.classList.remove('active');
+
+    if( overlay ) {
+        overlay.classList.remove( 'active' );
+    }
 
     AppState.state.isMainMenuOpen = false;
 }
 
 
-function handleMenuAction(action) {
+function handleMenuAction( action ) {
     const s = AppState.settings;
     const links = AppState.config.external_links;
 
-    switch (action) {
+    switch ( action ) {
         case 'home':
             closeMainMenu();
             scrollToTop();
             break;
+
         case 'program':
             closeMainMenu();
             scrollToFirstVideo();
             break;
+
         case 'day1':
             closeMainMenu();
-            openProgramSession('day-1');
+            openProgramSession( 'day-1' );
             break;
+
         case 'day2':
             closeMainMenu();
-            openProgramSession('day-2');
+            openProgramSession( 'day-2' );
             break;
+
         case 'favorites':
             closeMainMenu();
-            setTimeout(() => toggleFavTimelineDrawer('favorites'), 300);
+            setTimeout( () => toggleFavTimelineDrawer( 'favorites'), 300 );
             break;
+
         case 'timeline':
             closeMainMenu();
-            setTimeout(() => toggleFavTimelineDrawer('timeline'), 300);
+            setTimeout( () => toggleFavTimelineDrawer( 'timeline'), 300 );
             break;
+
         case 'ticketing':
             closeMainMenu();
             scrollToTicketing();
             break;
+
         case 'language':
             closeMainMenu();
             toggleLanguage();
             break;
+
         case 'news':
-            if(links.news) window.open(links.news, '_blank');
+            if( links.news ) {
+                window.open( links.news, '_blank' );
+            }
             closeMainMenu();
             break;
+
         case 'practical':
-            if(links.practical) window.open(links.practical, '_blank');
+            if( links.practical ) {
+                 window.open( links.practical, '_blank' );
+            }
             closeMainMenu();
             break;
+
         case 'map':
-            if(links.google_maps_dir) window.open(links.google_maps_dir, '_blank');
+            if( links.google_maps_dir ) {
+                window.open( links.google_maps_dir, '_blank' );
+            }
             closeMainMenu();
             break;
+
         case 'pro_area':
-            if(links.professional_area) window.open(links.professional_area, '_blank');
+            if( links.professional_area ) {
+                window.open( links.professional_area, '_blank' );
+            }
             closeMainMenu();
             break;
+
         case 'website':
-            if(links.home) window.open(links.home, '_blank');
+            if( links.home ) {
+                window.open( links.home, '_blank' );
+            }
             closeMainMenu();
             break;
+
         case 'about':
             openAboutModal();
             break;
+
         case 'cache':
             closeMainMenu();
             {
@@ -1261,19 +1497,23 @@ function handleMenuAction(action) {
                 const title = t.menu_reload_confirm_title || "Recharger l'application";
                 const text  = t.menu_reload_confirm_text  || "Recharger l'application et mettre à jour les données ?";
 
-                openConfirmModal(title, text, () => {
+                openConfirmModal( title, text, () => {
                     clearServiceWorkerAndCache();
-                });
+                } );
             }
             break;
         case 'debug':
-            if ( window.DebugTool ) DebugTool.open();
+            if( window.DebugTool ) {
+                DebugTool.open();
+            }
             closeMainMenu();
             break;
+
         case 'share':
             closeMainMenu();
             shareCurrent();
             break;
+
         default:
             break;
     }
@@ -1283,14 +1523,19 @@ function handleMenuAction(action) {
 /* MODALS BOXES */
 
 function openAboutModal() {
-    const modal = document.getElementById('about-modal');
-    if(modal) modal.classList.add('active');
+    const modal = document.getElementById( 'about-modal' );
+
+    if( modal ) {
+        modal.classList.add( 'active' );
+    }
 }
 
 
 function closeAboutModal() {
-    const modal = document.getElementById('about-modal');
-    if(modal) modal.classList.remove('active');
+    const modal = document.getElementById( 'about-modal' );
+    if( modal ) {
+        modal.classList.remove( 'active' );
+    }
 }
 
 
@@ -1301,25 +1546,28 @@ const MODAL_REGISTRY = [
     { id: 'confirm-modal',    close: closeConfirmModal }
 ];
 
+
 function setupGlobalModalBehaviors() {
     MODAL_REGISTRY.forEach( modalConfig => {
         const modal = document.getElementById( modalConfig.id );
-        if ( modal ) {
+
+        if( modal ) {
             modal.addEventListener( 'click', ( e ) => {
-                if ( e.target === modal ) {
+
+                if( e.target === modal ) {
                     modalConfig.close();
                 }
             } );
         }
-    });
+    } );
 }
 
 
 /* SETTINGS */
 
 function toggleAccordion( el ) {
-    if(el && el.parentNode) {
-        el.parentNode.classList.toggle('expanded');
+    if( el && el.parentNode ) {
+        el.parentNode.classList.toggle( 'expanded' );
     }
 }
 
@@ -1328,22 +1576,25 @@ async function clearServiceWorkerAndCache() {
 
     // Clear serviceWorker
 
-    if ('serviceWorker' in navigator) {
+    if( 'serviceWorker' in navigator ) {
         const registrations = await navigator.serviceWorker.getRegistrations();
-        for (let registration of registrations) {
+
+        for( let registration of registrations ) {
             await registration.unregister();
         }
     }
+
     // Clear cache
 
-    if ('caches' in window) {
+    if( 'caches' in window ) {
         const keys = await caches.keys();
-        await Promise.all(keys.map(key => caches.delete(key)));
+
+        await Promise.all( keys.map( key => caches.delete( key ) ) );
     }
 
     // Reload
 
-    window.location.reload(true);
+    window.location.reload( true );
 }
 
 
@@ -1351,31 +1602,36 @@ async function clearServiceWorkerAndCache() {
 
 let confirmCallback = null;
 
-function openConfirmModal(title, text, onYes) {
-    const modal = document.getElementById('confirm-modal');
-    document.getElementById('confirm-title').innerText = title;
-    document.getElementById('confirm-text').innerHTML  = text;
+function openConfirmModal( title, text, onYes ) {
+    const modal = document.getElementById( 'confirm-modal' );
+    document.getElementById( 'confirm-title').innerText = title;
+    document.getElementById( 'confirm-text').innerHTML  = text;
     confirmCallback = onYes;
-    modal.classList.add('active');
+    modal.classList.add( 'active' );
 }
 
 
 function closeConfirmModal() {
-    const modal = document.getElementById('confirm-modal');
-    modal.classList.remove('active');
+    const modal = document.getElementById( 'confirm-modal' );
+    modal.classList.remove( 'active' );
     confirmCallback = null;
 }
 
 // Bind confirm yes button
-document.addEventListener('DOMContentLoaded', () => {
-    const btnYes = document.getElementById('btn-confirm-yes');
-    if(btnYes) {
-        btnYes.addEventListener('click', () => {
-            if(confirmCallback) confirmCallback();
+document.addEventListener( 'DOMContentLoaded', () => {
+    const btnYes = document.getElementById( 'btn-confirm-yes' );
+
+    if( btnYes ) {
+        btnYes.addEventListener( 'click', () => {
+
+            if( confirmCallback ) {
+                confirmCallback();
+            }
             closeConfirmModal();
-        });
+        } );
     }
-});
+
+} );
 
 
 /* TOGGLE */
@@ -1386,40 +1642,52 @@ function toggleMute() {
 
 
 function toggleAtAGlanceDrawer() {
-    const drawer = document.getElementById('at-a-glance-drawer');
-    const overlay = document.getElementById('drawer-overlay');
-    if (!drawer) return;
+    const drawer  = document.getElementById( 'at-a-glance-drawer' );
+    const overlay = document.getElementById( 'drawer-overlay' );
 
-    if (drawer.classList.contains('active')) {
+    if( !drawer ) {
+        return;
+    }
+
+    if( drawer.classList.contains( 'active' ) ) {
         closeAtAGlanceDrawer();
-    } else {
+    }
+    else {
         closeFavTimelineDrawers(); // Close other drawers
         closeMainMenu();
-        drawer.classList.add('active');
-        overlay.classList.add('active');
+        drawer.classList.add( 'active' );
+        overlay.classList.add( 'active' );
         updateAtAGlanceFilterWarning(); // Update warning when opening
 
         // Scroll to active item if any
-        if (AppState.state.activeId) {
-             setTimeout(() => {
-                 scrollToAtAGlanceItem(AppState.state.activeId);
-             }, 300);
+        if( getStateActiveVideoId() ) {
+
+             setTimeout( () => {
+                 scrollToAtAGlanceItem( getStateActiveVideoId() );
+             }, 300 );
         }
     }
 }
 
 
 function closeAtAGlanceDrawer() {
-    const drawer = document.getElementById('at-a-glance-drawer');
-    const overlay = document.getElementById('drawer-overlay');
-    if (drawer) drawer.classList.remove('active');
-    if (overlay) overlay.classList.remove('active');
+    const drawer  = document.getElementById( 'at-a-glance-drawer' );
+    const overlay = document.getElementById( 'drawer-overlay' );
+
+    if( drawer ) {
+        drawer.classList.remove( 'active' );
+    }
+
+    if( overlay ) {
+        overlay.classList.remove( 'active' );
+    }
 }
 
 
 function renderAtAGlance() {
-    const list = document.getElementById('at-a-glance-list');
-    if (list) {
+    const list = document.getElementById( 'at-a-glance-list' );
+
+    if( list ) {
         const itemsHtml = getProgramItemsHtml();
         list.innerHTML = `<div class="program-grid">${itemsHtml}</div>`;
     }
@@ -1428,72 +1696,93 @@ function renderAtAGlance() {
 
 
 function updateAtAGlanceFilterWarning() {
-    const warningEl = document.getElementById('at-a-glance-filter-warning');
-    if (!warningEl) return;
+    const warningEl = document.getElementById( 'at-a-glance-filter-warning' );
 
-    const t = AppState.config.texts;
+    if( !warningEl ) {
+        return;
+    }
+
+    const mode = getFilterMode();
+    const t    = AppState.config.texts;
     let warningHtml = '';
 
-    if (AppState.state.isPlayingFavorites) {
-        warningEl.classList.add('favorites');
+    if( mode == 'favorite' ) {
+        warningEl.classList.add( 'favorites' );
 
         const text = t.at_a_glance_favorite_warning_text || "Favorites at a glance";
+
         warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
         warningEl.innerHTML = warningHtml;
-        warningEl.classList.remove('hidden');
+        warningEl.classList.remove( 'hidden' );
+    }
+    else if( mode == 'session' ) {
+        const tagName = getFilterTagNameFromSlug( AppState.state.currentTagFilter );
+        const text    = ( t.at_a_glance_timeline_warning_text || "Filtered at a glance").replace( '{tag}', tagName );
 
-    } else if (AppState.state.currentTagFilter) {
-        const tagName = getTagNameFromSlug(AppState.state.currentTagFilter);
-        const text = (t.at_a_glance_timeline_warning_text || "Filtered at a glance").replace('{tag}', tagName);
         warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
         warningEl.innerHTML = warningHtml;
-        warningEl.classList.remove('hidden');
+        warningEl.classList.remove( 'hidden' );
+    }
+    else if(  mode == 'tag' ) {
+        const tagName = getFilterTagNameFromSlug( AppState.state.currentTagFilter );
+        const text    = ( t.at_a_glance_timeline_warning_text || "Filtered at a glance").replace( '{tag}', tagName );
 
-    } else {
-        warningEl.classList.add('hidden');
+        warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        warningEl.innerHTML = warningHtml;
+        warningEl.classList.remove( 'hidden' );
+    }
+    else {
+        warningEl.classList.add( 'hidden' );
     }
 }
 
 
-function scrollToAtAGlanceItem(id) {
-    const drawer = document.getElementById('at-a-glance-drawer');
-    if (!drawer || !drawer.classList.contains('active')) return;
+function scrollToAtAGlanceItem( id ) {
+    const drawer = document.getElementById( 'at-a-glance-drawer' );
 
-    const item = drawer.querySelector(`.program-item[data-id="${id}"]`);
-    if (item) {
-        item.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    if( !drawer || !drawer.classList.contains( 'active' ) ) {
+        return;
+    }
+
+    const item = drawer.querySelector( `.program-item[data-id="${id}"]` );
+
+    if( item ) {
+        item.scrollIntoView( { behavior: 'smooth', block: 'center' } );
     }
 }
 
 
-function toggleFavTimelineDrawer(tabName) {
-    const drawer   = document.getElementById('fav-timeline-drawer');
-    const overlay  = document.getElementById('drawer-overlay');
-    const isActive = drawer.classList.contains('active');
+function toggleFavTimelineDrawer( tabName ) {
+    const drawer   = document.getElementById( 'fav-timeline-drawer' );
+    const overlay  = document.getElementById( 'drawer-overlay' );
+    const isActive = drawer.classList.contains( 'active' );
 
     // If already open
-    if (isActive) {
-        // If same tab, close it (toggle)
-        if (AppState.state.activeTab === tabName) {
+    if( isActive ) {
+        // If same tab, close it ( toggle)
+        if( AppState.state.activeTab === tabName ) {
             closeFavTimelineDrawers();
-        } else {
-            // Switch tab
-            switchDrawerTab(tabName);
         }
-    } else {
+        else {
+            // Switch tab
+            switchDrawerTab( tabName );
+        }
+    }
+    else {
         // Open drawer and select tab
-        switchDrawerTab(tabName);
-        drawer.classList.add( 'active');
-        overlay.classList.add('active');
+        switchDrawerTab( tabName );
+        drawer.classList.add( 'active' );
+        overlay.classList.add( 'active' );
     }
 
     // Update button icon state
-    const btnFloat = document.getElementById('btn-drawer-favorites');
-    const icon     = btnFloat.querySelector('.material-icons:not(.btn-bg)');
+    const btnFloat = document.getElementById( 'btn-drawer-favorites' );
+    const icon     = btnFloat.querySelector( '.material-icons:not( .btn-bg)' );
 
-    if (drawer.classList.contains('active') && AppState.state.activeTab === 'favorites') {
+    if( drawer.classList.contains( 'active' ) && AppState.state.activeTab === 'favorites' ) {
         icon.textContent = 'chevron_right';
-    } else {
+    }
+    else {
         icon.textContent = 'bookmark';
         updateFavoritesIcon();
     }
@@ -1502,31 +1791,45 @@ function toggleFavTimelineDrawer(tabName) {
 
 function toggleText( el, event ) {
     event.stopPropagation();
-    if ( closeDrawerIfOpen() ) return;
+
+    if( closeDrawerIfOpen() ) {
+        return;
+    }
+
     el.classList.toggle( 'expanded' );
 }
 
 
 function toggleArtistDescription( element, event ) {
-    if ( event ) event.stopPropagation();
+
+    if( event ) {
+        event.stopPropagation();
+    }
+
     element.classList.add( 'manual-toggle' );
     element.classList.toggle( 'expanded' );
 
-    const icon = element.querySelector('.desc-state-icon');
-    if (icon) {
-        if (element.classList.contains('expanded')) {
+    const icon = element.querySelector( '.desc-state-icon' );
+
+    if( icon ) {
+
+        if( element.classList.contains( 'expanded' ) ) {
             icon.innerText = 'expand_more';
-        } else {
+        }
+        else {
             icon.innerText = 'expand_less';
         }
     }
 
-    const card = element.closest('.video-card');
-    if (card) {
-        if (element.classList.contains('expanded')) {
-            card.classList.add('desc-open');
-        } else {
-            card.classList.remove('desc-open');
+    const card = element.closest( '.video-card' );
+
+    if( card ) {
+
+        if( element.classList.contains( 'expanded' ) ) {
+            card.classList.add( 'desc-open' );
+        }
+        else {
+            card.classList.remove( 'desc-open' );
         }
     }
 
@@ -1538,7 +1841,7 @@ function toggleArtistDescription( element, event ) {
 
 /* SOCIALS */
 
-function getSocialsHtml(g) {
+function getSocialsHtml( g ) {
 
     const networks = [
         { key: 'performer_deezer',     label: 'Deezer',      sprite: 'deezer',          class: 'svg-dark-mode svg-deezer ',         viewBox: '0 0 992 279' },
@@ -1554,24 +1857,31 @@ function getSocialsHtml(g) {
         { key: 'event_link',           label: 'TINALS',      sprite: 'tag-tinals-2026', class: 'svg-primary svg-tag-tinals-2026', viewBox: '0 0 420 100' }
     ];
 
-    const links = networks.filter(n => g[n.key]).map(n => {
-        if (n.sprite) {
+    const links = networks.filter( n => g[n.key]).map( n => {
+
+        if( n.sprite ) {
             return `<a href="${g[n.key]}" target="_blank" class="social-icon-link ${n.class}" title="${n.label}"><svg class="social-icon-svg" viewBox="${n.viewBox}"><use href="${AppState.config.images.sprite_path}#${n.sprite}"></use></svg></a>`;
         }
         return `<a href="${g[n.key]}" target="_blank" class="social-pill" title="${n.label}">${n.label}</a>`;
-    });
+    } );
 
-    if (links.length === 0) return '';
-    return `<div class="social-links-container">${links.join('')}</div>`;
+    if( links.length === 0 ) {
+        return '';
+    }
+
+    return `<div class="social-links-container">${links.join( '')}</div>`;
 }
 
 
-function getTicketButtonsHtml(g) {
-    if (!AppState.config.ticketing || !AppState.config.ticketing_texts) return '';
+function getTicketButtonsHtml( g ) {
+
+    if( !AppState.config.ticketing || !AppState.config.ticketing_texts ) {
+        return '';
+    }
 
     // Check availability and session match
     // Requirement:
-    // 1. "pass de 2 jours" (full-pass)
+    // 1. "pass de 2 jours" ( full-pass)
     // 2. "pass journée" corresponding to tag “day-1” or “day-2”
     // Remark: "Si pas de tag “day-1” ou “day-2”, alors uniquement celui de "pass de 2 jours""
     // Remark: "Il faut que le billet est la valeur "is_available": true"
@@ -1579,36 +1889,53 @@ function getTicketButtonsHtml(g) {
     // Logic:
     // Iterate over configured tickets.
     // If ticket is not available, skip.
-    // If ticket session covers the artist's session (g.event_session), include it.
+    // If ticket session covers the artist's session ( g.event_session), include it.
     // Note: full-pass covers day-1 and day-2, so it will match.
     // If artist has no session/tag, only include full-pass?
     // Let's assume full-pass has id 'full-pass'.
 
-    const buttonsHtml = AppState.config.ticketing.map(ticket => {
-        if (ticket.is_available !== true) return '';
+    const buttonsHtml = AppState.config.ticketing.map( ticket => {
+
+        if( ticket.is_available !== true ) {
+            return '';
+        }
 
         let shouldShow = false;
 
-        if (ticket.id === 'full-pass') {
+        if( ticket.id === 'full-pass' ) {
             shouldShow = true; // Always show full pass? Or only if no specific tag?
             // Requirement says: "Si pas de tag ... alors uniquement full pass".
-            // And "Un billet 'pass de 2 jours' pour vendredi et samedi" (implies always shown for those days too)
-        } else {
+            // And "Un billet 'pass de 2 jours' pour vendredi et samedi" ( implies always shown for those days too)
+        }
+        else {
              // Day pass logic
-             if (g.event_session) {
-                 if (Array.isArray(ticket.session)) {
-                     if (ticket.session.includes(g.event_session)) shouldShow = true;
-                 } else {
-                     if (ticket.session === g.event_session) shouldShow = true;
+             if( g.event_session ) {
+
+                 if( Array.isArray( ticket.session ) ) {
+
+                     if( ticket.session.includes( g.event_session ) ) {
+                        shouldShow = true;
+                     }
+                 }
+                 else {
+
+                     if( ticket.session === g.event_session ) {
+                        shouldShow = true;
+                     }
                  }
              }
         }
 
-        if (!shouldShow) return '';
+        if( !shouldShow ) {
+            return '';
+        }
 
-        // Get text from ticketing_texts (Array)
-        const textObj = AppState.config.ticketing_texts.find(t => t.id === ticket.id);
-        if (!textObj) return '';
+        // Get text from ticketing_texts ( Array)
+        const textObj = AppState.config.ticketing_texts.find( t => t.id === ticket.id );
+
+        if( !textObj ) {
+            return '';
+        }
 
         const title    = textObj.ticket_title    || '';
         const subtitle = textObj.ticket_subtitle || '';
@@ -1624,9 +1951,9 @@ function getTicketButtonsHtml(g) {
                 <span class="ticket-subtitle">${subtitle}</span>
             </div>
         </a>`;
-    }).join('');
+    } ).join( '' );
 
-    if (buttonsHtml) {
+    if( buttonsHtml ) {
         return `<div class="tickets-links-container">${buttonsHtml}</div>`;
     }
     return '';
@@ -1636,16 +1963,17 @@ function getTicketButtonsHtml(g) {
 /* TICKETING */
 
 
-function getTicketingHtml() {
+function getTicketingCardHtml() {
     const t = AppState.config.texts;
     const s = AppState.settings;
     const ticketing = AppState.config.ticketing || [];
     const ticketingTexts = AppState.config.ticketing_texts || [];
     let blocksHtml = '';
 
-    if (Array.isArray(ticketing)) {
-        ticketing.forEach(ticket => {
-            const ticketTexts = ticketingTexts.find(txt => txt.id === ticket.id) || {};
+    if( Array.isArray( ticketing ) ) {
+
+        ticketing.forEach( ticket => {
+            const ticketTexts = ticketingTexts.find( txt => txt.id === ticket.id ) || {};
             const isAvailable = ticket.is_available !== false;
             const colorClass  = ticket.button_color || '';
             const title       = ticketTexts.ticket_title || '';
@@ -1654,9 +1982,11 @@ function getTicketingHtml() {
             const url         = ticket.button_url || '#';
 
             let btnHtml = '';
-            if (isAvailable) {
+
+            if( isAvailable ) {
                 btnHtml = `<a href="${url}" target="_blank" class="ticket-btn ${colorClass}" title="${btnText}">${btnText}</a>`;
-            } else {
+            }
+            else {
                 btnHtml = `<span class="ticket-btn ${colorClass} disabled" title="${btnText}">${btnText}</span>`;
             }
 
@@ -1664,18 +1994,19 @@ function getTicketingHtml() {
             let statsHtml = '';
             const ticketSessions = ticket.session || [];
 
-            if (ticketSessions.length > 0) {
-                const ticketEvents = AppState.data.filter(g =>
-                    ticketSessions.includes(g.event_session)
-                );
+            if( ticketSessions.length > 0 ) {
+                const ticketEvents = AppState.data.filter( g =>
+                    ticketSessions.includes( g.event_session)
+               );
 
                 const artistsCount = ticketEvents.length;
-                const likesCount = ticketEvents.filter(g => AppState.favorites.includes(g.id)).length;
-                const artistNames = ticketEvents.map(g => g.event_name).join(', ');
+                const likesCount = ticketEvents.filter( g => AppState.favorites.includes( g.id ) ).length;
+                const artistNames = ticketEvents.map( g => g.event_name).join( ', ' );
 
-                // Likes Row (All tickets)
+                // Likes Row ( All tickets)
                 let likesHtml = '';
-                if (s.isTicketingDisplayLike) {
+
+                if( s.isTicketingDisplayLike ) {
                     likesHtml = `
                     <div class="ticket-likes-row" id="ticket-likes-${ticket.id}">
                         <span class="material-icons">favorite</span>
@@ -1683,20 +2014,22 @@ function getTicketingHtml() {
                     </div>`;
                 }
 
-                // Artists Count (Full Pass only)
+                // Artists Count ( Full Pass only)
                 let countHtml = '';
-                if (s.isTicketingDisplayCount && ticket.id === 'full-pass') {
-                    const label = t.ticket_artists_count_label.replace('{count}', artistsCount);
+
+                if( s.isTicketingDisplayCount && ticket.id === 'full-pass' ) {
+                    const label = t.ticket_artists_count_label.replace( '{count}', artistsCount );
                     countHtml = `<div class="ticket-artists-count">${label}</div>`;
                 }
 
-                // Artist Names (Day Passes only)
+                // Artist Names ( Day Passes only)
                 let listHtml = '';
-                if (s.isTicketingDisplayArtistsName && ticket.id.startsWith('day-pass')) {
+
+                if( s.isTicketingDisplayArtistsName && ticket.id.startsWith( 'day-pass' ) ) {
                     listHtml = `<div class="ticket-artists-list">${artistNames}</div>`;
                 }
 
-                if (likesHtml || countHtml || listHtml) {
+                if( likesHtml || countHtml || listHtml ) {
                     statsHtml = `
                         <div class="ticket-stats">
                             ${likesHtml}
@@ -1713,7 +2046,7 @@ function getTicketingHtml() {
                     ${btnHtml}
                     ${statsHtml}
                 </div>`;
-        });
+        } );
     }
 
     return `
@@ -1729,56 +2062,75 @@ function getTicketingHtml() {
 function updateTicketingStats() {
     const ticketing = AppState.config.ticketing || [];
 
-    if (Array.isArray(ticketing)) {
-        ticketing.forEach(ticket => {
-            const container = document.getElementById(`ticket-likes-${ticket.id}`);
-            if (container) {
+    if( Array.isArray( ticketing ) ) {
+        ticketing.forEach( ticket => {
+            const container = document.getElementById( `ticket-likes-${ticket.id}` );
+
+            if( container ) {
+
                 const ticketSessions = ticket.session || [];
-                if (ticketSessions.length > 0) {
-                    const count = AppState.data.filter(g =>
-                        ticketSessions.includes(g.event_session) &&
-                        AppState.favorites.includes(g.id)
-                    ).length;
-                    const countSpan = container.querySelector('.likes-count');
-                    if(countSpan) countSpan.innerText = count;
+
+                if( ticketSessions.length > 0 ) {
+                    const count = AppState.data.filter( g =>
+                            ticketSessions.includes( g.event_session ) &&
+                            AppState.favorites.includes( g.id)
+                       ).length;
+
+                    const countSpan = container.querySelector( '.likes-count' );
+
+                    if( countSpan ) {
+                        countSpan.innerText = count;
+                    }
+
                 }
             }
-        });
+        } );
     }
 }
 
 
-function scrollToProgram(shouldPause = true) {
-    AppState.state.isMenuNavigation = true;
-    if (shouldPause) VideoManager.pauseAll();
+function scrollToProgram( shouldPause = true ) {
+    setStateIsMenuNavigation( true );
+
+    if( shouldPause ) {
+        VideoManager.pauseAll();
+    }
+
     const programSection = document.getElementById( 'program' );
-    if ( programSection ) programSection.scrollIntoView( {
-        behavior: 'smooth'
-    } );
+
+    if( programSection ) {
+        programSection.scrollIntoView( {
+            behavior: 'smooth'
+        } );
+    }
+
     setTimeout( () => {
-        AppState.state.isMenuNavigation = false;
+        setStateIsMenuNavigation( false );
     }, 1200 );
 }
 
 
-function openProgramSession(sessionId) {
-    filterByTag(sessionId, null, false);
-    setTimeout(() => {
+function openProgramSession( sessionId ) {
+    filterByTag( sessionId, null, false );
+    setTimeout( () => {
         scrollToProgram();
-    }, 100);
+    }, 100 );
 }
 
 
 function scrollToTicketing() {
-    AppState.state.isMenuNavigation = true;
+    setStateIsMenuNavigation( true );;
     cancelFilters();
     VideoManager.pauseAll();
+
     const ticketSection = document.getElementById( 'ticketing' );
-    if ( ticketSection ) ticketSection.scrollIntoView( {
+
+    if( ticketSection ) ticketSection.scrollIntoView( {
         behavior: 'smooth'
     } );
+
     setTimeout( () => {
-        AppState.state.isMenuNavigation = false;
+        setStateIsMenuNavigation( false );;
     }, 1200 );
 }
 
@@ -1796,23 +2148,32 @@ function updateURLState() {
     // Clear hash by default, re-add if needed
     url.hash = '';
 
-    if ( AppState.currentLang && AppState.currentLang !== 'fr' ) {
+    if( AppState.currentLang && AppState.currentLang !== 'fr' ) {
         url.searchParams.set( 'lang', AppState.currentLang );
-    } else {
+    }
+    else {
         url.searchParams.delete( 'lang' );
     }
 
-    if ( AppState.state.isPlayingFavorites && AppState.favorites.length > 0 ) {
+    const mode = getFilterMode();
+
+    if( mode == 'favorite' && AppState.favorites.length > 0 ) {
         url.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
-    } else if ( AppState.state.currentTagFilter ) {
+    }
+    else if( mode == 'session' ) {
         url.searchParams.set( 'filter', AppState.state.currentTagFilter );
-    } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
-        url.searchParams.set( 'id', AppState.state.activeId );
-    } else if ( AppState.state.activeSection ) {
+    }
+    else if( mode == 'tag' ) {
+        url.searchParams.set( 'filter', AppState.state.currentTagFilter );
+    }
+    else if( getStateActiveVideoId() !== null && !isNaN( getStateActiveVideoId() ) ) {
+        url.searchParams.set( 'id', getStateActiveVideoId() );
+    }
+    else if( AppState.state.activeSection ) {
         url.hash = AppState.state.activeSection;
     }
 
-    updateHreflangTags(url);
+    updateHreflangTags( url );
 
     window.history.replaceState( null, '', url );
 }
@@ -1820,23 +2181,29 @@ function updateURLState() {
 
 /* HREFLANG  */
 
-function updateHreflangTags(currentUrlObj) {
+function updateHreflangTags( currentUrlObj ) {
     const base = window.location.origin + window.location.pathname;
     // Create a copy of search params to not mutate the original url object if we used it directly,
     // though here we construct new strings anyway.
-    const params = new URLSearchParams(currentUrlObj.search);
+    const params = new URLSearchParams( currentUrlObj.search );
 
     // Update French Tag
-    params.set('lang', 'fr');
+    params.set( 'lang', 'fr' );
     const frUrl = base + '?' + params.toString() + currentUrlObj.hash;
-    const frLink = document.querySelector('link[hreflang="fr"]');
-    if (frLink) frLink.href = frUrl;
+    const frLink = document.querySelector( 'link[hreflang="fr"]' );
+
+    if( frLink ) {
+        frLink.href = frUrl;
+    }
 
     // Update English Tag
-    params.set('lang', 'en');
+    params.set( 'lang', 'en' );
     const enUrl = base + '?' + params.toString() + currentUrlObj.hash;
-    const enLink = document.querySelector('link[hreflang="en"]');
-    if (enLink) enLink.href = enUrl;
+    const enLink = document.querySelector( 'link[hreflang="en"]' );
+
+    if( enLink ) {
+        enLink.href = enUrl;
+    }
 }
 
 
@@ -1845,36 +2212,45 @@ function updateHreflangTags(currentUrlObj) {
 function getBaseShareUrl() {
     const url = new URL( window.location.origin + window.location.pathname );
     url.searchParams.set( 'share', 'web' );
-    if ( AppState.currentLang ) {
+
+    if( AppState.currentLang ) {
         url.searchParams.set( 'lang', AppState.currentLang );
     }
+
     return url;
 }
 
 
 async function shareCurrent() {
     let urlObj = getBaseShareUrl();
+    const mode = getFilterMode();
 
-    if ( AppState.state.isPlayingFavorites && AppState.favorites.length > 0 ) {
+    if( mode == 'favorite' && AppState.favorites.length > 0 ) {
         urlObj.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
-    } else if ( AppState.state.currentTagFilter ) {
+    }
+    else if( mode == 'session' ) {
         urlObj.searchParams.set( 'filter', AppState.state.currentTagFilter );
-    } else if ( AppState.state.activeId !== null && !isNaN( AppState.state.activeId ) ) {
-        urlObj.searchParams.set( 'id', AppState.state.activeId );
+    }
+    else if( mode == 'tag' ) {
+        urlObj.searchParams.set( 'filter', AppState.state.currentTagFilter );
+    }
+    else if( getStateActiveVideoId() !== null && !isNaN( getStateActiveVideoId() ) ) {
+        urlObj.searchParams.set( 'id', getStateActiveVideoId() );
     }
 
     const url = urlObj.href;
     AppState.state.shareUrl = url;
 
-    if ( isMobileDevice() && navigator.share ) {
+    if( isMobileDevice() && navigator.share ) {
         try {
             await navigator.share( {
                 title: document.title,
                 text:  AppState.config.texts.share_title,
                 url:   url
             } );
-        } catch ( err ) {}
-    } else {
+        } catch( err ) {}
+    }
+    else {
         openShareModal();
     }
 }
@@ -1887,43 +2263,57 @@ async function shareSong( id ) {
     const url = urlObj.href;
     AppState.state.shareUrl = url;
 
-    if ( isMobileDevice() && navigator.share ) {
+    if( isMobileDevice() && navigator.share ) {
         try {
             await navigator.share( {
                 title: AppState.config.texts.share_title,
                 text:  AppState.config.texts.share_song_text,
                 url:   url
             } );
-        } catch ( err ) {}
-    } else {
+        } catch( err ) {}
+    }
+    else {
         openShareModal();
     }
 }
 
 
 function shareTo( platform ) {
-    const url = encodeURIComponent( AppState.state.shareUrl );
+    const url  = encodeURIComponent( AppState.state.shareUrl );
     const text = encodeURIComponent( AppState.config.texts.share_title );
 
-    if      ( platform === 'facebook' ) window.open( `https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank' );
-    else if ( platform === 'email' )   window.location.href = `mailto:?subject=${text}&body=${url}`;
-    else if ( platform === 'tiktok' || platform === 'copy' ) {
+    if( platform === 'facebook' ) {
+        window.open( `https://www.facebook.com/sharer/sharer.php?u=${url}`, '_blank' );
+    }
+    else if( platform === 'email' ) {
+        window.location.href = `mailto:?subject=${text}&body=${url}`;
+    }
+    else if( platform === 'tiktok' || platform === 'copy' ) {
         navigator.clipboard.writeText( AppState.state.shareUrl ).then( () => {
             alert( AppState.config.texts.msg_link_copied );
-            if ( platform === 'tiktok' ) window.open( 'https://www.tiktok.com', '_blank' );
+
+            if( platform === 'tiktok' ) {
+                window.open( 'https://www.tiktok.com', '_blank' );
+            }
         } );
-    } else if ( platform === 'qrcode' ) {
+    }
+    else if( platform === 'qrcode' ) {
         const qrContainer = document.getElementById( 'qr-result' );
         qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}" alt="QR Code">`;
         qrContainer.style.display = 'block';
         return;
     }
+
     closeShareModal();
 }
 
 
 async function shareFavoritesList() {
-    if ( AppState.favorites.length === 0 ) return;
+
+    if( AppState.favorites.length === 0 ) {
+        return;
+    }
+
     toggleFavTimelineDrawer( 'favorites' );
 
     let urlObj = getBaseShareUrl();
@@ -1932,15 +2322,16 @@ async function shareFavoritesList() {
     const url = urlObj.href;
     AppState.state.shareUrl = url;
 
-    if ( isMobileDevice() && navigator.share ) {
+    if( isMobileDevice() && navigator.share ) {
         try {
             await navigator.share( {
                 title: AppState.config.texts.share_title,
                 text: AppState.config.texts.fav_title,
                 url: url
             } );
-        } catch ( err ) {}
-    } else {
+        } catch( err ) {}
+    }
+    else {
         openShareModal();
     }
 }
@@ -1960,18 +2351,25 @@ function closeShareModal() {
 
 function setupInteraction() {
     document.querySelectorAll( '.video-card' ).forEach( container => {
+
         container.addEventListener( 'click', function ( e ) {
-            if ( closeDrawerIfOpen() ) {
+
+            if( closeDrawerIfOpen() ) {
                 e.stopPropagation();
                 return;
             }
-            const id = Number( this.dataset.id );
-            if ( !isNaN( id ) ) {
+
+            const mode = getFilterMode();
+            const id   = Number( this.dataset.id );
+
+            if( !isNaN( id ) ) {
                 VideoManager.togglePlayPause( id );
-                if ( AppState.state.isPlayingFavorites && !AppState.favorites.includes( id ) ) {
+
+                if( mode == 'favorite' && !AppState.favorites.includes( id ) ) {
                     exitFavoritesMode();
                 }
             }
+
         } );
     } );
 
@@ -1979,46 +2377,72 @@ function setupInteraction() {
         let hoverTimer = null;
 
         const openDesc = () => {
-            if (isMobileDevice()) return;
-            if (hoverTimer) {
-                clearTimeout(hoverTimer);
+            if( isMobileDevice() ) {
+                return;
+            }
+
+            if( hoverTimer ) {
+                clearTimeout( hoverTimer );
                 hoverTimer = null;
             }
 
-            const desc = overlay.querySelector('.artist-description');
-            if (desc) {
+            const desc = overlay.querySelector( '.artist-description' );
+
+            if( desc ) {
                 desc.classList.add( 'expanded' );
-                const icon = desc.querySelector('.desc-state-icon');
-                if (icon) icon.innerText = 'expand_more';
-                const card = overlay.closest('.video-card');
-                if (card) card.classList.add('desc-open');
+                const icon = desc.querySelector( '.desc-state-icon' );
+
+                if( icon ) {
+                    icon.innerText = 'expand_more';
+                }
+
+                const card = overlay.closest( '.video-card' );
+
+                if( card ) {
+                    card.classList.add( 'desc-open' );
+                }
             }
         };
 
         const closeDesc = () => {
-            if (isMobileDevice()) return;
-            if (hoverTimer) clearTimeout(hoverTimer);
+            if( isMobileDevice() ) {
+                return;
+            }
 
-            hoverTimer = setTimeout(() => {
-                const desc = overlay.querySelector('.artist-description');
-                if (desc) {
+            if( hoverTimer ) {
+                clearTimeout( hoverTimer );
+            }
+
+            hoverTimer = setTimeout( () => {
+                const desc = overlay.querySelector( '.artist-description' );
+
+                if( desc ) {
                     desc.classList.remove( 'expanded' );
-                    const icon = desc.querySelector('.desc-state-icon');
-                    if (icon) icon.innerText = 'expand_less';
-                    const card = overlay.closest('.video-card');
-                    if (card) card.classList.remove('desc-open');
+                    const icon = desc.querySelector( '.desc-state-icon' );
+
+                    if( icon ) {
+                        icon.innerText = 'expand_less';
+                    }
+
+                    const card = overlay.closest( '.video-card' );
+
+                    if( card ) {
+                        card.classList.remove( 'desc-open' );
+                    }
                 }
-            }, 150);
+
+            }, 150 );
         };
 
-        const targets = overlay.querySelectorAll('.artist-avatar-container, .artist-info h2, .artist-date-place, .tags-container, .artist-description');
-        if (AppState.settings.isDisplayArtistDescriptionMouseOver) {
-            targets.forEach(el => {
-                el.addEventListener('mouseenter', openDesc);
-                el.addEventListener('mouseleave', closeDesc);
-            });
+        const targets = overlay.querySelectorAll( '.artist-avatar-container, .artist-info h2, .artist-date-place, .tags-container, .artist-description' );
+
+        if( AppState.settings.isDisplayArtistDescriptionMouseOver ) {
+            targets.forEach( el => {
+                el.addEventListener( 'mouseenter', openDesc );
+                el.addEventListener( 'mouseleave', closeDesc );
+            } );
         }
-    });
+    } );
 }
 
 
@@ -2027,48 +2451,71 @@ function setupInteraction() {
 function setupObserver() {
     const observer = new IntersectionObserver( ( entries ) => {
         entries.forEach( entry => {
-            if ( entry.isIntersecting ) {
-                if ( entry.target.hasAttribute( 'data-id' ) ) {
+
+            if( entry.isIntersecting ) {
+
+                if( entry.target.hasAttribute( 'data-id' ) ) {
                     const id = Number( entry.target.dataset.id );
+
                     AppState.state.activeSection = null;
                     entry.target.classList.add( 'active' );
+
                     let shouldPlay = false;
-                    if ( AppState.state.isMenuNavigation ) shouldPlay = false;
-                    else if ( AppState.state.isAutoNext ) {
+
+                    if( getStateIsMenuNavigation() ) {
+                        shouldPlay = false;
+                    }
+                    else if( AppState.state.isAutoNext ) {
                         shouldPlay = true;
                         AppState.state.isAutoNext = false;
-                    } else if ( AppState.state.previousId !== null && VideoManager.instances[ AppState.state.previousId ] ) {
-                        if ( typeof VideoManager.instances[ AppState.state.previousId ].getPlayerState === 'function' ) {
-                            const prevState = VideoManager.instances[ AppState.state.previousId ].getPlayerState();
-                            if ( prevState === 1 ) shouldPlay = true;
+
+                    }
+                    else if( getStatePreviousVideoId() !== null && VideoManager.instances[ getStatePreviousVideoId() ] ) {
+
+                        if( typeof VideoManager.instances[ getStatePreviousVideoId() ].getPlayerState === 'function' ) {
+
+                            const prevState = VideoManager.instances[ getStatePreviousVideoId() ].getPlayerState();
+
+                            if( prevState === 1 ) {
+                                shouldPlay = true;
+                            }
                         }
                     }
-                    if ( !AppState.state.isMenuNavigation ) {
-                        if ( AppState.state.previousId !== null && VideoManager.instances[ AppState.state.previousId ] && typeof VideoManager.instances[ AppState.state.previousId ].pauseVideo === 'function' ) {
-                            VideoManager.instances[ AppState.state.previousId ].pauseVideo();
+
+                    if( ! getStateIsMenuNavigation() ) {
+
+                        if( getStatePreviousVideoId() !== null && VideoManager.instances[ getStatePreviousVideoId() ] && typeof VideoManager.instances[ getStatePreviousVideoId() ].pauseVideo === 'function' ) {
+                            VideoManager.instances[ getStatePreviousVideoId() ].pauseVideo();
                         }
-                        if ( shouldPlay ) VideoManager.play( id );
+
+                        if( shouldPlay ) {
+                            VideoManager.play( id );
+                        }
                     }
-                    AppState.state.previousId = AppState.state.activeId = id;
+
+                    setStatePreviousVideoId( id );
+                    setStateVideoId( id );
                     updateActionButtons( id );
                     updateProgramCurrentState( id );
                     updateFilterBarText();
-                    // updateProgramPlayingState moved to VideoManager
                     updateURLState();
 
-                    if ( AppState.settings.isDisplayControlBar ) {
+                    if( AppState.settings.isDisplayControlBar ) {
                         document.getElementById( 'control-bar' ).classList.add( 'visible' );
                         ControlBar.syncUI( id );
                     }
+                }
+                else {
+                    setStateVideoId( null );
 
-                } else {
-                    AppState.state.activeId = null;
-                    if ( entry.target.id ) {
+                    if( entry.target.id ) {
                         AppState.state.activeSection = entry.target.id;
                     }
-                    if ( !AppState.state.isMenuNavigation && AppState.state.previousId !== null && VideoManager.instances[ AppState.state.previousId ] && typeof VideoManager.instances[ AppState.state.previousId ].pauseVideo === 'function' ) {
-                        VideoManager.instances[ AppState.state.previousId ].pauseVideo();
+
+                    if( ! getStateIsMenuNavigation() && getStatePreviousVideoId() !== null && VideoManager.instances[ getStatePreviousVideoId() ] && typeof VideoManager.instances[ getStatePreviousVideoId() ].pauseVideo === 'function' ) {
+                        VideoManager.instances[ getStatePreviousVideoId() ].pauseVideo();
                     }
+
                     updateActionButtons( null );
                     updateProgramCurrentState( null );
                     updateFilterBarText();
@@ -2076,18 +2523,21 @@ function setupObserver() {
                     document.querySelectorAll( '.section-snap' ).forEach( s => s.classList.remove( 'active' ) );
                     entry.target.classList.add( 'active' );
 
-                    if ( AppState.settings.isDisplayControlBar ) {
+                    if( AppState.settings.isDisplayControlBar ) {
                         document.getElementById( 'control-bar' ).classList.remove( 'visible' );
                     }
                 }
                 updateNavActionButtons();
-            } else {
+            }
+            else {
                 entry.target.classList.remove( 'active' );
                 entry.target.classList.remove( 'desc-open' );
-                if ( entry.target.querySelector( '.artist-description' ) ) {
+
+                if( entry.target.querySelector( '.artist-description' ) ) {
                     entry.target.querySelector( '.artist-description' ).classList.remove( 'expanded' );
                 }
             }
+
         } );
     }, {
         threshold: 0.6
@@ -2117,8 +2567,9 @@ function handleGesture( startX, startY, endX, endY ) {
     let xDiff = startX - endX;
     let yDiff = startY - endY;
 
-    if ( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
-        if ( Math.abs( xDiff ) > 50 ) {
+    if( Math.abs( xDiff ) > Math.abs( yDiff ) ) {
+
+        if( Math.abs( xDiff ) > 50 ) {
             const favDrawer       = document.getElementById( 'fav-timeline-drawer' );
             const atAGlanceDrawer = document.getElementById( 'at-a-glance-drawer' );
 
@@ -2126,32 +2577,37 @@ function handleGesture( startX, startY, endX, endY ) {
             const isAtAGlanceOpen = atAGlanceDrawer ? atAGlanceDrawer.classList.contains( 'active' ) : false;
             const isMenuOpen      = AppState.state.isMainMenuOpen;
 
-            if ( !isMenuOpen && !isFavOpen && !isAtAGlanceOpen ) {
-                // Case 1: No drawers open
-                if ( xDiff < 0 ) {
+            if( !isMenuOpen && !isFavOpen && !isAtAGlanceOpen ) {
+
+
+                if( xDiff < 0 ) { // Case 1: No drawers open
                     // Swipe Left-to-Right -> Open Menu
                     toggleMainMenu();
-                } else {
-                    // Swipe Right-to-Left -> Open At-A-Glance (Replacing Favorites)
+                }
+                else {
+                    // Swipe Right-to-Left -> Open At-A-Glance ( Replacing Favorites)
                     toggleAtAGlanceDrawer();
                 }
-            } else if ( isMenuOpen ) {
-                // Case 2: Menu is open
-                if ( xDiff > 0 ) {
+            }
+            else if( isMenuOpen ) { // Case 2: Menu is open
+
+                if( xDiff > 0 ) {
                     // Swipe Right-to-Left -> Close Menu
                     closeMainMenu();
                 }
                 // Swipe Left-to-Right -> Do nothing
-            } else if ( isFavOpen ) {
-                // Case 3: Favorites/Timeline is open
-                if ( xDiff < 0 ) {
+            }
+            else if( isFavOpen ) { // Case 3: Favorites/Timeline is open
+
+                if( xDiff < 0 ) {
                     // Swipe Left-to-Right -> Close Favorites/Timeline
                     closeFavTimelineDrawers();
                 }
                 // Swipe Right-to-Left -> Do nothing
-            } else if ( isAtAGlanceOpen ) {
-                // Case 4: At a Glance is open (Right Drawer)
-                if ( xDiff < 0 ) {
+            }
+            else if( isAtAGlanceOpen ) { // Case 4: At a Glance is open ( Right Drawer)
+
+                if( xDiff < 0 ) {
                     // Swipe Left-to-Right -> Close At a Glance
                     closeAtAGlanceDrawer();
                 }
@@ -2168,82 +2624,107 @@ function setupKeyboardControls() {
         const keycode = e.keyCode;
         const ctrlKey = e.ctrlKey;
 
-        const activeId = AppState.state.activeId;
+        const activeId = getStateActiveVideoId();
 
-        if ( e.key === 'Escape' ) {
+        if( e.key === 'Escape' ) {
             // Check registered modals
-            for ( const modalConfig of MODAL_REGISTRY ) {
+            for( const modalConfig of MODAL_REGISTRY ) {
                 const modal = document.getElementById( modalConfig.id );
-                if ( modal && modal.classList.contains( 'active' ) ) {
+
+                if( modal && modal.classList.contains( 'active' ) ) {
                     modalConfig.close();
                     return;
                 }
             }
 
             const drawers = document.querySelectorAll( '.drawer-fav-timeline.active, .drawer-at-a-glance.active' );
-            if ( drawers.length > 0 || AppState.state.isMainMenuOpen ) {
+
+            if( drawers.length > 0 || AppState.state.isMainMenuOpen ) {
                 closeFavTimelineDrawers();
                 return;
             }
-            if ( document.fullscreenElement ) document.exitFullscreen();
+
+            if( document.fullscreenElement ) document.exitFullscreen();
             return;
         }
 
-        if ( e.key === 'Enter' ) {
+        if( e.key === 'Enter' ) {
             e.preventDefault();
-            if ( activeId !== null && !isNaN( activeId ) ) toggleFavCurrent();
+
+            if( activeId !== null && !isNaN( activeId ) ) {
+                toggleFavCurrent();
+            }
         }
 
-        if ( key === 'f' ) {
+        if( key === 'f' ) {
             e.preventDefault();
-            if ( AppState.settings.isFullscreenEnable && activeId ) VideoManager.toggleFullscreen( activeId );
-        }
-        if ( key === 's' ) shareCurrent();
 
-        if ( key === 'm' ) VideoManager.toggleMute();
-
-        if ( key === 'k' || e.code === 'Space' ) {
-            e.preventDefault();
-            if ( activeId !== null && !isNaN( activeId ) ) VideoManager.togglePlayPause( activeId );
+            if( AppState.settings.isFullscreenEnable && activeId ) {
+                 VideoManager.toggleFullscreen( activeId );
+            }
         }
 
-        if ( e.key === 'ArrowUp' ) {
+        if( key === 's' ) {
+            shareCurrent();
+        }
+
+        if( key === 'm' ) {
+            VideoManager.toggleMute();
+        }
+
+        if( key === 'k' || e.code === 'Space' ) {
             e.preventDefault();
+
+            if( activeId !== null && !isNaN( activeId ) ) {
+                VideoManager.togglePlayPause( activeId );
+            }
+        }
+
+        if( e.key === 'ArrowUp' ) {
+            e.preventDefault();
+
             navigateScroll( 'up' );
         }
 
-        if ( e.key === 'ArrowDown' ) {
+        if( e.key === 'ArrowDown' ) {
             e.preventDefault();
+
             navigateScroll( 'down' );
         }
 
-        if ( activeId && VideoManager.instances[ activeId ] && typeof VideoManager.instances[ activeId ].getCurrentTime === 'function' ) {
-            const p = VideoManager.instances[ activeId ];
+        if( activeId && VideoManager.instances[ activeId ] && typeof VideoManager.instances[ activeId ].getCurrentTime === 'function' ) {
+            const p       = VideoManager.instances[ activeId ];
             const current = p.getCurrentTime();
-            if ( key === 'j' || e.key === 'ArrowLeft' )  p.seekTo( current - 10, true );
-            if ( key === 'l' || e.key === 'ArrowRight' ) p.seekTo( current + 10, true );
+
+            if( key === 'j' || e.key === 'ArrowLeft' ) {
+                p.seekTo( current - 10, true );
+            }
+
+            if( key === 'l' || e.key === 'ArrowRight' ) {
+                p.seekTo( current + 10, true );
+            }
         }
 
-        if ( ctrlKey == false && key === 'f5' ) {
+        if( ctrlKey == false && key === 'f5' ) {
             e.preventDefault();
 
             showToast( 'F5 - clear cache' );
-            console.log( "key === F5" );
+            // console.log( "key === F5" );
 
-            setTimeout(() => {
+            setTimeout( () => {
                 clearServiceWorkerAndCache();
-            }, 300);
+            }, 300 );
         }
 
-        if ( key === 'r' ) {
+        if( key === 'r' ) {
             e.preventDefault();
 
             showToast( 'R - clear cache' );
-            console.log( "key === r" );
+            // console.log( "key === r" );
 
-            setTimeout(() => {
+            setTimeout( () => {
                 clearServiceWorkerAndCache();
-            }, 300);
+            }, 300 );
         }
     } );
 }
@@ -2253,10 +2734,18 @@ function setupKeyboardControls() {
 
 function showToast( message ) {
     const toast = document.getElementById( 'toast-message' );
-    if ( toast.classList.contains( 'visible' ) && toast.innerHTML === message ) return;
+
+    if( toast.classList.contains( 'visible' ) && toast.innerHTML === message ) {
+        return;
+    }
+
     toast.innerHTML = message;
     toast.classList.add( 'visible' );
-    if ( AppState.timers.toast ) clearTimeout( AppState.timers.toast );
+
+    if( AppState.timers.toast ) {
+        clearTimeout( AppState.timers.toast );
+    }
+
     AppState.timers.toast = setTimeout( () => {
         toast.classList.remove( 'visible' );
     }, 2000 );
@@ -2265,39 +2754,68 @@ function showToast( message ) {
 
 function setupScrollToasts() {
     const feed = document.getElementById( 'main-feed' );
+
     let lastScrollTop = feed.scrollTop;
+
     feed.addEventListener( 'scroll', () => {
         const st      = feed.scrollTop;
         const h       = feed.clientHeight;
         const sh      = feed.scrollHeight;
         let topMsg    = "";
         let bottomMsg = "";
+        const mode    = getFilterMode();
 
-        if ( AppState.state.isPlayingFavorites ) {
 
-            if ( AppState.settings.isToastScrollFavorite === false ) return;
+        if( mode == 'favorite' ) {
+
+            if( AppState.settings.isToastScrollFavorite === false ) {
+                return;
+            }
 
             topMsg    = AppState.config.texts.bar_fav_top_page;
             bottomMsg = AppState.config.texts.bar_fav_bottom_page;
+        }
+        else if( mode == 'session' ) {
 
-        } else if ( AppState.state.currentTagFilter ) {
+            if( AppState.settings.isToastScrollFilter === false ) {
+                return;
+            }
 
-            if ( AppState.settings.isToastScrollFilter === false ) return;
+            const tagName = getFilterTagNameFromSlug( AppState.state.currentTagFilter );
 
-            const tagName = getTagNameFromSlug(AppState.state.currentTagFilter);
-            topMsg        = AppState.config.texts.bar_filter_top_page.replace('{tag}', tagName);
-            bottomMsg     = AppState.config.texts.bar_filter_bottom_page.replace('{tag}', tagName);
+            topMsg        = AppState.config.texts.bar_filter_top_page.replace( '{tag}',    tagName );
+            bottomMsg     = AppState.config.texts.bar_filter_bottom_page.replace( '{tag}', tagName );
 
-        } else {
+        }
+        else if( mode == 'tag' ) {
 
-            if ( AppState.settings.isToastScrollPage === false) return;
+            if( AppState.settings.isToastScrollFilter === false ) {
+                return;
+            }
+
+            const tagName = getFilterTagNameFromSlug( AppState.state.currentTagFilter );
+
+            topMsg        = AppState.config.texts.bar_filter_top_page.replace( '{tag}',    tagName );
+            bottomMsg     = AppState.config.texts.bar_filter_bottom_page.replace( '{tag}', tagName );
+
+        }
+        else {
+
+            if( AppState.settings.isToastScrollPage === false ) {
+                return;
+            }
 
             topMsg    = AppState.config.texts.bar_top_page;
             bottomMsg = AppState.config.texts.bar_bottom_page;
         }
 
-        if ( st <= 5 && st < lastScrollTop ) showToast( topMsg );
-        else if ( st + h >= sh - 5 && st > lastScrollTop ) showToast( bottomMsg );
+        if( st <= 5 && st < lastScrollTop ) {
+             showToast( topMsg );
+        }
+        else if( st + h >= sh - 5 && st > lastScrollTop ) {
+            showToast( bottomMsg );
+        }
+
         lastScrollTop = st <= 0 ? 0 : st;
     } );
 }
@@ -2309,22 +2827,29 @@ function navigateScroll( direction ) {
     const sections     = Array.from( document.querySelectorAll( '.section-snap' ) ).filter( el => el.offsetParent !== null );
     const currentIndex = sections.findIndex( sec => sec.classList.contains( 'active' ) );
 
-    if ( currentIndex === -1 ) return;
-    let nextIndex = direction === 'down' ? currentIndex + 1 : currentIndex - 1;
+    if( currentIndex === -1 ) {
+        return;
+    }
 
-    if ( nextIndex >= 0 && nextIndex < sections.length ) {
+    let nextIndex = direction === 'down'  ?  currentIndex + 1  :  currentIndex - 1;
+
+    if( nextIndex >= 0 && nextIndex < sections.length ) {
         const target = sections[ nextIndex ];
-        if ( target.hasAttribute( 'data-id' ) ) {
+
+        if( target.hasAttribute( 'data-id' ) ) {
             const id = Number( target.dataset.id );
             VideoManager.scrollTo( id );
-        } else {
+        }
+        else {
             VideoManager.pauseAll( null );
-            AppState.state.isMenuNavigation = true;
+            setStateIsMenuNavigation( true );
+
             target.scrollIntoView( {
                 behavior: 'smooth'
             } );
+
             setTimeout( () => {
-                AppState.state.isMenuNavigation = false;
+                setStateIsMenuNavigation( false );;
             }, 1200 );
         }
     }
@@ -2332,15 +2857,17 @@ function navigateScroll( direction ) {
 
 
 function scrollToTop() {
-    AppState.state.isMenuNavigation = true;
+    setStateIsMenuNavigation( true );;
     cancelFilters();
     VideoManager.pauseAll();
+
     document.getElementById( 'main-feed' ).scrollTo( {
         top: 0,
         behavior: 'smooth'
     } );
+
     setTimeout( () => {
-        AppState.state.isMenuNavigation = false;
+        setStateIsMenuNavigation( false );;
     }, 1200 );
 }
 
@@ -2348,9 +2875,11 @@ function scrollToTop() {
 function scrollToFirstVideo() {
     cancelFilters();
     const firstVideo = document.querySelector( '.video-card[data-id]' );
-    if ( firstVideo ) {
+
+    if( firstVideo ) {
         const id = Number( firstVideo.dataset.id );
-        if ( !isNaN( id ) ) {
+
+        if( !isNaN( id ) ) {
             VideoManager.scrollTo( id, false );
         }
     }
@@ -2367,18 +2896,20 @@ function updateNavActionButtons() {
     const btnDown      = document.getElementById( 'btn-nav-next-card' );
     const btnBottom    = document.getElementById( 'btn-nav-bottom' );
 
-    if ( currentIndex <= 0 ) {
+    if( currentIndex <= 0 ) {
         btnTop.classList.add( 'disabled' );
         btnUp.classList.add(  'disabled' );
-    } else {
+    }
+    else {
         btnTop.classList.remove( 'disabled' );
         btnUp.classList.remove(  'disabled' );
     }
 
-    if ( currentIndex >= sections.length - 1 ) {
+    if( currentIndex >= sections.length - 1 ) {
         btnDown.classList.add(   'disabled' );
         btnBottom.classList.add( 'disabled' );
-    } else {
+    }
+    else {
         btnDown.classList.remove(   'disabled' );
         btnBottom.classList.remove( 'disabled' );
     }
@@ -2388,19 +2919,26 @@ function updateNavActionButtons() {
 
 function updateProgramButtonState() {
     const btn = document.getElementById( 'btn-at-a-glance' );
-    if ( !btn ) return;
-    const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
-    const bg = btn.querySelector( '.btn-bg' );
+
+    if( !btn ) {
+        return;
+    }
+
+    const icon = btn.querySelector( '.material-icons:not( .btn-bg)' );
+    const bg   = btn.querySelector( '.btn-bg' );
 
     // Removed specific highlighting for btn-at-a-glance based on scroll, as it is now a drawer toggle.
     // We could highlight if drawer is open, but that's handled by drawer active state logic if we want.
     // For now, resetting to default state to avoid "stuck" highlight if we remove the logic.
 
-    if ( icon ) {
-        icon.classList.remove('white-color');
-        icon.classList.add('primary-color');
+    if( icon ) {
+        icon.classList.remove( 'white-color' );
+        icon.classList.add( 'primary-color' );
     }
-    if ( bg ) bg.classList.remove( 'bright' );
+
+    if( bg ) {
+        bg.classList.remove( 'bright' );
+    }
 }
 
 
@@ -2409,344 +2947,692 @@ function updateProgramCurrentState( activeId ) {
         item.classList.remove( 'is-current' );
     } );
 
-    if ( activeId !== null && !isNaN( activeId ) ) {
+    if( activeId !== null && !isNaN( activeId ) ) {
         document.querySelectorAll( `.program-item[data-id="${activeId}"]` ).forEach( activeItem => {
             activeItem.classList.add( 'is-current' );
-        });
-        scrollToAtAGlanceItem(activeId);
+        } );
+        scrollToAtAGlanceItem( activeId );
     }
 }
 
 
 function updateProgramPlayingState( activeId, isPaused = false ) {
-    document.querySelectorAll('.program-grid').forEach(grid => {
-         if (activeId !== null && !isNaN(activeId)) {
-            grid.classList.add('is-playing');
-        } else {
-            grid.classList.remove('is-playing');
+    document.querySelectorAll( '.program-grid').forEach( grid => {
+
+        if( activeId !== null && !isNaN( activeId ) ) {
+            grid.classList.add( 'is-playing' );
         }
-    });
+        else {
+            grid.classList.remove( 'is-playing' );
+        }
+    } );
 
     document.querySelectorAll( '.program-item' ).forEach( item => {
         item.classList.remove( 'is-playing' );
         item.classList.remove( 'is-paused' );
     } );
 
-    if ( activeId !== null && !isNaN( activeId ) ) {
+    if( activeId !== null && !isNaN( activeId ) ) {
         document.querySelectorAll( `.program-item[data-id="${activeId}"]` ).forEach( activeItem => {
             activeItem.classList.add( 'is-playing' );
-            if (isPaused) activeItem.classList.add( 'is-paused' );
-        });
+
+            if( isPaused ) {
+                activeItem.classList.add( 'is-paused' );
+            }
+        } );
     }
 }
 
 
 function updateActionButtons( id ) {
     const heartBtn = document.getElementById( 'btn-dynamic-heart' );
-    if ( !heartBtn ) return;
+
+    if( !heartBtn ) {
+        return;
+    }
 
     const icon = heartBtn.querySelector( '.material-icons:not(.btn-bg)' );
-    const bg = heartBtn.querySelector( '.btn-bg' );
-    if ( id === null || isNaN( id ) ) {
+    const bg   = heartBtn.querySelector( '.btn-bg' );
+
+    if( id === null || isNaN( id ) ) {
         heartBtn.classList.add( 'disabled' );
-        if ( bg ) bg.classList.remove( 'bright' );
-    } else {
+
+        if( bg ) {
+            bg.classList.remove( 'bright' );
+        }
+    }
+    else {
         heartBtn.classList.remove( 'disabled' );
-        if ( AppState.favorites.includes( id ) ) {
-            if ( icon ) {
+
+        if( AppState.favorites.includes( id ) ) {
+
+            if( icon ) {
                 icon.innerHTML = 'favorite';
-                icon.classList.remove('white-color');
-                icon.classList.add('primary-color');
+                icon.classList.remove( 'white-color' );
+                icon.classList.add( 'primary-color' );
             }
-            if ( bg ) bg.classList.add( 'bright' );
-        } else {
-            if ( icon ) {
+
+            if( bg ) {
+                bg.classList.add( 'bright' );
+            }
+        }
+        else {
+            if( icon ) {
                 icon.innerHTML = 'favorite_border';
-                icon.classList.remove('primary-color');
-                icon.classList.add('white-color');
+                icon.classList.remove( 'primary-color' );
+                icon.classList.add( 'white-color' );
             }
-            if ( bg ) bg.classList.remove( 'bright' );
+
+            if( bg ) {
+                bg.classList.remove( 'bright' );
+            }
         }
     }
 }
 
 
-/* FILTER (TAG AND FAVORITE) */
+
+/* APPSTATE  */
+
+function getStateActiveVideoId() {
+    //return AppState.state.videoId;
+    return AppState.state.activeVideoId;
+}
+
+
+function setStateVideoId( id ) {
+    //AppState.state.VideoId = id;
+    AppState.state.activeVideoId = id;
+}
+
+/* ----  */
+
+function getStatePreviousVideoId() {
+    return AppState.state.previousVideoId;
+}
+
+
+function setStatePreviousVideoId( id ) {
+    AppState.state.previousVideoId = id;
+}
+
+/* ----  */
+
+function getStateIsMenuNavigation() {
+    return AppState.state.isMenuNavigation;
+}
+
+
+function setStateIsMenuNavigation( state ) {
+    AppState.state.isMenuNavigation = state;
+}
+
+/* ----  */
+
+function getIsPlayingFavorites() {
+    return AppState.state.isPlayingFavorites;
+}
+
+
+function setIsPlayingFavorites( state ) {
+
+    AppState.state.isPlayingFavorites = state;
+}
+
+
+/* ----  */
+
+function getCurrentTagFilter() {
+    return AppState.state.currentTagFilter;
+}
+
+
+
+/* FILTER  */
+
+function setFilterMode( mode, state ) {
+
+    if( mode == 'favorite' ) {
+        setIsPlayingFavorites( state );
+    }
+}
+
+function getFilterMode() {
+
+    let mode = '';
+
+    if( getIsPlayingFavorites() ) {
+        mode = 'favorite';
+    }
+    else {
+
+        const currentTag  = getCurrentTagFilter();
+        const isTag       = !!getCurrentTagFilter();
+
+        if( isTag ) {
+            const sessionTags = getCurrentTagFilter();
+            mode = isTag && sessionTags.includes( currentTag )  ?  'session'  :  'tag' ;
+        }
+    }
+
+    // console.log( 'getFilterMode() : mode = ' + mode );
+
+    return mode;
+}
+
+/* ----  */
+
+function setFilterTag( tagSlug ) {
+    AppState.state.currentTagFilter = tagSlug;
+}
+
+function getFilterTag() {
+
+    let tag          = '';
+    const mode       = getFilterMode();
+    const currentTag = AppState.state.currentTagFilter;
+
+    if( mode == 'tag' ) {
+        tag = currentTag;
+    }
+    else if( mode == 'session' ) {
+        tag = currentTag;
+    }
+
+    // console.log( 'getFilterTag() : mode       = ' + mode );
+    // console.log( 'getFilterTag() : currentTag = ' + currentTag );
+    // console.log( 'getFilterTag() : tag        = ' + tag );
+
+    return tag;
+}
+
+/* ----  */
+
+function getFilterTagNameFromSlug( tagSlug ) {
+
+    if( !tagSlug ) {
+        return '';
+    }
+
+    let tagName = tagSlug;
+
+    for( const group of AppState.data ) {
+
+        if( group.event_tags ) {
+            const found = group.event_tags.find( t => slugify( t ) === tagSlug );
+
+            if( found ) {
+                tagName = found;
+                break;
+            }
+        }
+    }
+    return translateText( tagName, 'tags' );
+}
 
 function cancelFilters() {
-    if ( AppState.state.isPlayingFavorites ) exitFavoritesMode(false);
-    if ( AppState.state.currentTagFilter )   exitTagFilterMode(false);
+
+    if( getFilterMode() == 'favorite' ) {
+         exitFavoritesMode( false );
+    }
+
+    if( getFilterTag() ) {
+        exitTagFilterMode( false );
+    }
 }
+
 
 
 /* FILTER : FAVORITES */
 
 function updateFavoritesIcon() {
     const btn = document.getElementById( 'btn-drawer-favorites' );
-    if ( !btn ) return;
 
-    const icon = btn.querySelector( '.material-icons:not(.btn-bg)' );
-    const bg = btn.querySelector( '.btn-bg' );
+    if( !btn ) {
+        return;
+    }
+
+    const icon  = btn.querySelector( '.material-icons:not( .btn-bg)' );
+    const bg    = btn.querySelector( '.btn-bg' );
     const count = AppState.favorites.length;
 
     let badge = btn.querySelector( '.fav-count-badge' );
-    if ( count > 0 ) {
-        if ( !badge ) {
+
+    if( count > 0 ) {
+
+        if( !badge ) {
             badge = document.createElement( 'span' );
             badge.className = 'fav-count-badge';
             btn.appendChild( badge );
         }
+
         badge.innerText = count;
-    } else {
-        if ( badge ) {
+    }
+    else {
+
+        if( badge ) {
             badge.remove();
         }
     }
 
-    if ( count > 0 ) {
-        if ( bg )   bg.classList.add( 'bright' );
-        if ( icon ) {
-            icon.classList.remove('white-color');
-            icon.classList.add('primary-color');
+    if( count > 0 ) {
+
+        if( bg ) {
+            bg.classList.add( 'bright' );
         }
-    } else {
-        if ( bg )   bg.classList.remove( 'bright' );
-        if ( icon ) {
-            icon.classList.remove('primary-color');
-            icon.classList.add('white-color');
+
+        if( icon ) {
+            icon.classList.remove( 'white-color' );
+            icon.classList.add( 'primary-color' );
+        }
+
+    }
+    else {
+
+        if( bg ) {
+            bg.classList.remove( 'bright' );
+        }
+
+        if( icon ) {
+            icon.classList.remove( 'primary-color' );
+            icon.classList.add( 'white-color' );
         }
     }
 }
 
-
 function toggleFavCurrent() {
-    toggleFav( AppState.state.activeId );
+    toggleFav( getStateActiveVideoId() );
 }
 
-
 function toggleFav( id, openDrawer = true ) {
-    const card = document.getElementById(`video-${id}`);
-    const programItems = document.querySelectorAll(`.program-item[data-id="${id}"]`);
+    const card         = document.getElementById( `video-${id}` );
+    const programItems = document.querySelectorAll( `.program-item[data-id="${id}"]` );
+    const mode         = getFilterMode();
 
-    if ( AppState.favorites.includes( id ) ) {
+    if( AppState.favorites.includes( id ) ) {
+
         AppState.favorites = AppState.favorites.filter( f => f !== id );
+
         showToast( AppState.config.texts.bar_fav_removed );
-        if(card) card.classList.remove('is-favorite');
-        programItems.forEach(item => {
-            item.classList.remove('is-favorite');
-            const btn = item.querySelector('.program-like-btn');
-            if(btn) btn.innerHTML = '<span class="material-icons white-color">favorite_border</span>';
-        });
-    } else {
+
+        if( card ) {
+            card.classList.remove( 'is-favorite' );
+        }
+
+        programItems.forEach( item => {
+            item.classList.remove( 'is-favorite' );
+
+            const btn = item.querySelector( '.program-like-btn' );
+
+            if( btn ) {
+                btn.innerHTML = '<span class="material-icons white-color">favorite_border</span>';
+            }
+        } );
+    }
+    else {
         AppState.favorites.push( id );
         showToast( AppState.config.texts.bar_fav_added );
-        if(card) card.classList.add('is-favorite');
-        programItems.forEach(item => {
-            item.classList.add('is-favorite');
-            const btn = item.querySelector('.program-like-btn');
-            if(btn) btn.innerHTML = '<span class="material-icons primary-color">favorite</span>';
-        });
+
+        if( card ) {
+            card.classList.add( 'is-favorite' );
+        }
+
+        programItems.forEach( item => {
+            item.classList.add( 'is-favorite' );
+            const btn = item.querySelector( '.program-like-btn' );
+
+            if( btn ) {
+                btn.innerHTML = '<span class="material-icons primary-color">favorite</span>';
+            }
+        } );
 
         const drawer = document.getElementById( 'fav-timeline-drawer' );
 
-        if ( openDrawer && !drawer.classList.contains( 'active' ) &&
-            !AppState.state.isPlayingFavorites ) {
-
+        if( openDrawer && !drawer.classList.contains( 'active' ) && mode != 'favorite' ) {
             toggleFavTimelineDrawer( 'favorites' );
             startDrawerAutoCloseTimer();
         }
     }
+
     localStorage.setItem( 'selected', JSON.stringify( AppState.favorites ) );
-    if (AppState.settings.isTestStorage) updateTestStorage();
-    updateActionButtons( AppState.state.activeId );
+
+    if( AppState.settings.isTestStorage ) {
+        updateTestStorage();
+    }
+
+    updateActionButtons( getStateActiveVideoId() );
     renderDrawerFavorites();
     renderDrawerTimeline();
     updateFavoritesIcon();
     updateTicketingStats();
     updateAtAGlanceFilterWarning();
-    if ( AppState.state.isPlayingFavorites ) {
-        renderFavFilterBar();
+
+    if( mode == 'favorite' ) {
+        renderFilterBar( 'favorite' );
         updateEmptyStateVisibility();
     }
 }
 
-
 function playFavorites() {
-    if ( AppState.favorites.length === 0 ) return;
+
+    if( AppState.favorites.length === 0 ) {
+        return;
+    }
+
     exitTagFilterMode();
-    renderFavFilterBar();
-    AppState.state.isPlayingFavorites = true;
-    AppState.state.isMenuNavigation = true;
+
+    setFilterMode( 'favorite', true );
+    renderFilterBar( 'favorite' )
+
+    setStateIsMenuNavigation( true );
 
     // Find first favorite in Data order
-    const firstFav = AppState.data.find( g => AppState.favorites.includes(g.id) );
-    const startId = firstFav ? firstFav.id : AppState.favorites[0];
+    const firstFav = AppState.data.find( g => AppState.favorites.includes( g.id ) );
+    const startId  = firstFav ? firstFav.id : AppState.favorites[0];
 
     VideoManager.scrollTo( startId );
+
     document.body.classList.add( 'favorites-mode' );
     document.getElementById( 'fav-mode-bar' ).classList.add( 'active' );
+
     updateEmptyStateVisibility();
 }
 
 
-function exitFavoritesMode(shouldScroll = true) {
-    const currentId = AppState.state.activeId;
-    AppState.state.isMenuNavigation = true;
-    AppState.state.isPlayingFavorites = false;
+
+function exitFavoritesMode( shouldScroll = true ) {
+    const currentId = getStateActiveVideoId();
+
+    setStateIsMenuNavigation( true );;
+    setFilterMode( 'favorite', false );
+
+
     document.body.classList.remove( 'favorites-mode' );
     document.getElementById( 'fav-mode-bar' ).classList.remove( 'active' );
+
     updateAtAGlanceFilterWarning();
     updateEmptyStateVisibility();
-    if ( currentId && shouldScroll ) {
+
+    if( currentId && shouldScroll ) {
         const el = document.getElementById( `video-${currentId}` );
-        if ( el ) el.scrollIntoView( {
-            behavior: 'auto',
-            block: 'start'
-        } );
+
+        if( el ) {
+            el.scrollIntoView( {
+                behavior: 'auto',
+                block: 'start'
+            } );
+        }
     }
+
     setTimeout( () => {
-        AppState.state.isMenuNavigation = false;
+        setStateIsMenuNavigation( false );;
     }, 1000 );
-    updateActionButtons( AppState.state.activeId );
+
+    updateActionButtons( getStateActiveVideoId() );
     updateNavActionButtons();
 }
 
 
-/* FILTER : TAGS  */
+
+/* RENDER FILTER BAR  */
+
 
 function updateFilterBarText() {
-    const isFavMode = AppState.state.isPlayingFavorites;
-    const isTagMode = !!AppState.state.currentTagFilter;
+    const mode = getFilterMode();
 
-    if (!isFavMode && !isTagMode) return;
+    // console.log( 'updateFilterBarText() : mode = ' + mode );
 
-    let position = 0;
+    if( !mode ) {
+        return;
+    }
+
+    let position   = 0;
     let totalCount = 0;
-    let textKey = '';
+    let textKey    = '';
     let filterName = '';
-    let barId = '';
+    let barId      = '';
 
-    if (isFavMode) {
-        textKey = 'filter_cancel_fav';
+    if( mode == 'favorite' ) {
+        barId      = 'fav-mode-bar';
+        textKey    = 'filter_cancel_fav';
+
         filterName = 'favori(s)';
-        barId = 'fav-mode-bar';
         totalCount = AppState.favorites.length;
 
-        // Find position of current activeId in favorites list (data order)
-        if (AppState.state.activeId && AppState.favorites.includes(AppState.state.activeId)) {
-             const sortedFavs = AppState.data.filter(g => AppState.favorites.includes(g.id)).map(g => g.id);
-             position = sortedFavs.indexOf(AppState.state.activeId) + 1;
+        if( getStateActiveVideoId() && AppState.favorites.includes( getStateActiveVideoId() ) ) { // Find position of current activeId in favorites list ( data order)
+             const sortedFavs = AppState.data.filter( g => AppState.favorites.includes( g.id ) ).map( g => g.id );
+             position = sortedFavs.indexOf( getStateActiveVideoId() ) + 1;
         }
+    }
+    else if( mode == 'session' ) {
+        barId               = 'tag-mode-bar';
+        textKey             = 'filter_cancel_tags';
 
-    } else {
-        textKey = 'filter_cancel_tags';
-        const slug = AppState.state.currentTagFilter;
-        filterName = getTagNameFromSlug(slug);
-        barId = 'tag-mode-bar';
+        const slug          = getFilterTag();
+        filterName          = getFilterTagNameFromSlug( slug );
 
-        const matchingItems = AppState.data.filter(g => g.event_tags && g.event_tags.some(t => slugify(t) === slug));
-        totalCount = matchingItems.length;
+        const matchingItems = AppState.data.filter( g => g.event_tags && g.event_tags.some( t => slugify( t ) === slug ) );
 
-        if (AppState.state.activeId) {
-            const index = matchingItems.findIndex(g => g.id === AppState.state.activeId);
-            if (index !== -1) {
+        totalCount          = matchingItems.length;
+
+        if( getStateActiveVideoId() ) {
+            const index = matchingItems.findIndex( g => g.id === getStateActiveVideoId() );
+
+            if( index !== -1 ) {
+                position = index + 1;
+            }
+        }
+    }
+    else if( mode == 'tag' ) {
+        barId               = 'tag-mode-bar';
+        textKey             = 'filter_cancel_tags';
+
+        const slug          = getFilterTag();
+        filterName          = getFilterTagNameFromSlug( slug );
+
+        const matchingItems = AppState.data.filter( g => g.event_tags && g.event_tags.some( t => slugify( t ) === slug ) );
+        totalCount          = matchingItems.length;
+
+        if( getStateActiveVideoId() ) {
+            const index = matchingItems.findIndex( g => g.id === getStateActiveVideoId() );
+
+            if( index !== -1 ) {
                 position = index + 1;
             }
         }
     }
 
-    const posStr = position > 0 ? `${position}/` : '';
+    const posStr  = position > 0  ?  `${position}/`  :  '';
     const rawText = AppState.config.texts[textKey] || "";
 
     const finalText = rawText
-        .replace('{position}', posStr)
-        .replace('{count}', totalCount)
-        .replace('{tag}', filterName);
+        .replace( '{position}', posStr)
+        .replace( '{count}',    totalCount)
+        .replace( '{tag}',      filterName );
 
-    const bar = document.getElementById(barId);
-    if (bar) {
-        const textDiv = bar.querySelector('.filter-text');
-        if (textDiv) textDiv.innerHTML = finalText;
-    }
-}
+    const bar = document.getElementById( barId );
 
-function scrollToFirstFilteredVideo() {
-    let selector = '';
-    if (AppState.state.isPlayingFavorites) {
-        selector = '.video-card.is-favorite';
-    } else if (AppState.state.currentTagFilter) {
-        selector = '.video-card.has-matching-tag';
-    }
+    if( bar ) {
+        const textDiv = bar.querySelector( '.filter-text' );
 
-    if (selector) {
-        const firstMatch = document.querySelector(selector);
-        if (firstMatch) {
-            VideoManager.scrollTo(Number(firstMatch.dataset.id));
+        if( textDiv ) {
+            textDiv.innerHTML = finalText;
         }
     }
 }
 
-function filterByTag( tagSlug, event, shouldScroll = true ) {
-    if ( event ) event.stopPropagation();
 
-    if ( AppState.state.currentTagFilter === tagSlug ) {
-        exitTagFilterMode(shouldScroll);
+function scrollToFirstFilteredVideo() {
+    let selector = '';
+
+    if( getFilterMode() == 'favorite' ) {
+        selector = '.video-card.is-favorite';
+    }
+    else if( getFilterTag() ) {
+        selector = '.video-card.has-matching-tag';
+    }
+
+    if( selector ) {
+        const firstMatch = document.querySelector( selector );
+
+        if( firstMatch ) {
+            VideoManager.scrollTo( Number( firstMatch.dataset.id ) );
+        }
+    }
+}
+
+
+
+
+function renderFilterBar( filterType ) {
+
+    const mode = getFilterMode();
+
+    console.log( 'renderFilterBar : mode = ' + mode );
+
+    if( !mode ) {
         return;
     }
 
-    const currentId = AppState.state.activeId;
+    let barId          = '';
+    let btnLabelPlay   = '';
+    let btnLabelCancel = '';
+
+    if( mode == 'favorite' ) {
+        barId          = 'fav-mode-bar';
+        btnLabelPlay   = AppState.config.texts.btn_filter_play_fav_list   || "Play fav";
+        btnLabelCancel = AppState.config.texts.btn_filter_cancel_fav_list || "Cancel fav";
+    }
+    else if( mode == 'session' ) {
+        const currentSlug = getFilterTag();
+
+        if( !currentSlug ) {
+            return;
+        }
+
+        barId          = 'tag-mode-bar';
+        btnLabelPlay   = AppState.config.texts.btn_filter_play_tag_list   || "Play session";
+        btnLabelCancel = AppState.config.texts.btn_filter_cancel_tag_list || "Cancel session";
+    }
+    else if( mode == 'tag' ) {
+        const currentSlug = getFilterTag();
+
+        if( !currentSlug ) {
+            return;
+        }
+
+        barId          = 'tag-mode-bar';
+        btnLabelPlay   = AppState.config.texts.btn_filter_play_tag_list   || "Play tag";
+        btnLabelCancel = AppState.config.texts.btn_filter_cancel_tag_list || "Cancel tag";
+    }
+    else {
+        barId          = 'tag-mode-bar';
+        btnLabelPlay   = AppState.config.texts.btn_filter_play_list       || "Play";
+        btnLabelCancel = AppState.config.texts.btn_filter_cancel_list     || "Cancel";
+    }
+
+    const html = `
+        <div class="filter-content-wrapper">
+            <div class="filter-text"></div>
+        </div>
+        <button class="btn-filter-list" onclick="scrollToFirstFilteredVideo()">
+            <span class="material-icons">play_arrow</span>
+            <span class="btn-label">${btnLabelPlay}</span>
+        </button>
+        <button class="btn-filter-list" onclick="cancelFilters()">
+            <span class="material-icons">cancel</span>
+            <span class="btn-label">${btnLabelCancel}</span>
+        </button>
+    `;
+
+    const bar = document.getElementById( barId );
+
+    if( bar ) {
+        bar.innerHTML = html;
+        updateFilterBarText();
+    }
+}
+
+
+/* FILTER : TAGS  */
+
+function filterByTag( tagSlug, event, shouldScroll = true ) {
+    if( event ) {
+        event.stopPropagation();
+    }
+
+    if( getFilterTag() === tagSlug ) {
+        exitTagFilterMode( shouldScroll );
+        return;
+    }
+
+    const currentId = getStateActiveVideoId();
 
     exitFavoritesMode();
-    AppState.state.currentTagFilter = tagSlug;
+
+    setFilterTag( tagSlug );
+
     document.body.classList.add( 'tag-filtering' );
     document.getElementById( 'tag-mode-bar' ).classList.add( 'active' );
 
-    renderTagFilterBar();
+    renderFilterBar( 'tag' );
 
-    const tagName = getTagNameFromSlug(tagSlug);
+    const tagName = getFilterTagNameFromSlug( tagSlug );
 
-    document.querySelectorAll('.tag-pill').forEach(el => {
-        el.classList.remove('tag-active');
-    });
-    document.querySelectorAll(`.tag-pill[data-slug="${tagSlug}"]`).forEach(el => {
-        el.classList.add('tag-active');
-    });
+    document.querySelectorAll( '.tag-pill').forEach( el => {
+        el.classList.remove( 'tag-active' );
+    } );
+    document.querySelectorAll( `.tag-pill[data-slug="${tagSlug}"]`).forEach( el => {
+        el.classList.add( 'tag-active' );
+    } );
 
     document.querySelectorAll( '.video-card' ).forEach( card => {
         const id    = Number( card.dataset.id );
         const group = AppState.data.find( g => g.id === id );
-        if ( group && group.event_tags && group.event_tags.some(t => slugify(t) === tagSlug) ) card.classList.add( 'has-matching-tag' );
-        else card.classList.remove( 'has-matching-tag' );
+
+        if( group && group.event_tags && group.event_tags.some( t => slugify( t ) === tagSlug ) ) {
+             card.classList.add( 'has-matching-tag' );
+        }
+        else {
+            card.classList.remove( 'has-matching-tag' );
+        }
     } );
 
     document.querySelectorAll( '.program-item' ).forEach( item => {
         const id    = Number( item.dataset.id );
         const group = AppState.data.find( g => g.id === id );
-        if ( group && group.event_tags && group.event_tags.some(t => slugify(t) === tagSlug) ) item.classList.add( 'has-matching-tag' );
-        else item.classList.remove( 'has-matching-tag' );
-    });
 
-    // document.getElementById( 'fav-filter-info' ).innerText  = `(${tagName})`;
-    // document.getElementById( 'time-filter-info' ).innerText = `(${tagName})`;
-    updateDrawerFilterWarning(tagName);
+        if( group && group.event_tags && group.event_tags.some( t => slugify( t ) === tagSlug ) ) {
+            item.classList.add( 'has-matching-tag' );
+        }
+        else {
+            item.classList.remove( 'has-matching-tag' );
+        }
+    } );
 
+
+    updateDrawerFilterWarning( tagName );
     renderDrawerTimeline();
     renderDrawerFavorites();
+
+
     updateAtAGlanceFilterWarning();
     updateEmptyStateVisibility();
     updateURLState();
 
-    if (shouldScroll) {
-        const currentCard      = currentId ? document.querySelector(`.video-card[data-id="${currentId}"]`) : null;
-        const isCurrentVisible = currentCard && currentCard.classList.contains('has-matching-tag');
+    if( shouldScroll ) {
+        const currentCard      = currentId  ?  document.querySelector( `.video-card[data-id="${currentId}"]` )  :  null;
+        const isCurrentVisible = currentCard && currentCard.classList.contains( 'has-matching-tag' );
 
-        if ( isCurrentVisible ) {
-            currentCard.scrollIntoView({
+        if( isCurrentVisible ) {
+            currentCard.scrollIntoView( {
                 behavior: 'smooth'
-            });
-        } else {
+            } );
+        }
+        else {
             const firstMatch = document.querySelector( '.video-card.has-matching-tag' );
-            if ( firstMatch ) firstMatch.scrollIntoView( {
+
+            if( firstMatch ) firstMatch.scrollIntoView( {
                 behavior: 'smooth'
             } );
         }
@@ -2754,182 +3640,162 @@ function filterByTag( tagSlug, event, shouldScroll = true ) {
 }
 
 
-function getTagNameFromSlug(tagSlug) {
-    if (!tagSlug) return '';
-    let tagName = tagSlug;
-    for (const group of AppState.data) {
-        if (group.event_tags) {
-            const found = group.event_tags.find(t => slugify(t) === tagSlug);
-            if (found) {
-                tagName = found;
-                break;
-            }
-        }
-    }
-    return translateText(tagName, 'tags');
-}
 
 
 function updateEmptyStateVisibility() {
-    if (!AppState.config.sessions) return;
 
-    const isFavMode = AppState.state.isPlayingFavorites;
-    const isTagMode = !!AppState.state.currentTagFilter;
-    const currentTag = AppState.state.currentTagFilter;
-
-    // Detect if current tag is a session (day) filter
-    const sessionTags = AppState.config.sessions.map(s => slugify(s.id));
-    const isSessionFilter = isTagMode && sessionTags.includes(currentTag);
-
-    if (!isFavMode && !isTagMode) {
-        document.querySelectorAll('.program-empty-placeholder').forEach(el => el.classList.remove('visible'));
+    if( !AppState.config.sessions ) {
         return;
     }
 
-    const t = AppState.config.texts;
-    let emptyText = "";
-    if (isFavMode) emptyText = t.fav_empty || "Aucun favori";
-    else if (isTagMode) emptyText = t.event_empty || "Aucun concert";
+    const mode = getFilterMode();
 
-    AppState.config.sessions.forEach(session => {
+
+
+    if( ! mode ) {
+        document.querySelectorAll( '.program-empty-placeholder').forEach( el => el.classList.remove( 'visible' ) );
+        return;
+    }
+
+    const currentTag = getFilterTag();
+    const t          = AppState.config.texts;
+    let emptyText    = '';
+
+    if( mode == 'favorite' ) {
+        emptyText = t.fav_empty   || 'Aucun favori';
+    }
+    else if( mode == 'tag' || mode == 'session' ) {
+        emptyText = t.event_empty || 'Aucun événement';
+    }
+
+    AppState.config.sessions.forEach( session => {
         const sessionId = session.id;
-        const sId = slugify(sessionId);
+        const sId = slugify( sessionId );
 
         let visibleCount = 0;
-        const sessionItems = AppState.data.filter(g => g.event_session === sessionId);
+        const sessionItems = AppState.data.filter( g => g.event_session === sessionId );
 
-        if (isFavMode) {
-            visibleCount = sessionItems.filter(g => AppState.favorites.includes(g.id)).length;
-        } else if (isTagMode) {
-            visibleCount = sessionItems.filter(g => g.event_tags && g.event_tags.some(tag => slugify(tag) === currentTag)).length;
+        if( mode == 'favorite' ) {
+            visibleCount = sessionItems.filter( g => AppState.favorites.includes( g.id ) ).length;
+        }
+        else if( mode == 'tag' || mode == 'session' ) {
+            visibleCount = sessionItems.filter( g => g.event_tags && g.event_tags.some( tag => slugify( tag ) === currentTag ) ).length;
         }
 
-        const placeholders = document.querySelectorAll(`.program-empty-placeholder[data-session="${sessionId}"]`);
-        const separators   = document.querySelectorAll(`.program-separator[data-slug="${sId}"]`);
+        const placeholders = document.querySelectorAll( `.program-empty-placeholder[data-session="${sessionId}"]` );
+        const separators   = document.querySelectorAll( `.program-separator[data-slug="${sId}"]` );
 
         // Logic:
-        // If filtering by a specific session (day), hide other sessions completely (separator + placeholder).
-        // Otherwise (other tags or favorites), show all separators (with placeholders if empty).
+        // If filtering by a specific session ( day), hide other sessions completely ( separator + placeholder).
+        // Otherwise ( other tags or favorites), show all separators ( with placeholders if empty).
 
         let shouldShowSeparator = true;
-        if (isSessionFilter && sId !== currentTag) {
+
+        if( mode == 'session' && sId !== currentTag ) {
             shouldShowSeparator = false;
         }
 
-        if (visibleCount === 0) {
-            placeholders.forEach(el => {
+        if( visibleCount === 0 ) {
+
+            placeholders.forEach( el => {
                 el.innerText = emptyText;
-                if (shouldShowSeparator) el.classList.add('visible');
-                else el.classList.remove('visible');
-            });
-            separators.forEach(el => {
-                if (shouldShowSeparator) el.classList.add('has-matching-tag');
-                else el.classList.remove('has-matching-tag');
-            });
-        } else {
-            placeholders.forEach(el => {
-                el.classList.remove('visible');
-            });
-            separators.forEach(el => {
-                if (shouldShowSeparator) el.classList.add('has-matching-tag');
-                else el.classList.remove('has-matching-tag');
-            });
+
+                if( shouldShowSeparator ) {
+                    el.classList.add( 'visible' );
+                }
+                else {
+                    el.classList.remove( 'visible' );
+                }
+
+            } );
+
+            separators.forEach( el => {
+
+                if( shouldShowSeparator ) {
+                    el.classList.add( 'has-matching-tag' );
+                }
+                else {
+                    el.classList.remove( 'has-matching-tag' );
+                }
+
+            } );
         }
-    });
+        else {
+            placeholders.forEach( el => {
+                el.classList.remove( 'visible' );
+            } );
+
+            separators.forEach( el => {
+
+                if( shouldShowSeparator ) {
+                    el.classList.add( 'has-matching-tag' );
+                }
+                else {
+                    el.classList.remove( 'has-matching-tag' );
+                }
+
+            } );
+        }
+    } );
 }
 
 
-function renderTagFilterBar() {
-    const currentSlug = AppState.state.currentTagFilter;
-    if (!currentSlug) return;
-
-    const topBtnLabel = AppState.config.texts.top_of_list || "Top";
-
-    const html = `
-        <button class="btn-nav-top-list" onclick="scrollToFirstFilteredVideo()">
-            <span class="material-icons">play_arrow</span>
-            <span class="btn-label">${topBtnLabel}</span>
-        </button>
-        <div class="filter-content-wrapper" onclick="cancelFilters()">
-            <div class="filter-text"></div>
-            <button class="close-fav-mode">
-                <span class="material-icons">cancel</span>
-            </button>
-        </div>
-    `;
-
-    const bar = document.getElementById( 'tag-mode-bar' );
-    if(bar) {
-        bar.innerHTML = html;
-        updateFilterBarText();
-    }
-}
-
-
-function renderFavFilterBar() {
-    const topBtnLabel = AppState.config.texts.top_of_list || "Play";
-
-    const html = `
-        <button class="btn-nav-top-list" onclick="scrollToFirstFilteredVideo()">
-            <span class="material-icons">play_arrow</span>
-            <span class="btn-label">${topBtnLabel}</span>
-        </button>
-        <div class="filter-content-wrapper" onclick="exitFavoritesMode()">
-            <div class="filter-text"></div>
-            <button class="close-fav-mode">
-                <span class="material-icons">cancel</span>
-            </button>
-        </div>
-    `;
-
-    const bar = document.getElementById( 'fav-mode-bar' );
-    if(bar) {
-        bar.innerHTML = html;
-        updateFilterBarText();
-    }
-}
-
-
-function updateDrawerFilterWarning(tagName) {
+function updateDrawerFilterWarning( tagName ) {
     const t = AppState.config.texts
 
-    const favoriteWarningText = t.favorite_warning_text ? t.favorite_warning_text.replace('{tag}', tagName) : `Filter active: ${tagName}`;
-    const favWarning = document.getElementById('fav-filter-warning');
-    if (favWarning) {
+    const favoriteWarningText = t.favorite_warning_text ? t.favorite_warning_text.replace( '{tag}', tagName ) : `Filter active: ${tagName}`;
+    const favWarning          = document.getElementById( 'fav-filter-warning' );
+
+    const timelineWarningText = t.timeline_warning_text ? t.timeline_warning_text.replace( '{tag}', tagName ) : `Filter active: ${tagName}`;
+    const timeWarning         = document.getElementById( 'timeline-filter-warning' );
+
+    if( favWarning ) {
         favWarning.innerHTML = `<div>${favoriteWarningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
-        favWarning.classList.remove('hidden');
+        favWarning.classList.remove( 'hidden' );
     }
 
-    const timelineWarningText = t.timeline_warning_text ? t.timeline_warning_text.replace('{tag}', tagName) : `Filter active: ${tagName}`;
-    const timeWarning = document.getElementById('timeline-filter-warning');
-    if (timeWarning) {
+    if( timeWarning ) {
         timeWarning.innerHTML = `<div>${timelineWarningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
-        timeWarning.classList.remove('hidden');
+        timeWarning.classList.remove( 'hidden' );
     }
 }
 
 
 function hideDrawerFilterWarning() {
-    const favWarning = document.getElementById('fav-filter-warning');
-    if (favWarning) favWarning.classList.add('hidden');
+    const favWarning  = document.getElementById( 'fav-filter-warning' );
+    const timeWarning = document.getElementById( 'timeline-filter-warning' );
 
-    const timeWarning = document.getElementById('timeline-filter-warning');
-    if (timeWarning) timeWarning.classList.add('hidden');
+    if( favWarning ) {
+        favWarning.classList.add( 'hidden' );
+    }
+
+    if( timeWarning ) {
+        timeWarning.classList.add( 'hidden' );
+    }
 }
 
 
-function exitTagFilterMode(shouldScroll = true) {
-    if ( !AppState.state.currentTagFilter ) return;
-    const currentId = AppState.state.activeId;
-    AppState.state.isMenuNavigation = true;
-    AppState.state.currentTagFilter = null;
+function exitTagFilterMode( shouldScroll = true ) {
+
+    const mode = getFilterMode();
+
+    if( !getFilterTag() ) {
+        return;
+    }
+
+    const currentId = getStateActiveVideoId();
+
+    setStateIsMenuNavigation( true );
+    setFilterTag( null );
 
     /* BUG ON MOZILLA : Make a quick move by displaying the Home card, then display the Event card again */
     document.body.classList.remove( 'tag-filtering' );
 
-    document.querySelectorAll('.tag-pill').forEach(el => el.classList.remove('tag-active'));
-    document.querySelectorAll('.program-separator').forEach(el => el.classList.remove('has-matching-tag'));
+    document.querySelectorAll( '.tag-pill').forEach( el => el.classList.remove( 'tag-active' ) );
+    document.querySelectorAll( '.program-separator').forEach( el => el.classList.remove( 'has-matching-tag' ) );
+
     document.getElementById( 'tag-mode-bar' ).classList.remove( 'active' );
+
     // document.getElementById( 'fav-filter-info' ).innerText  = '';
     // document.getElementById( 'time-filter-info' ).innerText = '';
     hideDrawerFilterWarning();
@@ -2939,17 +3805,21 @@ function exitTagFilterMode(shouldScroll = true) {
     updateAtAGlanceFilterWarning();
     updateEmptyStateVisibility();
     updateURLState();
-    if ( currentId && shouldScroll ) {
+
+    if( currentId && shouldScroll ) {
         const el = document.getElementById( `video-${currentId}` );
-        if ( el ) el.scrollIntoView( {
+
+        if( el ) el.scrollIntoView( {
             behavior: 'auto',
             block:    'start'
         } );
     }
+
     setTimeout( () => {
-        AppState.state.isMenuNavigation = false;
+        setStateIsMenuNavigation( false );
     }, 1000 );
-    updateActionButtons( AppState.state.activeId );
+
+    updateActionButtons( getStateActiveVideoId() );
     updateNavActionButtons();
 }
 
@@ -2958,16 +3828,25 @@ function exitTagFilterMode(shouldScroll = true) {
 
 function startDrawerAutoCloseTimer() {
     clearTimeout( AppState.timers.close );
+
     AppState.timers.close = setTimeout( () => {
         const drawer = document.getElementById( 'fav-timeline-drawer' );
-        if ( drawer.classList.contains( 'active' ) ) closeFavTimelineDrawers();
+
+        if( drawer.classList.contains( 'active' ) ) {
+            closeFavTimelineDrawers();
+        }
+
     }, 1000 );
 }
 
 
 function setupDrawerListeners() {
     const drawer = document.getElementById( 'fav-timeline-drawer' );
-    if(!drawer) return;
+
+    if( !drawer ) {
+        return;
+    }
+
     const stop = () => clearTimeout( AppState.timers.close );
     drawer.addEventListener( 'touchstart', stop );
     drawer.addEventListener( 'mouseenter', stop );
@@ -2975,33 +3854,40 @@ function setupDrawerListeners() {
 }
 
 
-function switchDrawerTab(tabName) {
+function switchDrawerTab( tabName ) {
     AppState.state.activeTab = tabName;
 
     // Update Tab Buttons
-    document.querySelectorAll('.drawer-tab').forEach(btn => {
-        btn.classList.remove('active');
-    });
-    const activeBtn = document.getElementById(`tab-${tabName}`);
-    if (activeBtn) activeBtn.classList.add('active');
+    document.querySelectorAll( '.drawer-tab').forEach( btn => {
+        btn.classList.remove( 'active' );
+    } );
+    const activeBtn = document.getElementById( `tab-${tabName}` );
+
+    if( activeBtn ) {
+        activeBtn.classList.add( 'active' );
+    }
 
     // Update Content
-    document.querySelectorAll('.tab-content').forEach(content => {
-        content.classList.remove('active');
-    });
-    const activeContent = document.getElementById(`${tabName}-content`);
-    if (activeContent) {
-        activeContent.classList.add('active');
+    document.querySelectorAll( '.tab-content').forEach( content => {
+        content.classList.remove( 'active' );
+    } );
+    const activeContent = document.getElementById( `${tabName}-content` );
+
+    if( activeContent ) {
+        activeContent.classList.add( 'active' );
     }
 
     // Update floating button icon if switching tabs while open
-    const drawer = document.getElementById('fav-timeline-drawer');
-    if (drawer.classList.contains('active')) {
-         const btnFloat = document.getElementById('btn-drawer-favorites');
-         const icon = btnFloat.querySelector('.material-icons:not(.btn-bg)');
-         if (tabName === 'favorites') {
+    const drawer = document.getElementById( 'fav-timeline-drawer' );
+
+    if( drawer.classList.contains( 'active' ) ) {
+         const btnFloat = document.getElementById( 'btn-drawer-favorites' );
+         const icon = btnFloat.querySelector( '.material-icons:not(.btn-bg)' );
+
+         if( tabName === 'favorites' ) {
              icon.textContent = 'chevron_right';
-         } else {
+         }
+         else {
              icon.textContent = 'bookmark';
              updateFavoritesIcon();
          }
@@ -3015,13 +3901,14 @@ function closeFavTimelineDrawers() {
     document.getElementById( 'drawer-overlay' ).classList.remove( 'active' );
 
     // Also close main menu if open
-    if(AppState.state.isMainMenuOpen) {
+    if( AppState.state.isMainMenuOpen ) {
         closeMainMenu();
     }
 
     const btnFloat   = document.getElementById( 'btn-drawer-favorites' );
     const icon       = btnFloat.querySelector( '.material-icons:not(.btn-bg)' );
-    if (icon) {
+
+    if( icon ) {
         icon.textContent = 'bookmark';
         updateFavoritesIcon();
     }
@@ -3031,104 +3918,132 @@ function closeFavTimelineDrawers() {
 function closeDrawerIfOpen() {
     const drawer = document.getElementById( 'fav-timeline-drawer' );
     const atAGlance = document.getElementById( 'at-a-glance-drawer' );
-    if ( drawer.classList.contains( 'active' ) || AppState.state.isMainMenuOpen || (atAGlance && atAGlance.classList.contains('active')) ) {
+
+    if( drawer.classList.contains( 'active' ) || AppState.state.isMainMenuOpen || ( atAGlance && atAGlance.classList.contains( 'active' ) ) ) {
         closeFavTimelineDrawers();
         return true;
     }
+
     return false;
 }
+
 
 
 /* DRAWER FAVORITE*/
 
 function renderDrawerFavorites() {
-    const list = document.getElementById( 'favorites-list' );
-    let favs = AppState.data.filter( g => AppState.favorites.includes( g.id ) );
-    if ( AppState.state.currentTagFilter ) {
-        // Filter using slug comparison
-        favs = favs.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
+    const mode       = getFilterMode();
+    const currentTag = getFilterTag();
+    const list       = document.getElementById( 'favorites-list' );
+
+    let favs         = AppState.data.filter( g => AppState.favorites.includes( g.id ) );
+
+    if( currentTag ) {
+        favs = favs.filter( g => g.event_tags && g.event_tags.some( t => slugify( t ) === currentTag ) );
     }
 
-    if (favs.length) {
+    if( favs.length ) {
         const itemsHtml = favs.map( g => {
             const thumb = g.image_artist || g.image_thumbnail || g.image;
             return `
             <li class="favorite-item">
                 <img src="${thumb}" loading="lazy" alt="${g.event_name}">
                 <div class="fav-title">${g.event_name}</div>
-                <button onclick="shareSong(${g.id})" class="material-icons btn-fav-share">share</button>
-                <button onclick="VideoManager.scrollTo(${g.id})" class="material-icons btn-fav-play">play_arrow</button>
-                <button onclick="toggleFav(${g.id})" class="material-icons btn-fav-remove">close</button>
+                <button onclick="shareSong( ${g.id} )" class="material-icons btn-fav-share">share</button>
+                <button onclick="VideoManager.scrollTo( ${g.id} )" class="material-icons btn-fav-play">play_arrow</button>
+                <button onclick="toggleFav( ${g.id} )" class="material-icons btn-fav-remove">close</button>
             </li>`;
-        }).join('');
+        } ).join( '' );
         list.innerHTML = `<ul>${itemsHtml}</ul>`;
-    } else {
+    }
+    else {
         list.innerHTML = `<p class="fav-empty-msg">${AppState.config.texts.fav_empty}</p>`;
     }
 
     const footer = document.getElementById( 'favorites-footer' );
-    if ( favs.length > 0 ) footer.classList.add( 'visible' );
-    else footer.classList.remove( 'visible' );
+
+    if( favs.length > 0 ) {
+        footer.classList.add( 'visible' );
+    }
+    else {
+        footer.classList.remove( 'visible' );
+    }
 }
 
 
 /* DRAWER TIMELINE */
 
 function renderDrawerTimeline() {
+    const mode       = getFilterMode();
+    const currentTag = getFilterTag();
     const list       = document.getElementById( 'timeline-list' );
     const s          = AppState.settings;
+
+
     let dataToRender = AppState.data;
 
-    if ( AppState.state.currentTagFilter ) {
+    if( currentTag ) {
         // Filter using slug comparison
-        dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.some(t => slugify(t) === AppState.state.currentTagFilter) );
+        dataToRender = AppState.data.filter( g => g.event_tags && g.event_tags.some( t => slugify( t ) === currentTag ) );
     }
+
     const sortedData = [ ...dataToRender ];
-    if ( sortedData.length === 0 ) {
+
+    if( sortedData.length === 0 ) {
         list.innerHTML = `<p class="list-empty-msg">${AppState.config.texts.timeline_empty}</p>`;
         return;
     }
 
     const itemsHtml = sortedData.map( g => {
         let timelineDateHtml = '';
-        if ( s.isDisplayDate && g.event_start_date ) {
-            timelineDateHtml = getFormattedDateHtml(g.event_start_date, 'timeline');
+        let timeString       = '';
+
+        if( s.isDisplayDate && g.event_start_date ) {
+            timelineDateHtml = getFormattedDateHtml( g.event_start_date, 'timeline' );
         }
 
-        let timeString = '';
-        if ( s.isDisplayTime ) {
+        if( s.isDisplayTime ) {
             timeString = g.event_start_time || '';
-            if ( timeString && g.event_end_time ) timeString += ` - ${g.event_end_time}`;
+
+            if( timeString && g.event_end_time ) {
+                timeString += ` - ${g.event_end_time}`;
+            }
         }
+
         const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
         const metaLine  = [ timelineDateHtml, timeString, placeName ].filter( Boolean ).join( ' • ' );
 
         // Status for timeline
-        const status = g.event_status || 'scheduled';
+        const status            = g.event_status || 'scheduled';
         const displayedStatuses = AppState.config.features.displayed_statuses || [];
-        let eventStatusBadge = '';
+        let eventStatusBadge    = '';
 
-        if (displayedStatuses.includes(status)) {
+        if( displayedStatuses.includes( status ) ) {
             const statusKey   = 'status_' + status;
-            const statusLabel = (AppState.config.texts && AppState.config.texts[statusKey]) ? AppState.config.texts[statusKey] : status.replace('_', ' ').toUpperCase();
-            const statusClass = 'status-' + status.replace('_', '-');
+            const statusLabel = ( AppState.config.texts && AppState.config.texts[statusKey] ) ? AppState.config.texts[statusKey] : status.replace( '_', ' ').toUpperCase();
+            const statusClass = 'status-' + status.replace( '_', '-' );
+
             eventStatusBadge  = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
         }
 
         const tagsHtml  = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
-            const slug        = slugify(t);
-            const activeClass = (slug === AppState.state.currentTagFilter) ? ' tag-active' : '';
-            return `<span class="time-tag${activeClass}" onclick="filterByTag('${slug}', event)">${translateText(t, 'tags')}</span>`;
+            const slug        = slugify( t );
+            const activeClass = ( slug === currentTag ) ? ' tag-active' : '';
+
+            return `<span class="time-tag${activeClass}" onclick="filterByTag( '${slug}', event)">${translateText( t, 'tags')}</span>`;
         } ).join( '' ) : '';
+
+
         const isFav = AppState.favorites.includes( g.id );
         const thumb = g.image_thumbnail || g.image;
+
         return `
-        <li class="timeline-item" onclick="VideoManager.scrollTo(${g.id})">
+        <li class="timeline-item" onclick="VideoManager.scrollTo( ${g.id} )">
             <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
             <div class="time-info">
                 <div class="time-row-title">
                     <h3>${g.event_name}</h3>
-                    <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav(${g.id});">${isFav ? 'favorite' : 'favorite_border'}</button>
+                    <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav( ${g.id} );">${isFav ? 'favorite' : 'favorite_border'}</button>
                 </div>
                 <div class="time-row-date-place">${metaLine}</div>
                 <div class="time-row-tag">${eventStatusBadge}${tagsHtml}</div>
@@ -3156,8 +4071,13 @@ function setupHapticFeedback() {
 
 function triggerHaptic( el ) {
     const target = el.tagName === 'BUTTON' || el.tagName === 'A' ? el : el.closest( 'button, a' );
-    if ( !target ) return;
+
+    if( !target ) {
+        return;
+    }
+
     target.classList.add( 'visual-haptic' );
+
     setTimeout( () => {
         target.classList.remove( 'visual-haptic' );
     }, 250 );
@@ -3168,64 +4088,81 @@ function triggerHaptic( el ) {
 
 const PWAManager = {
     deferredPrompt: null,
+
     init: function() {
-        // Migration: Remove old localStorage key to unblock users who clicked "Later"
-        if (localStorage.getItem('app_install_seen')) {
-            localStorage.removeItem('app_install_seen');
+
+        if( localStorage.getItem( 'app_install_seen' ) ) {
+            localStorage.removeItem( 'app_install_seen' );
         }
 
-        window.addEventListener('beforeinstallprompt', (e) => {
+        window.addEventListener( 'beforeinstallprompt', ( e ) => {
             e.preventDefault();
             this.deferredPrompt = e;
             this.checkAndShow();
-        });
+        } );
 
-        window.addEventListener('appinstalled', () => {
+        window.addEventListener( 'appinstalled', () => {
             this.deferredPrompt = null;
-            localStorage.setItem('app_installed', 'true');
-            console.log('PWA was installed');
-        });
+            localStorage.setItem( 'app_installed', 'true' );
+            console.log( 'PWA was installed' );
+        } );
 
         // Setup buttons
-        const btnInstall = document.getElementById('btn-pwa-install');
-        const btnLater   = document.getElementById('btn-pwa-later');
-        if(btnInstall) btnInstall.addEventListener('click', () => this.install());
-        if(btnLater)   btnLater.addEventListener('click', () => this.dismiss());
-    },
-    checkAndShow: function() {
-        const dismissed = sessionStorage.getItem('app_install_dismissed');
-        const installed = localStorage.getItem('app_installed');
+        const btnInstall = document.getElementById( 'btn-pwa-install' );
+        const btnLater   = document.getElementById( 'btn-pwa-later' );
 
-        if (!dismissed && !installed) {
-            setTimeout(() => {
-                this.showModal();
-            }, 2000);
+        if( btnInstall ) {
+            btnInstall.addEventListener( 'click', () => this.install() );
+        }
+
+        if( btnLater )  {
+            btnLater.addEventListener( 'click', () => this.dismiss() );
         }
     },
+
+    checkAndShow: function() {
+        const dismissed = sessionStorage.getItem( 'app_install_dismissed' );
+        const installed = localStorage.getItem( 'app_installed' );
+
+        if( !dismissed && !installed ) {
+            setTimeout( () => {
+                this.showModal();
+            }, 2000 );
+        }
+    },
+
     showModal: function() {
-        const modal = document.getElementById('install-modal');
-        if (modal) {
+        const modal = document.getElementById( 'install-modal' );
+
+        if( modal ) {
             // Update texts
             const t = AppState.config.texts;
-            if(t) {
-                if(t.install_modal_title)   document.getElementById('pwa-title').innerText       = t.install_modal_title;
-                if(t.install_modal_text)    document.getElementById('pwa-text').innerText        = t.install_modal_text;
-                if(t.install_modal_btn_yes) document.getElementById('btn-pwa-install').innerText = t.install_modal_btn_yes;
-                if(t.install_modal_btn_no)   document.getElementById('btn-pwa-later').innerText  = t.install_modal_btn_no;
+
+            if( t ) {
+                if( t.install_modal_title )   document.getElementById( 'pwa-title').innerText       = t.install_modal_title;
+                if( t.install_modal_text )    document.getElementById( 'pwa-text').innerText        = t.install_modal_text;
+                if( t.install_modal_btn_yes ) document.getElementById( 'btn-pwa-install').innerText = t.install_modal_btn_yes;
+                if( t.install_modal_btn_no )  document.getElementById( 'btn-pwa-later').innerText   = t.install_modal_btn_no;
             }
-            modal.classList.add('active');
+            modal.classList.add( 'active' );
         }
     },
+
     dismiss: function() {
-        const modal = document.getElementById('install-modal');
-        if (modal) modal.classList.remove('active');
-        sessionStorage.setItem('app_install_dismissed', 'true');
+        const modal = document.getElementById( 'install-modal' );
+
+        if( modal ) {
+            modal.classList.remove( 'active' );
+        }
+
+        sessionStorage.setItem( 'app_install_dismissed', 'true' );
     },
+
     install: async function() {
-        if (this.deferredPrompt) {
+        if( this.deferredPrompt ) {
             this.deferredPrompt.prompt();
             const { outcome } = await this.deferredPrompt.userChoice;
-            console.log(`User response to the install prompt: ${outcome}`);
+            console.log( `User response to the install prompt: ${outcome}` );
             this.deferredPrompt = null;
         }
         this.dismiss();
@@ -3234,89 +4171,108 @@ const PWAManager = {
 
 
 function setupMenuObserver() {
-    const menu = document.getElementById('top-bar');
-    if (!menu) return;
+    const menu = document.getElementById( 'top-bar' );
 
-    const observer = new MutationObserver((mutations) => {
-        mutations.forEach((mutation) => {
-            if (mutation.type === 'attributes' && mutation.attributeName === 'class') {
-                if (menu.classList.contains('auto-hidden')) {
-                    document.body.classList.add('menu-hidden');
-                } else {
-                    document.body.classList.remove('menu-hidden');
+    if( !menu ) {
+        return;
+    }
+
+    const observer = new MutationObserver( ( mutations ) => {
+        mutations.forEach( ( mutation ) => {
+
+            if( mutation.type === 'attributes' && mutation.attributeName === 'class' ) {
+
+                if( menu.classList.contains( 'auto-hidden' ) ) {
+                    document.body.classList.add( 'menu-hidden' );
+                }
+                else {
+                    document.body.classList.remove( 'menu-hidden' );
                 }
             }
-        });
-    });
 
-    observer.observe(menu, { attributes: true });
+        } );
+
+    } );
+
+    observer.observe( menu, { attributes: true } );
 }
 
 
 window.onload = init;
-if ( 'serviceWorker' in navigator ) {
-    navigator.serviceWorker.register( 'service-worker.js?v2.062' )
+
+if( 'serviceWorker' in navigator ) {
+    navigator.serviceWorker.register( 'service-worker.js?v2.063' )
         .then( ( reg )  => console.log( 'Service Worker enregistré', reg ) )
         .catch( ( err ) => console.log( 'Erreur Service Worker',     err ) );
 }
 /* DEBUG TOOL */
 
 function loadDebugTool() {
-    const script = document.createElement('script');
+    const script = document.createElement( 'script' );
     script.src = 'assets/js/debug.js?v=2.01';
     script.onload = () => {
         DebugTool.init();
     };
-    document.body.appendChild(script);
+    document.body.appendChild( script );
 
-    const link = document.createElement('link');
+    const link = document.createElement( 'link' );
     link.rel = 'stylesheet';
     link.href = 'assets/css/debug.css?v=2.01';
-    document.head.appendChild(link);
+    document.head.appendChild( link );
 
     setupDebugTrigger();
 }
 
 function setupDebugTrigger() {
-    const logo = document.querySelector('.logo-container'); // Top Bar Logo
+    const logo = document.querySelector( '.logo-container' ); // Top Bar Logo
     let timer;
 
-    if(logo) {
+    if( logo ) {
         const startTimer = () => {
-            timer = setTimeout(() => {
-                if(window.DebugTool) DebugTool.open();
-            }, 3000);
-        };
-        const clearTimer = () => clearTimeout(timer);
+            timer = setTimeout( () => {
 
-        logo.addEventListener('touchstart', startTimer);
-        logo.addEventListener('touchend', clearTimer);
-        logo.addEventListener('touchcancel', clearTimer);
-        logo.addEventListener('mousedown', startTimer);
-        logo.addEventListener('mouseup', clearTimer);
-        logo.addEventListener('mouseleave', clearTimer);
+                if( window.DebugTool ) {
+                    DebugTool.open();
+                }
+
+            }, 3000 );
+        };
+        const clearTimer = () => clearTimeout( timer );
+
+        logo.addEventListener( 'touchstart', startTimer );
+        logo.addEventListener( 'touchend', clearTimer );
+        logo.addEventListener( 'touchcancel', clearTimer );
+        logo.addEventListener( 'mousedown', startTimer );
+        logo.addEventListener( 'mouseup', clearTimer );
+        logo.addEventListener( 'mouseleave', clearTimer );
     }
 }
 
 function checkVersion() {
-    fetch('VERSION?t=' + Date.now())
-        .then(response => {
-            if (!response.ok) throw new Error("Version fetch failed");
+    fetch( 'VERSION?t=' + Date.now() )
+        .then( response => {
+
+            if( !response.ok ) {
+                throw new Error( "Version fetch failed" );
+            }
+
             return response.text();
-        })
-        .then(text => {
+
+        } )
+        .then( text => {
             const serverVersion = text.trim();
             const clientVersion = AppState.config.site.version;
 
-            if (serverVersion && clientVersion && serverVersion !== clientVersion) {
-                const indicator = document.getElementById('app-version-indicator');
-                if (indicator) {
-                    let msg = (AppState.config.texts.update_available_text || "New version {new_version}");
-                    msg = msg.replace('{new_version}', serverVersion);
+            if( serverVersion && clientVersion && serverVersion !== clientVersion ) {
+                const indicator = document.getElementById( 'app-version-indicator' );
+
+                if( indicator ) {
+                    let msg = ( AppState.config.texts.update_available_text || "New version {new_version}" );
+                    msg = msg.replace( '{new_version}', serverVersion );
                     indicator.innerHTML = msg;
-                    indicator.classList.add('visible');
+                    indicator.classList.add( 'visible' );
                 }
             }
-        })
-        .catch(err => console.warn('Check version error:', err));
+        } )
+        .catch( err => console.warn( 'Check version error:', err ) );
 }

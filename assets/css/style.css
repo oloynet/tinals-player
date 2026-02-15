@@ -602,7 +602,7 @@ h3 {
             padding: 0 5px;
         }
 
-        .btn-nav-top-list {
+        .btn-nav-filter-list {
             background: none;
             border: none;
             color: inherit;
@@ -613,11 +613,11 @@ h3 {
             text-transform: uppercase;
         }
 
-        .btn-nav-top-list .material-icons {
+        .btn-nav-filter-list .material-icons {
             font-size: 24px;
         }
 
-        .btn-nav-top-list .btn-label {
+        .btn-nav-filter-list .btn-label {
             margin-left: 5px;
             display: none;
             font-weight: bold;
@@ -625,8 +625,8 @@ h3 {
             text-transform: uppercase;
         }
 
-        @media (min-width: 480px) {
-            .btn-nav-top-list .btn-label {
+        @media (min-width: 320px) {
+            .btn-nav-filter-list .btn-label {
                 display: inline-block;
             }
         }

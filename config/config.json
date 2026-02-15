@@ -1,8 +1,8 @@
 {
     "site":
     {
-        "version":          "v2.062",
-        "version_name":     "TINALS v2.062",
+        "version":          "v2.063",
+        "version_name":     "TINALS v2.063",
         "title":            "TINALS 2026 player",
         "name":             "TINALS app",
         "short_name":       "TINALS",
@@ -19,7 +19,7 @@
         "author":           "Olivier LOYNET - +33.668055252",
         "url":              "",
         "homepage_url":     "",
-        "data_source":      "data/2026/data.json?v2.062",
+        "data_source":      "data/2026/data.json?v2.063",
 
         "step":             "full_program"
     },
@@ -197,7 +197,7 @@
         "menu_id":           "logo-tinals-2026",
         "presentation_id":   "logo-home",
 
-        "sprite_path":       "assets/images/sprites/sprite.svg?v2.062",
+        "sprite_path":       "assets/images/sprites/sprite.svg?v2.063",
 
         "icon_192":          "assets/favicon/android-chrome-192x192.png?v2",
         "icon_512":          "assets/favicon/android-chrome-512x512.png?v2",

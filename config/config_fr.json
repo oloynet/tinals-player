@@ -90,7 +90,22 @@
         "bar_top_page":    "Haut de page",
         "bar_bottom_page": "Bas de page",
 
-        "top_of_list":            "Lecture",
+
+        "btn_filter_play_fav":    "<b>Lire</b> les favoris",
+        "btn_filter_cancel_fav":  "<b>Annuler</b> affichage favoris",
+
+        "btn_filter_play_tag":    "<b>Lire</b> la sélection",
+        "btn_filter_cancel_tag":  "<b>Annuler</b> la sélection",
+
+        "btn_filter_play_day":    "<b>Lire</b> la journée",
+        "btn_filter_cancel_day":  "<b>Annuler</b> la journée",
+
+        "btn_filter_play":        "<b>Lire</b>",
+        "btn_filter_cancel":      "<b>Annuler</b>",
+
+        "filter_cancel_fav":      "<b>{position}{count}</b> évènement(s) <b>favori(s)</b>",
+        "filter_cancel_tags":     "<b>{position}{count}</b> évènement(s) \"<b>{tag}</b>\"",
+
 
         "bar_fav_top_page":       "Premier <b>favori</b>",
         "bar_fav_bottom_page":    "Dernier <b>favori</b>",
@@ -98,8 +113,6 @@
         "bar_filter_top_page":    "<b>Premier</b> évènement \"<b>{tag}</b>\"",
         "bar_filter_bottom_page": "<b>Dernier</b> évènement \"<b>{tag}</b>\"",
 
-        "filter_cancel_fav":      "<b>{position}{count}</b> évènement(s) <b>favori(s)</b><br />Cliquez <b>pour annuler</b> la sélection",
-        "filter_cancel_tags":     "<b>{position}{count}</b> évènement(s) \"<b>{tag}</b>\"<br />Cliquez <b>pour annuler</b> la sélection",
 
         "filter_warning_text":    "<b>La liste</b>    avec \"<b>{tag}</b>\"",
         "favorite_warning_text":  "<b>Mes favoris</b> avec \"<b>{tag}</b>\"",
