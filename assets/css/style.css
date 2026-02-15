@@ -527,12 +527,17 @@ h3 {
 
         .bar-top .header-actions .btn-lang {
             background: transparent;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
         .lang-flag {
             font-size: 1.35rem;
             line-height: 1;
-            display: block;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
 

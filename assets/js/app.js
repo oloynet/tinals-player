@@ -820,13 +820,14 @@ function updateSessionDisplay() {
         if (menuEl) menuEl.innerText = menuText;
 
         // Header Logic
-        let headerText = display.normal; // Default
-        if (width < 320) {
-            headerText = display.compact;
-        } else if (width < 640) {
-            headerText = display.normal;
-        } else {
+        let headerText = display.compact; // Default
+
+        if (width >= 768) {
             headerText = display.extended;
+        } else if (width >= 640) {
+            headerText = display.normal;
+        } else if (width >= 480) {
+            headerText = display.short;
         }
 
         const headerEl = document.getElementById(headerId);
