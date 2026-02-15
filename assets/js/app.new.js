@@ -3111,6 +3111,7 @@ function setIsPlayingFavorites( state ) {
 
 /* ----  */
 
+
 function getFilterTag() {
     return AppState.state.currentTagFilter;
 }
@@ -3131,17 +3132,27 @@ function setFilterMode( mode, state ) {
 
 function getFilterMode() {
 
+    /*
+    const isFavMode  = AppState.state.isPlayingFavorites;
+    const isTagMode  = !!AppState.state.currentTagFilter;
+    const currentTag = AppState.state.currentTagFilter;
+
+    // Detect if current tag is a session (day) filter
+    const sessionTags     = AppState.config.sessions.map(s => slugify(s.id));
+    const isSessionFilter = isTagMode && sessionTags.includes(currentTag);
+    */
+
     let mode = '';
 
     if( getIsPlayingFavorites() ) {
         mode = 'favorite';
     }
     else {
-
-        const currentTag  = AppState.state.currentTagFilter;
+        const currentTag  = AppState.state.isPlayingFavorites;
         const isTag       = !!currentTag;
 
         if( isTag ) {
+            //const sessionTags =  AppState.config.sessions.map(s => slugify(s.id));
             const sessionTags = AppState.config.sessions.map(s => slugify(s.id));
             mode = isTag && sessionTags.includes( currentTag )  ?  'session'  :  'tag' ;
         }
