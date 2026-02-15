@@ -1706,7 +1706,7 @@ function updateAtAGlanceFilterWarning() {
     const t    = AppState.config.texts;
     let warningHtml = '';
 
-    if( mode == 'favorite' ) {
+    if( isFilterMode( 'favorite' ) ) {
         warningEl.classList.add( 'favorites' );
 
         const text = t.at_a_glance_favorite_warning_text || "Favorites at a glance";
@@ -1715,7 +1715,7 @@ function updateAtAGlanceFilterWarning() {
         warningEl.innerHTML = warningHtml;
         warningEl.classList.remove( 'hidden' );
     }
-    else if( mode == 'session' ) {
+    else if( isFilterMode( 'session' ) ) {
         const tagName = getFilterTagNameFromSlug( getFilterTag() );
         const text    = ( t.at_a_glance_timeline_warning_text || "Filtered at a glance").replace( '{tag}', tagName );
 
@@ -1723,7 +1723,7 @@ function updateAtAGlanceFilterWarning() {
         warningEl.innerHTML = warningHtml;
         warningEl.classList.remove( 'hidden' );
     }
-    else if(  mode == 'tag' ) {
+    else if(  isFilterMode( 'tag' ) ) {
         const tagName = getFilterTagNameFromSlug( getFilterTag() );
         const text    = ( t.at_a_glance_timeline_warning_text || "Filtered at a glance").replace( '{tag}', tagName );
 
@@ -2090,7 +2090,7 @@ function updateTicketingStats() {
 
 
 function scrollToProgram( shouldPause = true ) {
-    setIsMenuNavigation( true );
+    setIsNavigationMenu( true );
 
     if( shouldPause ) {
         VideoManager.pauseAll();
@@ -2105,7 +2105,7 @@ function scrollToProgram( shouldPause = true ) {
     }
 
     setTimeout( () => {
-        setIsMenuNavigation( false );
+        setIsNavigationMenu( false );
     }, 1200 );
 }
 
@@ -2119,7 +2119,7 @@ function openProgramSession( sessionId ) {
 
 
 function scrollToTicketing() {
-    setIsMenuNavigation( true );
+    setIsNavigationMenu( true );
     cancelFilters();
     VideoManager.pauseAll();
 
@@ -2130,7 +2130,7 @@ function scrollToTicketing() {
     } );
 
     setTimeout( () => {
-        setIsMenuNavigation( false );
+        setIsNavigationMenu( false );
     }, 1200 );
 }
 
@@ -2157,13 +2157,13 @@ function updateURLState() {
 
     const mode = getFilterMode();
 
-    if( mode == 'favorite' && AppState.favorites.length > 0 ) {
+    if( isFilterMode( 'favorite' ) && AppState.favorites.length > 0 ) {
         url.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
     }
-    else if( mode == 'session' ) {
+    else if( isFilterMode( 'session' ) ) {
         url.searchParams.set( 'filter', getFilterTag() );
     }
-    else if( mode == 'tag' ) {
+    else if( isFilterMode( 'tag' ) ) {
         url.searchParams.set( 'filter', getFilterTag() );
     }
     else if( getVideoId() !== null && !isNaN( getVideoId() ) ) {
@@ -2225,13 +2225,13 @@ async function shareCurrent() {
     let urlObj = getBaseShareUrl();
     const mode = getFilterMode();
 
-    if( mode == 'favorite' && AppState.favorites.length > 0 ) {
+    if( isFilterMode( 'favorite' ) && AppState.favorites.length > 0 ) {
         urlObj.searchParams.set( 'favorites', AppState.favorites.join( ',' ) );
     }
-    else if( mode == 'session' ) {
+    else if( isFilterMode( 'session' ) ) {
         urlObj.searchParams.set( 'filter', getFilterTag() );
     }
-    else if( mode == 'tag' ) {
+    else if( isFilterMode( 'tag' ) ) {
         urlObj.searchParams.set( 'filter', getFilterTag() );
     }
     else if( getVideoId() !== null && !isNaN( getVideoId() ) ) {
@@ -2365,7 +2365,7 @@ function setupInteraction() {
             if( !isNaN( id ) ) {
                 VideoManager.togglePlayPause( id );
 
-                if( mode == 'favorite' && !AppState.favorites.includes( id ) ) {
+                if( isFilterMode( 'favorite' ) && !AppState.favorites.includes( id ) ) {
                     exitFavoritesMode();
                 }
             }
@@ -2462,7 +2462,7 @@ function setupObserver() {
 
                     let shouldPlay = false;
 
-                    if( getIsMenuNavigation() ) {
+                    if( getIsNavigationMenu() ) {
                         shouldPlay = false;
                     }
                     else if( AppState.state.isAutoNext ) {
@@ -2482,7 +2482,7 @@ function setupObserver() {
                         }
                     }
 
-                    if( ! getIsMenuNavigation() ) {
+                    if( ! getIsNavigationMenu() ) {
 
                         if( getPreviousVideoId() !== null && VideoManager.instances[ getPreviousVideoId() ] && typeof VideoManager.instances[ getPreviousVideoId() ].pauseVideo === 'function' ) {
                             VideoManager.instances[ getPreviousVideoId() ].pauseVideo();
@@ -2512,7 +2512,7 @@ function setupObserver() {
                         setActiveSession( entry.target.id );
                     }
 
-                    if( ! getIsMenuNavigation() && getPreviousVideoId() !== null && VideoManager.instances[ getPreviousVideoId() ] && typeof VideoManager.instances[ getPreviousVideoId() ].pauseVideo === 'function' ) {
+                    if( ! getIsNavigationMenu() && getPreviousVideoId() !== null && VideoManager.instances[ getPreviousVideoId() ] && typeof VideoManager.instances[ getPreviousVideoId() ].pauseVideo === 'function' ) {
                         VideoManager.instances[ getPreviousVideoId() ].pauseVideo();
                     }
 
@@ -2766,7 +2766,7 @@ function setupScrollToasts() {
         const mode    = getFilterMode();
 
 
-        if( mode == 'favorite' ) {
+        if( isFilterMode( 'favorite' ) ) {
 
             if( AppState.settings.isToastScrollFavorite === false ) {
                 return;
@@ -2775,7 +2775,7 @@ function setupScrollToasts() {
             topMsg    = AppState.config.texts.bar_fav_top_page;
             bottomMsg = AppState.config.texts.bar_fav_bottom_page;
         }
-        else if( mode == 'session' ) {
+        else if( isFilterMode( 'session' ) ) {
 
             if( AppState.settings.isToastScrollFilter === false ) {
                 return;
@@ -2787,7 +2787,7 @@ function setupScrollToasts() {
             bottomMsg     = AppState.config.texts.bar_filter_bottom_page.replace( '{tag}', tagName );
 
         }
-        else if( mode == 'tag' ) {
+        else if( isFilterMode( 'tag' ) ) {
 
             if( AppState.settings.isToastScrollFilter === false ) {
                 return;
@@ -2842,14 +2842,14 @@ function navigateScroll( direction ) {
         }
         else {
             VideoManager.pauseAll( null );
-            setIsMenuNavigation( true );
+            setIsNavigationMenu( true );
 
             target.scrollIntoView( {
                 behavior: 'smooth'
             } );
 
             setTimeout( () => {
-                setIsMenuNavigation( false );
+                setIsNavigationMenu( false );
             }, 1200 );
         }
     }
@@ -2857,7 +2857,7 @@ function navigateScroll( direction ) {
 
 
 function scrollToTop() {
-    setIsMenuNavigation( true );
+    setIsNavigationMenu( true );
     cancelFilters();
     VideoManager.pauseAll();
 
@@ -2867,7 +2867,7 @@ function scrollToTop() {
     } );
 
     setTimeout( () => {
-        setIsMenuNavigation( false );
+        setIsNavigationMenu( false );
     }, 1200 );
 }
 
@@ -3034,12 +3034,12 @@ function updateActionButtons( id ) {
 
 /* APPSTATE  */
 
-function getIsMenuNavigation() {
+function getIsNavigationMenu() {
     return AppState.state.isMenuNavigation;
 }
 
 
-function setIsMenuNavigation( state ) {
+function setIsNavigationMenu( state ) {
     AppState.state.isMenuNavigation = state;
 }
 
@@ -3131,6 +3131,16 @@ function setFilterMode( mode, state ) {
 
 function getFilterMode() {
 
+    /*
+    const isFavMode  = AppState.state.isPlayingFavorites;
+    const isTagMode  = !!AppState.state.currentTagFilter;
+    const currentTag = AppState.state.currentTagFilter;
+
+    // Detect if current tag is a session (day) filter
+    const sessionTags     = AppState.config.sessions.map(s => slugify(s.id));
+    const isSessionFilter = isTagMode && sessionTags.includes(currentTag);
+    */
+
     let mode = '';
 
     if( getIsPlayingFavorites() ) {
@@ -3152,6 +3162,11 @@ function getFilterMode() {
     return mode;
 }
 
+function isFilterMode( mode ) {
+    return getFilterMode() === mode;
+}
+
+
 /* ----  */
 
 function setFilterTag( tagSlug ) {
@@ -3164,10 +3179,10 @@ function getFilterTag() {
     const mode       = getFilterMode();
     const currentTag = AppState.state.currentTagFilter;
 
-    if( mode == 'tag' ) {
+    if( isFilterMode( 'tag' ) ) {
         tag = currentTag;
     }
-    else if( mode == 'session' ) {
+    else if( isFilterMode( 'session' ) ) {
         tag = currentTag;
     }
 
@@ -3206,11 +3221,13 @@ function getFilterTagNameFromSlug( tagSlug ) {
 
 function cancelFilters() {
 
-    if( getFilterMode() == 'favorite' ) {
+    if( isFilterMode( 'favorite' ) ) {
          exitFavoritesMode( false );
     }
-
-    if( getFilterTag() ) {
+    else if( isFilterMode( 'session' ) ) {
+        exitTagFilterMode( false );
+    }
+    else if( isFilterMode( 'tag' ) ) {
         exitTagFilterMode( false );
     }
 }
@@ -3341,7 +3358,7 @@ function toggleFav( id, openDrawer = true ) {
     updateTicketingStats();
     updateAtAGlanceFilterWarning();
 
-    if( mode == 'favorite' ) {
+    if( isFilterMode( 'favorite' ) ) {
         renderFilterBar( 'favorite' );
         updateEmptyStateVisibility();
     }
@@ -3359,7 +3376,7 @@ function playFavorites() {
     setFilterMode( 'favorite', true );
     renderFilterBar( 'favorite' )
 
-    setIsMenuNavigation( true );
+    setIsNavigationMenu( true );
 
     // Find first favorite in Data order
     const firstFav = AppState.data.find( g => AppState.favorites.includes( g.id ) );
@@ -3378,7 +3395,7 @@ function playFavorites() {
 function exitFavoritesMode( shouldScroll = true ) {
     const currentId = getVideoId();
 
-    setIsMenuNavigation( true );
+    setIsNavigationMenu( true );
     setFilterMode( 'favorite', false );
 
 
@@ -3400,7 +3417,7 @@ function exitFavoritesMode( shouldScroll = true ) {
     }
 
     setTimeout( () => {
-        setIsMenuNavigation( false );
+        setIsNavigationMenu( false );
     }, 1000 );
 
     updateActionButtons( getVideoId() );
@@ -3427,7 +3444,7 @@ function updateFilterBarText() {
     let filterName = '';
     let barId      = '';
 
-    if( mode == 'favorite' ) {
+    if( isFilterMode( 'favorite' ) ) {
         barId      = 'fav-mode-bar';
         textKey    = 'filter_cancel_fav';
 
@@ -3439,7 +3456,7 @@ function updateFilterBarText() {
              position = sortedFavs.indexOf( getVideoId() ) + 1;
         }
     }
-    else if( mode == 'session' ) {
+    else if( isFilterMode( 'session' ) ) {
         barId               = 'tag-mode-bar';
         textKey             = 'filter_cancel_tags';
 
@@ -3458,7 +3475,7 @@ function updateFilterBarText() {
             }
         }
     }
-    else if( mode == 'tag' ) {
+    else if( isFilterMode( 'tag' ) ) {
         barId               = 'tag-mode-bar';
         textKey             = 'filter_cancel_tags';
 
@@ -3500,10 +3517,13 @@ function updateFilterBarText() {
 function scrollToFirstFilteredVideo() {
     let selector = '';
 
-    if( getFilterMode() == 'favorite' ) {
+    if( isFilterMode( 'favorite' ) ) {
         selector = '.video-card.is-favorite';
     }
-    else if( getFilterTag() ) {
+    else if( isFilterMode( 'session' ) ) {
+        selector = '.video-card.has-matching-tag';
+    }
+    else if( isFilterMode( 'tag' ) ) {
         selector = '.video-card.has-matching-tag';
     }
 
@@ -3533,12 +3553,12 @@ function renderFilterBar( filterType ) {
     let btnLabelPlay   = '';
     let btnLabelCancel = '';
 
-    if( mode == 'favorite' ) {
+    if( isFilterMode( 'favorite' ) ) {
         barId          = 'fav-mode-bar';
         btnLabelPlay   = AppState.config.texts.btn_filter_play_fav_list   || "Play fav";
         btnLabelCancel = AppState.config.texts.btn_filter_cancel_fav_list || "Cancel fav";
     }
-    else if( mode == 'session' ) {
+    else if( isFilterMode( 'session' ) ) {
         const currentSlug = getFilterTag();
 
         if( !currentSlug ) {
@@ -3549,7 +3569,7 @@ function renderFilterBar( filterType ) {
         btnLabelPlay   = AppState.config.texts.btn_filter_play_tag_list   || "Play session";
         btnLabelCancel = AppState.config.texts.btn_filter_cancel_tag_list || "Cancel session";
     }
-    else if( mode == 'tag' ) {
+    else if( isFilterMode( 'tag' ) ) {
         const currentSlug = getFilterTag();
 
         if( !currentSlug ) {
@@ -3694,10 +3714,13 @@ function updateEmptyStateVisibility() {
     const t          = AppState.config.texts;
     let emptyText    = '';
 
-    if( mode == 'favorite' ) {
+    if( isFilterMode( 'favorite' ) ) {
         emptyText = t.fav_empty   || 'Aucun favori';
     }
-    else if( mode == 'tag' || mode == 'session' ) {
+    else if( isFilterMode( 'session' )  ) {
+        emptyText = t.event_empty || 'Aucun événement';
+    }
+    else if( isFilterMode( 'tag' ) ) {
         emptyText = t.event_empty || 'Aucun événement';
     }
 
@@ -3708,10 +3731,13 @@ function updateEmptyStateVisibility() {
         let visibleCount = 0;
         const sessionItems = AppState.data.filter( g => g.event_session === sessionId );
 
-        if( mode == 'favorite' ) {
+        if( isFilterMode( 'favorite' ) ) {
             visibleCount = sessionItems.filter( g => AppState.favorites.includes( g.id ) ).length;
         }
-        else if( mode == 'tag' || mode == 'session' ) {
+        else if( isFilterMode( 'session' ) ) {
+            visibleCount = sessionItems.filter( g => g.event_tags && g.event_tags.some( tag => slugify( tag ) === currentTag ) ).length;
+        }
+        else if( isFilterMode( 'tag' ) ) {
             visibleCount = sessionItems.filter( g => g.event_tags && g.event_tags.some( tag => slugify( tag ) === currentTag ) ).length;
         }
 
@@ -3724,7 +3750,7 @@ function updateEmptyStateVisibility() {
 
         let shouldShowSeparator = true;
 
-        if( mode == 'session' && sId !== currentTag ) {
+        if( isFilterMode( 'session' ) && sId !== currentTag ) {
             shouldShowSeparator = false;
         }
 
@@ -3818,7 +3844,7 @@ function exitTagFilterMode( shouldScroll = true ) {
 
     const currentId = getVideoId();
 
-    setIsMenuNavigation( true );
+    setIsNavigationMenu( true );
     setFilterTag( null );
 
     /* BUG ON MOZILLA : Make a quick move by displaying the Home card, then display the Event card again */
@@ -3849,7 +3875,7 @@ function exitTagFilterMode( shouldScroll = true ) {
     }
 
     setTimeout( () => {
-        setIsMenuNavigation( false );
+        setIsNavigationMenu( false );
     }, 1000 );
 
     updateActionButtons( getVideoId() );
