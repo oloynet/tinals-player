@@ -3224,7 +3224,15 @@ function setFilterMode( mode, state ) {
 
     if( mode == 'favorite' ) {
         setIsPlayingFavorites( state );
+        return
     }
+    else if( mode == 'session' ) {
+        // todo
+    }
+    else if( mode == 'tag' ) {
+        // todo
+    }
+
 }
 
 function getFilterMode() {
@@ -3390,7 +3398,6 @@ function toggleFavCurrent() {
 function toggleFav( id, openDrawer = true ) {
     const card         = document.getElementById( `video-${id}` );
     const programItems = document.querySelectorAll( `.program-item[data-id="${id}"]` );
-    const mode         = getFilterMode();
 
     if( AppState.favorites.includes( id ) ) {
 
@@ -3431,7 +3438,7 @@ function toggleFav( id, openDrawer = true ) {
 
         const drawer = document.getElementById( 'fav-timeline-drawer' );
 
-        if( openDrawer && !drawer.classList.contains( 'active' ) && mode != 'favorite' ) {
+        if( openDrawer && !drawer.classList.contains( 'active' ) && !isFilterMode( 'favorite' ) ) {
             toggleFavTimelineDrawer( 'favorites' );
             startDrawerAutoCloseTimer();
         }
