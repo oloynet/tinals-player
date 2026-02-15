@@ -401,7 +401,7 @@ h3 {
 
     .flag-icon {
         display: inline-block;
-        width: 1.5em;
+        width: 1.0em;
         height: auto;
         vertical-align: middle;
     }
@@ -488,8 +488,8 @@ h3 {
         .bar-top .header-actions .btn-program,
         .bar-top .header-actions .btn-ticket,
         .bar-top .header-actions .btn-lang {
-            font-weight: bold;
-            font-size: 0.65em;
+            /* font-weight: bold; */
+            /* font-size: 0.65em; */
             padding: 4px 8px;
             cursor: pointer;
             text-decoration: none;
@@ -530,7 +530,7 @@ h3 {
         }
 
         .lang-flag {
-            font-size: 1.5rem;
+            font-size: 1.35rem;
             line-height: 1;
             display: block;
         }
@@ -3634,7 +3634,7 @@ h3 {
             }
 
             .lang-flag {
-                font-size: 2.0rem;
+                font-size: 1.8rem;
             }
 
         /* --- DRAWER --- */
@@ -3689,7 +3689,7 @@ h3 {
         }
 
         .bar-top .header-actions #btn-header-lang {
-            margin-left: 5px;
+            /* margin-left: 5px; */
         }
 
         .bar-top .header-actions .lang-flag {
