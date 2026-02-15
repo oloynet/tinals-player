@@ -116,7 +116,7 @@ async function init() {
         // Handle Version
         if( validParams.has( 'version' ) ) {
             validParams.delete( 'version' );
-            const newUrl = window.location.pathname + ( validParams.toString() ? '?' + validParams.toString() : '' ) + window.location.hash;
+            const newUrl = window.location.pathname + ( validParams.toString()  ?  '?' + validParams.toString()  :  '' ) + window.location.hash;
             window.history.replaceState( null, '', newUrl );
 
             clearServiceWorkerAndCache();
@@ -126,7 +126,7 @@ async function init() {
 
         // Update URL if params were dirty ( stripped)
         if( rawParams.toString() !== validParams.toString() ) {
-             const newUrl = window.location.pathname + ( validParams.toString() ? '?' + validParams.toString() : '' ) + window.location.hash;
+             const newUrl = window.location.pathname + ( validParams.toString()  ?  '?' + validParams.toString()  :  '' ) + window.location.hash;
              window.history.replaceState( null, '', newUrl );
         }
 
@@ -137,7 +137,7 @@ async function init() {
         document.documentElement.lang = AppState.currentLang;
 
         const mainConfigFile  = 'config/config.json?v2.063';
-        const langConfigFile  = AppState.currentLang === 'en' ? 'config/config_en.json?v2.063' : 'config/config_fr.json?v2.063';
+        const langConfigFile  = AppState.currentLang === 'en'  ?  'config/config_en.json?v2.063'  :  'config/config_fr.json?v2.063';
         const localConfigFile = 'config/config.local.json?v2.063';
 
         // 1. & 2. Charger les configs en parallèle
@@ -193,13 +193,15 @@ async function init() {
         }
 
         if( AppState.settings.isDebugJS ) {
+
             console.log( "--- DEBUG MODE ACTIVATED ---" );
             console.log( "    is_debug_tool: true" );
+
             attachDebugWrappers( VideoManager, "VideoManager" );
             attachDebugWrappers( ControlBar,   "ControlBar" );
         }
 
-        const dataSource = ( AppState.config.site && AppState.config.site.data_source ) ? AppState.config.site.data_source : 'data.json';
+        const dataSource = ( AppState.config.site && AppState.config.site.data_source )  ?  AppState.config.site.data_source  :  'data.json';
         const response   = await fetch(  dataSource );
 
         if( !response.ok ) {
@@ -275,7 +277,7 @@ async function init() {
         const filterParam  = urlParams.get( 'filter' );
         const favsParam    = urlParams.get( 'favorites' );
         const idParam      = urlParams.get( 'id' );
-        const hash         = window.location.hash ? window.location.hash.substring( 1 ) : null;
+        const hash         = window.location.hash  ?  window.location.hash.substring( 1 )  :  null;
 
         renderFeed();
         renderDrawerFavorites();
@@ -387,29 +389,32 @@ async function init() {
                         .replace( /"/g, "&quot;")
                         .replace( /'/g, "&#039;" );
                 };
-                const errString = e ? escapeHtml( e.toString() ) : "Unknown Error";
-                const errStack  = e && e.stack ? escapeHtml( e.stack ) : "";
+                const errString = e  ?  escapeHtml( e.toString() )  :  "Unknown Error";
+                const errStack  = e && e.stack  ?  escapeHtml( e.stack )  :  "";
                 jsErrorHtml = `
-                <div style="margin-bottom: 50px;">
-                    <pre style="text-align: left; font-family: monospace; background: var(--black-a5-color); padding: 10px; overflow: auto; max-height: 50vh; var(--white-color)-space: pre-wrap; word-wrap: break-word;">
-                        ${errString}\n\n${errStack}
-                    </pre>
-                </div>`;
+                    <div style="margin-bottom: 50px;">
+                        <pre style="text-align: left; font-family: monospace; background: var(--black-a5-color); padding: 10px; overflow: auto; max-height: 50vh; var(--white-color)-space: pre-wrap; word-wrap: break-word;">
+                            ${errString}\n\n${errStack}
+                        </pre>
+                    </div>
+                `;
             }
 
             loader.innerHTML = `
-            <div class="console-error" style="text-align: center; color: var(--white-color);margin: 0 40px;">
-                <div>
-                    <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur application TINALS</h1>
-                    <p class='loader-error-msg' style="margin-bottom: 50px;">Le problème trouve souvent son origine dans le système de cache du navigateur ou a une erreur javascript<br>
-                    <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">TINALS application error</h1>
-                    <p class='loader-error-msg' style="margin-bottom: 50px;">The problem often originates in the browser's cache system or a javascript error</p>
+                <div class="console-error" style="text-align: center; color: var(--white-color);margin: 0 40px;">
+                    <div>
+                        <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">Erreur application TINALS</h1>
+                        <p class='loader-error-msg' style="margin-bottom: 50px;">Le problème trouve souvent son origine dans le système de cache du navigateur ou a une erreur javascript<br>
+
+                        <h1 style="margin-bottom: 20px; font-size: 1.5rem; text-transform: uppercase;">TINALS application error</h1>
+                        <p class='loader-error-msg' style="margin-bottom: 50px;">The problem often originates in the browser's cache system or a javascript error</p>
+                    </div>
+                    ${jsErrorHtml}
+                    <div>
+                        <button class="reload-btn" onclick="clearServiceWorkerAndCache()">Essayer de recharger / Try reload</button>
+                    </div>
                 </div>
-                ${jsErrorHtml}
-                <div>
-                    <button class="reload-btn" onclick="clearServiceWorkerAndCache()">Réinitialiser / Try reload</button>
-                </div>
-            </div>`;
+            `;
         }
     }
 }
@@ -689,45 +694,45 @@ function applyConfigs() {
             },
             icons: [
                 {
-                    src: c.images.icon_192,
-                    sizes: "192x192",
-                    type: "image/png",
+                    src:     c.images.icon_192,
+                    sizes:   "192x192",
+                    type:    "image/png",
                     purpose: "maskable"
                 },
                 {
-                    src: c.images.icon_512,
-                    sizes: "512x512",
-                    type: "image/png",
+                    src:     c.images.icon_512,
+                    sizes:   "512x512",
+                    type:    "image/png",
                     purpose: "maskable"
                 },
                 {
-                    src: c.images.icon_192_maskable,
-                    sizes: "192x192",
-                    type: "image/png",
+                    src:     c.images.icon_192_maskable,
+                    sizes:   "192x192",
+                    type:    "image/png",
                     purpose: "any"
                 },
                 {
-                    src: c.images.icon_512_maskable,
-                    sizes: "512x512",
-                    type: "image/png",
+                    src:     c.images.icon_512_maskable,
+                    sizes:   "512x512",
+                    type:    "image/png",
                     purpose: "any"
                 },
                 {
-                    src: c.images.apple_touch_icon,
-                    sizes: "180x180",
-                    type: "image/png",
+                    src:     c.images.apple_touch_icon,
+                    sizes:   "180x180",
+                    type:    "image/png",
                     purpose: "maskable"
                 },
                 {
-                    src: c.images.favicon,
-                    sizes: "48x48",
-                    type: "image/vnd.microsoft.icon",
+                    src:     c.images.favicon,
+                    sizes:   "48x48",
+                    type:    "image/vnd.microsoft.icon",
                     purpose: "any"
                 },
                 {
-                    src: c.images.icon_svg,
-                    sizes: "512x512",
-                    type: "image/svg+xml",
+                    src:     c.images.icon_svg,
+                    sizes:   "512x512",
+                    type:    "image/svg+xml",
                     purpose: "any"
                 }
             ]
@@ -766,7 +771,10 @@ function updateDebugMenu() {
 
     const debugItem     = document.createElement( 'li' );
     debugItem.onclick   = () => handleMenuAction( 'debug' );
-    debugItem.innerHTML = `<span class="material-icons menu-icon">bug_report</span><span class="menu-text" id="menu-txt-debug">Outil de debug</span>`;
+    debugItem.innerHTML = `
+        <span class="material-icons menu-icon">bug_report</span>
+        <span class="menu-text" id="menu-txt-debug">Outil de debug</span>
+    `;
 
     // Insert before shareItem
     shareItem.parentNode.insertBefore( debugItem, shareItem );
@@ -887,8 +895,12 @@ function updateStaticTexts() {
 
 
 function updateFlags() {
-    const flagId     = AppState.currentLang === 'fr' ? 'en-flag' : 'fr-flag';
-    const flagHtml   = `<svg class="flag-icon" viewBox="0 0 50 30"><use href="${AppState.config.images.sprite_path}#${flagId}"></use></svg>`;
+    const flagId     = AppState.currentLang === 'fr'  ?  'en-flag'  :  'fr-flag';
+    const flagHtml   = `
+        <svg class="flag-icon" viewBox="0 0 50 30">
+            <use href="${AppState.config.images.sprite_path}#${flagId}"></use>
+        </svg>
+    `;
 
     const headerFlag = document.getElementById( 'header-lang-flag' );
     const menuFlag   = document.getElementById( 'menu-lang-flag' );
@@ -921,7 +933,9 @@ function getFormattedDateHtml( dateStr, context ) {
     }
 
     // Default text is normal, will be updated by updateDynamicDates
-    return `<span class="js-dynamic-date" data-date="${dateStr}" data-context="${context}">${session.display.normal}</span>`;
+    return `
+        <span class="js-dynamic-date" data-date="${dateStr}" data-context="${context}">${session.display.normal}</span>
+    `;
 }
 
 
@@ -1060,7 +1074,9 @@ function formatDate( dateStr ) {
 /* GET HTML */
 
 function getSvgHtml( spriteId, cssClass ) {
-    return `<svg class="${cssClass}"><use href="${AppState.config.images.sprite_path}#${spriteId}"></use></svg>`;
+    return `
+        <svg class="${cssClass}"><use href="${AppState.config.images.sprite_path}#${spriteId}"></use></svg>
+    `;
 }
 
 
@@ -1099,7 +1115,8 @@ function getHomeCardHtml() {
                     </div>
                 </div>
             </div>
-        </section>`;
+        </section>
+    `;
 }
 
 
@@ -1108,12 +1125,13 @@ function getProgramCardHtml() {
     const itemsHtml = getProgramItemsHtml();
 
     return `
-    <section id="program" class="section-snap">
-        <h2 id="program-title">${t.program_title || 'En un coup d\'oeil'}</h2>
-        <div class="program-grid">
-            ${itemsHtml}
-        </div>
-    </section>`;
+        <section id="program" class="section-snap">
+            <h2 id="program-title">${t.program_title || 'En un coup d\'oeil'}</h2>
+            <div class="program-grid">
+                ${itemsHtml}
+            </div>
+        </section>
+    `;
 }
 
 
@@ -1130,18 +1148,21 @@ function getProgramItemsHtml() {
         if( g.event_session && g.event_session !== lastSession ) {
 
              if( lastSession ) {
-                 itemsHtml += `<div class="program-empty-placeholder" data-session="${lastSession}"></div>`;
+                itemsHtml += `
+                    <div class="program-empty-placeholder" data-session="${lastSession}"></div>
+                `;
              }
 
              if( isDisplayProgramHead ) {
                  const session = AppState.config.sessions.find( s => s.id === g.event_session && s.display );
 
                  if( session && session.display ) {
-                      const sId = slugify( session.id );
-                      itemsHtml += `
-                      <div class="program-separator" data-slug="${sId}" onclick="filterByTag( '${sId}', event, false )">
-                          <h3><span>${session.display.tag || ''}</span><span class="session-date">${session.display.normal || ''}</span></h3>
-                      </div>`;
+                    const sId = slugify( session.id );
+                    itemsHtml += `
+                        <div class="program-separator" data-slug="${sId}" onclick="filterByTag( '${sId}', event, false )">
+                            <h3><span>${session.display.tag || ''}</span><span class="session-date">${session.display.normal || ''}</span></h3>
+                        </div>
+                    `;
                  }
              }
              lastSession = g.event_session;
@@ -1151,14 +1172,16 @@ function getProgramItemsHtml() {
         let timeString      = '';
 
         if( s.isDisplayDate && g.event_start_date ) {
-             programDateHtml = `<span class="program-date">${getFormattedDateHtml( g.event_start_date, 'program')}</span>`;
+            programDateHtml = `
+                <span class="program-date">${getFormattedDateHtml( g.event_start_date, 'program')}</span>
+            `;
         }
 
         if( s.isDisplayTime ) {
             timeString = g.event_start_time || '';
         }
 
-        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
+        const placeName = ( s.isDisplayPlace && g.event_place )  ?  g.event_place  :  '';
 
         // Construct date/place html parts
         let metaHtml = '';
@@ -1178,38 +1201,43 @@ function getProgramItemsHtml() {
         const isFav = AppState.favorites.includes( g.id );
         const thumb = g.image_artist || g.image_thumbnail || g.image;
 
-        const favClass = isFav ? 'is-favorite' : '';
+        const favClass = isFav  ?  'is-favorite'  :  '';
 
         const favIconHtml = isFav
             ? '<span class="material-icons primary-color">favorite</span>'
             : '<span class="material-icons white-color">favorite_border</span>';
 
-        const imageX = ( g.image_x !== undefined && g.image_x !== null ) ? g.image_x : ( AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50 );
-        const imageY = ( g.image_y !== undefined && g.image_y !== null ) ? g.image_y : ( AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25 );
+        const imageX = ( g.image_x !== undefined && g.image_x !== null )
+            ?  g.image_x
+            : ( AppState.config.features.image_x !== undefined  ?  AppState.config.features.image_x  :  50 );
+        const imageY = ( g.image_y !== undefined && g.image_y !== null )
+            ?  g.image_y
+            : ( AppState.config.features.image_y !== undefined  ?  AppState.config.features.image_y  :  25 );
 
         const objectPosStyle = `object-position: ${imageX}% ${imageY}%;`;
 
         itemsHtml += `
-        <div class="program-item ${favClass}" data-id="${g.id}" data-session="${g.event_session}" onclick="VideoManager.handleItemClick( event, ${g.id} )">
-            <button class="program-like-btn" onclick="toggleFav( ${g.id}, false ); event.stopPropagation();">
-                ${favIconHtml}
-            </button>
-            <div class="program-image-container">
-                <img src="${thumb}" class="program-image" style="${objectPosStyle}" loading="lazy" alt="${g.event_name}">
-            </div>
-            <div class="program-content">
-                <div class="program-title-row">
-                    <div class="program-title">${g.event_name}</div>
-                    <div class="playing-indicator" onclick="VideoManager.handleBargraphClick( event, ${g.id} )">
-                        <div class="playing-bar"></div>
-                        <div class="playing-bar"></div>
-                        <div class="playing-bar"></div>
-                    </div>
-                    <button class="program-play-btn material-icons" onclick="VideoManager.handlePlayClick( event, ${g.id} )">play_arrow</button>
+            <div class="program-item ${favClass}" data-id="${g.id}" data-session="${g.event_session}" onclick="VideoManager.handleItemClick( event, ${g.id} )">
+                <button class="program-like-btn" onclick="toggleFav( ${g.id}, false ); event.stopPropagation();">
+                    ${favIconHtml}
+                </button>
+                <div class="program-image-container">
+                    <img src="${thumb}" class="program-image" style="${objectPosStyle}" loading="lazy" alt="${g.event_name}">
                 </div>
-                <div class="program-date-place">${metaHtml}</div>
+                <div class="program-content">
+                    <div class="program-title-row">
+                        <div class="program-title">${g.event_name}</div>
+                        <div class="playing-indicator" onclick="VideoManager.handleBargraphClick( event, ${g.id} )">
+                            <div class="playing-bar"></div>
+                            <div class="playing-bar"></div>
+                            <div class="playing-bar"></div>
+                        </div>
+                        <button class="program-play-btn material-icons" onclick="VideoManager.handlePlayClick( event, ${g.id} )">play_arrow</button>
+                    </div>
+                    <div class="program-date-place">${metaHtml}</div>
+                </div>
             </div>
-        </div>`;
+        `;
     } );
 
     if( lastSession ) {
@@ -1222,13 +1250,21 @@ function getProgramItemsHtml() {
 
 function getVideoCardHtml( g ) {
     const s        = AppState.settings;
-    const tagsHtml = ( s.isDisplayTag && g.event_tags ) ? `<div class="tags-container">${g.event_tags.map( t => {
-        const slug = slugify( t );
-        return `<span class="tag-pill" data-slug="${slug}" onclick="filterByTag( '${slug}', event )">${translateText(t, 'tags')}</span>`;
-    } ).join( '')}</div>` : '';
+    const tagsHtml = ( s.isDisplayTag && g.event_tags )
+        ? `
+            <div class="tags-container">${g.event_tags.map( t => {
+                const slug = slugify( t );
+                return `<span class="tag-pill" data-slug="${slug}" onclick="filterByTag( '${slug}', event )">${translateText(t, 'tags')}</span>`;
+            } ).join( '' ) }</div>
+        `
+        : '';
 
-    const artistSongTitle = ( s.isDisplayRecordName && g.video_title ) ? `<h3 class="artist-song-title" onclick="toggleArtistDescription( this.parentNode.querySelector( '.artist-description'), event)">"${g.video_title}"</h3>` : '';
-    const boxSongTitle    = ( s.isDisplayRecordName && g.video_title ) ? `<h3>"${g.video_title}"</h3>` : '';
+    const artistSongTitle = ( s.isDisplayRecordName && g.video_title )
+        ? `
+            <h3 class="artist-song-title" onclick="toggleArtistDescription( this.parentNode.querySelector( '.artist-description'), event)">"${g.video_title}"</h3>
+          `
+        : '';
+    const boxSongTitle    = ( s.isDisplayRecordName && g.video_title )  ?  `<h3>"${g.video_title}"</h3>` : '';
 
     let timeString = '';
 
@@ -1240,7 +1276,7 @@ function getVideoCardHtml( g ) {
         }
     }
 
-    const placeName    = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
+    const placeName    = ( s.isDisplayPlace && g.event_place )  ?  g.event_place  :  '';
 
     let artistDateHtml = '';
     let boxSplashHtml  = '';
@@ -1273,24 +1309,42 @@ function getVideoCardHtml( g ) {
         boxSplashHtml += `<span class="box-meta-date">${dateTimeStr}</span>`;
     }
 
-    const boxMetaHtml     = boxSplashHtml ? `<div class="box-meta">${boxSplashHtml}</div>` : '';
+    const boxMetaHtml     = boxSplashHtml  ?  `<div class="box-meta">${boxSplashHtml}</div>`  :  '';
 
-    const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN ) ? g.descriptionEN : g.description;
+    const descriptionText = ( AppState.currentLang === 'en' && g.descriptionEN )  ?  g.descriptionEN  :  g.description;
     const socialsHtml     = getSocialsHtml( g );
     const ticketButtonsHtml = getTicketButtonsHtml( g );
-    const descHtml        = ( s.isDisplayArtistDescription && descriptionText ) ? `<div class="artist-description" onclick="toggleArtistDescription( this, event )"><div class="desc-header-row"><div class="desc-state-icon material-icons">expand_less</div><div class="desc-text">${descriptionText}</div></div>${socialsHtml}${ticketButtonsHtml}</div>` : '';
+    const descHtml        = ( s.isDisplayArtistDescription && descriptionText )
+        ? `
+            <div class="artist-description" onclick="toggleArtistDescription( this, event )">
+                <div class="desc-header-row">
+                    <div class="desc-state-icon material-icons">expand_less</div>
+                    <div class="desc-text">${descriptionText}</div>
+                </div>
+                ${socialsHtml}${ticketButtonsHtml}
+            </div>
+        `
+        : '';
+
     const artistAvatarImg = g.image_thumbnail || g.image;
 
     const artistAvatarHtml = `
         <div class="artist-avatar-container" onclick="toggleArtistDescription( this.parentNode.querySelector( '.artist-description'), event )">
             <img src="${artistAvatarImg}" class="artist-avatar" loading="lazy" alt="${g.event_name}">
-        </div>`;
+        </div>
+    `;
 
     const isMobile = isMobileDevice();
-    const bgImage  = ( isMobile && g.image_mobile ) ? g.image_mobile : g.image;
+    const bgImage  = ( isMobile && g.image_mobile )  ?  g.image_mobile  :  g.image;
 
-    const imageX = ( g.image_x !== undefined && g.image_x !== null ) ? g.image_x : ( AppState.config.features.image_x !== undefined ? AppState.config.features.image_x : 50 );
-    const imageY = ( g.image_y !== undefined && g.image_y !== null ) ? g.image_y : ( AppState.config.features.image_y !== undefined ? AppState.config.features.image_y : 25 );
+    const imageX = ( g.image_x !== undefined && g.image_x !== null )
+        ? g.image_x
+        : ( AppState.config.features.image_x !== undefined  ?  AppState.config.features.image_x  :  50 );
+
+    const imageY = ( g.image_y !== undefined && g.image_y !== null )
+        ? g.image_y
+        : ( AppState.config.features.image_y !== undefined  ?  AppState.config.features.image_y  :  25 );
+
     const bgPosition = `${imageX}% ${imageY}%`;
 
     // Status logic
@@ -1301,42 +1355,52 @@ function getVideoCardHtml( g ) {
 
     if( displayedStatuses.includes( status ) ) {
         const statusKey   = 'status_' + status;
-        const statusLabel = ( AppState.config.texts && AppState.config.texts[statusKey] ) ? AppState.config.texts[statusKey] : status.replace( '_', ' ').toUpperCase();
+        const statusLabel = ( AppState.config.texts && AppState.config.texts[statusKey] )
+            ? AppState.config.texts[statusKey]
+            : status.replace( '_', ' ').toUpperCase();
+
         const statusClass = 'status-' + status.replace( '_', '-' );
         eventStatusBadge  = `<div class="status-badge ${statusClass}">${statusLabel}</div>`;
     }
 
-    const boxTitleHtml = s.isDisplayBoxTitle ? `
+    const boxTitleHtml = s.isDisplayBoxTitle
+        ? `
             <div class="box-title">
                 <h2>${g.event_name}</h2>
                 ${boxSongTitle}
                 ${boxMetaHtml}
                 ${eventStatusBadge}
-            </div>` : '';
-
-    const artistOverlayHtml = s.isDisplayArtist ? `
-        <div class="artist-overlay">
-            <div class="artist-info">
-                ${artistAvatarHtml}
-                <h2 onclick="toggleArtistDescription( this.parentNode.querySelector( '.artist-description' ), event )">${g.event_name}</h2>
-                <div class="artist-date-place">${artistDatePlace}</div>
-                ${artistSongTitle}
-                ${tagsHtml}
-                ${descHtml}
             </div>
-        </div>` : '';
+        `
+        : '';
+
+    const artistOverlayHtml = s.isDisplayArtist
+        ? `
+            <div class="artist-overlay">
+                <div class="artist-info">
+                    ${artistAvatarHtml}
+                    <h2 onclick="toggleArtistDescription( this.parentNode.querySelector( '.artist-description' ), event )">${g.event_name}</h2>
+                    <div class="artist-date-place">${artistDatePlace}</div>
+                    ${artistSongTitle}
+                    ${tagsHtml}
+                    ${descHtml}
+                </div>
+            </div>
+        `
+        : '';
 
     return `
-    <article class="video-card section-snap ${AppState.favorites.includes( g.id ) ? 'is-favorite' : ''}" id="video-${g.id}" data-id="${g.id}">
-        <div class="video-container">
-            ${boxTitleHtml}
-            <img class="video-background" src="${bgImage}" style="object-position: ${bgPosition};" loading="lazy" alt="">
-            <div id="player-${g.id}" class="yt-placeholder"></div>
-            <div class="video-click-layer"></div>
-            <div class="video-state-icon material-icons">play_arrow</div>
-        </div>
-        ${artistOverlayHtml}
-    </article>`;
+        <article class="video-card section-snap ${AppState.favorites.includes( g.id )  ?  'is-favorite'  :  ''}" id="video-${g.id}" data-id="${g.id}">
+            <div class="video-container">
+                ${boxTitleHtml}
+                <img class="video-background" src="${bgImage}" style="object-position: ${bgPosition};" loading="lazy" alt="${g.event_name}" />
+                <div id="player-${g.id}" class="yt-placeholder"></div>
+                <div class="video-click-layer"></div>
+                <div class="video-state-icon material-icons">play_arrow</div>
+            </div>
+            ${artistOverlayHtml}
+        </article>
+    `;
 }
 
 
@@ -1354,7 +1418,7 @@ function renderFeed() {
 /* TOGGLE */
 
 function toggleLanguage() {
-    const newLang = AppState.currentLang === 'fr' ? 'en' : 'fr';
+    const newLang = AppState.currentLang === 'fr'  ?  'en'  :  'fr';
     const url     = new URL( window.location );
 
     url.searchParams.set( 'lang', newLang );
@@ -1378,7 +1442,7 @@ function toggleMainMenu() {
     else {
         closeFavTimelineDrawers(); // Close other drawers first
 
-        drawer.classList.add( 'active' );
+        drawer.classList.add(  'active' );
         overlay.classList.add( 'active' );
         setIsMainMenu( true );
     }
@@ -1386,7 +1450,7 @@ function toggleMainMenu() {
 
 
 function closeMainMenu() {
-    const drawer = document.getElementById( 'main-menu-drawer' );
+    const drawer  = document.getElementById( 'main-menu-drawer' );
     const overlay = document.getElementById( 'drawer-overlay' );
 
     if( drawer ) {
@@ -1407,7 +1471,7 @@ function closeMainMenu() {
 
 
 function handleMenuAction( action ) {
-    const s = AppState.settings;
+    const s     = AppState.settings;
     const links = AppState.config.external_links;
 
     switch ( action ) {
@@ -1604,8 +1668,10 @@ let confirmCallback = null;
 
 function openConfirmModal( title, text, onYes ) {
     const modal = document.getElementById( 'confirm-modal' );
+
     document.getElementById( 'confirm-title').innerText = title;
     document.getElementById( 'confirm-text').innerHTML  = text;
+
     confirmCallback = onYes;
     modal.classList.add( 'active' );
 }
@@ -1613,6 +1679,7 @@ function openConfirmModal( title, text, onYes ) {
 
 function closeConfirmModal() {
     const modal = document.getElementById( 'confirm-modal' );
+
     modal.classList.remove( 'active' );
     confirmCallback = null;
 }
@@ -1655,8 +1722,10 @@ function toggleAtAGlanceDrawer() {
     else {
         closeFavTimelineDrawers(); // Close other drawers
         closeMainMenu();
-        drawer.classList.add( 'active' );
+
+        drawer.classList.add(  'active' );
         overlay.classList.add( 'active' );
+
         updateAtAGlanceFilterWarning(); // Update warning when opening
 
         // Scroll to active item if any
@@ -1689,7 +1758,7 @@ function renderAtAGlance() {
 
     if( list ) {
         const itemsHtml = getProgramItemsHtml();
-        list.innerHTML = `<div class="program-grid">${itemsHtml}</div>`;
+        list.innerHTML  = `<div class="program-grid">${itemsHtml}</div>`;
     }
     updateAtAGlanceFilterWarning();
 }
@@ -1711,23 +1780,38 @@ function updateAtAGlanceFilterWarning() {
 
         const text = t.at_a_glance_favorite_warning_text || "Favorites at a glance";
 
-        warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        warningHtml = `
+            <div>${text}</div>
+            <button onclick="cancelFilters()">
+                <span class="material-icons">cancel</span>
+            </button>
+        `;
         warningEl.innerHTML = warningHtml;
         warningEl.classList.remove( 'hidden' );
     }
     else if( isFilterMode( 'session' ) ) {
-        const tagName = getFilterTagNameFromSlug( getFilterTag() );
+        const tagName = getFilterTagLabel();
         const text    = ( t.at_a_glance_timeline_warning_text || "Filtered at a glance").replace( '{tag}', tagName );
 
-        warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        warningHtml = `
+            <div>${text}</div>
+            <button onclick="cancelFilters()">
+                <span class="material-icons">cancel</span>
+            </button>
+        `;
         warningEl.innerHTML = warningHtml;
         warningEl.classList.remove( 'hidden' );
     }
     else if(  isFilterMode( 'tag' ) ) {
-        const tagName = getFilterTagNameFromSlug( getFilterTag() );
+        const tagName = getFilterTagLabel();
         const text    = ( t.at_a_glance_timeline_warning_text || "Filtered at a glance").replace( '{tag}', tagName );
 
-        warningHtml = `<div>${text}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        warningHtml = `
+            <div>${text}</div>
+            <button onclick="cancelFilters()">
+                <span class="material-icons">cancel</span>
+            </button>
+        `;
         warningEl.innerHTML = warningHtml;
         warningEl.classList.remove( 'hidden' );
     }
@@ -1755,6 +1839,7 @@ function scrollToAtAGlanceItem( id ) {
 function toggleFavTimelineDrawer( tabName ) {
     const drawer   = document.getElementById( 'fav-timeline-drawer' );
     const overlay  = document.getElementById( 'drawer-overlay' );
+
     const isActive = drawer.classList.contains( 'active' );
 
     // If already open
@@ -1860,7 +1945,13 @@ function getSocialsHtml( g ) {
     const links = networks.filter( n => g[n.key]).map( n => {
 
         if( n.sprite ) {
-            return `<a href="${g[n.key]}" target="_blank" class="social-icon-link ${n.class}" title="${n.label}"><svg class="social-icon-svg" viewBox="${n.viewBox}"><use href="${AppState.config.images.sprite_path}#${n.sprite}"></use></svg></a>`;
+            return `
+                <a href="${g[n.key]}" target="_blank" class="social-icon-link ${n.class}" title="${n.label}">
+                    <svg class="social-icon-svg" viewBox="${n.viewBox}">
+                        <use href="${AppState.config.images.sprite_path}#${n.sprite}"></use>
+                    </svg>
+                </a>
+            `;
         }
         return `<a href="${g[n.key]}" target="_blank" class="social-pill" title="${n.label}">${n.label}</a>`;
     } );
@@ -1944,13 +2035,14 @@ function getTicketButtonsHtml( g ) {
         const color    = ticket.button_color     || '';
 
         return `
-        <a href="${url}" target="_blank" class="artist-ticket-btn ${color}" onclick="event.stopPropagation()">
-            <span class="material-icons artist-ticket-icon">confirmation_number</span>
-            <div class="artist-ticket-info">
-                <span class="ticket-title">${title}</span>
-                <span class="ticket-subtitle">${subtitle}</span>
-            </div>
-        </a>`;
+            <a href="${url}" target="_blank" class="artist-ticket-btn ${color}" onclick="event.stopPropagation()">
+                <span class="material-icons artist-ticket-icon">confirmation_number</span>
+                <div class="artist-ticket-info">
+                    <span class="ticket-title">${title}</span>
+                    <span class="ticket-subtitle">${subtitle}</span>
+                </div>
+            </a>
+        `;
     } ).join( '' );
 
     if( buttonsHtml ) {
@@ -2010,7 +2102,10 @@ function getTicketingCardHtml() {
                     likesHtml = `
                     <div class="ticket-likes-row" id="ticket-likes-${ticket.id}">
                         <span class="material-icons">favorite</span>
-                        <span class="likes-text"><span class="likes-count">${likesCount}</span> ${t.ticket_likes_label}</span>
+                        <span class="likes-text">
+                            <span class="likes-count">${likesCount}</span>
+                            ${t.ticket_likes_label}
+                        </span>
                     </div>`;
                 }
 
@@ -2035,7 +2130,8 @@ function getTicketingCardHtml() {
                             ${likesHtml}
                             ${countHtml}
                             ${listHtml}
-                        </div>`;
+                        </div>
+                    `;
                 }
             }
 
@@ -2045,7 +2141,8 @@ function getTicketingCardHtml() {
                     <h3>${subtitle}</h3>
                     ${btnHtml}
                     ${statsHtml}
-                </div>`;
+                </div>
+            `;
         } );
     }
 
@@ -2055,7 +2152,8 @@ function getTicketingCardHtml() {
             <div class="ticket-container">
                 ${blocksHtml}
             </div>
-        </section>`;
+        </section>
+    `;
 }
 
 
@@ -2298,8 +2396,8 @@ function shareTo( platform ) {
         } );
     }
     else if( platform === 'qrcode' ) {
-        const qrContainer = document.getElementById( 'qr-result' );
-        qrContainer.innerHTML = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}" alt="QR Code">`;
+        const qrContainer         = document.getElementById( 'qr-result' );
+        qrContainer.innerHTML     = `<img src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=${url}" alt="QR Code">`;
         qrContainer.style.display = 'block';
         return;
     }
@@ -2326,8 +2424,8 @@ async function shareFavoritesList() {
         try {
             await navigator.share( {
                 title: AppState.config.texts.share_title,
-                text: AppState.config.texts.fav_title,
-                url: url
+                text:  AppState.config.texts.fav_title,
+                url:   url
             } );
         } catch( err ) {}
     }
@@ -2573,8 +2671,8 @@ function handleGesture( startX, startY, endX, endY ) {
             const favDrawer       = document.getElementById( 'fav-timeline-drawer' );
             const atAGlanceDrawer = document.getElementById( 'at-a-glance-drawer' );
 
-            const isFavOpen       = favDrawer ? favDrawer.classList.contains( 'active' ) : false;
-            const isAtAGlanceOpen = atAGlanceDrawer ? atAGlanceDrawer.classList.contains( 'active' ) : false;
+            const isFavOpen       = favDrawer        ?  favDrawer.classList.contains( 'active' )        :  false;
+            const isAtAGlanceOpen = atAGlanceDrawer  ?  atAGlanceDrawer.classList.contains( 'active' )  :  false;
             const isMenuOpen      = getIsMainMenu();
 
             if( !isMenuOpen && !isFavOpen && !isAtAGlanceOpen ) {
@@ -2761,8 +2859,8 @@ function setupScrollToasts() {
         const st      = feed.scrollTop;
         const h       = feed.clientHeight;
         const sh      = feed.scrollHeight;
-        let topMsg    = "";
-        let bottomMsg = "";
+        let topMsg    = '';
+        let bottomMsg = '';
         const mode    = getFilterMode();
 
 
@@ -2781,7 +2879,7 @@ function setupScrollToasts() {
                 return;
             }
 
-            const tagName = getFilterTagNameFromSlug( getFilterTag() );
+            const tagName = getFilterTagLabel();
 
             topMsg        = AppState.config.texts.bar_filter_top_page.replace( '{tag}',    tagName );
             bottomMsg     = AppState.config.texts.bar_filter_bottom_page.replace( '{tag}', tagName );
@@ -2793,7 +2891,7 @@ function setupScrollToasts() {
                 return;
             }
 
-            const tagName = getFilterTagNameFromSlug( getFilterTag() );
+            const tagName = getFilterTagLabel();
 
             topMsg        = AppState.config.texts.bar_filter_top_page.replace( '{tag}',    tagName );
             bottomMsg     = AppState.config.texts.bar_filter_bottom_page.replace( '{tag}', tagName );
@@ -2810,13 +2908,13 @@ function setupScrollToasts() {
         }
 
         if( st <= 5 && st < lastScrollTop ) {
-             showToast( topMsg );
+            showToast( topMsg );
         }
         else if( st + h >= sh - 5 && st > lastScrollTop ) {
             showToast( bottomMsg );
         }
 
-        lastScrollTop = st <= 0 ? 0 : st;
+        lastScrollTop = st <= 0  ?  0  :  st;
     } );
 }
 
@@ -3195,20 +3293,14 @@ function getFilterTag() {
 
 /* ----  */
 
-function getFilterTagNameFromSlug( tagSlug ) {
+function getFilterTagLabel() {
 
-    // TODO getFilterTag() inside...
-
-    if( !tagSlug ) {
-        return '';
-    }
-
-    let tagName = tagSlug;
+    let tagName = getFilterTag();
 
     for( const group of AppState.data ) {
 
         if( group.event_tags ) {
-            const found = group.event_tags.find( t => slugify( t ) === tagSlug );
+            const found = group.event_tags.find( t => slugify( t ) === tagName );
 
             if( found ) {
                 tagName = found;
@@ -3380,7 +3472,7 @@ function playFavorites() {
 
     // Find first favorite in Data order
     const firstFav = AppState.data.find( g => AppState.favorites.includes( g.id ) );
-    const startId  = firstFav ? firstFav.id : AppState.favorites[0];
+    const startId  = firstFav  ?  firstFav.id  :  AppState.favorites[0];
 
     VideoManager.scrollTo( startId );
 
@@ -3459,11 +3551,9 @@ function updateFilterBarText() {
     else if( isFilterMode( 'session' ) ) {
         barId               = 'tag-mode-bar';
         textKey             = 'filter_cancel_tags';
+        filterName          = getFilterTagLabel();
 
-        const slug          = getFilterTag();
-        filterName          = getFilterTagNameFromSlug( slug );
-
-        const matchingItems = AppState.data.filter( g => g.event_tags && g.event_tags.some( t => slugify( t ) === slug ) );
+        const matchingItems = AppState.data.filter( g => g.event_tags && g.event_tags.some( t => slugify( t ) === getFilterTag() ) );
 
         totalCount          = matchingItems.length;
 
@@ -3478,11 +3568,9 @@ function updateFilterBarText() {
     else if( isFilterMode( 'tag' ) ) {
         barId               = 'tag-mode-bar';
         textKey             = 'filter_cancel_tags';
+        filterName          = getFilterTagLabel();
 
-        const slug          = getFilterTag();
-        filterName          = getFilterTagNameFromSlug( slug );
-
-        const matchingItems = AppState.data.filter( g => g.event_tags && g.event_tags.some( t => slugify( t ) === slug ) );
+        const matchingItems = AppState.data.filter( g => g.event_tags && g.event_tags.some( t => slugify( t ) === getFilterTag() ) );
         totalCount          = matchingItems.length;
 
         if( getVideoId() ) {
@@ -3494,7 +3582,7 @@ function updateFilterBarText() {
         }
     }
 
-    const posStr  = position > 0  ?  `${position}/`  :  '';
+    const posStr  = position > 0   ?   `${position}/`  :  '';
     const rawText = AppState.config.texts[textKey] || "";
 
     const finalText = rawText
@@ -3632,7 +3720,7 @@ function filterByTag( tagSlug, event, shouldScroll = true ) {
 
     renderFilterBar( 'tag' );
 
-    const tagName = getFilterTagNameFromSlug( tagSlug );
+    const tagName = getFilterTagLabel();
 
     document.querySelectorAll( '.tag-pill').forEach( el => {
         el.classList.remove( 'tag-active' );
@@ -3726,7 +3814,7 @@ function updateEmptyStateVisibility() {
 
     AppState.config.sessions.forEach( session => {
         const sessionId = session.id;
-        const sId = slugify( sessionId );
+        const sId       = slugify( sessionId );
 
         let visibleCount = 0;
         const sessionItems = AppState.data.filter( g => g.event_session === sessionId );
@@ -3802,19 +3890,29 @@ function updateEmptyStateVisibility() {
 function updateDrawerFilterWarning( tagName ) {
     const t = AppState.config.texts
 
-    const favoriteWarningText = t.favorite_warning_text ? t.favorite_warning_text.replace( '{tag}', tagName ) : `Filter active: ${tagName}`;
+    const favoriteWarningText = t.favorite_warning_text  ?  t.favorite_warning_text.replace( '{tag}', tagName )  :  `Filter active: ${tagName}`;
     const favWarning          = document.getElementById( 'fav-filter-warning' );
 
-    const timelineWarningText = t.timeline_warning_text ? t.timeline_warning_text.replace( '{tag}', tagName ) : `Filter active: ${tagName}`;
+    const timelineWarningText = t.timeline_warning_text  ?  t.timeline_warning_text.replace( '{tag}', tagName )  :  `Filter active: ${tagName}`;
     const timeWarning         = document.getElementById( 'timeline-filter-warning' );
 
     if( favWarning ) {
-        favWarning.innerHTML = `<div>${favoriteWarningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        favWarning.innerHTML = `
+            <div>${favoriteWarningText}</div>
+            <button onclick="cancelFilters()">
+                <span class="material-icons">cancel</span>
+            </button>
+        `;
         favWarning.classList.remove( 'hidden' );
     }
 
     if( timeWarning ) {
-        timeWarning.innerHTML = `<div>${timelineWarningText}</div> <button onclick="cancelFilters()"><span class="material-icons">cancel</span></button>`;
+        timeWarning.innerHTML = `
+            <div>${timelineWarningText}</div>
+            <button onclick="cancelFilters()">
+                <span class="material-icons">cancel</span>
+            </button>
+        `;
         timeWarning.classList.remove( 'hidden' );
     }
 }
@@ -4005,13 +4103,14 @@ function renderDrawerFavorites() {
         const itemsHtml = favs.map( g => {
             const thumb = g.image_artist || g.image_thumbnail || g.image;
             return `
-            <li class="favorite-item">
-                <img src="${thumb}" loading="lazy" alt="${g.event_name}">
-                <div class="fav-title">${g.event_name}</div>
-                <button onclick="shareSong( ${g.id} )" class="material-icons btn-fav-share">share</button>
-                <button onclick="VideoManager.scrollTo( ${g.id} )" class="material-icons btn-fav-play">play_arrow</button>
-                <button onclick="toggleFav( ${g.id} )" class="material-icons btn-fav-remove">close</button>
-            </li>`;
+                <li class="favorite-item">
+                    <img src="${thumb}" loading="lazy" alt="${g.event_name}">
+                    <div class="fav-title">${g.event_name}</div>
+                    <button onclick="shareSong( ${g.id} )"             class="material-icons btn-fav-share">share</button>
+                    <button onclick="VideoManager.scrollTo( ${g.id} )" class="material-icons btn-fav-play">play_arrow</button>
+                    <button onclick="toggleFav( ${g.id} )"             class="material-icons btn-fav-remove">close</button>
+                </li>
+            `;
         } ).join( '' );
         list.innerHTML = `<ul>${itemsHtml}</ul>`;
     }
@@ -4069,7 +4168,7 @@ function renderDrawerTimeline() {
             }
         }
 
-        const placeName = ( s.isDisplayPlace && g.event_place ) ? g.event_place : '';
+        const placeName = ( s.isDisplayPlace && g.event_place )  ?  g.event_place  :  '';
         const metaLine  = [ timelineDateHtml, timeString, placeName ].filter( Boolean ).join( ' • ' );
 
         // Status for timeline
@@ -4079,35 +4178,43 @@ function renderDrawerTimeline() {
 
         if( displayedStatuses.includes( status ) ) {
             const statusKey   = 'status_' + status;
-            const statusLabel = ( AppState.config.texts && AppState.config.texts[statusKey] ) ? AppState.config.texts[statusKey] : status.replace( '_', ' ').toUpperCase();
+            const statusLabel = ( AppState.config.texts && AppState.config.texts[statusKey] )
+                ?  AppState.config.texts[statusKey]
+                : status.replace( '_', ' ').toUpperCase();
+
             const statusClass = 'status-' + status.replace( '_', '-' );
 
             eventStatusBadge  = `<span class="status-badge ${statusClass}">${statusLabel}</span>`;
         }
 
-        const tagsHtml  = ( s.isDisplayTag && g.event_tags ) ? g.event_tags.map( t => {
-            const slug        = slugify( t );
-            const activeClass = ( slug === currentTag ) ? ' tag-active' : '';
+        const tagsHtml  = ( s.isDisplayTag && g.event_tags )
+            ? g.event_tags.map( t => {
+                const slug        = slugify( t );
+                const activeClass = ( slug === currentTag )  ?  ' tag-active'  :  '';
 
-            return `<span class="time-tag${activeClass}" onclick="filterByTag( '${slug}', event)">${translateText( t, 'tags')}</span>`;
-        } ).join( '' ) : '';
+                return `<span class="time-tag${activeClass}" onclick="filterByTag( '${slug}', event)">${translateText( t, 'tags')}</span>`;
+                } ).join( '' )
+            : '';
 
 
         const isFav = AppState.favorites.includes( g.id );
         const thumb = g.image_thumbnail || g.image;
 
         return `
-        <li class="timeline-item" onclick="VideoManager.scrollTo( ${g.id} )">
-            <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
-            <div class="time-info">
-                <div class="time-row-title">
-                    <h3>${g.event_name}</h3>
-                    <button class="time-btn-fav material-icons ${isFav ? 'active' : ''}" onclick="event.stopPropagation(); toggleFav( ${g.id} );">${isFav ? 'favorite' : 'favorite_border'}</button>
+            <li class="timeline-item" onclick="VideoManager.scrollTo( ${g.id} )">
+                <img src="${thumb}" class="time-thumb" loading="lazy" alt="${g.event_name}">
+                <div class="time-info">
+                    <div class="time-row-title">
+                        <h3>${g.event_name}</h3>
+                        <button class="time-btn-fav material-icons ${isFav  ?  'active'  :  ''}"
+                            onclick="event.stopPropagation(); toggleFav( ${g.id} );">${isFav  ?  'favorite'  :  'favorite_border'}
+                        </button>
+                    </div>
+                    <div class="time-row-date-place">${metaLine}</div>
+                    <div class="time-row-tag">${eventStatusBadge}${tagsHtml}</div>
                 </div>
-                <div class="time-row-date-place">${metaLine}</div>
-                <div class="time-row-tag">${eventStatusBadge}${tagsHtml}</div>
-            </div>
-        </li>`;
+            </li>
+        `;
     } ).join( '' );
 
     list.innerHTML = `<ul>${itemsHtml}</ul>`;
@@ -4129,7 +4236,7 @@ function setupHapticFeedback() {
 
 
 function triggerHaptic( el ) {
-    const target = el.tagName === 'BUTTON' || el.tagName === 'A' ? el : el.closest( 'button, a' );
+    const target = el.tagName === 'BUTTON' || el.tagName === 'A'  ?  el  :  el.closest( 'button, a' );
 
     if( !target ) {
         return;
@@ -4298,16 +4405,17 @@ function setupDebugTrigger() {
         };
         const clearTimer = () => clearTimeout( timer );
 
-        logo.addEventListener( 'touchstart', startTimer );
-        logo.addEventListener( 'touchend', clearTimer );
+        logo.addEventListener( 'touchstart',  startTimer );
+        logo.addEventListener( 'touchend',    clearTimer );
         logo.addEventListener( 'touchcancel', clearTimer );
-        logo.addEventListener( 'mousedown', startTimer );
-        logo.addEventListener( 'mouseup', clearTimer );
-        logo.addEventListener( 'mouseleave', clearTimer );
+        logo.addEventListener( 'mousedown',   startTimer );
+        logo.addEventListener( 'mouseup',     clearTimer );
+        logo.addEventListener( 'mouseleave',  clearTimer );
     }
 }
 
 function checkVersion() {
+
     fetch( 'VERSION?t=' + Date.now() )
         .then( response => {
 
