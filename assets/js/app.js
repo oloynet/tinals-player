@@ -769,7 +769,7 @@ function updateStaticTexts() {
 
 function updateFlags() {
     const flagId = AppState.currentLang === 'fr' ? 'en-flag' : 'fr-flag';
-    const flagHtml = `<svg class="flag-icon"><use href="${AppState.config.images.sprite_path}#${flagId}"></use></svg>`;
+    const flagHtml = `<svg class="flag-icon" viewBox="0 0 50 30"><use href="${AppState.config.images.sprite_path}#${flagId}"></use></svg>`;
 
     const headerFlag = document.getElementById('header-lang-flag');
     if (headerFlag) headerFlag.innerHTML = flagHtml;
